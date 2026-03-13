@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>错题打印</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "SimSun", "宋体", serif;
+            font-size: 11pt;
+            line-height: 1.6;
+            background: #f0f0f0;
+            padding: 20px;
+        }
+
+        .controls {
+            max-width: 800px;
+            margin: 0 auto 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .controls h2 {
+            margin-bottom: 15px;
+            font-size: 16pt;
+        }
+
+        .control-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-group label {
+            font-size: 10pt;
+            color: #555;
+            white-space: nowrap;
+        }
+
+        .control-group select,
+        .control-group input[type="number"] {
+            padding: 5px 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 10pt;
+        }
+
+        .file-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .file-item {
+            padding: 6px 10px;
+            background: #e8f4fc;
+            border: 1px solid #3498db;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 9pt;
+            transition: all 0.2s;
+        }
+
+        .file-item:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .file-item.selected {
+            background: #3498db;
+            color: white;
+        }
+
+        .tag-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        .tag-filter-label {
+            font-size: 10pt;
+            color: #555;
+            margin-right: 5px;
+        }
+
+        .tag-item {
+            padding: 4px 10px;
+            background: #fff;
+            border: 1px solid #aaa;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 9pt;
+            transition: all 0.2s;
+        }
+
+        .tag-item:hover {
+            background: #f0f0f0;
+        }
+
+        .tag-item.active {
+            background: #9b59b6;
+            color: white;
+            border-color: #9b59b6;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 10pt;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2ecc71;
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        .print-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .a4-page {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            margin: 0 auto 20px;
+            padding: 8mm 10mm;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 3mm;
+            margin-bottom: 5mm;
+            border-bottom: 1px solid #333;
+        }
+
+        .page-title {
+            font-size: 14pt;
+            font-weight: bold;
+        }
+
+        .page-info {
+            font-size: 9pt;
+            color: #666;
+        }
+
+        .questions-grid {
+            display: grid;
+            gap: 4mm;
+        }
+
+        .questions-grid.single-column {
+            grid-template-columns: 1fr;
+        }
+
+        .questions-grid.double-column {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .print-content {
+            max-width: 190mm;
+            margin: 0 auto;
+            background: white;
+            padding: 8mm 10mm;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .print-content.double-column {
+            column-count: 2;
+            column-gap: 8mm;
+        }
+
+        .question-block {
+            margin-bottom: 3mm;
+        }
+
+        .question-id {
+            display: inline;
+            background: #333;
+            color: white;
+            padding: 0 3px;
+            font-size: 8pt;
+            font-weight: bold;
+            margin-right: 1mm;
+        }
+
+        .question-content {
+            text-align: justify;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            font-size: 10pt;
+            line-height: 1.4;
+        }
+
+        .question-content p {
+            margin: 0;
+            display: inline;
+        }
+
+        .neural-reaction {
+            margin-top: 3mm;
+            padding-top: 2mm;
+            border-top: 2px solid #333;
+            font-size: 10pt;
+            line-height: 1.5;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .nr-section {
+            margin-bottom: 2mm;
+        }
+
+        .nr-label {
+            display: inline-block;
+            background: #2980b9;
+            color: white;
+            padding: 1px 4px;
+            font-weight: bold;
+            font-size: 9pt;
+            margin-right: 2mm;
+            margin-bottom: 1mm;
+        }
+
+        .nr-text {
+            color: #222;
+        }
+
+        .nr-priority {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 1px 4px;
+            font-size: 8pt;
+            font-weight: bold;
+            margin-right: 1mm;
+        }
+
+        .nr-clue {
+            color: #8e44ad;
+            font-weight: bold;
+            background: #f3e5f5;
+            padding: 0 2px;
+        }
+
+        .nr-ruler-name {
+            color: #16a085;
+            font-weight: bold;
+            background: #e0f2f1;
+            padding: 0 2px;
+        }
+
+        .answer-block {
+            margin-top: 3mm;
+            padding-top: 2mm;
+            border-top: 1px dashed #aaa;
+        }
+
+        .answer-header {
+            font-weight: bold;
+            color: #c0392b;
+            font-size: 10pt;
+            margin-right: 1mm;
+        }
+
+        .answer-content {
+            color: #333;
+            font-size: 10pt;
+            line-height: 1.4;
+        }
+
+        .question-analysis {
+            margin-top: 3mm;
+            padding-top: 2mm;
+            border-top: 2px solid #2c3e50;
+            font-size: 10pt;
+            line-height: 1.5;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .qa-section {
+            margin-bottom: 2mm;
+        }
+
+        .qa-section-title {
+            display: block;
+            background: #34495e;
+            color: white;
+            padding: 1px 4px;
+            font-weight: bold;
+            font-size: 10pt;
+            margin-bottom: 1mm;
+        }
+
+        .qa-subsection-title {
+            display: inline-block;
+            background: #7f8c8d;
+            color: white;
+            padding: 0 3px;
+            font-size: 9pt;
+            margin: 1mm 1mm 0 0;
+        }
+
+        .qa-text {
+            color: #222;
+            margin-left: 1mm;
+            font-size: 10pt;
+        }
+
+        .qa-item {
+            margin: 1mm 0 1mm 2mm;
+            padding-left: 2mm;
+            border-left: 2px solid #bdc3c7;
+        }
+
+        .qa-priority {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 0 3px;
+            font-size: 8pt;
+            font-weight: bold;
+            margin-right: 1mm;
+        }
+
+        .qa-label {
+            color: #2980b9;
+            font-weight: bold;
+        }
+
+        .qa-trigger {
+            color: #8e44ad;
+            background: #f3e5f5;
+            padding: 0 2px;
+        }
+
+        .qa-reaction {
+            color: #27ae60;
+        }
+
+        .underline-space {
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            word-break: break-all;
+            white-space: pre-wrap;
+        }
+
+        .question-image {
+            max-width: 100%;
+            margin: 2mm 0;
+        }
+
+        .question-image.center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .question-image.float-left {
+            float: left;
+            margin-right: 3mm;
+            margin-bottom: 2mm;
+        }
+
+        .question-image.float-right {
+            float: right;
+            margin-left: 3mm;
+            margin-bottom: 2mm;
+        }
+
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .page-footer {
+            position: absolute;
+            bottom: 5mm;
+            left: 10mm;
+            right: 10mm;
+            text-align: center;
+            font-size: 8pt;
+            color: #999;
+            border-top: 1px solid #eee;
+            padding-top: 2mm;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #999;
+            padding: 100mm 0;
+        }
+
+        .compact-mode .question-block {
+            padding: 2mm;
+            margin-bottom: 2mm;
+        }
+
+        .compact-mode .question-content,
+        .compact-mode .answer-content {
+            font-size: 9pt;
+        }
+
+        .compact-mode .question-header {
+            font-size: 10pt;
+            margin-bottom: 1mm;
+        }
+
+        .annotation-mode .a4-page {
+            padding-left: 35mm;
+        }
+
+        .annotation-mode .a4-page::before {
+            content: "";
+            position: absolute;
+            left: 30mm;
+            top: 8mm;
+            bottom: 8mm;
+            width: 1px;
+            background: repeating-linear-gradient(
+                to bottom,
+                #ccc 0,
+                #ccc 4px,
+                transparent 4px,
+                transparent 8px
+            );
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                font-size: 10pt;
+            }
+
+            .controls {
+                display: none;
+            }
+
+            .print-container {
+                max-width: none;
+            }
+
+            .a4-page {
+                width: 100%;
+                min-height: auto;
+                margin: 0;
+                padding: 5mm;
+                box-shadow: none;
+                page-break-after: always;
+            }
+
+            .a4-page:last-child {
+                page-break-after: auto;
+            }
+
+            .print-content {
+                max-width: none;
+                box-shadow: none;
+                padding: 5mm;
+            }
+
+            .print-content.double-column {
+                column-count: 2;
+                column-gap: 8mm;
+            }
+
+            .question-block {
+                background: white;
+                break-inside: auto;
+            }
+
+            .question-content,
+            .neural-reaction,
+            .answer-block,
+            .question-analysis,
+            .nr-section,
+            .nr-text,
+            .qa-section,
+            .qa-text {
+                orphans: 3;
+                widows: 3;
+            }
+
+            .question-content,
+            .neural-reaction,
+            .answer-block,
+            .nr-text {
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+
+            .annotation-mode .a4-page {
+                padding-left: 30mm;
+            }
+        }
+
+        @page {
+            size: A4;
+            margin: 10mm;
+            orphans: 3;
+            widows: 3;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <h2>错题打印</h2>
+        <div class="control-row">
+            <div class="control-group">
+                <label>布局模式:</label>
+                <select id="layoutMode" onchange="renderPreview()">
+                    <option value="single">单栏</option>
+                    <option value="double">双栏</option>
+                    <option value="auto">自动（推荐）</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>每页题目数:</label>
+                <select id="questionsPerPage" onchange="renderPreview()">
+                    <option value="auto">自动</option>
+                    <option value="2">2题</option>
+                    <option value="3">3题</option>
+                    <option value="4">4题</option>
+                    <option value="6">6题</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>
+                    <input type="checkbox" id="showAnnotation" onchange="toggleAnnotation()">
+                    显示批注区
+                </label>
+            </div>
+            <div class="control-group">
+                <label>
+                    <input type="checkbox" id="compactMode" onchange="toggleCompact()">
+                    紧凑模式
+                </label>
+            </div>
+        </div>
+        <div class="tag-filter" id="tagFilter">
+            <span class="tag-filter-label">标签筛选:</span>
+            <span style="color: #999;">加载中...</span>
+        </div>
+        <div class="file-list" id="fileList">
+            <span style="color: #999;">加载中...</span>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="printSelected()">打印选中</button>
+            <button class="btn btn-secondary" onclick="selectAll()">全选</button>
+            <button class="btn btn-secondary" onclick="deselectAll()">取消全选</button>
+        </div>
+    </div>
+
+    <div class="print-container" id="printContainer">
+        <div class="a4-page">
+            <div class="no-data">请选择要打印的题目</div>
+        </div>
+    </div>
+
+    <script>
+        let questions = [];
+        let selectedIds = new Set();
+        let allTags = [];
+        let activeTag = null;
+
+        async function loadQuestions() {
+            try {
+                const response = await fetch('/api/questions');
+                const data = await response.json();
+                questions = data.questions || [];
+                extractAllTags();
+                renderTagFilter();
+                renderFileList();
+            } catch (e) {
+                document.getElementById('fileList').innerHTML = '<span style="color: red;">加载失败</span>';
+            }
+        }
+
+        function extractAllTags() {
+            const tagSet = new Set();
+            questions.forEach(q => {
+                if (q.tags && Array.isArray(q.tags)) {
+                    q.tags.forEach(tag => tagSet.add(tag));
+                }
+            });
+            allTags = Array.from(tagSet).sort();
+        }
+
+        function renderTagFilter() {
+            const container = document.getElementById('tagFilter');
+            if (allTags.length === 0) {
+                container.innerHTML = '<span class="tag-filter-label">标签筛选:</span><span style="color: #999;">无标签</span>';
+                return;
+            }
+
+            let html = '<span class="tag-filter-label">标签筛选:</span>';
+            html += '<span class="tag-item' + (activeTag === null ? ' active' : '') + '" onclick="filterByTag(null)">全部</span>';
+            allTags.forEach(tag => {
+                html += '<span class="tag-item' + (activeTag === tag ? ' active' : '') + '" onclick="filterByTag(\'' + escapeHtml(tag) + '\')">' + escapeHtml(tag) + '</span>';
+            });
+            container.innerHTML = html;
+        }
+
+        function filterByTag(tag) {
+            activeTag = tag;
+            renderTagFilter();
+            renderFileList();
+            renderPreview();
+        }
+
+        function getFilteredQuestions() {
+            if (activeTag === null) {
+                return questions;
+            }
+            return questions.filter(q => q.tags && q.tags.includes(activeTag));
+        }
+
+        function renderFileList() {
+            const container = document.getElementById('fileList');
+            const filtered = getFilteredQuestions();
+            if (filtered.length === 0) {
+                container.innerHTML = '<span style="color: #999;">暂无题目</span>';
+                return;
+            }
+
+            container.innerHTML = filtered.map(q => `
+                <div class="file-item ${selectedIds.has(q.id) ? 'selected' : ''}" 
+                     onclick="toggleSelect('${q.id}')">
+                    ${q.id}
+                </div>
+            `).join('');
+        }
+
+        function toggleSelect(id) {
+            if (selectedIds.has(id)) {
+                selectedIds.delete(id);
+            } else {
+                selectedIds.add(id);
+            }
+            renderFileList();
+            renderPreview();
+        }
+
+        function selectAll() {
+            const filtered = getFilteredQuestions();
+            filtered.forEach(q => selectedIds.add(q.id));
+            renderFileList();
+            renderPreview();
+        }
+
+        function deselectAll() {
+            const filtered = getFilteredQuestions();
+            filtered.forEach(q => selectedIds.delete(q.id));
+            renderFileList();
+            renderPreview();
+        }
+
+        function toggleAnnotation() {
+            const container = document.getElementById('printContainer');
+            if (document.getElementById('showAnnotation').checked) {
+                container.classList.add('annotation-mode');
+            } else {
+                container.classList.remove('annotation-mode');
+            }
+        }
+
+        function toggleCompact() {
+            const container = document.getElementById('printContainer');
+            if (document.getElementById('compactMode').checked) {
+                container.classList.add('compact-mode');
+            } else {
+                container.classList.remove('compact-mode');
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function renderRichtextInline(fragments) {
+            if (!fragments || !Array.isArray(fragments)) return '';
+            let html = '';
+            for (const frag of fragments) {
+                let text = frag.text || '';
+                let isUnderline = frag.underline || false;
+                
+                if (isUnderline) {
+                    text = text.replace(/\u3000/g, ' ');
+                    text = text.replace(/\u00A0/g, ' ');
+                    text = text.replace(/ /g, '_');
+                }
+                
+                let escaped = escapeHtml(text);
+                if (isUnderline) {
+                    escaped = escaped.replace(/&nbsp;/g, '_');
+                }
+                const withBreaks = escaped.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>').replace(/\r/g, '<br>');
+                
+                if (isUnderline) {
+                    html += `<span class="underline-space">${withBreaks}</span>`;
+                } else {
+                    html += withBreaks;
+                }
+            }
+            return html;
+        }
+
+        function renderRichtext(fragments) {
+            if (!fragments || !Array.isArray(fragments)) return '';
+            let html = '';
+            for (const frag of fragments) {
+                let text = frag.text || '';
+                let isUnderline = frag.underline || false;
+                
+                if (isUnderline) {
+                    text = text.replace(/\u3000/g, ' ');
+                    text = text.replace(/\u00A0/g, ' ');
+                    text = text.replace(/ /g, '_');
+                }
+                
+                let escaped = escapeHtml(text);
+                if (isUnderline) {
+                    escaped = escaped.replace(/&nbsp;/g, '_');
+                }
+                const withBreaks = escaped.replace(/\r\n/g, '</p><p>').replace(/\n/g, '</p><p>').replace(/\r/g, '</p><p>');
+                
+                if (isUnderline) {
+                    html += `<span class="underline-space">${withBreaks}</span>`;
+                } else {
+                    html += withBreaks;
+                }
+            }
+            return html;
+        }
+
+        function renderItem(item) {
+            if (item.type === 'text') {
+                if (typeof item.content === 'string') {
+                    const escaped = escapeHtml(item.content);
+                    const withBreaks = escaped.replace(/\r\n/g, '</p><p>').replace(/\n/g, '</p><p>').replace(/\r/g, '</p><p>');
+                    return `<p>${withBreaks}</p>`;
+                } else if (Array.isArray(item.content)) {
+                    return `<p>${renderRichtext(item.content)}</p>`;
+                }
+            } else if (item.type === 'richtext') {
+                if (item.fragments && Array.isArray(item.fragments)) {
+                    return `<p>${renderRichtext(item.fragments)}</p>`;
+                } else if (typeof item.content === 'string') {
+                    const escaped = escapeHtml(item.content);
+                    const withBreaks = escaped.replace(/\r\n/g, '</p><p>').replace(/\n/g, '</p><p>').replace(/\r/g, '</p><p>');
+                    return `<p>${withBreaks}</p>`;
+                }
+            } else if (item.type === 'image') {
+                const floatClass = item.display ? (item.display === 'center' ? 'center' : `float-${item.display}`) : 'center';
+                const width = item.width ? `width: ${item.width}px;` : '';
+                const src = item.src.startsWith('/') ? item.src : '/' + item.src;
+                return `<img src="${src}" class="question-image ${floatClass}" style="${width}">`;
+            }
+            return '';
+        }
+
+        function renderItems(items) {
+            if (!items || items.length === 0) return '<p style="color: #999;">无内容</p>';
+            return items.map(item => renderItem(item)).join('');
+        }
+
+        function renderItemInline(item) {
+            if (item.type === 'text') {
+                if (typeof item.content === 'string') {
+                    const escaped = escapeHtml(item.content);
+                    return escaped.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>').replace(/\r/g, '<br>');
+                } else if (Array.isArray(item.content)) {
+                    return renderRichtextInline(item.content);
+                }
+            } else if (item.type === 'richtext') {
+                if (item.fragments && Array.isArray(item.fragments)) {
+                    return renderRichtextInline(item.fragments);
+                } else if (typeof item.content === 'string') {
+                    const escaped = escapeHtml(item.content);
+                    return escaped.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>').replace(/\r/g, '<br>');
+                }
+            } else if (item.type === 'image') {
+                const floatClass = item.display ? (item.display === 'center' ? 'center' : `float-${item.display}`) : 'center';
+                const width = item.width ? `width: ${item.width}px;` : '';
+                const src = item.src.startsWith('/') ? item.src : '/' + item.src;
+                return `<br><img src="${src}" class="question-image ${floatClass}" style="${width}"><br>`;
+            }
+            return '';
+        }
+
+        function renderItemsInline(items) {
+            if (!items || items.length === 0) return '<span style="color: #999;">无内容</span>';
+            return items.map(item => renderItemInline(item)).join('');
+        }
+
+        function renderNeuralReaction(nr) {
+            if (!nr) return '';
+            let html = '<div class="neural-reaction">';
+            
+            if (nr.core_conclusion) {
+                html += '<div class="nr-section"><span class="nr-label">核心结论</span><span class="nr-text">' + escapeHtml(nr.core_conclusion) + '</span></div>';
+            }
+            
+            const dims = nr.reaction_dimensions;
+            if (dims) {
+                if (dims['考点锚定反应']) {
+                    html += '<div class="nr-section"><span class="nr-label">考点锚定</span><span class="nr-text">' + escapeHtml(dims['考点锚定反应'].fixed_reaction) + '</span></div>';
+                }
+                
+                if (dims['隐含信息解码反应'] && dims['隐含信息解码反应'].length > 0) {
+                    html += '<div class="nr-section"><span class="nr-label">隐含信息</span>';
+                    dims['隐含信息解码反应'].forEach(item => {
+                        html += '<div class="nr-text"><span class="nr-clue">' + escapeHtml(item.trigger_clue) + '</span> → ' + escapeHtml(item.fixed_reaction) + '</div>';
+                    });
+                    html += '</div>';
+                }
+                
+                if (dims['易错陷阱预警反应'] && dims['易错陷阱预警反应'].length > 0) {
+                    html += '<div class="nr-section"><span class="nr-label">易错陷阱</span>';
+                    dims['易错陷阱预警反应'].forEach(trap => {
+                        html += '<div class="nr-text"><span class="nr-priority">' + trap.priority + '</span> ' + escapeHtml(trap.fixed_reaction);
+                        if (trap.example_application) {
+                            html += ' <span style="color:#666;">例:' + escapeHtml(trap.example_application) + '</span>';
+                        }
+                        html += '</div>';
+                    });
+                    html += '</div>';
+                }
+                
+                if (dims['正误判断标尺反应'] && dims['正误判断标尺反应'].length > 0) {
+                    html += '<div class="nr-section"><span class="nr-label">判断标尺</span>';
+                    dims['正误判断标尺反应'].forEach(ruler => {
+                        html += '<div class="nr-text"><span class="nr-ruler-name">[' + ruler.related_option + ']</span> ' + escapeHtml(ruler.fixed_standard) + '</div>';
+                    });
+                    html += '</div>';
+                }
+                
+                if (dims['同类题迁移锚点反应']) {
+                    html += '<div class="nr-section"><span class="nr-label">迁移要点</span><span class="nr-text">' + escapeHtml(dims['同类题迁移锚点反应'].fixed_reaction) + '</span></div>';
+                }
+            }
+            
+            if (nr.core_quick_memory_pack && nr.core_quick_memory_pack.length > 0) {
+                html += '<div class="nr-section"><span class="nr-label">速记要点</span>';
+                html += '<div class="nr-text">' + nr.core_quick_memory_pack.map(item => '• ' + escapeHtml(item)).join('<br>') + '</div>';
+                html += '</div>';
+            }
+            
+            html += '</div>';
+            return html;
+        }
+
+        function renderQuestionAnalysis(qa) {
+            if (!qa) return '';
+            let html = '<div class="question-analysis">';
+            
+            if (qa.question_basic_info) {
+                const info = qa.question_basic_info;
+                html += '<div class="qa-section"><span class="qa-section-title">题目基本信息</span>';
+                if (info.question_type) html += '<div class="qa-text"><span class="qa-label">题型:</span> ' + escapeHtml(info.question_type) + '</div>';
+                if (info.target_grade) html += '<div class="qa-text"><span class="qa-label">年级:</span> ' + escapeHtml(info.target_grade) + '</div>';
+                if (info.core_examination_points) html += '<div class="qa-text"><span class="qa-label">考点:</span> ' + escapeHtml(info.core_examination_points) + '</div>';
+                html += '</div>';
+            }
+            
+            if (qa.module_1_basic_model_analysis) {
+                const m1 = qa.module_1_basic_model_analysis;
+                html += '<div class="qa-section"><span class="qa-section-title">基础模型分析</span>';
+                if (m1.base_model_name) html += '<div class="qa-text"><span class="qa-label">模型:</span> ' + escapeHtml(m1.base_model_name) + '</div>';
+                if (m1.standardized_scaffold) html += '<div class="qa-text"><span class="qa-label">解题支架:</span> ' + escapeHtml(m1.standardized_scaffold) + '</div>';
+                if (m1.core_variation_points) html += '<div class="qa-text"><span class="qa-label">变式要点:</span> ' + escapeHtml(m1.core_variation_points) + '</div>';
+                if (m1.suitable_practice_stage) html += '<div class="qa-text"><span class="qa-label">适用阶段:</span> ' + escapeHtml(m1.suitable_practice_stage) + '</div>';
+                html += '</div>';
+            }
+            
+            if (qa.module_2_student_trial_error_analysis && qa.module_2_student_trial_error_analysis.length > 0) {
+                html += '<div class="qa-section"><span class="qa-section-title">学生试错分析</span>';
+                qa.module_2_student_trial_error_analysis.forEach(item => {
+                    html += '<div class="qa-item">';
+                    html += '<span class="qa-priority">P' + escapeHtml(item.priority) + '</span>';
+                    if (item.student_thinking_process) html += '<div class="qa-text"><span class="qa-label">思维过程:</span> ' + escapeHtml(item.student_thinking_process) + '</div>';
+                    if (item.trial_error_breakpoint) html += '<div class="qa-text"><span class="qa-label">断点:</span> ' + escapeHtml(item.trial_error_breakpoint) + '</div>';
+                    if (item.knowledge_or_logic_gap) html += '<div class="qa-text"><span class="qa-label">知识缺口:</span> ' + escapeHtml(item.knowledge_or_logic_gap) + '</div>';
+                    if (item.neural_stimulus_warning) html += '<div class="qa-text"><span class="qa-label">预警:</span> ' + escapeHtml(item.neural_stimulus_warning) + '</div>';
+                    if (item.correction_key_action) html += '<div class="qa-text"><span class="qa-label">纠正:</span> ' + escapeHtml(item.correction_key_action) + '</div>';
+                    html += '</div>';
+                });
+                html += '</div>';
+            }
+            
+            if (qa.module_3_multi_dimensional_solution_analysis) {
+                const m3 = qa.module_3_multi_dimensional_solution_analysis;
+                html += '<div class="qa-section"><span class="qa-section-title">多维解题分析</span>';
+                
+                if (m3.entry_level_must_learn) {
+                    html += '<div class="qa-item"><span class="qa-subsection-title">入门必学</span>';
+                    if (m3.entry_level_must_learn.solution_path) html += '<div class="qa-text">' + escapeHtml(m3.entry_level_must_learn.solution_path) + '</div>';
+                    if (m3.entry_level_must_learn.time_allocation_suggestion) html += '<div class="qa-text" style="color:#666;">' + escapeHtml(m3.entry_level_must_learn.time_allocation_suggestion) + '</div>';
+                    html += '</div>';
+                }
+                
+                if (m3.basic_consolidation) {
+                    html += '<div class="qa-item"><span class="qa-subsection-title">基础巩固</span>';
+                    if (m3.basic_consolidation.solution_path) html += '<div class="qa-text">' + escapeHtml(m3.basic_consolidation.solution_path) + '</div>';
+                    html += '</div>';
+                }
+                
+                if (m3.advanced_improvement) {
+                    html += '<div class="qa-item"><span class="qa-subsection-title">进阶提升</span>';
+                    if (m3.advanced_improvement.solution_path) html += '<div class="qa-text">' + escapeHtml(m3.advanced_improvement.solution_path) + '</div>';
+                    if (m3.advanced_improvement.applicable_boundary) html += '<div class="qa-text" style="color:#666;">适用边界: ' + escapeHtml(m3.advanced_improvement.applicable_boundary) + '</div>';
+                    html += '</div>';
+                }
+                html += '</div>';
+            }
+            
+            if (qa.module_4_neural_stimulus_trigger_points) {
+                const m4 = qa.module_4_neural_stimulus_trigger_points;
+                html += '<div class="qa-section"><span class="qa-section-title">神经刺激触发点</span>';
+                
+                const triggerCategories = [
+                    { key: '考点锚定触发线索', title: '考点锚定' },
+                    { key: '隐藏信息解码触发线索', title: '隐藏信息解码' },
+                    { key: '易错坑点预警触发线索', title: '易错坑点预警' },
+                    { key: '同类题迁移触发线索', title: '同类题迁移' }
+                ];
+                
+                triggerCategories.forEach(cat => {
+                    if (m4[cat.key] && m4[cat.key].length > 0) {
+                        html += '<div class="qa-item"><span class="qa-subsection-title">' + cat.title + '</span>';
+                        m4[cat.key].forEach(trigger => {
+                            html += '<div class="qa-text"><span class="qa-trigger">' + escapeHtml(trigger.trigger_clue) + '</span> → <span class="qa-reaction">' + escapeHtml(trigger.fixed_reaction) + '</span></div>';
+                        });
+                        html += '</div>';
+                    }
+                });
+                html += '</div>';
+            }
+            
+            html += '</div>';
+            return html;
+        }
+
+        function renderPreview() {
+            const container = document.getElementById('printContainer');
+            const selected = questions.filter(q => selectedIds.has(q.id));
+
+            if (selected.length === 0) {
+                container.innerHTML = '<div class="a4-page"><div class="no-data">请选择要打印的题目</div></div>';
+                return;
+            }
+
+            const layoutMode = document.getElementById('layoutMode').value;
+            const questionsPerPage = document.getElementById('questionsPerPage').value;
+            
+            let layout = 'single';
+            if (layoutMode === 'double') {
+                layout = 'double';
+            } else if (layoutMode === 'auto') {
+                const avgLen = selected.reduce((sum, q) => {
+                    const qLen = q.question?.items?.reduce((s, i) => s + (i.content?.length || i.fragments?.reduce((a, f) => a + (f.text?.length || 0), 0) || 0), 0) || 0;
+                    return sum + qLen;
+                }, 0) / selected.length;
+                layout = avgLen < 300 ? 'double' : 'single';
+            }
+
+            if (questionsPerPage !== 'auto') {
+                const perPage = parseInt(questionsPerPage);
+                const pages = [];
+                for (let i = 0; i < selected.length; i += perPage) {
+                    pages.push(selected.slice(i, i + perPage));
+                }
+                container.innerHTML = pages.map((pageQuestions, pageIndex) => `
+<div class="a4-page">
+<div class="page-header"><div class="page-title">错题练习</div><div class="page-info">第 ${pageIndex + 1} 页 / 共 ${pages.length} 页</div></div>
+<div class="questions-grid ${layout === 'double' ? 'double-column' : 'single-column'}">
+${pageQuestions.map(q => `<div class="question-block"><div class="question-content"><span class="question-id">${q.id}</span>${renderItemsInline(q.question?.items)}</div>${renderNeuralReaction(q.neural_reaction)}${q.answer?.items?.length > 0 ? `<div class="answer-block"><span class="answer-header">答案:</span><span class="answer-content">${renderItemsInline(q.answer.items)}</span></div>` : ''}${renderQuestionAnalysis(q.question_analysis)}</div>`).join('')}
+</div>
+</div>
+`).join('');
+            } else {
+                container.innerHTML = `
+<div class="print-content ${layout === 'double' ? 'double-column' : ''}">
+${selected.map(q => `<div class="question-block"><div class="question-content"><span class="question-id">${q.id}</span>${renderItemsInline(q.question?.items)}</div>${renderNeuralReaction(q.neural_reaction)}${q.answer?.items?.length > 0 ? `<div class="answer-block"><span class="answer-header">答案:</span><span class="answer-content">${renderItemsInline(q.answer.items)}</span></div>` : ''}${renderQuestionAnalysis(q.question_analysis)}</div>`).join('')}
+</div>
+`;
+            }
+        }
+
+        function printSelected() {
+            if (selectedIds.size === 0) {
+                alert('请先选择要打印的题目');
+                return;
+            }
+            window.print();
+        }
+
+        loadQuestions();
+    </script>
+</body>
+</html>

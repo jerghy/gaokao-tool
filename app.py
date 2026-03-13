@@ -59,6 +59,20 @@ def upload_image():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/questions', methods=['GET'])
+def get_questions():
+    try:
+        questions = []
+        for filename in sorted(os.listdir(DATA_DIR), reverse=True):
+            if filename.endswith('.json'):
+                filepath = os.path.join(DATA_DIR, filename)
+                with open(filepath, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    questions.append(data)
+        return jsonify({'questions': questions})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/save', methods=['POST'])
 def save_question():
     try:
@@ -73,7 +87,8 @@ def save_question():
             'id': question_id,
             'created_at': created_at,
             'question': data.get('question', {'items': []}),
-            'answer': data.get('answer', {'items': []})
+            'answer': data.get('answer', {'items': []}),
+            'tags': data.get('tags', [])
         }
         
         filename = f"{question_id}.json"

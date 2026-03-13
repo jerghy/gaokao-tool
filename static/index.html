@@ -34,6 +34,17 @@
             flex-direction: column;
         }
         
+        .tab-content {
+            flex: 1;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .tab-content.active {
+            display: flex;
+        }
+        
         .right-panel {
             width: 50%;
             height: 100%;
@@ -78,6 +89,7 @@
             overflow-y: auto;
             display: flex;
             flex-direction: column;
+            min-height: 0;
         }
         
         .paste-zone {
@@ -101,6 +113,7 @@
         .content-list {
             flex: 1;
             overflow-y: auto;
+            min-height: 0;
         }
         
         .text-item {
@@ -186,6 +199,87 @@
             background-color: #cc0000;
         }
         
+        .tag-section {
+            padding: 10px 15px;
+            border-top: 1px solid #e0e0e0;
+            flex-shrink: 0;
+        }
+        
+        .tag-section label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .tag-container {
+            display: inline-flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            align-items: center;
+        }
+        
+        .tag-item {
+            display: inline-flex;
+            align-items: center;
+            background: #e8f4fc;
+            border: 1px solid #3498db;
+            border-radius: 15px;
+            padding: 3px 10px;
+            font-size: 12px;
+        }
+        
+        .tag-item .tag-remove {
+            margin-left: 5px;
+            cursor: pointer;
+            color: #3498db;
+            font-weight: bold;
+        }
+        
+        .tag-item .tag-remove:hover {
+            color: #c0392b;
+        }
+        
+        #tag-input {
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            padding: 5px 10px;
+            font-size: 12px;
+            outline: none;
+            min-width: 120px;
+        }
+        
+        #tag-input:focus {
+            border-color: #3498db;
+        }
+        
+        .quick-tags {
+            margin-top: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .quick-tag-label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .quick-tag-btn {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            padding: 3px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .quick-tag-btn:hover {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        
         .save-btn {
             background-color: #4a90d9;
             color: white;
@@ -196,6 +290,7 @@
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
+            flex-shrink: 0;
         }
         
         .save-btn:hover {
@@ -231,7 +326,12 @@
         .preview-text {
             white-space: pre-wrap;
             word-break: break-word;
-            margin-bottom: 10px;
+        }
+        
+        .underline-space {
+            text-decoration: underline;
+            word-break: break-all;
+            white-space: pre-wrap;
         }
         
         .preview-image-center {
@@ -239,25 +339,26 @@
             margin: 10px auto;
         }
         
-        .preview-image-inline {
-            display: inline;
-            vertical-align: middle;
+        .preview-image-float-left {
+            float: left;
+            margin: 5px 15px 10px 0;
+        }
+        
+        .preview-image-float-right {
+            float: right;
+            margin: 5px 0 10px 15px;
+        }
+        
+        .preview-content::after {
+            content: "";
+            display: table;
+            clear: both;
         }
         
         .divider {
             border-top: 2px solid #333;
             margin: 20px 0;
             padding-top: 10px;
-        }
-        
-        .tab-content {
-            display: none;
-            height: 100%;
-            flex-direction: column;
-        }
-        
-        .tab-content.active {
-            display: flex;
         }
         
         .hidden {
@@ -303,6 +404,24 @@
                 </div>
             </div>
             
+            <div class="tag-section">
+                <label>标签：</label>
+                <div class="tag-container" id="tag-container">
+                    <input type="text" id="tag-input" placeholder="输入标签后按回车添加">
+                </div>
+                <div class="quick-tags">
+                    <span class="quick-tag-label">快捷标签：</span>
+                    <button class="quick-tag-btn" onclick="addTag('生物')">生物</button>
+                    <button class="quick-tag-btn" onclick="addTag('化学')">化学</button>
+                    <button class="quick-tag-btn" onclick="addTag('物理')">物理</button>
+                    <button class="quick-tag-btn" onclick="addTag('数学')">数学</button>
+                    <button class="quick-tag-btn" onclick="addTag('语文')">语文</button>
+                    <!-- <button class="quick-tag-btn" onclick="addTag('英语')">英语</button> -->
+                    <button class="quick-tag-btn" onclick="addTag('积累')">积累</button>
+                    <button class="quick-tag-btn" onclick="addTag('思维')">思维</button>
+                </div>
+            </div>
+            
             <button class="save-btn" id="save-btn">保存题目</button>
         </div>
         
@@ -328,6 +447,7 @@
         let answerItems = [];
         let currentTab = 'question';
         let itemCounter = 0;
+        let tags = [];
         
         function getCurrentItems() {
             return currentTab === 'question' ? questionItems : answerItems;
@@ -384,8 +504,11 @@
                     }
                 }
                 
+                const html = e.clipboardData.getData('text/html');
                 const text = e.clipboardData.getData('text');
-                if (text) {
+                if (html) {
+                    handleHtmlPaste(html, text);
+                } else if (text) {
                     handleTextPaste(text);
                 }
             });
@@ -411,12 +534,96 @@
                 }
             }
             
+            const html = e.clipboardData.getData('text/html');
             const text = e.clipboardData.getData('text');
-            if (text) {
+            if (html) {
+                e.preventDefault();
+                handleHtmlPaste(html, text);
+            } else if (text) {
                 e.preventDefault();
                 handleTextPaste(text);
             }
         });
+        
+        function handleHtmlPaste(html, plainText) {
+            if (!plainText.trim()) return;
+            
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            
+            let fragments = [];
+            
+            function processNode(node) {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    if (node.textContent) {
+                        fragments.push({ text: node.textContent, underline: false });
+                    }
+                } else if (node.nodeType === Node.ELEMENT_NODE) {
+                    const style = node.getAttribute('style') || '';
+                    const tagName = node.tagName.toLowerCase();
+                    
+                    let isUnderline = false;
+                    
+                    if (style.includes('text-decoration') && style.includes('underline')) {
+                        isUnderline = true;
+                    }
+                    if (tagName === 'u') {
+                        isUnderline = true;
+                    }
+                    
+                    if (tagName === 'br') {
+                        fragments.push({ text: '\n', underline: false });
+                        return;
+                    }
+                    
+                    if (tagName === 'p') {
+                        if (fragments.length > 0 && !fragments[fragments.length - 1].text.endsWith('\n')) {
+                            fragments.push({ text: '\n', underline: false });
+                        }
+                    }
+                    
+                    const startIndex = fragments.length;
+                    
+                    for (const child of node.childNodes) {
+                        processNode(child);
+                    }
+                    
+                    if (isUnderline) {
+                        for (let i = startIndex; i < fragments.length; i++) {
+                            fragments[i].underline = true;
+                        }
+                    }
+                    
+                    if (tagName === 'p' && fragments.length > 0 && !fragments[fragments.length - 1].text.endsWith('\n')) {
+                        fragments.push({ text: '\n', underline: false });
+                    }
+                }
+            }
+            
+            processNode(doc.body);
+            
+            const merged = [];
+            for (const frag of fragments) {
+                if (merged.length > 0 && merged[merged.length - 1].underline === frag.underline) {
+                    merged[merged.length - 1].text += frag.text;
+                } else {
+                    merged.push({ text: frag.text, underline: frag.underline });
+                }
+            }
+            
+            const items = getCurrentItems();
+            const newItem = {
+                id: ++itemCounter,
+                type: 'richtext',
+                content: plainText,
+                fragments: merged
+            };
+            items.push(newItem);
+            setCurrentItems(items);
+            
+            renderContentList();
+            renderPreview();
+        }
         
         function handleTextPaste(text) {
             if (!text.trim()) return;
@@ -493,6 +700,14 @@
                         <button class="delete-btn" onclick="deleteItem(${index})">删除</button>
                     `;
                     contentList.appendChild(textDiv);
+                } else if (item.type === 'richtext') {
+                    const textDiv = document.createElement('div');
+                    textDiv.className = 'text-item';
+                    textDiv.innerHTML = `
+                        <div class="text-item-content">${renderRichtext(item.fragments)}</div>
+                        <button class="delete-btn" onclick="deleteItem(${index})">删除</button>
+                    `;
+                    contentList.appendChild(textDiv);
                 } else if (item.type === 'image') {
                     const imageCard = document.createElement('div');
                     imageCard.className = 'image-card';
@@ -502,7 +717,8 @@
                             <label>显示方式:</label>
                             <select onchange="updateImageDisplay(${index}, this.value)">
                                 <option value="center" ${item.display === 'center' ? 'selected' : ''}>居中显示</option>
-                                <option value="inline" ${item.display === 'inline' ? 'selected' : ''}>嵌入文字</option>
+                                <option value="float-left" ${item.display === 'float-left' ? 'selected' : ''}>文字环绕(左)</option>
+                                <option value="float-right" ${item.display === 'float-right' ? 'selected' : ''}>文字环绕(右)</option>
                             </select>
                             <label>宽度:</label>
                             <input type="number" value="${item.width}" onchange="updateImageSize(${index}, 'width', this.value)">
@@ -520,6 +736,27 @@
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
+        }
+        
+        function renderRichtext(fragments) {
+            let html = '';
+            for (const frag of fragments) {
+                let text = frag.text;
+                let isUnderline = frag.underline;
+                
+                if (isUnderline) {
+                    text = text.replace(/\u3000/g, ' ');
+                    text = text.replace(/ /g, '_');
+                }
+                const escaped = escapeHtml(text);
+                const withBreaks = escaped.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>').replace(/\r/g, '<br>');
+                if (isUnderline) {
+                    html += `<span class="underline-space">${withBreaks}</span>`;
+                } else {
+                    html += withBreaks;
+                }
+            }
+            return html;
         }
         
         function deleteItem(index) {
@@ -565,9 +802,16 @@
             
             items.forEach(item => {
                 if (item.type === 'text') {
-                    html += `<div class="preview-text">${escapeHtml(item.content)}</div>`;
+                    html += `<span class="preview-text">${escapeHtml(item.content)}</span>`;
+                } else if (item.type === 'richtext') {
+                    html += `<span class="preview-text">${renderRichtext(item.fragments)}</span>`;
                 } else if (item.type === 'image') {
-                    const imgClass = item.display === 'center' ? 'preview-image-center' : 'preview-image-inline';
+                    let imgClass = 'preview-image-center';
+                    if (item.display === 'float-left') {
+                        imgClass = 'preview-image-float-left';
+                    } else if (item.display === 'float-right') {
+                        imgClass = 'preview-image-float-right';
+                    }
                     const heightStyle = item.height === 'auto' ? 'auto' : `${item.height}px`;
                     html += `<img src="${item.base64 || item.src}" class="${imgClass}" style="width: ${item.width}px; height: ${heightStyle};" alt="图片">`;
                 }
@@ -575,6 +819,44 @@
             
             return html;
         }
+        
+        function renderTags() {
+            const container = document.getElementById('tag-container');
+            const input = document.getElementById('tag-input');
+            
+            container.innerHTML = '';
+            
+            tags.forEach((tag, index) => {
+                const tagEl = document.createElement('span');
+                tagEl.className = 'tag-item';
+                tagEl.innerHTML = `${tag}<span class="tag-remove" onclick="removeTag(${index})">×</span>`;
+                container.appendChild(tagEl);
+            });
+            
+            container.appendChild(input);
+        }
+        
+        function addTag(tag) {
+            tag = tag.trim();
+            if (tag && !tags.includes(tag)) {
+                tags.push(tag);
+                renderTags();
+            }
+        }
+        
+        function removeTag(index) {
+            tags.splice(index, 1);
+            renderTags();
+        }
+        
+        document.getElementById('tag-input').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const input = e.target;
+                addTag(input.value);
+                input.value = '';
+            }
+        });
         
         document.getElementById('save-btn').addEventListener('click', async () => {
             if (questionItems.length === 0 && answerItems.length === 0) {
@@ -592,6 +874,12 @@
                             width: item.width,
                             height: item.height
                         };
+                    } else if (item.type === 'richtext') {
+                        return {
+                            type: 'richtext',
+                            content: item.content,
+                            fragments: item.fragments
+                        };
                     }
                     return { ...item };
                 });
@@ -603,7 +891,8 @@
                 },
                 answer: {
                     items: cleanItems(answerItems)
-                }
+                },
+                tags: tags
             };
             
             try {
@@ -623,6 +912,7 @@
                     questionItems = [];
                     answerItems = [];
                     itemCounter = 0;
+                    tags = [];
                     
                     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -630,8 +920,11 @@
                     document.getElementById('question-tab').classList.add('active');
                     currentTab = 'question';
                     
-                    renderContentList();
+                    document.getElementById('question-content-list').innerHTML = '';
+                    document.getElementById('answer-content-list').innerHTML = '';
+                    
                     renderPreview();
+                    renderTags();
                 } else {
                     alert('保存失败: ' + result.error);
                 }
