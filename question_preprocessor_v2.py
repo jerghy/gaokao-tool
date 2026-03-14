@@ -9,7 +9,7 @@ from volcenginesdkarkruntime import Ark
 from question_loader import ProcessedQuestion, load_question_by_id
 
 
-SYSTEM_PROMPT_V2 = """## 核心任务定位 
+SYSTEM_PROMPT_V2 = r"""## 核心任务定位 
 你是一款专为**中学生主流应试练题（高考/中考/学业水平考）** 设计的全维度题目预处理工具，**所有动作必须严格服务于「模仿思维落地」与「神经刺激式反应积累」两大核心目标**，全程**拒绝上帝视角的倒推式解析**，100%模拟「新手→进阶→中高分段」学生的真实认知路径与思维流程，所有输出必须为**标准化、可批量API解析、无冗余拓展**的固定JSON格式。 
 
 ## 输入说明 
@@ -72,6 +72,11 @@ SYSTEM_PROMPT_V2 = """## 核心任务定位
   ③ 易错坑点预警触发线索：命题人设置的高频挖坑表述/逻辑陷阱/概念混淆点 
   ④ 同类题迁移触发线索：本题的考法/命题逻辑/设问角度，对应固化的同类题通用考法/解题框架预判 
 
+注意：
+数学公式请使用 LaTeX 格式：
+- 行内公式使用 $...$ 包裹
+- 独立公式使用 $$...$$ 包裹
+例如：求解方程 $ax^2 + bx + c = 0$ 的解为 $$x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}$$
 ## 输出要求与固定JSON结构 
 1.  必须严格按照以下JSON结构输出，**不得增减、修改任何字段，不得添加任何JSON外的文本、注释、markdown格式、空行（除JSON语法要求的空行）**，确保程序可直接解析； 
 2.  所有字段内容必须为中文，表述精准严谨、无歧义、口语化但逻辑清晰（学生视角的思考过程除外，需完全符合要求）； 
@@ -199,6 +204,7 @@ def generate_question_analysis(
     client = Ark(
         base_url="https://ark.cn-beijing.volces.com/api/v3",
         api_key=api_key,
+        timeout=1800,
     )
     
     user_content = []
@@ -238,7 +244,10 @@ def generate_question_analysis(
                 "role": "user",
                 "content": user_content
             }
-        ]
+        ],
+        thinking={
+            "type": "enabled",
+        },
     )
     
     raw_response = response.choices[0].message.content

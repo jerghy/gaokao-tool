@@ -5,6 +5,7 @@ import json
 import base64
 from datetime import datetime
 import uuid
+from tag_system import TagSystem
 
 app = Flask(__name__, static_folder='static')
 CORS(app)
@@ -13,12 +14,35 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 IMG_DIR = os.path.join(BASE_DIR, 'img')
 DATA_DIR = os.path.join(BASE_DIR, 'data')
 
+tag_system = TagSystem(os.path.join(BASE_DIR, 'tags_data.json'))
+TAGS_DATA_PATH = os.path.join(BASE_DIR, 'tags_data.json')
+
 os.makedirs(IMG_DIR, exist_ok=True)
 os.makedirs(DATA_DIR, exist_ok=True)
+
+tag_system = TagSystem(data_path=TAGS_DATA_PATH)
+
+def initialize_tags_from_data():
+    for filename in os.listdir(DATA_DIR):
+        if filename.endswith('.json'):
+            filepath = os.path.join(DATA_DIR, filename)
+            with open(filepath, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                record_id = data.get('id')
+                tags = data.get('tags', [])
+                if record_id:
+                    for tag in tags:
+                        tag_system.add_tag(record_id, tag)
+
+initialize_tags_from_data()
 
 @app.route('/')
 def index():
     return send_from_directory('static', 'index.html')
+
+@app.route('/browse')
+def browse():
+    return send_from_directory('static', 'browse.html')
 
 @app.route('/static/<path:filename>')
 def static_files(filename):
@@ -59,6 +83,73 @@ def upload_image():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+
+
+@app.route('/api/save', methods=['POST'])
+def save_question():
+    try:
+        data = request.json
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
+        
+        question_id = data.get('id', datetime.now().strftime('%Y%m%d%H%M%S'))
+        filepath = os.path.join(DATA_DIR, f"{question_id}.json")
+        
+        if os.path.exists(filepath):
+            with open(filepath, 'r', encoding='utf-8') as f:
+                question_data = json.load(f)
+            
+            old_tags = question_data.get('tags', [])
+            new_tags = data.get('tags', old_tags)
+            
+            if old_tags != new_tags:
+                for tag in old_tags:
+                    tag_system.remove_tag(question_id, tag)
+                for tag in new_tags:
+                    tag_system.add_tag(question_id, tag)
+            
+            question_data['question'] = data.get('question', question_data.get('question', {'items': []}))
+            question_data['answer'] = data.get('answer', question_data.get('answer', {'items': []}))
+            question_data['tags'] = new_tags
+            question_data['sub_questions'] = data.get('sub_questions', [])
+        else:
+            created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            question_data = {
+                'id': question_id,
+                'created_at': created_at,
+                'question': data.get('question', {'items': []}),
+                'answer': data.get('answer', {'items': []}),
+                'tags': data.get('tags', []),
+                'sub_questions': data.get('sub_questions', [])
+            }
+            
+            for tag in data.get('tags', []):
+                tag_system.add_tag(question_id, tag)
+        
+        with open(filepath, 'w', encoding='utf-8') as f:
+            json.dump(question_data, f, ensure_ascii=False, indent=2)
+        
+        return jsonify({
+            'success': True,
+            'id': question_id,
+            'filename': f"{question_id}.json"
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/tags', methods=['GET'])
+def get_tags():
+    try:
+        tag_tree = tag_system.get_tag_tree()
+        all_tags = tag_system.get_all_tags()
+        return jsonify({
+            'success': True,
+            'tag_tree': tag_tree,
+            'all_tags': all_tags
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/questions', methods=['GET'])
 def get_questions():
     try:
@@ -69,38 +160,96 @@ def get_questions():
                 with open(filepath, 'r', encoding='utf-8') as f:
                     data = json.load(f)
                     questions.append(data)
+        
         return jsonify({'questions': questions})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/api/save', methods=['POST'])
-def save_question():
+@app.route('/api/questions/<id>', methods=['PUT'])
+def update_question(id):
     try:
         data = request.json
         if not data:
             return jsonify({'error': 'No data provided'}), 400
         
-        question_id = datetime.now().strftime('%Y%m%d%H%M%S')
-        created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        filepath = os.path.join(DATA_DIR, f"{id}.json")
+        if not os.path.exists(filepath):
+            return jsonify({'error': 'Question not found'}), 404
         
-        question_data = {
-            'id': question_id,
-            'created_at': created_at,
-            'question': data.get('question', {'items': []}),
-            'answer': data.get('answer', {'items': []}),
-            'tags': data.get('tags', [])
-        }
+        with open(filepath, 'r', encoding='utf-8') as f:
+            question_data = json.load(f)
         
-        filename = f"{question_id}.json"
-        filepath = os.path.join(DATA_DIR, filename)
+        old_tags = question_data.get('tags', [])
+        new_tags = data.get('tags', old_tags)
+        
+        if old_tags != new_tags:
+            for tag in old_tags:
+                tag_system.remove_tag(id, tag)
+            for tag in new_tags:
+                tag_system.add_tag(id, tag)
+        
+        question_data['question'] = data.get('question', question_data.get('question', {'items': []}))
+        question_data['answer'] = data.get('answer', question_data.get('answer', {'items': []}))
+        question_data['tags'] = new_tags
+        question_data['sub_questions'] = data.get('sub_questions', question_data.get('sub_questions', []))
         
         with open(filepath, 'w', encoding='utf-8') as f:
             json.dump(question_data, f, ensure_ascii=False, indent=2)
         
         return jsonify({
             'success': True,
-            'id': question_id,
-            'filename': filename
+            'id': id,
+            'question': question_data
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/questions/<id>', methods=['DELETE'])
+def delete_question(id):
+    try:
+        filepath = os.path.join(DATA_DIR, f"{id}.json")
+        if not os.path.exists(filepath):
+            return jsonify({'error': 'Question not found'}), 404
+        
+        tags = tag_system.get_tags(id)
+        for tag in tags:
+            tag_system.remove_tag(id, tag)
+        
+        os.remove(filepath)
+        
+        return jsonify({'success': True, 'id': id})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/questions/batch-add-tag', methods=['POST'])
+def batch_add_tag():
+    try:
+        data = request.json
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
+        
+        record_ids = data.get('record_ids', [])
+        tag = data.get('tag', '')
+        
+        if not record_ids or not tag:
+            return jsonify({'error': 'record_ids and tag are required'}), 400
+        
+        results = tag_system.batch_add_tag(record_ids, tag)
+        
+        for record_id in record_ids:
+            if results[record_id]:
+                filepath = os.path.join(DATA_DIR, f"{record_id}.json")
+                if os.path.exists(filepath):
+                    with open(filepath, 'r', encoding='utf-8') as f:
+                        question_data = json.load(f)
+                    if tag not in question_data.get('tags', []):
+                        question_data['tags'] = question_data.get('tags', []) + [tag]
+                        with open(filepath, 'w', encoding='utf-8') as f:
+                            json.dump(question_data, f, ensure_ascii=False, indent=2)
+        
+        return jsonify({
+            'success': True,
+            'results': results
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 500

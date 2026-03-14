@@ -1,0 +1,141 @@
+{
+  "id": "20260314143850",
+  "created_at": "2026-03-14 14:38:50",
+  "question": {
+    "items": [
+      {
+        "type": "richtext",
+        "content": "1.(2023北京,7,4分,易)在△ABC中,(a+c)·(sin A-sin C)=b(sin A-sin B),则∠C=\t(　　)",
+        "fragments": [
+          {
+            "text": "1.(2023北京,7,4分,易)在△ABC中,(a+c)·(sin A-sin C)=b(sin A-sin B),则∠C= (　　)\n",
+            "underline": false
+          }
+        ]
+      },
+      {
+        "type": "image",
+        "src": "img/20260314143814_4dbafdd3.png",
+        "display": "center",
+        "width": 252,
+        "height": "auto"
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260314143838_e54c977a.png",
+        "display": "center",
+        "width": 450,
+        "height": "auto"
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "积累",
+    "思维",
+    "测试1::测试2"
+  ],
+  "question_analysis": {
+    "question_basic_info": {
+      "question_type": "单项选择题",
+      "target_grade": "高中",
+      "core_examination_points": "正弦定理、余弦定理、平方差公式、三角形内角范围",
+      "official_answer": "$\\frac{\\pi}{3}$（或60°）"
+    },
+    "module_1_basic_model_analysis": {
+      "base_model_name": "高考数学-解三角形正余弦定理应用母题",
+      "standardized_scaffold": "①识别题目给出的边角混合齐次等式结构；②用正弦定理将所有角的正弦替换为对应边长，消去公共参数；③整理得到边长的平方关系等式；④代入目标角对应的余弦定理公式计算余弦值；⑤结合三角形内角范围确定最终角度",
+      "core_variation_points": "①未给出具体边长数值，采用代数形式推导，属于常规基础变式；②设问直接求指定内角，未融合三角恒等变换、取值范围讨论等其他考点；③不变思维框架为「边角互化→整理平方关系→余弦定理求角」，变化点仅为等式的呈现形式",
+      "suitable_practice_stage": "一轮核心考点巩固"
+    },
+    "module_2_student_trial_error_analysis": [
+      {
+        "priority": "1",
+        "student_thinking_process": "我拿到题→先看有sinA、sinB、sinC，知道要用正弦定理角化边→替换后得到(a+c)(a-c)=b(a-b)→然后展开左边的时候记成a²+c²→最后整理出来的式子和余弦定理对不上，卡壳了",
+        "trial_error_breakpoint": "展开(a+c)(a-c)时错误计算为a²+c²",
+        "knowledge_or_logic_gap": "平方差公式记忆错误",
+        "neural_stimulus_warning": "边角混合等式角化边后出现(a±c)(a∓c)结构，需警惕平方差公式应用错误",
+        "correction_key_action": "用平方差公式正确展开为a² - c²，再移项整理"
+      },
+      {
+        "priority": "2",
+        "student_thinking_process": "我拿到题→顺利角化边整理得到a² + b² - c² = ab→然后用余弦定理求cosC的时候，把分子记成a² + c² - b²→算出来cosC的值不对，选了错误的角度",
+        "trial_error_breakpoint": "余弦定理中角C对应的分子边组合记忆错误",
+        "knowledge_or_logic_gap": "余弦定理的边角对应关系混淆",
+        "neural_stimulus_warning": "求指定角的余弦值时，需明确分子是另外两边的平方和减该角对边的平方",
+        "correction_key_action": "先写出c² = a² + b² - 2ab cosC，再变形得到cosC的公式后代入计算"
+      },
+      {
+        "priority": "3",
+        "student_thinking_process": "我拿到题→想试试边化角用三角恒等变换推导→展开后出现sin²A、sin²B、sin²C，又想降幂，越算越复杂，浪费了很多时间还算错",
+        "trial_error_breakpoint": "选错了边角互化的方向，增加了计算复杂度",
+        "knowledge_or_logic_gap": "解三角形转化策略判断错误",
+        "neural_stimulus_warning": "等式两边都是正弦的一次齐次式时，优先选择角化边简化计算",
+        "correction_key_action": "直接用正弦定理角化边，用代数运算代替三角恒等变换"
+      }
+    ],
+    "module_3_multi_dimensional_solution_analysis": {
+      "entry_level_must_learn": {
+        "applicable_stage": "全阶段通用",
+        "solution_path": "①识别题目为解三角形边角混合齐次等式题型；②直接用正弦定理将sinA、sinB、sinC替换为a、b、c，得到(a+c)(a-c)=b(a-b)；③用平方差公式展开整理得a² + b² - c² = ab；④代入余弦定理得cosC=1/2，结合C∈(0,π)得C=π/3",
+        "time_allocation_suggestion": "高考数学选择题单题建议3分钟，此思路可压缩到1分钟以内完成"
+      },
+      "basic_consolidation": {
+        "applicable_stage": "入门→进阶过渡阶段",
+        "solution_path": "①回忆教材正弦定理：$\\frac{a}{\\sin A}=\\frac{b}{\\sin B}=\\frac{c}{\\sin C}=2R$（R为△ABC外接圆半径），因此$\\sin A=\\frac{a}{2R}$，同理替换所有正弦项代入原式；②消去等式两边公共因子$\\frac{1}{2R}$，得到$(a+c)(a-c)=b(a-b)$；③展开移项得$a^2 + b^2 - c^2 = ab$；④回忆教材余弦定理：$\\cos C=\\frac{a^2 + b^2 - c^2}{2ab}$，代入得$\\cos C=\\frac{1}{2}$；⑤根据三角形内角范围$C\\in(0,\\pi)$，得出$C=\\frac{\\pi}{3}$",
+        "time_allocation_suggestion": ""
+      },
+      "advanced_improvement": {
+        "applicable_stage": "中高分段冲刺阶段",
+        "solution_path": "①观察等式结构为正弦一次齐次式，直接省略外接圆半径R进行角化边，快速得到边长关系；②整理式子直接凑出余弦定理分子结构，无需一步步展开移项；③若有选项可采用代入验证法，将常见特殊角代入原式快速排除错误选项",
+        "applicable_boundary": "仅适用于解三角形边角齐次混合等式的选择题、填空题，解答题需完整写出正弦定理、余弦定理的推导过程，不能省略步骤"
+      }
+    },
+    "module_4_neural_stimulus_trigger_points": {
+      "考点锚定触发线索": [
+        {
+          "trigger_clue": "△ABC中，含正弦的边角混合等式",
+          "fixed_reaction": "优先用正弦定理进行边角互化"
+        },
+        {
+          "trigger_clue": "求三角形内角",
+          "fixed_reaction": "推导对应角的余弦值，结合内角范围求解"
+        }
+      ],
+      "隐藏信息解码触发线索": [
+        {
+          "trigger_clue": "三角形内角",
+          "fixed_reaction": "取值范围为(0,π)，余弦值唯一对应角度"
+        },
+        {
+          "trigger_clue": "等式两边正弦均为一次齐次",
+          "fixed_reaction": "可直接将sinA、sinB、sinC替换为对应边长a、b、c，省略外接圆半径R"
+        }
+      ],
+      "易错坑点预警触发线索": [
+        {
+          "trigger_clue": "(a+c)(sinA - sinC)的结构",
+          "fixed_reaction": "角化边后用平方差公式展开为a² - c²，不要错写为a² + c²"
+        },
+        {
+          "trigger_clue": "求角C用余弦定理",
+          "fixed_reaction": "分子为a² + b² - c²，不要和其他角的余弦公式混淆"
+        }
+      ],
+      "同类题迁移触发线索": [
+        {
+          "trigger_clue": "解三角形给出边角混合齐次等式求角",
+          "fixed_reaction": "通用步骤：角化边→整理边长平方关系→代入余弦定理求余弦→结合范围得角度"
+        },
+        {
+          "trigger_clue": "高考解三角形基础选择题",
+          "fixed_reaction": "优先用角化边简化计算，避免三角恒等变换增加出错概率"
+        }
+      ]
+    }
+  }
+}

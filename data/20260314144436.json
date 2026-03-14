@@ -1,0 +1,150 @@
+{
+  "id": "20260314144436",
+  "created_at": "2026-03-14 14:44:36",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260314144348_c67316f9.png",
+        "display": "center",
+        "width": 450,
+        "height": "auto"
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260314144419_3ea91db6.png",
+        "display": "float-left",
+        "width": 50,
+        "height": "auto"
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "question_analysis": {
+    "question_basic_info": {
+      "question_type": "单项选择题",
+      "target_grade": "高中",
+      "core_examination_points": "解三角形、三角高程测量应用、两角和差的三角函数公式、正弦定理",
+      "official_answer": "B"
+    },
+    "module_1_basic_model_analysis": {
+      "base_model_name": "高考数学-解三角形实际应用（三角高程类）母题",
+      "standardized_scaffold": "①拆分目标高度差：将所求高度差拆分为已知高度差和待求高度差的和，简化计算目标；②计算水平投影边长：根据仰角与高度差的对应关系，求出投影面上的已知边长；③解平面投影三角形：利用三角形内角和、正弦/余弦定理求出待求投影边长；④换算目标高度差：将投影边长转化为竖直高度差，近似计算后匹配选项。",
+      "core_variation_points": "①情境替换：将纯数学解三角形问题替换为珠峰高程测量的真实科技情境，增强题目的应用性；②考点融合：融合了立体几何投影概念、解三角形、三角函数近似计算三类考点，综合度提升；③设问调整：设问为两点高度差，而非直接求三角形边长或角度，需要先做高度差拆分转换。",
+      "suitable_practice_stage": "一轮核心考点巩固"
+    },
+    "module_2_student_trial_error_analysis": [
+      {
+        "priority": "1",
+        "student_thinking_process": "我拿到题→先看求AA'-CC'，知道可以拆成(AA'-BB')+(BB'-CC')，已知BB'-CC'是100，然后看到B测A仰角是45°，就直接以为AA'-BB'等于B'C'，跳过了解投影三角形的步骤，算出来结果和选项对不上。",
+        "trial_error_breakpoint": "混淆了投影边A'B'和B'C'的长度，跳过了在△A'B'C'中用正弦定理求A'B'的核心步骤。",
+        "knowledge_or_logic_gap": "对三角高程测量中高度差与投影边长的对应关系不清晰，忽略了水平投影三角形的解题作用。",
+        "neural_stimulus_warning": "给出两个投影面内角时，必须先解水平投影三角形求对应边长，不能直接混用不同投影边。",
+        "correction_key_action": "先根据C到B的仰角算出B'C'的长度，再用正弦定理在△A'B'C'中求出A'B'的长度，再换算为AA'-BB'。"
+      },
+      {
+        "priority": "2",
+        "student_thinking_process": "我拿到题→要算tan15°，记得是特殊角的三角函数值，直接记成了tan15°=2+√3，算出来B'C'=100/(2+√3)≈27，后面结果完全不对。",
+        "trial_error_breakpoint": "记错了tan15°的数值，将两角差的正切公式结果搞反。",
+        "knowledge_or_logic_gap": "两角差的正切公式记忆不牢，特殊角三角函数值混淆。",
+        "neural_stimulus_warning": "仰角小于45°时tan值小于1，高度差100对应的水平距离必然大于100，若算出来B'C'小于100直接说明tan值记错。",
+        "correction_key_action": "当场推导tan15°=tan(45°-30°)=(1-√3/3)/(1+√3/3)=2-√3，再计算B'C'=100/(2-√3)。"
+      },
+      {
+        "priority": "3",
+        "student_thinking_process": "我拿到题→在△A'B'C'里用正弦定理，直接把A'B'对应的角当成了60°，算出来的A'B'长度偏大，结果选了C。",
+        "trial_error_breakpoint": "正弦定理的边与对角对应关系错误，混淆了角对应的边。",
+        "knowledge_or_logic_gap": "解三角形中正弦定理的边对角匹配规则不熟练。",
+        "neural_stimulus_warning": "解三角形前先标注每条边对应的对角：边A'B'对∠A'C'B'=45°，边B'C'对∠B'A'C'=75°。",
+        "correction_key_action": "先算∠B'A'C'=180°-45°-60°=75°，再按正弦定理列等式A'B'/sin45°=B'C'/sin75°。"
+      }
+    ],
+    "module_3_multi_dimensional_solution_analysis": {
+      "entry_level_must_learn": {
+        "applicable_stage": "全阶段通用",
+        "solution_path": "①拆分高度差：AA'-CC'=(AA'-BB')+(BB'-CC')=(AA'-BB')+100；②算B'C'：由C测B仰角15°得B'C'=100/tan15°=100(2+√3)；③算A'B'：△A'B'C'中∠B'A'C'=75°，由正弦定理得A'B'=B'C'×sin45°/sin75°=100(√3+1)≈273；④算总高度差：AA'-BB'=A'B'×tan45°≈273，总高度差≈273+100=373，选B。",
+        "time_allocation_suggestion": "总时长5分钟，①拆分高度差30秒，②计算B'C'1分钟，③用正弦定理求A'B'2分钟，④近似计算匹配选项1分30秒。"
+      },
+      "basic_consolidation": {
+        "applicable_stage": "入门→进阶过渡阶段",
+        "solution_path": "①对标立体几何投影定义：竖直方向高度差=水平投影距离×tan仰角，因此BB'-CC'=B'C'·tan15°，AA'-BB'=A'B'·tan45°；②对标三角形内角和定理：△A'B'C'中∠B'A'C'=180°-45°-60°=75°；③对标正弦定理：任意三角形中a/sinA=b/sinB=c/sinC，因此A'B'/sin45°=B'C'/sin75°；④对标两角和差三角函数公式：tan15°=tan(45°-30°)=2-√3，sin75°=sin(45°+30°)=(√6+√2)/4；⑤代入计算得总高度差=100+100(√3+1)≈373，选B。"
+      },
+      "advanced_improvement": {
+        "applicable_stage": "中高分段冲刺阶段",
+        "solution_path": "①估算排除：tan15°≈0.268，得B'C'≈100/0.268≈373，△A'B'C'中A'B'短于B'C'，因此AA'-BB'<373，总高度差<473，排除D；②快速估算：sin75°≈0.966，sin45°≈0.707，得A'B'≈373×0.707/0.966≈273，总高度差≈273+100=373，直接选B，无需精确化简计算。",
+        "applicable_boundary": "仅适用于选项差距较大的选择题，不适用于需要精确推导过程的解答题、要求精确数值的填空题。"
+      }
+    },
+    "module_4_neural_stimulus_trigger_points": {
+      "考点锚定触发线索": [
+        {
+          "trigger_clue": "三角高程测量、仰角、高度差",
+          "fixed_reaction": "核心考点为解三角形实际应用，高度差=水平投影距离×tan仰角。"
+        },
+        {
+          "trigger_clue": "三角形给出两个内角",
+          "fixed_reaction": "先用内角和求第三个角，优先用正弦定理求对应边长。"
+        }
+      ],
+      "隐藏信息解码触发线索": [
+        {
+          "trigger_clue": "A、B、C的投影为A'、B'、C'",
+          "fixed_reaction": "AA'、BB'、CC'均为竖直线段互相平行，高度差可拆分加减计算。"
+        },
+        {
+          "trigger_clue": "给出√3≈1.732的近似值",
+          "fixed_reaction": "无需精确计算三角函数值，结果保留近似值匹配选项即可。"
+        }
+      ],
+      "易错坑点预警触发线索": [
+        {
+          "trigger_clue": "已知仰角和高度差求水平距离",
+          "fixed_reaction": "水平距离=高度差÷tan仰角，不要搞反乘除关系。"
+        },
+        {
+          "trigger_clue": "用正弦定理解三角形",
+          "fixed_reaction": "必须严格匹配边与对角的对应关系，避免边角对应错误。"
+        },
+        {
+          "trigger_clue": "出现tan15°的计算",
+          "fixed_reaction": "tan15°=2-√3≈0.2679，不要误记为2+√3。"
+        }
+      ],
+      "同类题迁移触发线索": [
+        {
+          "trigger_clue": "立体几何投影+解三角形的实际应用题",
+          "fixed_reaction": "通用解题框架：先将竖直高度差转化为水平投影边长，再解平面三角形，最后换算为目标高度差。"
+        },
+        {
+          "trigger_clue": "选项为近似数值的解三角形选择题",
+          "fixed_reaction": "优先用估算排除法，无需完整精确计算，节省解题时间。"
+        }
+      ]
+    }
+  },
+  "sub_questions": [
+    {
+      "id": 1774022631526,
+      "title": "第1小问",
+      "question_text": {
+        "items": [
+          {
+            "type": "image",
+            "src": "img/20260321000450_f5601963.png",
+            "display": "center",
+            "width": 300,
+            "height": "auto"
+          }
+        ]
+      },
+      "tags": []
+    }
+  ]
+}

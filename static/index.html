@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>错题收录系统</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -91,25 +93,35 @@
             flex-direction: column;
             min-height: 0;
         }
-        
-        .paste-zone {
+
+        .main-paste-btn {
+            background: #f0f0f0;
             border: 2px dashed #ccc;
             border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            color: #999;
-            margin-bottom: 15px;
-            min-height: 80px;
+            padding: 15px 20px;
+            color: #666;
+            font-size: 14px;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            width: 100%;
         }
-        
-        .paste-zone:hover {
+
+        .main-paste-btn:hover {
             border-color: #4a90d9;
             color: #4a90d9;
         }
-        
+
+        .main-paste-btn.active {
+            border-color: #4a90d9;
+            border-style: solid;
+            background: #e8f0f8;
+            color: #4a90d9;
+        }
+
         .content-list {
             flex: 1;
             overflow-y: auto;
@@ -279,7 +291,146 @@
             color: white;
             border-color: #3498db;
         }
-        
+
+        .sub-questions-section {
+            padding: 10px 15px;
+            border-top: 1px solid #e0e0e0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .sub-questions-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .sub-questions-header label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .add-sub-question-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 12px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .add-sub-question-btn:hover {
+            background: #219a52;
+        }
+
+        .sub-question-card {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .sub-question-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: #f0f0f0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .sub-question-card-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .sub-question-card-title input {
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            padding: 2px 6px;
+            font-size: 13px;
+            font-weight: bold;
+            width: 100px;
+        }
+
+        .sub-question-remove-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 3px 8px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .sub-question-remove-btn:hover {
+            background: #c0392b;
+        }
+
+        .sub-question-card-content {
+            padding: 10px 12px;
+        }
+
+        .sub-question-paste-btn {
+            background: #f0f0f0;
+            border: 2px dashed #ccc;
+            border-radius: 6px;
+            padding: 8px 16px;
+            color: #666;
+            font-size: 12px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sub-question-paste-btn:hover {
+            border-color: #27ae60;
+            color: #27ae60;
+        }
+
+        .sub-question-paste-btn.active {
+            border-color: #27ae60;
+            border-style: solid;
+            background: #e8f8ef;
+            color: #27ae60;
+        }
+
+        .sub-question-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .sub-question-tags .tag-item {
+            display: inline-flex;
+            align-items: center;
+            background: #e8f4fc;
+            border: 1px solid #3498db;
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 11px;
+        }
+
+        .sub-question-tags input {
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 11px;
+            outline: none;
+            min-width: 80px;
+        }
+
+        .sub-question-tags input:focus {
+            border-color: #3498db;
+        }
+
         .save-btn {
             background-color: #4a90d9;
             color: white;
@@ -388,18 +539,18 @@
             
             <div id="question-tab" class="tab-content active">
                 <div class="input-area">
-                    <div class="paste-zone" id="question-paste-zone">
-                        点击此处或在此处粘贴文本/图片
-                    </div>
+                    <button class="main-paste-btn" id="question-paste-btn" onclick="activateMainPaste('question')">
+                        📋 点击此处粘贴原题内容
+                    </button>
                     <div class="content-list" id="question-content-list"></div>
                 </div>
             </div>
-            
+
             <div id="answer-tab" class="tab-content">
                 <div class="input-area">
-                    <div class="paste-zone" id="answer-paste-zone">
-                        点击此处或在此处粘贴文本/图片
-                    </div>
+                    <button class="main-paste-btn" id="answer-paste-btn" onclick="activateMainPaste('answer')">
+                        📋 点击此处粘贴答案内容
+                    </button>
                     <div class="content-list" id="answer-content-list"></div>
                 </div>
             </div>
@@ -421,7 +572,16 @@
                     <button class="quick-tag-btn" onclick="addTag('思维')">思维</button>
                 </div>
             </div>
-            
+
+            <div class="sub-questions-section" id="subQuestionsSection">
+                <div class="sub-questions-header">
+                    <label>小问（数据标记，不显示在预览中）</label>
+                    <button class="add-sub-question-btn" onclick="addSubQuestion()">+ 增加小问</button>
+                </div>
+                <div id="subQuestionsList"></div>
+            </div>
+
+            <button class="save-btn" id="browse-btn" onclick="location.href='/browse'" style="background-color: #27ae60; margin-bottom: 0;">浏览错题</button>
             <button class="save-btn" id="save-btn">保存题目</button>
         </div>
         
@@ -447,30 +607,38 @@
         let answerItems = [];
         let currentTab = 'question';
         let itemCounter = 0;
+        let activeMainPaste = null;
         let tags = [];
+        let subQuestions = [];
+        let subQuestionCounter = 0;
+        let activeSubQuestionId = null;
         
-        function getCurrentItems() {
+        function getCurrentItems(target) {
+            if (target === 'question') return questionItems;
+            if (target === 'answer') return answerItems;
             return currentTab === 'question' ? questionItems : answerItems;
         }
-        
-        function setCurrentItems(items) {
-            if (currentTab === 'question') {
+
+        function setCurrentItems(items, target) {
+            if (target === 'question') {
                 questionItems = items;
-            } else {
+            } else if (target === 'answer') {
                 answerItems = items;
+            } else {
+                if (currentTab === 'question') {
+                    questionItems = items;
+                } else {
+                    answerItems = items;
+                }
             }
         }
-        
-        function getCurrentContentList() {
-            return currentTab === 'question' 
+
+        function getCurrentContentList(target) {
+            if (target === 'question') return document.getElementById('question-content-list');
+            if (target === 'answer') return document.getElementById('answer-content-list');
+            return currentTab === 'question'
                 ? document.getElementById('question-content-list')
                 : document.getElementById('answer-content-list');
-        }
-        
-        function getCurrentPasteZone() {
-            return currentTab === 'question'
-                ? document.getElementById('question-paste-zone')
-                : document.getElementById('answer-paste-zone');
         }
         
         document.querySelectorAll('.tab').forEach(tab => {
@@ -485,74 +653,107 @@
             });
         });
         
-        function setupPasteZone(pasteZone) {
-            pasteZone.addEventListener('click', () => {
-                pasteZone.focus();
-            });
-            
-            pasteZone.setAttribute('tabindex', '0');
-            
-            pasteZone.addEventListener('paste', async (e) => {
+        function activateMainPaste(type) {
+            activeMainPaste = type;
+            activeSubQuestionId = null;
+            updateMainPasteButtons();
+            updateSubQuestionPasteButtons();
+        }
+
+        function updateMainPasteButtons() {
+            const questionBtn = document.getElementById('question-paste-btn');
+            const answerBtn = document.getElementById('answer-paste-btn');
+            if (questionBtn) {
+                questionBtn.classList.toggle('active', activeMainPaste === 'question');
+            }
+            if (answerBtn) {
+                answerBtn.classList.toggle('active', activeMainPaste === 'answer');
+            }
+        }
+
+        document.addEventListener('paste', (e) => {
+            if (activeSubQuestionId !== null) {
                 e.preventDefault();
-                
+                const sqId = activeSubQuestionId;
+
                 const items = e.clipboardData.items;
-                
+
                 for (let item of items) {
                     if (item.type.startsWith('image/')) {
                         const file = item.getAsFile();
-                        await handleImagePaste(file);
+                        handleSubQuestionImagePaste(file, sqId);
+                        return;
                     }
                 }
-                
+
                 const html = e.clipboardData.getData('text/html');
                 const text = e.clipboardData.getData('text');
                 if (html) {
-                    handleHtmlPaste(html, text);
+                    handleSubQuestionHtmlPaste(html, text, sqId);
                 } else if (text) {
-                    handleTextPaste(text);
+                    handleSubQuestionTextPaste(text, sqId);
                 }
-            });
-        }
-        
-        setupPasteZone(document.getElementById('question-paste-zone'));
-        setupPasteZone(document.getElementById('answer-paste-zone'));
-        
-        document.addEventListener('paste', (e) => {
+                return;
+            }
+
+            if (activeMainPaste !== null) {
+                e.preventDefault();
+
+                const items = e.clipboardData.items;
+
+                for (let item of items) {
+                    if (item.type.startsWith('image/')) {
+                        const file = item.getAsFile();
+                        handleImagePaste(file, activeMainPaste);
+                        return;
+                    }
+                }
+
+                const html = e.clipboardData.getData('text/html');
+                const text = e.clipboardData.getData('text');
+                if (html) {
+                    handleHtmlPaste(html, text, activeMainPaste);
+                } else if (text) {
+                    handleTextPaste(text, activeMainPaste);
+                }
+                return;
+            }
+
             const activeElement = document.activeElement;
             if (activeElement.classList.contains('paste-zone')) {
                 return;
             }
-            
+
             const items = e.clipboardData.items;
-            
+
             for (let item of items) {
                 if (item.type.startsWith('image/')) {
                     e.preventDefault();
                     const file = item.getAsFile();
-                    handleImagePaste(file);
+                    handleImagePaste(file, 'question');
                     return;
                 }
             }
-            
+
             const html = e.clipboardData.getData('text/html');
             const text = e.clipboardData.getData('text');
             if (html) {
                 e.preventDefault();
-                handleHtmlPaste(html, text);
+                handleHtmlPaste(html, text, 'question');
             } else if (text) {
                 e.preventDefault();
-                handleTextPaste(text);
+                handleTextPaste(text, 'question');
             }
         });
         
-        function handleHtmlPaste(html, plainText) {
+        function handleHtmlPaste(html, plainText, target) {
             if (!plainText.trim()) return;
-            
+
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, 'text/html');
-            
+
             let fragments = [];
-            
+
             function processNode(node) {
                 if (node.nodeType === Node.TEXT_NODE) {
                     if (node.textContent) {
@@ -561,47 +762,47 @@
                 } else if (node.nodeType === Node.ELEMENT_NODE) {
                     const style = node.getAttribute('style') || '';
                     const tagName = node.tagName.toLowerCase();
-                    
+
                     let isUnderline = false;
-                    
+
                     if (style.includes('text-decoration') && style.includes('underline')) {
                         isUnderline = true;
                     }
                     if (tagName === 'u') {
                         isUnderline = true;
                     }
-                    
+
                     if (tagName === 'br') {
                         fragments.push({ text: '\n', underline: false });
                         return;
                     }
-                    
+
                     if (tagName === 'p') {
                         if (fragments.length > 0 && !fragments[fragments.length - 1].text.endsWith('\n')) {
                             fragments.push({ text: '\n', underline: false });
                         }
                     }
-                    
+
                     const startIndex = fragments.length;
-                    
+
                     for (const child of node.childNodes) {
                         processNode(child);
                     }
-                    
+
                     if (isUnderline) {
                         for (let i = startIndex; i < fragments.length; i++) {
                             fragments[i].underline = true;
                         }
                     }
-                    
+
                     if (tagName === 'p' && fragments.length > 0 && !fragments[fragments.length - 1].text.endsWith('\n')) {
                         fragments.push({ text: '\n', underline: false });
                     }
                 }
             }
-            
+
             processNode(doc.body);
-            
+
             const merged = [];
             for (const frag of fragments) {
                 if (merged.length > 0 && merged[merged.length - 1].underline === frag.underline) {
@@ -610,8 +811,8 @@
                     merged.push({ text: frag.text, underline: frag.underline });
                 }
             }
-            
-            const items = getCurrentItems();
+
+            const items = getCurrentItems(target);
             const newItem = {
                 id: ++itemCounter,
                 type: 'richtext',
@@ -619,36 +820,38 @@
                 fragments: merged
             };
             items.push(newItem);
-            setCurrentItems(items);
-            
-            renderContentList();
+            setCurrentItems(items, target);
+
+            const contentList = getCurrentContentList(target);
+            renderContentListForTarget(contentList, items);
             renderPreview();
         }
         
-        function handleTextPaste(text) {
+        function handleTextPaste(text, target) {
             if (!text.trim()) return;
-            
-            const items = getCurrentItems();
+
+            const items = getCurrentItems(target);
             const newItem = {
                 id: ++itemCounter,
                 type: 'text',
                 content: text
             };
             items.push(newItem);
-            setCurrentItems(items);
-            
-            renderContentList();
+            setCurrentItems(items, target);
+
+            const contentList = getCurrentContentList(target);
+            renderContentListForTarget(contentList, items);
             renderPreview();
         }
         
-        async function handleImagePaste(file) {
+        async function handleImagePaste(file, target) {
             if (!file) return;
-            
+
             try {
                 const reader = new FileReader();
                 reader.onload = async (e) => {
                     const base64 = e.target.result;
-                    
+
                     const response = await fetch(`${API_BASE}/api/upload-image`, {
                         method: 'POST',
                         headers: {
@@ -656,11 +859,11 @@
                         },
                         body: JSON.stringify({ image: base64 })
                     });
-                    
+
                     const result = await response.json();
-                    
+
                     if (result.success) {
-                        const items = getCurrentItems();
+                        const items = getCurrentItems(target);
                         const newItem = {
                             id: ++itemCounter,
                             type: 'image',
@@ -671,9 +874,10 @@
                             base64: base64
                         };
                         items.push(newItem);
-                        setCurrentItems(items);
-                        
-                        renderContentList();
+                        setCurrentItems(items, target);
+
+                        const contentList = getCurrentContentList(target);
+                        renderContentListForTarget(contentList, items);
                         renderPreview();
                     } else {
                         alert('图片上传失败: ' + result.error);
@@ -684,13 +888,50 @@
                 alert('图片上传失败: ' + error.message);
             }
         }
+
+        function renderContentListForTarget(contentList, items) {
+            contentList.innerHTML = '';
+
+            items.forEach((item, index) => {
+                if (item.type === 'text' || item.type === 'richtext') {
+                    const div = document.createElement('div');
+                    div.className = 'text-item';
+                    div.innerHTML = `
+                        <div class="text-item-content">${item.type === 'richtext' ? renderRichtext(item.fragments) : escapeHtml(item.content)}</div>
+                        <button class="delete-btn" onclick="deleteItemForTarget(${index}, '${item.type}')">删除</button>
+                    `;
+                    contentList.appendChild(div);
+                } else if (item.type === 'image') {
+                    const div = document.createElement('div');
+                    div.className = 'image-card';
+                    const imgSrc = item.base64 || (item.src && !item.src.startsWith('http') ? '/' + item.src : item.src);
+                    div.innerHTML = `
+                        <img src="${imgSrc}" class="image-preview" alt="图片">
+                        <div class="image-controls">
+                            <label>显示方式:</label>
+                            <select onchange="updateImageDisplayForTarget(${index}, this.value, 'image')">
+                                <option value="center" ${item.display === 'center' ? 'selected' : ''}>居中显示</option>
+                                <option value="float-left" ${item.display === 'float-left' ? 'selected' : ''}>文字环绕(左)</option>
+                                <option value="float-right" ${item.display === 'float-right' ? 'selected' : ''}>文字环绕(右)</option>
+                            </select>
+                            <label>宽度:</label>
+                            <input type="number" value="${item.width || 300}" onchange="updateImageSizeForTarget(${index}, 'width', this.value, 'image')">
+                            <label>高度:</label>
+                            <input type="number" value="${item.height === 'auto' ? '' : item.height}" onchange="updateImageSizeForTarget(${index}, 'height', this.value, 'image')" placeholder="自动">
+                            <button class="delete-btn" onclick="deleteItemForTarget(${index}, 'image')">删除</button>
+                        </div>
+                    `;
+                    contentList.appendChild(div);
+                }
+            });
+        }
         
         function renderContentList() {
-            const contentList = getCurrentContentList();
-            const items = getCurrentItems();
-            
+            const contentList = getCurrentContentList(currentTab);
+            const items = getCurrentItems(currentTab);
+
             contentList.innerHTML = '';
-            
+
             items.forEach((item, index) => {
                 if (item.type === 'text') {
                     const textDiv = document.createElement('div');
@@ -711,8 +952,9 @@
                 } else if (item.type === 'image') {
                     const imageCard = document.createElement('div');
                     imageCard.className = 'image-card';
+                    const imgSrc = item.base64 || (item.src && !item.src.startsWith('http') ? '/' + item.src : item.src);
                     imageCard.innerHTML = `
-                        <img src="${item.base64 || item.src}" class="image-preview" alt="图片">
+                        <img src="${imgSrc}" class="image-preview" alt="图片">
                         <div class="image-controls">
                             <label>显示方式:</label>
                             <select onchange="updateImageDisplay(${index}, this.value)">
@@ -721,7 +963,7 @@
                                 <option value="float-right" ${item.display === 'float-right' ? 'selected' : ''}>文字环绕(右)</option>
                             </select>
                             <label>宽度:</label>
-                            <input type="number" value="${item.width}" onchange="updateImageSize(${index}, 'width', this.value)">
+                            <input type="number" value="${item.width || 300}" onchange="updateImageSize(${index}, 'width', this.value)">
                             <label>高度:</label>
                             <input type="number" value="${item.height === 'auto' ? '' : item.height}" onchange="updateImageSize(${index}, 'height', this.value)" placeholder="自动">
                             <button class="delete-btn" onclick="deleteItem(${index})">删除</button>
@@ -737,6 +979,52 @@
             div.textContent = text;
             return div.innerHTML;
         }
+
+        function renderLatex(text) {
+            if (!text || typeof text !== 'string') return text;
+            
+            let result = text;
+            
+            result = result.replace(/\$\$([\s\S]*?)\$\$/g, (match, formula) => {
+                try {
+                    return katex.renderToString(formula.trim(), { displayMode: true, throwOnError: false });
+                } catch (e) {
+                    return match;
+                }
+            });
+            
+            result = result.replace(/\\\(([\s\S]*?)\\\)/g, (match, formula) => {
+                try {
+                    return katex.renderToString(formula.trim(), { displayMode: true, throwOnError: false });
+                } catch (e) {
+                    return match;
+                }
+            });
+            
+            result = result.replace(/\$([^\$\n]+?)\$/g, (match, formula) => {
+                try {
+                    return katex.renderToString(formula.trim(), { displayMode: false, throwOnError: false });
+                } catch (e) {
+                    return match;
+                }
+            });
+            
+            result = result.replace(/\\\[([\s\S]*?)\\\]/g, (match, formula) => {
+                try {
+                    return katex.renderToString(formula.trim(), { displayMode: true, throwOnError: false });
+                } catch (e) {
+                    return match;
+                }
+            });
+            
+            return result;
+        }
+
+        function processTextWithLatex(text) {
+            if (!text) return '';
+            const escaped = escapeHtml(text);
+            return renderLatex(escaped);
+        }
         
         function renderRichtext(fragments) {
             let html = '';
@@ -749,39 +1037,73 @@
                     text = text.replace(/ /g, '_');
                 }
                 const escaped = escapeHtml(text);
-                const withBreaks = escaped.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>').replace(/\r/g, '<br>');
-                if (isUnderline) {
-                    html += `<span class="underline-space">${withBreaks}</span>`;
-                } else {
+                
+                if (!isUnderline) {
+                    const withLatex = renderLatex(escaped);
+                    const withBreaks = withLatex.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>').replace(/\r/g, '<br>');
                     html += withBreaks;
+                } else {
+                    const withBreaks = escaped.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>').replace(/\r/g, '<br>');
+                    html += `<span class="underline-space">${withBreaks}</span>`;
                 }
             }
             return html;
         }
         
         function deleteItem(index) {
-            const items = getCurrentItems();
+            const items = getCurrentItems(currentTab);
             items.splice(index, 1);
-            setCurrentItems(items);
+            setCurrentItems(items, currentTab);
             renderContentList();
             renderPreview();
         }
-        
-        function updateImageDisplay(index, display) {
-            const items = getCurrentItems();
-            items[index].display = display;
-            setCurrentItems(items);
+
+        function deleteItemForTarget(index, type, target) {
+            const items = getCurrentItems(target);
+            items.splice(index, 1);
+            setCurrentItems(items, target);
+            const contentList = getCurrentContentList(target);
+            if (type === 'image') {
+                renderContentListForTarget(contentList, items);
+            } else {
+                renderContentListForTarget(contentList, items);
+            }
             renderPreview();
         }
-        
+
+        function updateImageDisplay(index, display) {
+            const items = getCurrentItems(currentTab);
+            items[index].display = display;
+            setCurrentItems(items, currentTab);
+            renderPreview();
+        }
+
+        function updateImageDisplayForTarget(index, display, type, target) {
+            const items = getCurrentItems(target);
+            items[index].display = display;
+            setCurrentItems(items, target);
+            renderPreview();
+        }
+
         function updateImageSize(index, dimension, value) {
-            const items = getCurrentItems();
+            const items = getCurrentItems(currentTab);
             if (dimension === 'height' && !value) {
                 items[index][dimension] = 'auto';
             } else {
                 items[index][dimension] = parseInt(value) || 300;
             }
-            setCurrentItems(items);
+            setCurrentItems(items, currentTab);
+            renderPreview();
+        }
+
+        function updateImageSizeForTarget(index, dimension, value, type, target) {
+            const items = getCurrentItems(target);
+            if (dimension === 'height' && !value) {
+                items[index][dimension] = 'auto';
+            } else {
+                items[index][dimension] = parseInt(value) || 300;
+            }
+            setCurrentItems(items, target);
             renderPreview();
         }
         
@@ -802,7 +1124,8 @@
             
             items.forEach(item => {
                 if (item.type === 'text') {
-                    html += `<span class="preview-text">${escapeHtml(item.content)}</span>`;
+                    const processed = processTextWithLatex(item.content);
+                    html += `<span class="preview-text">${processed}</span>`;
                 } else if (item.type === 'richtext') {
                     html += `<span class="preview-text">${renderRichtext(item.fragments)}</span>`;
                 } else if (item.type === 'image') {
@@ -848,7 +1171,292 @@
             tags.splice(index, 1);
             renderTags();
         }
-        
+
+        function addSubQuestion() {
+            const id = ++subQuestionCounter;
+            subQuestions.push({
+                id: id,
+                title: `第${id}小问`,
+                questionText: { items: [] },
+                tags: []
+            });
+            renderSubQuestions();
+        }
+
+        function removeSubQuestion(id) {
+            subQuestions = subQuestions.filter(sq => sq.id !== id);
+            renderSubQuestions();
+        }
+
+        function updateSubQuestionTitle(id, title) {
+            const sq = subQuestions.find(s => s.id === id);
+            if (sq) {
+                sq.title = title;
+            }
+        }
+
+        function addSubQuestionTag(id, tag) {
+            tag = tag.trim();
+            const sq = subQuestions.find(s => s.id === id);
+            if (sq && tag && !sq.tags.includes(tag)) {
+                sq.tags.push(tag);
+                renderSubQuestions();
+            }
+        }
+
+        function removeSubQuestionTag(id, tagIndex) {
+            const sq = subQuestions.find(s => s.id === id);
+            if (sq) {
+                sq.tags.splice(tagIndex, 1);
+                renderSubQuestions();
+            }
+        }
+
+        function renderSubQuestions() {
+            const container = document.getElementById('subQuestionsList');
+            container.innerHTML = '';
+
+            subQuestions.forEach(sq => {
+                const card = document.createElement('div');
+                card.className = 'sub-question-card';
+
+                const itemsHtml = (sq.questionText?.items || []).map((item, idx) => {
+                    if (item.type === 'text' || item.type === 'richtext') {
+                        return `<div class="text-item">
+                            <div class="text-item-content">${item.type === 'richtext' ? renderRichtext(item.fragments) : escapeHtml(item.content)}</div>
+                            <button class="delete-btn" onclick="removeSubQuestionContent(${sq.id}, ${idx})">删除</button>
+                        </div>`;
+                    } else if (item.type === 'image') {
+                        const imgSrc = item.base64 || (item.src && !item.src.startsWith('http') ? '/' + item.src : item.src);
+                        return `<div class="image-card">
+                            <img src="${imgSrc}" class="image-preview" alt="图片">
+                            <div class="image-controls">
+                                <label>显示方式:</label>
+                                <select onchange="updateSubQuestionImageDisplay(${sq.id}, ${idx}, this.value)">
+                                    <option value="center" ${item.display === 'center' ? 'selected' : ''}>居中显示</option>
+                                    <option value="float-left" ${item.display === 'float-left' ? 'selected' : ''}>文字环绕(左)</option>
+                                    <option value="float-right" ${item.display === 'float-right' ? 'selected' : ''}>文字环绕(右)</option>
+                                </select>
+                                <label>宽度:</label>
+                                <input type="number" value="${item.width || 300}" onchange="updateSubQuestionImageSize(${sq.id}, ${idx}, 'width', this.value)">
+                                <label>高度:</label>
+                                <input type="number" value="${item.height === 'auto' ? '' : item.height}" onchange="updateSubQuestionImageSize(${sq.id}, ${idx}, 'height', this.value)" placeholder="自动">
+                                <button class="delete-btn" onclick="removeSubQuestionContent(${sq.id}, ${idx})">删除</button>
+                            </div>
+                        </div>`;
+                    }
+                    return '';
+                }).join('');
+
+                card.innerHTML = `
+                    <div class="sub-question-card-header">
+                        <div class="sub-question-card-title">
+                            <input type="text" value="${escapeHtml(sq.title)}" onchange="updateSubQuestionTitle(${sq.id}, this.value)">
+                        </div>
+                        <button class="sub-question-remove-btn" onclick="removeSubQuestion(${sq.id})">删除</button>
+                    </div>
+                    <div class="sub-question-card-content">
+                        <button class="sub-question-paste-btn ${activeSubQuestionId === sq.id ? 'active' : ''}" id="sq-paste-btn-${sq.id}" onclick="activateSubQuestionPaste(${sq.id})">
+                            📋 点击此处粘贴内容
+                        </button>
+                        ${itemsHtml}
+                        <div class="sub-question-tags" id="sq-tags-${sq.id}">
+                            ${sq.tags.map((tag, idx) => `
+                                <span class="tag-item">${escapeHtml(tag)}<span class="tag-remove" onclick="removeSubQuestionTag(${sq.id}, ${idx})">×</span></span>
+                            `).join('')}
+                            <input type="text" placeholder="输入标签后回车" onkeydown="handleSubQuestionTagInput(${sq.id}, event)">
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function activateSubQuestionPaste(id) {
+            activeSubQuestionId = id;
+            activeMainPaste = null;
+            updateMainPasteButtons();
+            renderSubQuestions();
+        }
+
+        function updateSubQuestionPasteButtons() {
+            subQuestions.forEach(sq => {
+                const btn = document.getElementById(`sq-paste-btn-${sq.id}`);
+                if (btn) {
+                    btn.classList.toggle('active', activeSubQuestionId === sq.id);
+                }
+            });
+        }
+
+        function removeSubQuestionContent(id, contentIndex) {
+            const sq = subQuestions.find(s => s.id === id);
+            if (sq && sq.questionText && sq.questionText.items) {
+                sq.questionText.items.splice(contentIndex, 1);
+                renderSubQuestions();
+            }
+        }
+
+        function updateSubQuestionImageDisplay(sqId, itemIndex, display) {
+            const sq = subQuestions.find(s => s.id === sqId);
+            if (sq && sq.questionText && sq.questionText.items && sq.questionText.items[itemIndex]) {
+                sq.questionText.items[itemIndex].display = display;
+                renderSubQuestions();
+            }
+        }
+
+        function updateSubQuestionImageSize(sqId, itemIndex, dimension, value) {
+            const sq = subQuestions.find(s => s.id === sqId);
+            if (sq && sq.questionText && sq.questionText.items && sq.questionText.items[itemIndex]) {
+                if (dimension === 'height' && !value) {
+                    sq.questionText.items[itemIndex][dimension] = 'auto';
+                } else {
+                    sq.questionText.items[itemIndex][dimension] = parseInt(value) || 300;
+                }
+                renderSubQuestions();
+            }
+        }
+
+        function handleSubQuestionHtmlPaste(html, plainText, sqId) {
+            if (!plainText.trim()) return;
+
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            let fragments = [];
+
+            function processNode(node) {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    if (node.textContent) {
+                        fragments.push({ text: node.textContent, underline: false });
+                    }
+                } else if (node.nodeType === Node.ELEMENT_NODE) {
+                    const style = node.getAttribute('style') || '';
+                    const tagName = node.tagName.toLowerCase();
+
+                    let isUnderline = false;
+
+                    if (style.includes('text-decoration') && style.includes('underline')) {
+                        isUnderline = true;
+                    }
+                    if (tagName === 'u') {
+                        isUnderline = true;
+                    }
+
+                    if (tagName === 'br') {
+                        fragments.push({ text: '\n', underline: false });
+                        return;
+                    }
+
+                    if (tagName === 'p') {
+                        if (fragments.length > 0 && !fragments[fragments.length - 1].text.endsWith('\n')) {
+                            fragments.push({ text: '\n', underline: false });
+                        }
+                    }
+
+                    const startIndex = fragments.length;
+
+                    for (const child of node.childNodes) {
+                        processNode(child);
+                    }
+
+                    if (isUnderline) {
+                        for (let i = startIndex; i < fragments.length; i++) {
+                            fragments[i].underline = true;
+                        }
+                    }
+
+                    if (tagName === 'p' && fragments.length > 0 && !fragments[fragments.length - 1].text.endsWith('\n')) {
+                        fragments.push({ text: '\n', underline: false });
+                    }
+                }
+            }
+
+            processNode(doc.body);
+
+            const merged = [];
+            for (const frag of fragments) {
+                if (merged.length > 0 && merged[merged.length - 1].underline === frag.underline) {
+                    merged[merged.length - 1].text += frag.text;
+                } else {
+                    merged.push({ text: frag.text, underline: frag.underline });
+                }
+            }
+
+            const sq = subQuestions.find(s => s.id === sqId);
+            if (sq) {
+                sq.questionText.items.push({
+                    id: ++itemCounter,
+                    type: 'richtext',
+                    content: plainText,
+                    fragments: merged
+                });
+                renderSubQuestions();
+            }
+        }
+
+        function handleSubQuestionTextPaste(text, sqId) {
+            if (!text.trim()) return;
+
+            const sq = subQuestions.find(s => s.id === sqId);
+            if (sq) {
+                sq.questionText.items.push({
+                    id: ++itemCounter,
+                    type: 'text',
+                    content: text
+                });
+                renderSubQuestions();
+            }
+        }
+
+        async function handleSubQuestionImagePaste(file, sqId) {
+            if (!file) return;
+
+            try {
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    const base64 = e.target.result;
+
+                    const response = await fetch(`${API_BASE}/api/upload-image`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ image: base64 })
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        const sq = subQuestions.find(s => s.id === sqId);
+                        if (sq) {
+                            sq.questionText.items.push({
+                                id: ++itemCounter,
+                                type: 'image',
+                                src: result.path,
+                                display: 'center',
+                                width: 300,
+                                height: 'auto',
+                                base64: base64
+                            });
+                            renderSubQuestions();
+                        }
+                    }
+                };
+                reader.readAsDataURL(file);
+            } catch (error) {
+                console.error('图片上传失败:', error);
+            }
+        }
+
+        function handleSubQuestionTagInput(id, event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const input = event.target;
+                addSubQuestionTag(id, input.value);
+                input.value = '';
+            }
+        }
+
         document.getElementById('tag-input').addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
@@ -884,7 +1492,18 @@
                     return { ...item };
                 });
             };
-            
+
+            const cleanSubQuestions = () => {
+                return subQuestions.map(sq => ({
+                    id: sq.id,
+                    title: sq.title,
+                    question_text: {
+                        items: cleanItems(sq.questionText.items)
+                    },
+                    tags: [...sq.tags]
+                }));
+            };
+
             const data = {
                 question: {
                     items: cleanItems(questionItems)
@@ -892,7 +1511,8 @@
                 answer: {
                     items: cleanItems(answerItems)
                 },
-                tags: tags
+                tags: tags,
+                sub_questions: cleanSubQuestions()
             };
             
             try {
@@ -922,7 +1542,10 @@
                     
                     document.getElementById('question-content-list').innerHTML = '';
                     document.getElementById('answer-content-list').innerHTML = '';
-                    
+                    subQuestions = [];
+                    subQuestionCounter = 0;
+                    renderSubQuestions();
+
                     renderPreview();
                     renderTags();
                 } else {

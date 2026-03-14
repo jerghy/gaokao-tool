@@ -62,7 +62,7 @@ def load_question_from_file(file_path: str) -> ProcessedQuestion:
     with open(file_path, "r", encoding="utf-8") as f:
         data = json.load(f)
     
-    base_path = os.path.dirname(file_path)
+    base_path = os.path.dirname(os.path.dirname(file_path))
     
     question_items = data.get("question", {}).get("items", [])
     answer_items = data.get("answer", {}).get("items", [])

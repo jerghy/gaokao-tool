@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>错题打印</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -541,6 +544,14 @@
             .annotation-mode .a4-page {
                 padding-left: 30mm;
             }
+
+            .katex {
+                font-size: 1em !important;
+            }
+
+            .katex-display {
+                margin: 0.5em 0 !important;
+            }
         }
 
         @page {
@@ -728,6 +739,52 @@
             return div.innerHTML;
         }
 
+        function renderLatex(text) {
+            if (!text || typeof text !== 'string') return text;
+            
+            let result = text;
+            
+            result = result.replace(/\$\$([\s\S]*?)\$\$/g, (match, formula) => {
+                try {
+                    return katex.renderToString(formula.trim(), { displayMode: true, throwOnError: false });
+                } catch (e) {
+                    return match;
+                }
+            });
+            
+            result = result.replace(/\\\(([\s\S]*?)\\\)/g, (match, formula) => {
+                try {
+                    return katex.renderToString(formula.trim(), { displayMode: true, throwOnError: false });
+                } catch (e) {
+                    return match;
+                }
+            });
+            
+            result = result.replace(/\$([^\$\n]+?)\$/g, (match, formula) => {
+                try {
+                    return katex.renderToString(formula.trim(), { displayMode: false, throwOnError: false });
+                } catch (e) {
+                    return match;
+                }
+            });
+            
+            result = result.replace(/\\\[([\s\S]*?)\\\]/g, (match, formula) => {
+                try {
+                    return katex.renderToString(formula.trim(), { displayMode: true, throwOnError: false });
+                } catch (e) {
+                    return match;
+                }
+            });
+            
+            return result;
+        }
+
+        function processTextWithLatex(text) {
+            if (!text) return '';
+            const escaped = escapeHtml(text);
+            return renderLatex(escaped);
+        }
+
         function renderRichtextInline(fragments) {
             if (!fragments || !Array.isArray(fragments)) return '';
             let html = '';
@@ -745,6 +802,11 @@
                 if (isUnderline) {
                     escaped = escaped.replace(/&nbsp;/g, '_');
                 }
+                
+                if (!isUnderline) {
+                    escaped = renderLatex(escaped);
+                }
+                
                 const withBreaks = escaped.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>').replace(/\r/g, '<br>');
                 
                 if (isUnderline) {
@@ -773,6 +835,11 @@
                 if (isUnderline) {
                     escaped = escaped.replace(/&nbsp;/g, '_');
                 }
+                
+                if (!isUnderline) {
+                    escaped = renderLatex(escaped);
+                }
+                
                 const withBreaks = escaped.replace(/\r\n/g, '</p><p>').replace(/\n/g, '</p><p>').replace(/\r/g, '</p><p>');
                 
                 if (isUnderline) {
@@ -787,8 +854,8 @@
         function renderItem(item) {
             if (item.type === 'text') {
                 if (typeof item.content === 'string') {
-                    const escaped = escapeHtml(item.content);
-                    const withBreaks = escaped.replace(/\r\n/g, '</p><p>').replace(/\n/g, '</p><p>').replace(/\r/g, '</p><p>');
+                    const processed = processTextWithLatex(item.content);
+                    const withBreaks = processed.replace(/\r\n/g, '</p><p>').replace(/\n/g, '</p><p>').replace(/\r/g, '</p><p>');
                     return `<p>${withBreaks}</p>`;
                 } else if (Array.isArray(item.content)) {
                     return `<p>${renderRichtext(item.content)}</p>`;
@@ -797,8 +864,8 @@
                 if (item.fragments && Array.isArray(item.fragments)) {
                     return `<p>${renderRichtext(item.fragments)}</p>`;
                 } else if (typeof item.content === 'string') {
-                    const escaped = escapeHtml(item.content);
-                    const withBreaks = escaped.replace(/\r\n/g, '</p><p>').replace(/\n/g, '</p><p>').replace(/\r/g, '</p><p>');
+                    const processed = processTextWithLatex(item.content);
+                    const withBreaks = processed.replace(/\r\n/g, '</p><p>').replace(/\n/g, '</p><p>').replace(/\r/g, '</p><p>');
                     return `<p>${withBreaks}</p>`;
                 }
             } else if (item.type === 'image') {
@@ -818,8 +885,8 @@
         function renderItemInline(item) {
             if (item.type === 'text') {
                 if (typeof item.content === 'string') {
-                    const escaped = escapeHtml(item.content);
-                    return escaped.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>').replace(/\r/g, '<br>');
+                    const processed = processTextWithLatex(item.content);
+                    return processed.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>').replace(/\r/g, '<br>');
                 } else if (Array.isArray(item.content)) {
                     return renderRichtextInline(item.content);
                 }
@@ -827,8 +894,8 @@
                 if (item.fragments && Array.isArray(item.fragments)) {
                     return renderRichtextInline(item.fragments);
                 } else if (typeof item.content === 'string') {
-                    const escaped = escapeHtml(item.content);
-                    return escaped.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>').replace(/\r/g, '<br>');
+                    const processed = processTextWithLatex(item.content);
+                    return processed.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>').replace(/\r/g, '<br>');
                 }
             } else if (item.type === 'image') {
                 const floatClass = item.display ? (item.display === 'center' ? 'center' : `float-${item.display}`) : 'center';
@@ -849,19 +916,19 @@
             let html = '<div class="neural-reaction">';
             
             if (nr.core_conclusion) {
-                html += '<div class="nr-section"><span class="nr-label">核心结论</span><span class="nr-text">' + escapeHtml(nr.core_conclusion) + '</span></div>';
+                html += '<div class="nr-section"><span class="nr-label">核心结论</span><span class="nr-text">' + processTextWithLatex(nr.core_conclusion) + '</span></div>';
             }
             
             const dims = nr.reaction_dimensions;
             if (dims) {
                 if (dims['考点锚定反应']) {
-                    html += '<div class="nr-section"><span class="nr-label">考点锚定</span><span class="nr-text">' + escapeHtml(dims['考点锚定反应'].fixed_reaction) + '</span></div>';
+                    html += '<div class="nr-section"><span class="nr-label">考点锚定</span><span class="nr-text">' + processTextWithLatex(dims['考点锚定反应'].fixed_reaction) + '</span></div>';
                 }
                 
                 if (dims['隐含信息解码反应'] && dims['隐含信息解码反应'].length > 0) {
                     html += '<div class="nr-section"><span class="nr-label">隐含信息</span>';
                     dims['隐含信息解码反应'].forEach(item => {
-                        html += '<div class="nr-text"><span class="nr-clue">' + escapeHtml(item.trigger_clue) + '</span> → ' + escapeHtml(item.fixed_reaction) + '</div>';
+                        html += '<div class="nr-text"><span class="nr-clue">' + processTextWithLatex(item.trigger_clue) + '</span> → ' + processTextWithLatex(item.fixed_reaction) + '</div>';
                     });
                     html += '</div>';
                 }
@@ -869,9 +936,9 @@
                 if (dims['易错陷阱预警反应'] && dims['易错陷阱预警反应'].length > 0) {
                     html += '<div class="nr-section"><span class="nr-label">易错陷阱</span>';
                     dims['易错陷阱预警反应'].forEach(trap => {
-                        html += '<div class="nr-text"><span class="nr-priority">' + trap.priority + '</span> ' + escapeHtml(trap.fixed_reaction);
+                        html += '<div class="nr-text"><span class="nr-priority">' + trap.priority + '</span> ' + processTextWithLatex(trap.fixed_reaction);
                         if (trap.example_application) {
-                            html += ' <span style="color:#666;">例:' + escapeHtml(trap.example_application) + '</span>';
+                            html += ' <span style="color:#666;">例:' + processTextWithLatex(trap.example_application) + '</span>';
                         }
                         html += '</div>';
                     });
@@ -881,19 +948,19 @@
                 if (dims['正误判断标尺反应'] && dims['正误判断标尺反应'].length > 0) {
                     html += '<div class="nr-section"><span class="nr-label">判断标尺</span>';
                     dims['正误判断标尺反应'].forEach(ruler => {
-                        html += '<div class="nr-text"><span class="nr-ruler-name">[' + ruler.related_option + ']</span> ' + escapeHtml(ruler.fixed_standard) + '</div>';
+                        html += '<div class="nr-text"><span class="nr-ruler-name">[' + ruler.related_option + ']</span> ' + processTextWithLatex(ruler.fixed_standard) + '</div>';
                     });
                     html += '</div>';
                 }
                 
                 if (dims['同类题迁移锚点反应']) {
-                    html += '<div class="nr-section"><span class="nr-label">迁移要点</span><span class="nr-text">' + escapeHtml(dims['同类题迁移锚点反应'].fixed_reaction) + '</span></div>';
+                    html += '<div class="nr-section"><span class="nr-label">迁移要点</span><span class="nr-text">' + processTextWithLatex(dims['同类题迁移锚点反应'].fixed_reaction) + '</span></div>';
                 }
             }
             
             if (nr.core_quick_memory_pack && nr.core_quick_memory_pack.length > 0) {
                 html += '<div class="nr-section"><span class="nr-label">速记要点</span>';
-                html += '<div class="nr-text">' + nr.core_quick_memory_pack.map(item => '• ' + escapeHtml(item)).join('<br>') + '</div>';
+                html += '<div class="nr-text">' + nr.core_quick_memory_pack.map(item => '• ' + processTextWithLatex(item)).join('<br>') + '</div>';
                 html += '</div>';
             }
             
@@ -908,19 +975,19 @@
             if (qa.question_basic_info) {
                 const info = qa.question_basic_info;
                 html += '<div class="qa-section"><span class="qa-section-title">题目基本信息</span>';
-                if (info.question_type) html += '<div class="qa-text"><span class="qa-label">题型:</span> ' + escapeHtml(info.question_type) + '</div>';
-                if (info.target_grade) html += '<div class="qa-text"><span class="qa-label">年级:</span> ' + escapeHtml(info.target_grade) + '</div>';
-                if (info.core_examination_points) html += '<div class="qa-text"><span class="qa-label">考点:</span> ' + escapeHtml(info.core_examination_points) + '</div>';
+                if (info.question_type) html += '<div class="qa-text"><span class="qa-label">题型:</span> ' + processTextWithLatex(info.question_type) + '</div>';
+                if (info.target_grade) html += '<div class="qa-text"><span class="qa-label">年级:</span> ' + processTextWithLatex(info.target_grade) + '</div>';
+                if (info.core_examination_points) html += '<div class="qa-text"><span class="qa-label">考点:</span> ' + processTextWithLatex(info.core_examination_points) + '</div>';
                 html += '</div>';
             }
             
             if (qa.module_1_basic_model_analysis) {
                 const m1 = qa.module_1_basic_model_analysis;
                 html += '<div class="qa-section"><span class="qa-section-title">基础模型分析</span>';
-                if (m1.base_model_name) html += '<div class="qa-text"><span class="qa-label">模型:</span> ' + escapeHtml(m1.base_model_name) + '</div>';
-                if (m1.standardized_scaffold) html += '<div class="qa-text"><span class="qa-label">解题支架:</span> ' + escapeHtml(m1.standardized_scaffold) + '</div>';
-                if (m1.core_variation_points) html += '<div class="qa-text"><span class="qa-label">变式要点:</span> ' + escapeHtml(m1.core_variation_points) + '</div>';
-                if (m1.suitable_practice_stage) html += '<div class="qa-text"><span class="qa-label">适用阶段:</span> ' + escapeHtml(m1.suitable_practice_stage) + '</div>';
+                if (m1.base_model_name) html += '<div class="qa-text"><span class="qa-label">模型:</span> ' + processTextWithLatex(m1.base_model_name) + '</div>';
+                if (m1.standardized_scaffold) html += '<div class="qa-text"><span class="qa-label">解题支架:</span> ' + processTextWithLatex(m1.standardized_scaffold) + '</div>';
+                if (m1.core_variation_points) html += '<div class="qa-text"><span class="qa-label">变式要点:</span> ' + processTextWithLatex(m1.core_variation_points) + '</div>';
+                if (m1.suitable_practice_stage) html += '<div class="qa-text"><span class="qa-label">适用阶段:</span> ' + processTextWithLatex(m1.suitable_practice_stage) + '</div>';
                 html += '</div>';
             }
             
@@ -929,11 +996,11 @@
                 qa.module_2_student_trial_error_analysis.forEach(item => {
                     html += '<div class="qa-item">';
                     html += '<span class="qa-priority">P' + escapeHtml(item.priority) + '</span>';
-                    if (item.student_thinking_process) html += '<div class="qa-text"><span class="qa-label">思维过程:</span> ' + escapeHtml(item.student_thinking_process) + '</div>';
-                    if (item.trial_error_breakpoint) html += '<div class="qa-text"><span class="qa-label">断点:</span> ' + escapeHtml(item.trial_error_breakpoint) + '</div>';
-                    if (item.knowledge_or_logic_gap) html += '<div class="qa-text"><span class="qa-label">知识缺口:</span> ' + escapeHtml(item.knowledge_or_logic_gap) + '</div>';
-                    if (item.neural_stimulus_warning) html += '<div class="qa-text"><span class="qa-label">预警:</span> ' + escapeHtml(item.neural_stimulus_warning) + '</div>';
-                    if (item.correction_key_action) html += '<div class="qa-text"><span class="qa-label">纠正:</span> ' + escapeHtml(item.correction_key_action) + '</div>';
+                    if (item.student_thinking_process) html += '<div class="qa-text"><span class="qa-label">思维过程:</span> ' + processTextWithLatex(item.student_thinking_process) + '</div>';
+                    if (item.trial_error_breakpoint) html += '<div class="qa-text"><span class="qa-label">断点:</span> ' + processTextWithLatex(item.trial_error_breakpoint) + '</div>';
+                    if (item.knowledge_or_logic_gap) html += '<div class="qa-text"><span class="qa-label">知识缺口:</span> ' + processTextWithLatex(item.knowledge_or_logic_gap) + '</div>';
+                    if (item.neural_stimulus_warning) html += '<div class="qa-text"><span class="qa-label">预警:</span> ' + processTextWithLatex(item.neural_stimulus_warning) + '</div>';
+                    if (item.correction_key_action) html += '<div class="qa-text"><span class="qa-label">纠正:</span> ' + processTextWithLatex(item.correction_key_action) + '</div>';
                     html += '</div>';
                 });
                 html += '</div>';
@@ -945,21 +1012,21 @@
                 
                 if (m3.entry_level_must_learn) {
                     html += '<div class="qa-item"><span class="qa-subsection-title">入门必学</span>';
-                    if (m3.entry_level_must_learn.solution_path) html += '<div class="qa-text">' + escapeHtml(m3.entry_level_must_learn.solution_path) + '</div>';
-                    if (m3.entry_level_must_learn.time_allocation_suggestion) html += '<div class="qa-text" style="color:#666;">' + escapeHtml(m3.entry_level_must_learn.time_allocation_suggestion) + '</div>';
+                    if (m3.entry_level_must_learn.solution_path) html += '<div class="qa-text">' + processTextWithLatex(m3.entry_level_must_learn.solution_path) + '</div>';
+                    if (m3.entry_level_must_learn.time_allocation_suggestion) html += '<div class="qa-text" style="color:#666;">' + processTextWithLatex(m3.entry_level_must_learn.time_allocation_suggestion) + '</div>';
                     html += '</div>';
                 }
                 
                 if (m3.basic_consolidation) {
                     html += '<div class="qa-item"><span class="qa-subsection-title">基础巩固</span>';
-                    if (m3.basic_consolidation.solution_path) html += '<div class="qa-text">' + escapeHtml(m3.basic_consolidation.solution_path) + '</div>';
+                    if (m3.basic_consolidation.solution_path) html += '<div class="qa-text">' + processTextWithLatex(m3.basic_consolidation.solution_path) + '</div>';
                     html += '</div>';
                 }
                 
                 if (m3.advanced_improvement) {
                     html += '<div class="qa-item"><span class="qa-subsection-title">进阶提升</span>';
-                    if (m3.advanced_improvement.solution_path) html += '<div class="qa-text">' + escapeHtml(m3.advanced_improvement.solution_path) + '</div>';
-                    if (m3.advanced_improvement.applicable_boundary) html += '<div class="qa-text" style="color:#666;">适用边界: ' + escapeHtml(m3.advanced_improvement.applicable_boundary) + '</div>';
+                    if (m3.advanced_improvement.solution_path) html += '<div class="qa-text">' + processTextWithLatex(m3.advanced_improvement.solution_path) + '</div>';
+                    if (m3.advanced_improvement.applicable_boundary) html += '<div class="qa-text" style="color:#666;">适用边界: ' + processTextWithLatex(m3.advanced_improvement.applicable_boundary) + '</div>';
                     html += '</div>';
                 }
                 html += '</div>';
@@ -980,7 +1047,7 @@
                     if (m4[cat.key] && m4[cat.key].length > 0) {
                         html += '<div class="qa-item"><span class="qa-subsection-title">' + cat.title + '</span>';
                         m4[cat.key].forEach(trigger => {
-                            html += '<div class="qa-text"><span class="qa-trigger">' + escapeHtml(trigger.trigger_clue) + '</span> → <span class="qa-reaction">' + escapeHtml(trigger.fixed_reaction) + '</span></div>';
+                            html += '<div class="qa-text"><span class="qa-trigger">' + processTextWithLatex(trigger.trigger_clue) + '</span> → <span class="qa-reaction">' + processTextWithLatex(trigger.fixed_reaction) + '</span></div>';
                         });
                         html += '</div>';
                     }

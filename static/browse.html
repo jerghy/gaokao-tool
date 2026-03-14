@@ -1,0 +1,2699 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>错题浏览系统</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: #f5f5f5;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+        
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .left-panel {
+            width: 20%;
+            height: 100%;
+            background-color: #fff;
+            border-right: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .middle-panel {
+            width: 30%;
+            height: 100%;
+            background-color: #f9f9f9;
+            border-right: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .right-panel {
+            width: 50%;
+            height: 100%;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-header {
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .panel-content {
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .nav-btn {
+            padding: 8px 15px;
+            background-color: #4a90d9;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .nav-btn:hover {
+            background-color: #357abd;
+        }
+        
+        .nav-btn.small {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        
+        .nav-btn.green {
+            background-color: #27ae60;
+        }
+        
+        .nav-btn.green:hover {
+            background-color: #219a52;
+        }
+        
+        .nav-btn.red {
+            background-color: #e74c3c;
+        }
+        
+        .nav-btn.red:hover {
+            background-color: #c0392b;
+        }
+        
+        .search-box {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .tag-tree {
+            padding: 10px;
+            user-select: none;
+        }
+        
+        .tag-tree-item {
+            margin: 4px 0;
+        }
+        
+        .tag-tree-content {
+            display: flex;
+            align-items: center;
+            padding: 6px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .tag-tree-content:hover {
+            background-color: #f0f7ff;
+        }
+        
+        .tag-tree-content.selected {
+            background-color: #e3f2fd;
+        }
+        
+        .tag-tree-toggle {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 6px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .tag-tree-toggle.hidden {
+            visibility: hidden;
+        }
+        
+        .tag-tree-checkbox {
+            margin-right: 8px;
+        }
+        
+        .tag-tree-label {
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .tag-tree-children {
+            margin-left: 20px;
+            display: none;
+        }
+        
+        .tag-tree-children.expanded {
+            display: block;
+        }
+        
+        .tag-filter-controls {
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .tag-filter-controls label {
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        
+        .tag-filter-controls select {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .question-item {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            margin: 10px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .question-item:hover {
+            border-color: #4a90d9;
+            box-shadow: 0 2px 8px rgba(74, 144, 217, 0.15);
+        }
+        
+        .question-item.selected {
+            border-color: #4a90d9;
+            background-color: #f0f7ff;
+        }
+        
+        .question-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .question-item-id {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .question-item-date {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .question-item-preview {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+        
+        .question-item-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        
+        .question-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            background-color: #e8f4fc;
+            border: 1px solid #3498db;
+            border-radius: 10px;
+            font-size: 11px;
+            color: #2980b9;
+        }
+        
+        .context-menu {
+            position: fixed;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            min-width: 180px;
+            display: none;
+        }
+        
+        .context-menu.show {
+            display: block;
+        }
+        
+        .context-menu-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .context-menu-item:last-child {
+            border-bottom: none;
+        }
+        
+        .context-menu-item:hover {
+            background-color: #f0f7ff;
+        }
+        
+        .context-menu-item.danger {
+            color: #e74c3c;
+        }
+        
+        .context-menu-item.danger:hover {
+            background-color: #fdf2f2;
+        }
+        
+        .selection-info {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            background-color: #fffde7;
+            font-size: 13px;
+            color: #f57c00;
+        }
+        
+        .preview-placeholder {
+            color: #999;
+            font-style: italic;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .preview-content {
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .preview-section {
+            margin-bottom: 20px;
+        }
+        
+        .preview-section-title {
+            font-size: 14px;
+            color: #666;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .preview-text {
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        
+        .preview-image-center {
+            display: block;
+            margin: 10px auto;
+            max-width: 100%;
+        }
+        
+        .underline-space {
+            text-decoration: underline;
+            word-break: break-all;
+            white-space: pre-wrap;
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        
+        .modal-overlay.show {
+            display: flex;
+        }
+        
+        .modal {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 24px;
+            min-width: 400px;
+            max-width: 500px;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+        
+        .modal-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+        
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .btn-primary {
+            background-color: #4a90d9;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #357abd;
+        }
+        
+        .btn-secondary {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #d0d0d0;
+        }
+        
+        .tabs {
+            display: flex;
+            background-color: #f0f0f0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .tab:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .tab.active {
+            background-color: #fff;
+            border-bottom: 2px solid #4a90d9;
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            flex: 1;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .tab-content.active {
+            display: flex;
+        }
+        
+        .input-area {
+            flex: 1;
+            padding: 12px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+        
+        .paste-zone {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            color: #999;
+            margin-bottom: 12px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .paste-zone:hover {
+            border-color: #4a90d9;
+            color: #4a90d9;
+        }
+
+        .main-paste-btn {
+            background: #f0f0f0;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: #666;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            width: 100%;
+        }
+
+        .main-paste-btn:hover {
+            border-color: #4a90d9;
+            color: #4a90d9;
+        }
+
+        .main-paste-btn.active {
+            border-color: #4a90d9;
+            border-style: solid;
+            background: #e8f0f8;
+            color: #4a90d9;
+        }
+
+        .content-list {
+            flex: 1;
+            overflow-y: auto;
+            min-height: 0;
+        }
+        
+        .text-item {
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 8px;
+            margin-bottom: 8px;
+            position: relative;
+        }
+        
+        .text-item-content {
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        
+        .text-item .delete-btn {
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 1px 6px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+        
+        .image-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .image-preview {
+            width: 100%;
+            max-height: 120px;
+            object-fit: contain;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            background-color: #f5f5f5;
+        }
+        
+        .image-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .image-controls label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .image-controls select,
+        .image-controls input {
+            padding: 4px 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .image-controls input {
+            width: 60px;
+        }
+        
+        .delete-btn {
+            background-color: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 12px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .delete-btn:hover {
+            background-color: #cc0000;
+        }
+        
+        .tag-section {
+            padding: 8px 12px;
+            border-top: 1px solid #e0e0e0;
+            flex-shrink: 0;
+        }
+        
+        .tag-section label {
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+        
+        .tag-container {
+            display: inline-flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            align-items: center;
+        }
+        
+        .tag-item {
+            display: inline-flex;
+            align-items: center;
+            background: #e8f4fc;
+            border: 1px solid #3498db;
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 11px;
+        }
+        
+        .tag-item .tag-remove {
+            margin-left: 5px;
+            cursor: pointer;
+            color: #3498db;
+            font-weight: bold;
+        }
+        
+        .tag-item .tag-remove:hover {
+            color: #c0392b;
+        }
+        
+        #tag-input {
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 3px 8px;
+            font-size: 11px;
+            outline: none;
+            min-width: 100px;
+        }
+        
+        #tag-input:focus {
+            border-color: #3498db;
+        }
+        
+        .quick-tags {
+            margin-top: 6px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .quick-tag-label {
+            font-size: 11px;
+            color: #666;
+        }
+        
+        .quick-tag-btn {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .quick-tag-btn:hover {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            padding: 12px;
+            flex-shrink: 0;
+        }
+        
+        .save-btn {
+            background-color: #4a90d9;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            flex: 1;
+        }
+        
+        .save-btn:hover {
+            background-color: #357abd;
+        }
+        
+        .save-btn.green {
+            background-color: #27ae60;
+        }
+        
+        .save-btn.green:hover {
+            background-color: #219a52;
+        }
+        
+        .a4-preview {
+            width: 100%;
+            background-color: #fff;
+            padding: 15px;
+        }
+        
+        .divider {
+            border-top: 2px solid #333;
+            margin: 15px 0;
+            padding-top: 8px;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .view-toggle {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .view-toggle .tab {
+            padding: 6px 12px;
+            font-size: 12px;
+            flex: none;
+        }
+
+        .sub-questions-section {
+            padding: 8px 12px;
+            border-top: 1px solid #e0e0e0;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .sub-questions-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .sub-questions-header label {
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .add-sub-question-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 10px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .add-sub-question-btn:hover {
+            background: #219a52;
+        }
+
+        .sub-question-card {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+
+        .sub-question-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 10px;
+            background: #f0f0f0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .sub-question-card-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .sub-question-card-title input {
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            padding: 2px 6px;
+            font-size: 12px;
+            font-weight: bold;
+            width: 80px;
+        }
+
+        .sub-question-remove-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 2px 6px;
+            font-size: 10px;
+            cursor: pointer;
+        }
+
+        .sub-question-remove-btn:hover {
+            background: #c0392b;
+        }
+
+        .sub-question-card-content {
+            padding: 8px 10px;
+        }
+
+        .sub-question-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .sub-question-tags .tag-item {
+            display: inline-flex;
+            align-items: center;
+            background: #e8f4fc;
+            border: 1px solid #3498db;
+            border-radius: 10px;
+            padding: 1px 6px;
+            font-size: 10px;
+        }
+
+        .sub-question-tags input {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 10px;
+            outline: none;
+            min-width: 60px;
+        }
+
+        .sub-question-tags input:focus {
+            border-color: #3498db;
+        }
+
+        .sub-question-content-list {
+            margin-bottom: 8px;
+        }
+
+        .sub-question-content-item {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 6px 8px;
+            margin-bottom: 6px;
+            position: relative;
+            font-size: 12px;
+        }
+
+        .sub-question-content-item .delete-btn {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 1px 5px;
+            cursor: pointer;
+            font-size: 10px;
+        }
+
+        .sub-question-paste-btn {
+            background: #f0f0f0;
+            border: 2px dashed #ccc;
+            border-radius: 6px;
+            padding: 8px 16px;
+            color: #666;
+            font-size: 12px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .sub-question-paste-btn:hover {
+            border-color: #27ae60;
+            color: #27ae60;
+        }
+
+        .sub-question-paste-btn.active {
+            border-color: #27ae60;
+            border-style: solid;
+            background: #e8f8ef;
+            color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="panel-header">
+                <span>标签树</span>
+                <button class="nav-btn small" onclick="clearTagSelection()">清除</button>
+            </div>
+            <div class="panel-content">
+                <div class="tag-tree" id="tagTree"></div>
+            </div>
+        </div>
+        
+        <div class="middle-panel">
+            <div class="panel-header">
+                <span>错题列表</span>
+                <button class="nav-btn small green" onclick="toggleSelectAll()">全选/取消</button>
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="支持 Anki 搜索语法，如: (tag:生物 OR tag:化学) tag:重要 -tag:已掌握" oninput="debounceApplyFilters()">
+            </div>
+            <div class="selection-info" id="selectionInfo" style="display: none;">
+                已选择 <span id="selectedCount">0</span> 道错题，右键可批量操作
+            </div>
+            <div class="panel-content" id="questionList"></div>
+        </div>
+        
+        <div class="right-panel">
+            <div class="panel-header">
+                <button class="nav-btn" onclick="location.href='/'">返回录入</button>
+                <span>错题编辑</span>
+                <div class="view-toggle">
+                    <button class="tab active" id="edit-tab-btn" onclick="switchView('edit')">编辑</button>
+                    <button class="tab" id="preview-tab-btn" onclick="switchView('preview')">预览</button>
+                </div>
+            </div>
+            
+            <div id="edit-view" class="tab-content active">
+                <div class="tabs">
+                    <button class="tab active" data-tab="question">原题</button>
+                    <button class="tab" data-tab="answer">答案</button>
+                </div>
+                
+                <div id="question-tab" class="tab-content active">
+                    <div class="input-area">
+                        <button class="main-paste-btn" id="question-paste-btn" onclick="activateMainPaste('question')">
+                            📋 点击此处粘贴原题内容
+                        </button>
+                        <div class="content-list" id="question-content-list"></div>
+                    </div>
+                </div>
+
+                <div id="answer-tab" class="tab-content">
+                    <div class="input-area">
+                        <button class="main-paste-btn" id="answer-paste-btn" onclick="activateMainPaste('answer')">
+                            📋 点击此处粘贴答案内容
+                        </button>
+                        <div class="content-list" id="answer-content-list"></div>
+                    </div>
+                </div>
+                
+                <div class="tag-section">
+                    <label>标签：</label>
+                    <div class="tag-container" id="tag-container">
+                        <input type="text" id="tag-input" placeholder="输入标签后按回车添加">
+                    </div>
+                    <div class="quick-tags">
+                        <span class="quick-tag-label">快捷标签：</span>
+                        <button class="quick-tag-btn" onclick="addTag('生物')">生物</button>
+                        <button class="quick-tag-btn" onclick="addTag('化学')">化学</button>
+                        <button class="quick-tag-btn" onclick="addTag('物理')">物理</button>
+                        <button class="quick-tag-btn" onclick="addTag('数学')">数学</button>
+                        <button class="quick-tag-btn" onclick="addTag('语文')">语文</button>
+                        <button class="quick-tag-btn" onclick="addTag('积累')">积累</button>
+                        <button class="quick-tag-btn" onclick="addTag('思维')">思维</button>
+                    </div>
+                </div>
+
+                <div class="sub-questions-section" id="subQuestionsSection">
+                    <div class="sub-questions-header">
+                        <label>小问（数据标记，不显示在预览中）</label>
+                        <button class="add-sub-question-btn" onclick="addSubQuestion()">+ 增加小问</button>
+                    </div>
+                    <div id="subQuestionsList"></div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="save-btn red" id="delete-btn" onclick="deleteCurrentQuestion()">删除</button>
+                    <button class="save-btn green" id="save-btn" onclick="saveCurrentQuestion()">保存修改</button>
+                </div>
+            </div>
+            
+            <div id="preview-view" class="tab-content">
+                <div class="panel-content" id="questionPreview">
+                    <div class="preview-placeholder">点击左侧错题查看详情</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="context-menu" id="contextMenu">
+        <div class="context-menu-item" onclick="batchAddTag()">批量添加标签</div>
+        <div class="context-menu-item danger" onclick="batchDelete()">批量删除</div>
+    </div>
+    
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-title">批量添加标签</div>
+            <input type="text" class="modal-input" id="tagInput" placeholder="输入标签名称">
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" onclick="confirmAddTag()">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '';
+        
+        let tagTree = {};
+        let allTags = [];
+        let questions = [];
+        let selectedTags = new Set();
+        let selectedQuestions = new Set();
+        let expandedTags = new Set();
+        let currentQuestion = null;
+        let debounceTimer = null;
+        
+        let questionItems = [];
+        let answerItems = [];
+        let currentTab = 'question';
+        let itemCounter = 0;
+        let tags = [];
+        let currentView = 'edit';
+        let subQuestions = [];
+        let currentEditingQuestion = null;
+        let activeSubQuestionId = null;
+        let activeMainPaste = null;
+
+        function getCurrentItems(target) {
+            if (target === 'question') return questionItems;
+            if (target === 'answer') return answerItems;
+            return currentTab === 'question' ? questionItems : answerItems;
+        }
+
+        function setCurrentItems(items, target) {
+            if (target === 'question') {
+                questionItems = items;
+            } else if (target === 'answer') {
+                answerItems = items;
+            } else {
+                if (currentTab === 'question') {
+                    questionItems = items;
+                } else {
+                    answerItems = items;
+                }
+            }
+        }
+
+        function getCurrentContentList(target) {
+            if (target === 'question') return document.getElementById('question-content-list');
+            if (target === 'answer') return document.getElementById('answer-content-list');
+            return currentTab === 'question'
+                ? document.getElementById('question-content-list')
+                : document.getElementById('answer-content-list');
+        }
+
+        function activateMainPaste(type) {
+            activeMainPaste = type;
+            activeSubQuestionId = null;
+            updateMainPasteButtons();
+            updateSubQuestionPasteButtons();
+        }
+
+        function updateMainPasteButtons() {
+            const questionBtn = document.getElementById('question-paste-btn');
+            const answerBtn = document.getElementById('answer-paste-btn');
+            if (questionBtn) {
+                questionBtn.classList.toggle('active', activeMainPaste === 'question');
+            }
+            if (answerBtn) {
+                answerBtn.classList.toggle('active', activeMainPaste === 'answer');
+            }
+        }
+
+        function updateSubQuestionPasteButtons() {
+            subQuestions.forEach(sq => {
+                const btn = document.getElementById(`sq-paste-btn-${sq.id}`);
+                if (btn) {
+                    btn.classList.toggle('active', activeSubQuestionId === sq.id);
+                }
+            });
+        }
+
+        function setupEditTabs() {
+            document.querySelectorAll('#edit-view .tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('#edit-view .tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('#edit-view .tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    tab.classList.add('active');
+                    const tabName = tab.dataset.tab;
+                    if (tabName) {
+                        document.getElementById(`${tabName}-tab`).classList.add('active');
+                        currentTab = tabName;
+                    }
+                });
+            });
+        }
+
+        function handleHtmlPaste(html, plainText, target) {
+            if (!plainText.trim()) return;
+
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            let fragments = [];
+
+            function processNode(node) {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    if (node.textContent) {
+                        fragments.push({ text: node.textContent, underline: false });
+                    }
+                } else if (node.nodeType === Node.ELEMENT_NODE) {
+                    const style = node.getAttribute('style') || '';
+                    const tagName = node.tagName.toLowerCase();
+
+                    let isUnderline = false;
+
+                    if (style.includes('text-decoration') && style.includes('underline')) {
+                        isUnderline = true;
+                    }
+                    if (tagName === 'u') {
+                        isUnderline = true;
+                    }
+
+                    if (tagName === 'br') {
+                        fragments.push({ text: '\n', underline: false });
+                        return;
+                    }
+
+                    if (tagName === 'p') {
+                        if (fragments.length > 0 && !fragments[fragments.length - 1].text.endsWith('\n')) {
+                            fragments.push({ text: '\n', underline: false });
+                        }
+                    }
+
+                    const startIndex = fragments.length;
+
+                    for (const child of node.childNodes) {
+                        processNode(child);
+                    }
+
+                    if (isUnderline) {
+                        for (let i = startIndex; i < fragments.length; i++) {
+                            fragments[i].underline = true;
+                        }
+                    }
+
+                    if (tagName === 'p' && fragments.length > 0 && !fragments[fragments.length - 1].text.endsWith('\n')) {
+                        fragments.push({ text: '\n', underline: false });
+                    }
+                }
+            }
+
+            processNode(doc.body);
+
+            const merged = [];
+            for (const frag of fragments) {
+                if (merged.length > 0 && merged[merged.length - 1].underline === frag.underline) {
+                    merged[merged.length - 1].text += frag.text;
+                } else {
+                    merged.push({ text: frag.text, underline: frag.underline });
+                }
+            }
+
+            const items = getCurrentItems(target);
+            const newItem = {
+                id: ++itemCounter,
+                type: 'richtext',
+                content: plainText,
+                fragments: merged
+            };
+            items.push(newItem);
+            setCurrentItems(items, target);
+
+            const contentList = getCurrentContentList(target);
+            renderContentListForTarget(contentList, items);
+            renderPreview();
+        }
+        
+        function handleTextPaste(text, target) {
+            if (!text.trim()) return;
+
+            const items = getCurrentItems(target);
+            const newItem = {
+                id: ++itemCounter,
+                type: 'text',
+                content: text
+            };
+            items.push(newItem);
+            setCurrentItems(items, target);
+
+            const contentList = getCurrentContentList(target);
+            renderContentListForTarget(contentList, items);
+            renderPreview();
+        }
+        
+        async function handleImagePaste(file, target) {
+            if (!file) return;
+
+            try {
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    const base64 = e.target.result;
+
+                    const response = await fetch(`${API_BASE}/api/upload-image`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ image: base64 })
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        const items = getCurrentItems(target);
+                        const newItem = {
+                            id: ++itemCounter,
+                            type: 'image',
+                            src: result.path,
+                            display: 'center',
+                            width: 300,
+                            height: 'auto',
+                            base64: base64
+                        };
+                        items.push(newItem);
+                        setCurrentItems(items, target);
+
+                        const contentList = getCurrentContentList(target);
+                        renderContentListForTarget(contentList, items);
+                        renderPreview();
+                    } else {
+                        alert('图片上传失败: ' + result.error);
+                    }
+                };
+                reader.readAsDataURL(file);
+            } catch (error) {
+                alert('图片上传失败: ' + error.message);
+            }
+        }
+
+        function renderContentListForTarget(contentList, items) {
+            contentList.innerHTML = '';
+
+            items.forEach((item, index) => {
+                if (item.type === 'text' || item.type === 'richtext') {
+                    const div = document.createElement('div');
+                    div.className = 'text-item';
+                    div.innerHTML = `
+                        <div class="text-item-content">${item.type === 'richtext' ? renderRichtext(item.fragments) : escapeHtml(item.content)}</div>
+                        <button class="delete-btn" onclick="deleteItemForTarget(${index}, '${item.type}', '${item.type === 'image' ? 'image' : 'text'}')">删除</button>
+                    `;
+                    contentList.appendChild(div);
+                } else if (item.type === 'image') {
+                    const div = document.createElement('div');
+                    div.className = 'image-card';
+                    const imgSrc = item.base64 || (item.src && !item.src.startsWith('http') ? '/' + item.src : item.src);
+                    div.innerHTML = `
+                        <img src="${imgSrc}" class="image-preview" alt="图片">
+                        <div class="image-controls">
+                            <label>显示方式:</label>
+                            <select onchange="updateImageDisplayForTarget(${index}, this.value, 'image', 'image')">
+                                <option value="center" ${item.display === 'center' ? 'selected' : ''}>居中显示</option>
+                                <option value="float-left" ${item.display === 'float-left' ? 'selected' : ''}>文字环绕(左)</option>
+                                <option value="float-right" ${item.display === 'float-right' ? 'selected' : ''}>文字环绕(右)</option>
+                            </select>
+                            <label>宽度:</label>
+                            <input type="number" value="${item.width || 300}" onchange="updateImageSizeForTarget(${index}, 'width', this.value, 'image', 'image')">
+                            <label>高度:</label>
+                            <input type="number" value="${item.height === 'auto' ? '' : item.height}" onchange="updateImageSizeForTarget(${index}, 'height', this.value, 'image', 'image')" placeholder="自动">
+                            <button class="delete-btn" onclick="deleteItemForTarget(${index}, 'image', 'image')">删除</button>
+                        </div>
+                    `;
+                    contentList.appendChild(div);
+                }
+            });
+        }
+        
+        function renderContentList() {
+            const contentList = getCurrentContentList(currentTab);
+            const items = getCurrentItems(currentTab);
+
+            contentList.innerHTML = '';
+
+            items.forEach((item, index) => {
+                if (item.type === 'text') {
+                    const textDiv = document.createElement('div');
+                    textDiv.className = 'text-item';
+                    textDiv.innerHTML = `
+                        <div class="text-item-content">${escapeHtml(item.content)}</div>
+                        <button class="delete-btn" onclick="deleteItem(${index})">删除</button>
+                    `;
+                    contentList.appendChild(textDiv);
+                } else if (item.type === 'richtext') {
+                    const textDiv = document.createElement('div');
+                    textDiv.className = 'text-item';
+                    textDiv.innerHTML = `
+                        <div class="text-item-content">${renderRichtext(item.fragments)}</div>
+                        <button class="delete-btn" onclick="deleteItem(${index})">删除</button>
+                    `;
+                    contentList.appendChild(textDiv);
+                } else if (item.type === 'image') {
+                    const imageCard = document.createElement('div');
+                    imageCard.className = 'image-card';
+                    const imgSrc = item.base64 || (item.src && !item.src.startsWith('http') ? '/' + item.src : item.src);
+                    imageCard.innerHTML = `
+                        <img src="${imgSrc}" class="image-preview" alt="图片">
+                        <div class="image-controls">
+                            <label>显示方式:</label>
+                            <select onchange="updateImageDisplay(${index}, this.value)">
+                                <option value="center" ${item.display === 'center' ? 'selected' : ''}>居中显示</option>
+                                <option value="float-left" ${item.display === 'float-left' ? 'selected' : ''}>文字环绕(左)</option>
+                                <option value="float-right" ${item.display === 'float-right' ? 'selected' : ''}>文字环绕(右)</option>
+                            </select>
+                            <label>宽度:</label>
+                            <input type="number" value="${item.width || 300}" onchange="updateImageSize(${index}, 'width', this.value)">
+                            <label>高度:</label>
+                            <input type="number" value="${item.height === 'auto' ? '' : item.height}" onchange="updateImageSize(${index}, 'height', this.value)" placeholder="自动">
+                            <button class="delete-btn" onclick="deleteItem(${index})">删除</button>
+                        </div>
+                    `;
+                    contentList.appendChild(imageCard);
+                }
+            });
+        }
+
+        function deleteItem(index) {
+            const items = getCurrentItems(currentTab);
+            items.splice(index, 1);
+            setCurrentItems(items, currentTab);
+            renderContentList();
+            renderPreview();
+        }
+
+        function deleteItemForTarget(index, type, target) {
+            const items = getCurrentItems(target);
+            items.splice(index, 1);
+            setCurrentItems(items, target);
+            const contentList = getCurrentContentList(target);
+            renderContentListForTarget(contentList, items);
+            renderPreview();
+        }
+
+        function updateImageDisplay(index, display) {
+            const items = getCurrentItems(currentTab);
+            items[index].display = display;
+            setCurrentItems(items, currentTab);
+            renderPreview();
+        }
+
+        function updateImageDisplayForTarget(index, display, type, target) {
+            const items = getCurrentItems(target);
+            items[index].display = display;
+            setCurrentItems(items, target);
+            renderPreview();
+        }
+
+        function updateImageSize(index, dimension, value) {
+            const items = getCurrentItems(currentTab);
+            if (dimension === 'height' && !value) {
+                items[index][dimension] = 'auto';
+            } else {
+                items[index][dimension] = parseInt(value) || 300;
+            }
+            setCurrentItems(items, currentTab);
+            renderPreview();
+        }
+
+        function updateImageSizeForTarget(index, dimension, value, type, target) {
+            const items = getCurrentItems(target);
+            if (dimension === 'height' && !value) {
+                items[index][dimension] = 'auto';
+            } else {
+                items[index][dimension] = parseInt(value) || 300;
+            }
+            setCurrentItems(items, target);
+            renderPreview();
+        }
+        
+        function renderTags() {
+            const container = document.getElementById('tag-container');
+            const input = document.getElementById('tag-input');
+            
+            container.innerHTML = '';
+            
+            tags.forEach((tag, index) => {
+                const tagEl = document.createElement('span');
+                tagEl.className = 'tag-item';
+                tagEl.innerHTML = `${tag}<span class="tag-remove" onclick="removeTag(${index})">×</span>`;
+                container.appendChild(tagEl);
+            });
+            
+            container.appendChild(input);
+        }
+        
+        function addTag(tag) {
+            tag = tag.trim();
+            if (tag && !tags.includes(tag)) {
+                tags.push(tag);
+                renderTags();
+            }
+        }
+        
+        function removeTag(index) {
+            tags.splice(index, 1);
+            renderTags();
+        }
+
+        function addSubQuestion() {
+            const id = Date.now();
+            subQuestions.push({
+                id: id,
+                title: `第${subQuestions.length + 1}小问`,
+                question_text: { items: [] },
+                tags: []
+            });
+            renderSubQuestions();
+        }
+
+        function removeSubQuestion(id) {
+            subQuestions = subQuestions.filter(sq => sq.id !== id);
+            renderSubQuestions();
+        }
+
+        function updateSubQuestionTitle(id, title) {
+            const sq = subQuestions.find(s => s.id === id);
+            if (sq) {
+                sq.title = title;
+            }
+        }
+
+        function addSubQuestionTag(id, tag) {
+            tag = tag.trim();
+            const sq = subQuestions.find(s => s.id === id);
+            if (sq && tag && !sq.tags.includes(tag)) {
+                sq.tags.push(tag);
+                renderSubQuestions();
+            }
+        }
+
+        function removeSubQuestionTag(id, tagIndex) {
+            const sq = subQuestions.find(s => s.id === id);
+            if (sq) {
+                sq.tags.splice(tagIndex, 1);
+                renderSubQuestions();
+            }
+        }
+
+        function renderSubQuestions() {
+            const container = document.getElementById('subQuestionsList');
+
+            if (!subQuestions || subQuestions.length === 0) {
+                container.innerHTML = '<div style="color: #999; font-size: 12px; text-align: center; padding: 10px;">暂无小问，点击上方按钮添加</div>';
+                return;
+            }
+
+            container.innerHTML = '';
+
+            subQuestions.forEach(sq => {
+                const card = document.createElement('div');
+                card.className = 'sub-question-card';
+
+                card.innerHTML = `
+                    <div class="sub-question-card-header">
+                        <div class="sub-question-card-title">
+                            <input type="text" value="${escapeHtml(sq.title)}" onchange="updateSubQuestionTitle(${sq.id}, this.value)">
+                        </div>
+                        <button class="sub-question-remove-btn" onclick="removeSubQuestion(${sq.id})">删除</button>
+                    </div>
+                    <div class="sub-question-card-content">
+                        <button class="sub-question-paste-btn ${activeSubQuestionId === sq.id ? 'active' : ''}" id="sq-paste-btn-${sq.id}" onclick="activateSubQuestionPaste(${sq.id})">
+                            📋 点击此处粘贴内容
+                        </button>
+                        <div class="sub-question-content-list" id="sq-content-list-${sq.id}">
+                            ${renderSubQuestionContentItems(sq)}
+                        </div>
+                        <div class="sub-question-tags" id="sq-tags-${sq.id}">
+                            ${(sq.tags || []).map((tag, idx) => `
+                                <span class="tag-item">${escapeHtml(tag)}<span class="tag-remove" onclick="removeSubQuestionTag(${sq.id}, ${idx})">×</span></span>
+                            `).join('')}
+                            <input type="text" placeholder="输入标签后回车" onkeydown="handleSubQuestionTagInput(${sq.id}, event)">
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function renderSubQuestionContentItems(sq) {
+            const items = sq.question_text?.items || [];
+            if (items.length === 0) return '';
+
+            return items.map((item, idx) => {
+                if (item.type === 'text' || item.type === 'richtext') {
+                    const content = item.type === 'richtext' ? renderRichtext(item.fragments) : escapeHtml(item.content);
+                    return `<div class="text-item">
+                        <div class="text-item-content">${content}</div>
+                        <button class="delete-btn" onclick="removeSubQuestionContent(${sq.id}, ${idx})">删除</button>
+                    </div>`;
+                } else if (item.type === 'image') {
+                    const imgSrc = item.base64 || (item.src && !item.src.startsWith('http') ? '/' + item.src : item.src);
+                    return `<div class="image-card">
+                        <img src="${imgSrc}" class="image-preview" alt="图片">
+                        <div class="image-controls">
+                            <label>显示方式:</label>
+                            <select onchange="updateSubQuestionImageDisplay(${sq.id}, ${idx}, this.value)">
+                                <option value="center" ${item.display === 'center' ? 'selected' : ''}>居中显示</option>
+                                <option value="float-left" ${item.display === 'float-left' ? 'selected' : ''}>文字环绕(左)</option>
+                                <option value="float-right" ${item.display === 'float-right' ? 'selected' : ''}>文字环绕(右)</option>
+                            </select>
+                            <label>宽度:</label>
+                            <input type="number" value="${item.width || 300}" onchange="updateSubQuestionImageSize(${sq.id}, ${idx}, 'width', this.value)">
+                            <label>高度:</label>
+                            <input type="number" value="${item.height === 'auto' ? '' : item.height}" onchange="updateSubQuestionImageSize(${sq.id}, ${idx}, 'height', this.value)" placeholder="自动">
+                            <button class="delete-btn" onclick="removeSubQuestionContent(${sq.id}, ${idx})">删除</button>
+                        </div>
+                    </div>`;
+                }
+                return '';
+            }).join('');
+        }
+
+        function updateSubQuestionImageDisplay(sqId, itemIndex, display) {
+            const sq = subQuestions.find(s => s.id === sqId);
+            if (sq && sq.question_text && sq.question_text.items && sq.question_text.items[itemIndex]) {
+                sq.question_text.items[itemIndex].display = display;
+                renderSubQuestions();
+            }
+        }
+
+        function updateSubQuestionImageSize(sqId, itemIndex, dimension, value) {
+            const sq = subQuestions.find(s => s.id === sqId);
+            if (sq && sq.question_text && sq.question_text.items && sq.question_text.items[itemIndex]) {
+                if (dimension === 'height' && !value) {
+                    sq.question_text.items[itemIndex][dimension] = 'auto';
+                } else {
+                    sq.question_text.items[itemIndex][dimension] = parseInt(value) || 300;
+                }
+                renderSubQuestions();
+            }
+        }
+
+        function activateSubQuestionPaste(id) {
+            activeSubQuestionId = id;
+            activeMainPaste = null;
+            updateMainPasteButtons();
+            renderSubQuestions();
+        }
+
+        function handleSubQuestionHtmlPaste(html, plainText, sqId) {
+            if (!plainText.trim()) return;
+
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            let fragments = [];
+
+            function processNode(node) {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    if (node.textContent) {
+                        fragments.push({ text: node.textContent, underline: false });
+                    }
+                } else if (node.nodeType === Node.ELEMENT_NODE) {
+                    const style = node.getAttribute('style') || '';
+                    const tagName = node.tagName.toLowerCase();
+
+                    let isUnderline = false;
+
+                    if (style.includes('text-decoration') && style.includes('underline')) {
+                        isUnderline = true;
+                    }
+                    if (tagName === 'u') {
+                        isUnderline = true;
+                    }
+
+                    if (tagName === 'br') {
+                        fragments.push({ text: '\n', underline: false });
+                        return;
+                    }
+
+                    if (tagName === 'p') {
+                        if (fragments.length > 0 && !fragments[fragments.length - 1].text.endsWith('\n')) {
+                            fragments.push({ text: '\n', underline: false });
+                        }
+                    }
+
+                    const startIndex = fragments.length;
+
+                    for (const child of node.childNodes) {
+                        processNode(child);
+                    }
+
+                    if (isUnderline) {
+                        for (let i = startIndex; i < fragments.length; i++) {
+                            fragments[i].underline = true;
+                        }
+                    }
+
+                    if (tagName === 'p' && fragments.length > 0 && !fragments[fragments.length - 1].text.endsWith('\n')) {
+                        fragments.push({ text: '\n', underline: false });
+                    }
+                }
+            }
+
+            processNode(doc.body);
+
+            const merged = [];
+            for (const frag of fragments) {
+                if (merged.length > 0 && merged[merged.length - 1].underline === frag.underline) {
+                    merged[merged.length - 1].text += frag.text;
+                } else {
+                    merged.push({ text: frag.text, underline: frag.underline });
+                }
+            }
+
+            const sq = subQuestions.find(s => s.id === sqId);
+            if (sq) {
+                if (!sq.question_text) sq.question_text = { items: [] };
+                sq.question_text.items.push({
+                    id: Date.now(),
+                    type: 'richtext',
+                    content: plainText,
+                    fragments: merged
+                });
+                renderSubQuestions();
+            }
+        }
+
+        function handleSubQuestionTextPaste(text, sqId) {
+            if (!text.trim()) return;
+
+            const sq = subQuestions.find(s => s.id === sqId);
+            if (sq) {
+                if (!sq.question_text) sq.question_text = { items: [] };
+                sq.question_text.items.push({
+                    id: Date.now(),
+                    type: 'text',
+                    content: text
+                });
+                renderSubQuestions();
+            }
+        }
+
+        async function handleSubQuestionImagePaste(file, sqId) {
+            if (!file) return;
+
+            try {
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    const base64 = e.target.result;
+
+                    const response = await fetch(`${API_BASE}/api/upload-image`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ image: base64 })
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        const sq = subQuestions.find(s => s.id === sqId);
+                        if (sq) {
+                            if (!sq.question_text) sq.question_text = { items: [] };
+                            sq.question_text.items.push({
+                                id: Date.now(),
+                                type: 'image',
+                                src: result.path,
+                                display: 'center',
+                                width: 300,
+                                height: 'auto',
+                                base64: base64
+                            });
+                            renderSubQuestions();
+                        }
+                    }
+                };
+                reader.readAsDataURL(file);
+            } catch (error) {
+                console.error('图片上传失败:', error);
+            }
+        }
+
+        function removeSubQuestionContent(sqId, contentIndex) {
+            const sq = subQuestions.find(s => s.id === sqId);
+            if (sq && sq.question_text && sq.question_text.items) {
+                sq.question_text.items.splice(contentIndex, 1);
+                renderSubQuestions();
+            }
+        }
+
+        function handleSubQuestionTagInput(id, event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const input = event.target;
+                addSubQuestionTag(id, input.value);
+                input.value = '';
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function renderLatex(text) {
+            if (!text || typeof text !== 'string') return text;
+            
+            let result = text;
+            
+            result = result.replace(/\$\$([\s\S]*?)\$\$/g, (match, formula) => {
+                try {
+                    return katex.renderToString(formula.trim(), { displayMode: true, throwOnError: false });
+                } catch (e) {
+                    return match;
+                }
+            });
+            
+            result = result.replace(/\\\(([\s\S]*?)\\\)/g, (match, formula) => {
+                try {
+                    return katex.renderToString(formula.trim(), { displayMode: true, throwOnError: false });
+                } catch (e) {
+                    return match;
+                }
+            });
+            
+            result = result.replace(/\$([^\$\n]+?)\$/g, (match, formula) => {
+                try {
+                    return katex.renderToString(formula.trim(), { displayMode: false, throwOnError: false });
+                } catch (e) {
+                    return match;
+                }
+            });
+            
+            result = result.replace(/\\\[([\s\S]*?)\\\]/g, (match, formula) => {
+                try {
+                    return katex.renderToString(formula.trim(), { displayMode: true, throwOnError: false });
+                } catch (e) {
+                    return match;
+                }
+            });
+            
+            return result;
+        }
+        
+        function processTextWithLatex(text) {
+            if (!text) return '';
+            const escaped = escapeHtml(text);
+            return renderLatex(escaped);
+        }
+        
+        function renderRichtext(fragments) {
+            let html = '';
+            for (const frag of fragments) {
+                let text = frag.text;
+                let isUnderline = frag.underline;
+                
+                if (isUnderline) {
+                    text = text.replace(/\u3000/g, ' ');
+                    text = text.replace(/ /g, '_');
+                }
+                const escaped = escapeHtml(text);
+                
+                if (!isUnderline) {
+                    const withLatex = renderLatex(escaped);
+                    const withBreaks = withLatex.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>').replace(/\r/g, '<br>');
+                    html += withBreaks;
+                } else {
+                    const withBreaks = escaped.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>').replace(/\r/g, '<br>');
+                    html += `<span class="underline-space">${withBreaks}</span>`;
+                }
+            }
+            return html;
+        }
+        
+        function renderItemsPreview(items) {
+            if (!items || items.length === 0) {
+                return '<div style="color: #999; font-style: italic;">暂无内容</div>';
+            }
+            
+            let html = '';
+            
+            items.forEach(item => {
+                if (item.type === 'text') {
+                    const processed = processTextWithLatex(item.content);
+                    html += `<span class="preview-text">${processed}</span>`;
+                } else if (item.type === 'richtext') {
+                    html += `<span class="preview-text">${renderRichtext(item.fragments)}</span>`;
+                } else if (item.type === 'image') {
+                    let imgClass = 'preview-image-center';
+                    if (item.display === 'float-left') {
+                        imgClass = 'preview-image-float-left';
+                    } else if (item.display === 'float-right') {
+                        imgClass = 'preview-image-float-right';
+                    }
+                    const heightStyle = item.height === 'auto' ? 'auto' : `${item.height}px`;
+                    html += `<img src="${item.base64 || API_BASE + '/' + item.src}" class="${imgClass}" style="width: ${item.width}px; height: ${heightStyle};" alt="图片">`;
+                }
+            });
+            
+            return html;
+        }
+        
+        function renderPreview() {
+            if (currentView === 'preview') {
+                const container = document.getElementById('questionPreview');
+                container.innerHTML = `
+                    <div class="preview-content">
+                        <div class="preview-section">
+                            <div class="preview-section-title">【原题】</div>
+                            <div class="preview-content-inner">${renderItemsPreview(questionItems)}</div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="preview-section">
+                            <div class="preview-section-title">【答案】</div>
+                            <div class="preview-content-inner">${renderItemsPreview(answerItems)}</div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        function switchView(view) {
+            currentView = view;
+            document.getElementById('edit-tab-btn').classList.toggle('active', view === 'edit');
+            document.getElementById('preview-tab-btn').classList.toggle('active', view === 'preview');
+            document.getElementById('edit-view').classList.toggle('active', view === 'edit');
+            document.getElementById('preview-view').classList.toggle('active', view === 'preview');
+            
+            if (view === 'preview') {
+                renderPreview();
+            }
+        }
+        
+        async function loadTags() {
+            try {
+                const response = await fetch(`${API_BASE}/api/tags`);
+                const result = await response.json();
+                if (result.success) {
+                    tagTree = result.tag_tree;
+                    allTags = result.all_tags;
+                    renderTagTree();
+                }
+            } catch (error) {
+                console.error('加载标签失败:', error);
+            }
+        }
+        
+        function renderTagTree() {
+            const container = document.getElementById('tagTree');
+            container.innerHTML = renderTreeNode(tagTree, '');
+        }
+        
+        function renderTreeNode(tree, prefix) {
+            let html = '';
+            for (const [tag, value] of Object.entries(tree)) {
+                const fullTag = prefix ? `${prefix}::${tag}` : tag;
+                const hasChildren = value && value.children && Object.keys(value.children).length > 0;
+                const isExpanded = expandedTags.has(fullTag);
+                const isSelected = selectedTags.has(fullTag);
+                
+                html += `<div class="tag-tree-item">`;
+                html += `<div class="tag-tree-content ${isSelected ? 'selected' : ''}" data-tag="${fullTag}">`;
+                
+                if (hasChildren) {
+                    html += `<span class="tag-tree-toggle" onclick="toggleTagExpand('${fullTag}')">${isExpanded ? '▼' : '▶'}</span>`;
+                } else {
+                    html += `<span class="tag-tree-toggle hidden"></span>`;
+                }
+                
+                html += `<input type="checkbox" class="tag-tree-checkbox" ${isSelected ? 'checked' : ''} onclick="toggleTagSelection('${fullTag}')">`;
+                html += `<span class="tag-tree-label">${escapeHtml(tag)}</span>`;
+                html += `</div>`;
+                
+                if (hasChildren) {
+                    html += `<div class="tag-tree-children ${isExpanded ? 'expanded' : ''}">`;
+                    html += renderTreeNode(value.children, fullTag);
+                    html += `</div>`;
+                }
+                
+                html += `</div>`;
+            }
+            return html;
+        }
+        
+        function toggleTagExpand(tag) {
+            if (expandedTags.has(tag)) {
+                expandedTags.delete(tag);
+            } else {
+                expandedTags.add(tag);
+            }
+            renderTagTree();
+        }
+        
+        function toggleTagSelection(tag) {
+            if (selectedTags.has(tag)) {
+                selectedTags.delete(tag);
+            } else {
+                selectedTags.add(tag);
+            }
+            renderTagTree();
+            updateSearchFromTags();
+            applyFilters();
+        }
+
+        function updateSearchFromTags() {
+            const searchInput = document.getElementById('searchInput');
+            const currentValue = searchInput.value;
+            
+            const tokens = tokenizeSearchQuery(currentValue);
+            const nonTagTokens = tokens.filter(t => t.type !== 'TAG');
+            
+            let newTagPart = '';
+            if (selectedTags.size > 0) {
+                newTagPart = Array.from(selectedTags).map(t => `tag:${t}`).join(' ');
+            }
+            
+            let newValue = newTagPart;
+            for (const token of nonTagTokens) {
+                if (newValue) newValue += ' ';
+                if (token.type === 'LPAREN') newValue += '(';
+                else if (token.type === 'RPAREN') newValue += ')';
+                else if (token.type === 'AND') newValue += 'AND';
+                else if (token.type === 'OR') newValue += 'OR';
+                else if (token.type === 'NOT') newValue += 'NOT';
+                else if (token.type === 'TEXT') newValue += token.negative ? `-${token.value}` : token.value;
+                else if (token.type === 'PHRASE') newValue += `"${token.value}"`;
+            }
+            
+            searchInput.value = newValue;
+        }
+        
+        function clearTagSelection() {
+            selectedTags.clear();
+            renderTagTree();
+            updateSearchFromTags();
+            applyFilters();
+        }
+        
+        async function loadQuestions() {
+            applyFilters();
+        }
+        
+        async function applyFilters() {
+            try {
+                const searchQuery = document.getElementById('searchInput').value;
+                
+                let url = `${API_BASE}/api/questions?`;
+                url += `search=${encodeURIComponent(searchQuery)}`;
+                
+                const response = await fetch(url);
+                const result = await response.json();
+                questions = result.questions || [];
+                
+                if (searchQuery.trim()) {
+                    questions = filterQuestionsLocal(questions, searchQuery);
+                }
+                
+                renderQuestionList();
+            } catch (error) {
+                console.error('加载错题失败:', error);
+            }
+        }
+        
+        function filterQuestionsLocal(questions, query) {
+            if (!query.trim()) return questions;
+            
+            const tokens = tokenizeSearchQuery(query);
+            const ast = parseTokensToAST(tokens);
+            
+            return questions.filter(q => {
+                return evaluateAST(ast, q);
+            });
+        }
+        
+        function getEffectiveTags(question) {
+            const ownTags = question.tags || [];
+            const subQuestionTags = (question.sub_questions || [])
+                .flatMap(sq => sq.tags || []);
+            return [...new Set([...ownTags, ...subQuestionTags])];
+        }
+
+        function evaluateAST(node, question) {
+            const questionStr = JSON.stringify(question.question || '').toLowerCase();
+            const answerStr = JSON.stringify(question.answer || '').toLowerCase();
+            const tags = getEffectiveTags(question).map(t => t.toLowerCase());
+            
+            if (node.type === 'TAG') {
+                const result = matchTag(node.value, tags);
+                return node.negative ? !result : result;
+            }
+            
+            if (node.type === 'TEXT') {
+                const result = matchText(node.value, questionStr, answerStr);
+                return node.negative ? !result : result;
+            }
+            
+            if (node.type === 'PHRASE') {
+                const result = matchPhrase(node.value, questionStr, answerStr);
+                return node.negative ? !result : result;
+            }
+            
+            if (node.type === 'AND') {
+                return evaluateAST(node.left, question) && evaluateAST(node.right, question);
+            }
+            
+            if (node.type === 'OR') {
+                return evaluateAST(node.left, question) || evaluateAST(node.right, question);
+            }
+            
+            if (node.type === 'NOT') {
+                return !evaluateAST(node.operand, question);
+            }
+            
+            return true;
+        }
+        
+        function parseTokensToAST(tokens) {
+            let pos = 0;
+            
+            function parseExpression() {
+                return parseOR();
+            }
+            
+            function parseOR() {
+                let left = parseAND();
+                while (pos < tokens.length && tokens[pos].type === 'OR') {
+                    pos++;
+                    const right = parseAND();
+                    left = { type: 'OR', left, right };
+                }
+                return left;
+            }
+            
+            function parseAND() {
+                let left = parseNOT();
+                while (pos < tokens.length) {
+                    const t = tokens[pos];
+                    if (t.type === 'AND') {
+                        pos++;
+                        const right = parseNOT();
+                        left = { type: 'AND', left, right };
+                    } else if (t.type === 'TEXT' || t.type === 'PHRASE' || t.type === 'TAG' || t.type === 'LPAREN') {
+                        const right = parseNOT();
+                        left = { type: 'AND', left, right };
+                    } else {
+                        break;
+                    }
+                }
+                return left;
+            }
+            
+            function parseNOT() {
+                if (pos < tokens.length && tokens[pos].type === 'NOT') {
+                    pos++;
+                    const operand = parseAtom();
+                    return { type: 'NOT', operand };
+                }
+                return parseAtom();
+            }
+            
+            function parseAtom() {
+                if (pos >= tokens.length) {
+                    return { type: 'EMPTY' };
+                }
+                
+                const token = tokens[pos];
+                pos++;
+                
+                if (token.type === 'LPAREN') {
+                    const expr = parseExpression();
+                    if (pos < tokens.length && tokens[pos].type === 'RPAREN') {
+                        pos++;
+                    }
+                    return expr;
+                }
+                
+                if (token.type === 'TAG') {
+                    return { type: 'TAG', value: token.value, negative: token.negative };
+                }
+                
+                if (token.type === 'PHRASE') {
+                    return { type: 'PHRASE', value: token.value, negative: token.negative };
+                }
+                
+                if (token.type === 'TEXT') {
+                    return { type: 'TEXT', value: token.value, negative: token.negative };
+                }
+                
+                return { type: 'EMPTY' };
+            }
+            
+            const ast = parseExpression();
+            return ast;
+        }
+        
+        function matchTag(tag, tags) {
+            tag = tag.toLowerCase();
+            
+            if (tag.includes('*')) {
+                const regex = createRegex(tag);
+                return tags.some(t => regex.test(t));
+            }
+            
+            if (tags.some(t => t === tag)) {
+                return true;
+            }
+            
+            if (tags.some(t => t.startsWith(tag + '::'))) {
+                return true;
+            }
+            
+            return false;
+        }
+        
+        function matchText(text, questionStr, answerStr) {
+            try {
+                const regex = createRegex(text);
+                return regex.test(questionStr) || regex.test(answerStr);
+            } catch (e) {
+                return questionStr.includes(text.toLowerCase()) || answerStr.includes(text.toLowerCase());
+            }
+        }
+        
+        function matchPhrase(phrase, questionStr, answerStr) {
+            return questionStr.includes(phrase.toLowerCase()) || answerStr.includes(phrase.toLowerCase());
+        }
+        
+        function createRegex(pattern) {
+            pattern = pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            if (pattern.includes('*')) {
+                pattern = pattern.replace(/\*/g, '.*');
+            }
+            if (pattern.includes('_')) {
+                pattern = pattern.replace(/_/g, '.');
+            }
+            return new RegExp(pattern, 'i');
+        }
+        
+        function tokenizeSearchQuery(query) {
+            const tokens = [];
+            let i = 0;
+            
+            while (i < query.length) {
+                const char = query[i];
+                
+                if (char === '(') {
+                    tokens.push({ type: 'LPAREN' });
+                    i++;
+                } else if (char === ')') {
+                    tokens.push({ type: 'RPAREN' });
+                    i++;
+                } else if (char === '-') {
+                    const nextChar = query[i + 1];
+                    if (nextChar === 't' && query.slice(i + 1, i + 5).toLowerCase() === 'tag:') {
+                        const rest = query.slice(i + 5);
+                        const tagEnd = findTokenEnd(rest);
+                        const tagValue = rest.slice(0, tagEnd);
+                        tokens.push({ type: 'TAG', value: tagValue, negative: true });
+                        i += 5 + tagEnd;
+                    } else if (nextChar === '(' || nextChar === '"') {
+                        tokens.push({ type: 'NOT' });
+                        i++;
+                    } else {
+                        const text = parseTextToken(query, i + 1);
+                        tokens.push({ type: 'TEXT', value: text, negative: true });
+                        i += 1 + text.length;
+                    }
+                } else if (query.slice(i, i + 3).toLowerCase() === 'and') {
+                    tokens.push({ type: 'AND' });
+                    i += 3;
+                } else if (query.slice(i, i + 2).toLowerCase() === 'or') {
+                    tokens.push({ type: 'OR' });
+                    i += 2;
+                } else if (query.slice(i, i + 3).toLowerCase() === 'not') {
+                    tokens.push({ type: 'NOT' });
+                    i += 3;
+                } else if (char === '"') {
+                    const end = query.indexOf('"', i + 1);
+                    if (end === -1) {
+                        const text = query.slice(i + 1);
+                        tokens.push({ type: 'PHRASE', value: text });
+                        break;
+                    } else {
+                        const text = query.slice(i + 1, end);
+                        tokens.push({ type: 'PHRASE', value: text });
+                        i = end + 1;
+                    }
+                } else if (char === ' ' || char === '\t') {
+                    i++;
+                } else {
+                    const text = parseTextToken(query, i);
+                    if (text.toLowerCase().startsWith('tag:')) {
+                        const tagValue = text.slice(4);
+                        const negative = tagValue.startsWith('-');
+                        const actualTag = negative ? tagValue.slice(1) : tagValue;
+                        tokens.push({ type: 'TAG', value: actualTag, negative });
+                    } else {
+                        tokens.push({ type: 'TEXT', value: text, negative: false });
+                    }
+                    i += text.length;
+                }
+            }
+            
+            return tokens;
+        }
+        
+        function parseTextToken(query, start) {
+            let end = start;
+            while (end < query.length) {
+                const char = query[end];
+                if (char === ' ' || char === '\t' || char === '(' || char === ')' || char === '"') {
+                    break;
+                }
+                end++;
+            }
+            return query.slice(start, end);
+        }
+        
+        function findTokenEnd(str) {
+            let end = 0;
+            while (end < str.length) {
+                const char = str[end];
+                if (char === ' ' || char === '\t' || char === '(' || char === ')' || char === '"') {
+                    break;
+                }
+                end++;
+            }
+            return end;
+        }
+        
+        function debounceApplyFilters() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(applyFilters, 300);
+        }
+        
+        function renderQuestionList() {
+            const container = document.getElementById('questionList');
+            
+            if (questions.length === 0) {
+                container.innerHTML = '<div class="preview-placeholder">没有找到错题</div>';
+                return;
+            }
+            
+            container.innerHTML = questions.map(q => {
+                let preview = '';
+                for (const item of q.question?.items || []) {
+                    if (item.type === 'text' || item.type === 'richtext') {
+                        preview = item.content;
+                        break;
+                    }
+                }
+                if (!preview && q.answer?.items?.length > 0) {
+                    for (const item of q.answer.items) {
+                        if (item.type === 'text' || item.type === 'richtext') {
+                            preview = item.content;
+                            break;
+                        }
+                    }
+                }
+                
+                const isSelected = selectedQuestions.has(q.id);
+                
+                return `
+                    <div class="question-item ${isSelected ? 'selected' : ''}" 
+                         data-id="${q.id}"
+                         onclick="selectQuestion(event, '${q.id}')"
+                         oncontextmenu="showContextMenu(event, '${q.id}')">
+                        <div class="question-item-header">
+                            <span class="question-item-id">#${q.id}</span>
+                            <span class="question-item-date">${q.created_at || ''}</span>
+                        </div>
+                        <div class="question-item-preview">${escapeHtml(preview || '(暂无文本内容)')}</div>
+                        <div class="question-item-tags">
+                            ${(q.tags || []).map(t => `<span class="question-tag">${escapeHtml(t)}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            updateSelectionInfo();
+        }
+        
+        function selectQuestion(event, id) {
+            if (event.ctrlKey || event.metaKey) {
+                if (selectedQuestions.has(id)) {
+                    selectedQuestions.delete(id);
+                } else {
+                    selectedQuestions.add(id);
+                }
+            } else {
+                selectedQuestions.clear();
+                selectedQuestions.add(id);
+            }
+            
+            renderQuestionList();
+            loadQuestionForEdit(id);
+        }
+        
+        function loadQuestionForEdit(id) {
+            const question = questions.find(q => q.id === id);
+            if (!question) return;
+
+            currentQuestion = question;
+            currentEditingQuestion = question;
+
+            questionItems = JSON.parse(JSON.stringify(question.question?.items || []));
+            answerItems = JSON.parse(JSON.stringify(question.answer?.items || []));
+            tags = JSON.parse(JSON.stringify(question.tags || []));
+            subQuestions = JSON.parse(JSON.stringify(question.sub_questions || []));
+            itemCounter = questionItems.length + answerItems.length;
+
+            questionItems.forEach(item => {
+                if (item.type === 'image' && item.src && !item.base64) {
+                    item.base64 = API_BASE + '/' + item.src;
+                }
+            });
+            answerItems.forEach(item => {
+                if (item.type === 'image' && item.src && !item.base64) {
+                    item.base64 = API_BASE + '/' + item.src;
+                }
+            });
+
+            currentTab = 'question';
+            document.querySelectorAll('#edit-view .tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('#edit-view .tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelector('#edit-view [data-tab="question"]').classList.add('active');
+            document.getElementById('question-tab').classList.add('active');
+
+            renderContentList();
+            renderTags();
+            renderSubQuestions();
+
+            if (currentView === 'preview') {
+                renderPreview();
+            }
+        }
+        
+        function toggleSelectAll() {
+            if (selectedQuestions.size === questions.length) {
+                selectedQuestions.clear();
+            } else {
+                selectedQuestions.clear();
+                questions.forEach(q => selectedQuestions.add(q.id));
+            }
+            renderQuestionList();
+        }
+        
+        function updateSelectionInfo() {
+            const info = document.getElementById('selectionInfo');
+            const count = document.getElementById('selectedCount');
+            
+            if (selectedQuestions.size > 0) {
+                info.style.display = 'block';
+                count.textContent = selectedQuestions.size;
+            } else {
+                info.style.display = 'none';
+            }
+        }
+        
+        function showContextMenu(event, id) {
+            event.preventDefault();
+            
+            if (!selectedQuestions.has(id)) {
+                selectedQuestions.clear();
+                selectedQuestions.add(id);
+                renderQuestionList();
+            }
+            
+            const menu = document.getElementById('contextMenu');
+            menu.style.left = event.pageX + 'px';
+            menu.style.top = event.pageY + 'px';
+            menu.classList.add('show');
+        }
+        
+        function hideContextMenu() {
+            document.getElementById('contextMenu').classList.remove('show');
+        }
+        
+        async function batchAddTag() {
+            hideContextMenu();
+            if (selectedQuestions.size === 0) {
+                alert('请先选择要操作的错题');
+                return;
+            }
+            
+            document.getElementById('modalOverlay').classList.add('show');
+            document.getElementById('tagInput').value = '';
+            document.getElementById('tagInput').focus();
+        }
+        
+        async function confirmAddTag() {
+            const tag = document.getElementById('tagInput').value.trim();
+            if (!tag) {
+                alert('请输入标签名称');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/questions/batch-add-tag`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        record_ids: Array.from(selectedQuestions),
+                        tag: tag
+                    })
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    alert('标签添加成功');
+                    closeModal();
+                    loadTags();
+                    loadQuestions();
+                } else {
+                    alert('操作失败: ' + (result.error || '未知错误'));
+                }
+            } catch (error) {
+                alert('操作失败: ' + error.message);
+            }
+        }
+        
+        async function batchDelete() {
+            hideContextMenu();
+            if (selectedQuestions.size === 0) {
+                alert('请先选择要操作的错题');
+                return;
+            }
+            
+            if (!confirm(`确定要删除选中的 ${selectedQuestions.size} 道错题吗？此操作不可恢复！`)) {
+                return;
+            }
+            
+            try {
+                let successCount = 0;
+                for (const id of Array.from(selectedQuestions)) {
+                    const response = await fetch(`${API_BASE}/api/questions/${id}`, {
+                        method: 'DELETE'
+                    });
+                    if (response.ok) {
+                        successCount++;
+                    }
+                }
+                
+                alert(`成功删除 ${successCount} 道错题`);
+                selectedQuestions.clear();
+                loadTags();
+                loadQuestions();
+                resetEditArea();
+            } catch (error) {
+                alert('删除失败: ' + error.message);
+            }
+        }
+        
+        async function deleteCurrentQuestion() {
+            if (!currentQuestion) {
+                alert('请先选择要删除的错题');
+                return;
+            }
+            
+            if (!confirm('确定要删除这道错题吗？此操作不可恢复！')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/questions/${currentQuestion.id}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    alert('删除成功');
+                    selectedQuestions.delete(currentQuestion.id);
+                    loadTags();
+                    loadQuestions();
+                    resetEditArea();
+                } else {
+                    alert('删除失败');
+                }
+            } catch (error) {
+                alert('删除失败: ' + error.message);
+            }
+        }
+        
+        async function saveCurrentQuestion() {
+            if (!currentQuestion) {
+                alert('请先选择要保存的错题');
+                return;
+            }
+
+            const cleanItems = (items) => {
+                return items.map(item => {
+                    if (item.type === 'image') {
+                        return {
+                            type: 'image',
+                            src: item.src,
+                            display: item.display,
+                            width: item.width,
+                            height: item.height
+                        };
+                    } else if (item.type === 'richtext') {
+                        return {
+                            type: 'richtext',
+                            content: item.content,
+                            fragments: item.fragments
+                        };
+                    }
+                    return { ...item };
+                });
+            };
+
+            const cleanSubQuestions = () => {
+                return subQuestions.map(sq => ({
+                    id: sq.id,
+                    title: sq.title,
+                    question_text: {
+                        items: cleanItems(sq.question_text?.items || [])
+                    },
+                    tags: [...(sq.tags || [])]
+                }));
+            };
+
+            const data = {
+                id: currentQuestion.id,
+                question: {
+                    items: cleanItems(questionItems)
+                },
+                answer: {
+                    items: cleanItems(answerItems)
+                },
+                tags: tags,
+                sub_questions: cleanSubQuestions()
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/save`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('保存成功！');
+                    loadQuestions();
+                    loadTags();
+                } else {
+                    alert('保存失败: ' + result.error);
+                }
+            } catch (error) {
+                alert('保存失败: ' + error.message);
+            }
+        }
+        
+        function resetEditArea() {
+            currentQuestion = null;
+            questionItems = [];
+            answerItems = [];
+            tags = [];
+            itemCounter = 0;
+            
+            renderContentList();
+            renderTags();
+            
+            document.getElementById('questionPreview').innerHTML = '<div class="preview-placeholder">点击左侧错题查看详情</div>';
+        }
+        
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('show');
+        }
+        
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.context-menu')) {
+                hideContextMenu();
+            }
+            if (!e.target.closest('.modal') && !e.target.closest('.context-menu-item')) {
+                closeModal();
+            }
+        });
+        
+        document.getElementById('tag-input').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const input = e.target;
+                addTag(input.value);
+                input.value = '';
+            }
+        });
+        
+        document.getElementById('tagInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                confirmAddTag();
+            }
+        });
+        
+        setupEditTabs();
+
+        document.addEventListener('paste', (e) => {
+            if (activeSubQuestionId !== null) {
+                e.preventDefault();
+                const sqId = activeSubQuestionId;
+
+                const items = e.clipboardData.items;
+
+                for (let item of items) {
+                    if (item.type.startsWith('image/')) {
+                        const file = item.getAsFile();
+                        handleSubQuestionImagePaste(file, sqId);
+                        return;
+                    }
+                }
+
+                const html = e.clipboardData.getData('text/html');
+                const text = e.clipboardData.getData('text');
+                if (html) {
+                    handleSubQuestionHtmlPaste(html, text, sqId);
+                } else if (text) {
+                    handleSubQuestionTextPaste(text, sqId);
+                }
+                return;
+            }
+
+            if (activeMainPaste !== null) {
+                e.preventDefault();
+
+                const items = e.clipboardData.items;
+
+                for (let item of items) {
+                    if (item.type.startsWith('image/')) {
+                        const file = item.getAsFile();
+                        handleImagePaste(file, activeMainPaste);
+                        return;
+                    }
+                }
+
+                const html = e.clipboardData.getData('text/html');
+                const text = e.clipboardData.getData('text');
+                if (html) {
+                    handleHtmlPaste(html, text, activeMainPaste);
+                } else if (text) {
+                    handleTextPaste(text, activeMainPaste);
+                }
+                return;
+            }
+
+            const activeElement = document.activeElement;
+            if (activeElement.classList.contains('paste-zone')) {
+                return;
+            }
+
+            const items = e.clipboardData.items;
+
+            for (let item of items) {
+                if (item.type.startsWith('image/')) {
+                    e.preventDefault();
+                    const file = item.getAsFile();
+                    handleImagePaste(file, 'question');
+                    return;
+                }
+            }
+
+            const html = e.clipboardData.getData('text/html');
+            const text = e.clipboardData.getData('text');
+            if (html) {
+                e.preventDefault();
+                handleHtmlPaste(html, text, 'question');
+            } else if (text) {
+                e.preventDefault();
+                handleTextPaste(text, 'question');
+            }
+        });
+        
+        loadTags();
+        loadQuestions();
+    </script>
+</body>
+</html>

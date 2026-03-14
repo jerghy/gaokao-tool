@@ -126,7 +126,7 @@ def batch_process_v2(
 if __name__ == "__main__":
     batch_process_v2(
         data_dir=data_dir,
-        tags=["语文","思维"],
+        tags=["数学","思维"],
         require_all_tags=True,
         max_workers=5
     )
