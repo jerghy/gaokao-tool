@@ -1,0 +1,41 @@
+{
+  "id": "20260321131958",
+  "created_at": "2026-03-21 13:19:58",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321131948_0bee91ec.png",
+        "display": "center",
+        "width": 450,
+        "height": "auto"
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "richtext",
+        "content": "C",
+        "fragments": [
+          {
+            "text": "C",
+            "underline": false
+          }
+        ]
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "thinking_processes": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "thinking_content": "### 第一步：审题拆解·锚定核心\n#### 1. 题干拆解\n- **显性条件**：给出三角恒等式 $\\sin(\\alpha+\\beta)+\\cos(\\alpha+\\beta)=2\\sqrt{2}\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta$，选项均为 $\\tan(\\alpha\\pm\\beta)$ 的定值。\n- **隐藏条件**：选项出现正切，说明运算过程中除以的余弦项均不为0，无需额外考虑无意义情况。\n- **易错陷阱**：学生易盲目展开所有和角公式，导致项数过多混乱，或展开时符号记错（如余弦和角公式的减号、移项符号错误）。\n#### 2. 明确目标\n化简给定恒等式，推导得到 $\\tan(\\alpha\\pm\\beta)$ 的定值，匹配选项。\n#### 3. 考点预判\n核心考查**三角恒等变换综合应用**：辅助角公式、两角和差的正/余弦公式，以及角的配凑化归思想，属于高考高频中档考点。\n\n---\n### 第二步：思路预判·试错路径还原\n1. **初始思路（学生最易想到）：全展开所有和角**\n   - 为什么想到：看到所有带括号的和角，第一反应就是用和角公式拆成单角的正弦余弦，再合并。\n   - 试错问题：展开后左右两边共6~7项，合并同类项时容易漏项、错符号，基础薄弱的同学很容易算到一半卡壳。\n   - 调整方向：先观察式子结构，左边是 $\\sin x+\\cos x$ 的标准形式，优先用辅助角公式化简，再看角的配凑，减少展开后的项数。\n2. **确定核心解题意线**：优先用辅助角化简左边，再通过角的配凑，将左右两边的公共角作为整体展开，大幅减少计算量；选择题还可以直接用特殊值法秒杀。\n\n---\n### 第三步：多解法分支·分层拆解\n#### 解法1：全展开通法（基础薄弱适配）\n- **适用场景**：角的配凑不熟练时，硬展开也能得分，核心逻辑是拆成单角后合并同类项，凑和差公式。\n- **解题过程**：\n  1. 先化简右边：根据两角和的余弦公式，$\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)=\\frac{\\sqrt{2}}{2}(\\cos\\alpha-\\sin\\alpha)$，代入右边得：\n     $$2\\sqrt{2} \\times \\frac{\\sqrt{2}}{2}(\\cos\\alpha-\\sin\\alpha)\\sin\\beta=2(\\cos\\alpha-\\sin\\alpha)\\sin\\beta$$\n  2. 展开左边：根据两角和的正、余弦公式：\n     $$\\sin(\\alpha+\\beta)+\\cos(\\alpha+\\beta)=\\sin\\alpha\\cos\\beta+\\cos\\alpha\\sin\\beta+\\cos\\alpha\\cos\\beta-\\sin\\alpha\\sin\\beta$$\n  3. 左右相等后移项合并同类项：\n     $$\\sin\\alpha\\cos\\beta+\\cos\\alpha\\sin\\beta+\\cos\\alpha\\cos\\beta-\\sin\\alpha\\sin\\beta-2\\cos\\alpha\\sin\\beta+2\\sin\\alpha\\sin\\beta=0$$\n     整理得：$\\sin\\alpha\\cos\\beta - \\cos\\alpha\\sin\\beta + \\cos\\alpha\\cos\\beta + \\sin\\alpha\\sin\\beta=0$\n  4. 凑和差公式：前两项是 $\\sin(\\alpha-\\beta)$，后两项是 $\\cos(\\alpha-\\beta)$，即：\n     $$\\sin(\\alpha-\\beta)+\\cos(\\alpha-\\beta)=0$$\n  5. 两边同除以 $\\cos(\\alpha-\\beta)$，得 $\\tan(\\alpha-\\beta)=-1$。\n\n---\n#### 解法2：辅助角+角配凑巧法（速度快，计算量小）\n- **适用场景**：熟悉辅助角公式、角的配凑技巧，核心逻辑是把公共角作为整体，减少展开项数。\n- **解题过程**：\n  1. 左边用辅助角公式化简：$\\sin x+\\cos x=\\sqrt{2}\\sin\\left(x+\\frac{\\pi}{4}\\right)$，代入 $x=\\alpha+\\beta$ 得：\n     $$\\text{左边}=\\sqrt{2}\\sin\\left(\\alpha+\\beta+\\frac{\\pi}{4}\\right)=\\sqrt{2}\\sin\\left[\\left(\\alpha+\\frac{\\pi}{4}\\right)+\\beta\\right]$$\n  2. 左右两边约掉公共系数 $\\sqrt{2}$，令 $A=\\alpha+\\frac{\\pi}{4}$，等式简化为：\n     $$\\sin(A+\\beta)=2\\cos A\\sin\\beta$$\n  3. 左边展开两角和的正弦公式：$\\sin A\\cos\\beta+\\cos A\\sin\\beta=2\\cos A\\sin\\beta$\n  4. 移项合并得：$\\sin A\\cos\\beta - \\cos A\\sin\\beta=\\sin(A-\\beta)=0$\n  5. 代回 $A=\\alpha+\\frac{\\pi}{4}$：$\\sin\\left(\\alpha-\\beta+\\frac{\\pi}{4}\\right)=0$，即 $\\alpha-\\beta+\\frac{\\pi}{4}=k\\pi,k\\in Z$\n  6. 两边取正切：$\\tan(\\alpha-\\beta)=\\tan\\left(k\\pi-\\frac{\\pi}{4}\\right)=-1$。\n\n---\n#### 解法3：特殊值秒杀法（选择题专属）\n- **适用场景**：所有求恒成立结论的选择题，核心逻辑是取特殊值代入验证，排除错误选项。\n- **解题过程**：\n  1. 取 $\\beta=0$，代入原式得 $\\sin\\alpha+\\cos\\alpha=0$，即 $\\tan\\alpha=-1$。代入选项：A $\\tan\\alpha=-1\\neq1$ 错，B $\\tan\\alpha=-1\\neq1$ 错，C、D暂时符合。\n  2. 再取 $\\alpha=0$，代入原式得 $\\sin\\beta+\\cos\\beta=2\\sin\\beta$，即 $\\tan\\beta=1$。代入选项：C $\\tan(-\\beta)=-1$ 对，D $\\tan\\beta=1\\neq-1$ 错，直接选C。\n\n---\n### 第四步：易错点与难点应对\n#### 1. 高频易错点\n- **符号错误**：展开 $\\cos(\\alpha+\\beta)$ 时易写成加号，移项时符号搞反，规避方法：每展开/移项一步，就反向验证一次符号。\n- **辅助角相位错误**：$\\sin x+\\cos x$ 易错写成 $\\sqrt{2}\\sin\\left(x-\\frac{\\pi}{4}\\right)$，规避方法：记不清就展开辅助角的结果，和原式对比验证。\n- **忽略定义域**：两边同除余弦时忘记判断是否为0，本题选项出现正切，默认分母有意义，填空题需额外注意。\n#### 2. 思维难点应对\n- 怎么想到角的配凑？通用破题方法：**拿到恒等式先找左右两边的公共角片段**，本题右边有 $\\alpha+\\frac{\\pi}{4}$，左边的 $\\alpha+\\beta+\\frac{\\pi}{4}$ 刚好可以拆成公共角加 $\\beta$，直接简化运算。\n- 看到 $a\\sin x+b\\cos x$ 第一反应必须想到辅助角公式，这是高考三角题的高频信号。\n\n---\n### 第五步：最终结论·验证复盘\n1. **最终答案**：$\\boxed{C}$，和参考答案一致。\n2. **复盘总结**：三种方法适配不同水平的学生，基础差就用全展开，细心就能做；熟练的用配凑法节省时间；选择题优先用特殊值法，10秒即可秒杀。核心要记住两个技巧：三角变换优先看角的配凑，再考虑全展开；$\\sin x+\\cos x$ 固定用辅助角公式化简。"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "20260321134440",
+  "created_at": "2026-03-21 13:44:40",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321134431_947ca416.png",
+        "display": "center",
+        "width": 400,
+        "height": "auto"
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "richtext",
+        "content": "D",
+        "fragments": [
+          {
+            "text": "D",
+            "underline": false
+          }
+        ]
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "thinking_processes": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "thinking_content": "# 题目思考过程全还原（数学·三角函数）\n---\n## 第一步：审题拆解·锚定核心\n### 1. 条件拆解\n- **显性条件**：已知 $\\boldsymbol{\\cos\\left(\\frac{\\pi}{4}-\\alpha\\right)=\\frac{3}{5}}$，目标求 $\\sin2\\alpha$\n- **隐藏关联**：已知角 $\\frac{\\pi}{4}-\\alpha$ 和所求角 $2\\alpha$ 存在固定数量关系：$2\\times\\left(\\frac{\\pi}{4}-\\alpha\\right)=\\frac{\\pi}{2}-2\\alpha$，二者为互余关系的变形\n### 2. 求解目标\n求 $2\\alpha$ 的正弦值，本质是考察不同角度之间的三角函数转换能力\n### 3. 考点预判\n核心考点为**三角恒等变换**，具体覆盖：两角和差公式、同角三角函数平方关系、诱导公式、二倍角公式，是高考三角函数模块的高频基础考点，命题意图是考察学生的角度配凑思维。\n---\n## 第二步：思路预判·试错路径还原\n### 1. 学生第一反应的初始思路\n大部分学生拿到题第一时间会想到用**两角差的余弦公式展开已知条件**，因为刚学两角和差公式时，遇到带括号的三角函数第一反应就是展开：\n$\\cos\\left(\\frac{\\pi}{4}-\\alpha\\right)=\\cos\\frac{\\pi}{4}\\cos\\alpha+\\sin\\frac{\\pi}{4}\\sin\\alpha=\\frac{\\sqrt{2}}{2}(\\cos\\alpha+\\sin\\alpha)=\\frac{3}{5}$\n### 2. 常见试错弯路\n很多学生展开得到 $\\cos\\alpha+\\sin\\alpha=\\frac{3\\sqrt{2}}{5}$ 后，会尝试单独求解 $\\sin\\alpha$ 或 $\\cos\\alpha$ 的值，再代入二倍角公式计算，这个思路的问题是：\n- 需要讨论 $\\alpha$ 的象限，计算量大，非常容易搞混符号\n- 完全没必要求解单个三角函数值，属于绕路走的无效思路\n### 3. 思路调整方向\n不需要拆分单角，要么直接对 $\\cos\\alpha+\\sin\\alpha$ 平方直接关联 $\\sin2\\alpha$，要么直接配凑已知角和所求角的关系，用诱导公式+二倍角一步转换，两个方向都是可行的。\n---\n## 第三步：多解法分支·分层拆解\n### 解法1：基础通法·展开平方法\n#### 适用场景\n所有已知两角和差的正弦/余弦，求二倍角的题型，基础薄弱的学生都能掌握\n#### 核心逻辑\n利用平方关系 $(\\sin\\alpha\\pm\\cos\\alpha)^2=1\\pm\\sin2\\alpha$，直接关联单角和与二倍角的关系，不需要额外配凑角度\n#### 解题步骤\n1. 展开已知条件：\n根据**两角差的余弦公式 $\\cos(A-B)=\\cos A\\cos B+\\sin A\\sin B$**，得：\n$\\cos\\left(\\frac{\\pi}{4}-\\alpha\\right)=\\frac{\\sqrt{2}}{2}(\\cos\\alpha+\\sin\\alpha)=\\frac{3}{5}$\n2. 整理得单角和：\n两边同乘 $\\sqrt{2}$，得 $\\cos\\alpha+\\sin\\alpha=\\frac{3\\sqrt{2}}{5}$\n3. 平方关联二倍角：\n两边平方，根据**同角平方关系 $\\sin^2x+\\cos^2x=1$、二倍角正弦公式 $\\sin2x=2\\sin x\\cos x$**，左边展开为：\n$(\\cos\\alpha+\\sin\\alpha)^2=\\cos^2\\alpha+2\\sin\\alpha\\cos\\alpha+\\sin^2\\alpha=1+\\sin2\\alpha$\n4. 计算结果：\n右边平方得 $\\left(\\frac{3\\sqrt{2}}{5}\\right)^2=\\frac{18}{25}$，因此：\n$1+\\sin2\\alpha=\\frac{18}{25}\\implies\\sin2\\alpha=\\frac{18}{25}-1=-\\frac{7}{25}$\n---\n### 解法2：巧思巧解·角度配凑法\n#### 适用场景\n已知角和所求角存在倍数、互余/互补关系的题型，计算更快，不易出错\n#### 核心逻辑\n把所求角用已知角表示，直接用诱导公式+二倍角公式转换，不需要展开拆分角度\n#### 解题步骤\n1. 配凑角度关系：\n设已知角 $\\theta=\\frac{\\pi}{4}-\\alpha$，则 $2\\theta=\\frac{\\pi}{2}-2\\alpha$，因此 $2\\alpha=\\frac{\\pi}{2}-2\\theta$\n2. 诱导公式转换：\n根据**诱导公式 $\\sin\\left(\\frac{\\pi}{2}-x\\right)=\\cos x$**，得：\n$\\sin2\\alpha=\\sin\\left(\\frac{\\pi}{2}-2\\theta\\right)=\\cos2\\theta$\n3. 二倍角公式计算：\n已知 $\\cos\\theta=\\frac{3}{5}$，根据**余弦二倍角公式 $\\cos2x=2\\cos^2x-1$**，代入得：\n$\\cos2\\theta=2\\times\\left(\\frac{3}{5}\\right)^2-1=2\\times\\frac{9}{25}-1=\\frac{18}{25}-1=-\\frac{7}{25}$\n---\n### 解法3：应试秒杀·特殊值法\n#### 适用场景\n选择题、填空题不需要写过程的情况，10秒出答案\n#### 核心逻辑\n取满足已知条件的特殊角度，直接代入计算即可，不需要推导通用关系\n#### 解题步骤\n1. 令 $\\frac{\\pi}{4}-\\alpha=\\beta$，取 $\\beta$ 为锐角，满足 $\\cos\\beta=\\frac{3}{5}$，则 $\\alpha=\\frac{\\pi}{4}-\\beta$\n2. 代入所求：$\\sin2\\alpha=\\sin\\left(2\\times\\left(\\frac{\\pi}{4}-\\beta\\right)\\right)=\\sin\\left(\\frac{\\pi}{2}-2\\beta\\right)=\\cos2\\beta=2\\times\\left(\\frac{3}{5}\\right)^2-1=-\\frac{7}{25}$\n---\n## 第四步：易错点与难点应对\n### 1. 高频易错点\n- **符号混淆**：90%的错误是把二倍角公式/诱导公式记反，比如把 $\\cos2x=2\\cos^2x-1$ 记成 $1-2\\cos^2x$，或者诱导公式 $\\sin(\\frac{\\pi}{2}-x)=\\cos x$ 记成负的，就会误选A选项 $\\frac{7}{25}$\n  规避方法：记公式时结合特殊值验证，比如代入 $x=0$ 看等号两边是否相等\n- **角度配凑错误**：把 $2\\alpha$ 和已知角的关系搞反，比如写成 $2\\alpha=2\\theta+\\frac{\\pi}{2}$，符号就会出错\n  规避方法：配凑后展开核对，确认消掉中间变量后和所求角一致\n### 2. 思维难点应对\n怎么快速找已知角和所求角的关系？通用破题方法：\n把已知角设为 $\\theta$，所求角设为 $\\varphi$，尝试凑 $\\varphi=k\\theta + b$（$k$ 通常为±1/±2，$b$ 为 $\\frac{\\pi}{2}、\\pi$ 类特殊角），消掉公共变量即可，不用硬想角度关系。\n---\n## 第五步：最终结论·验证复盘\n### 1. 最终结果\n$\\sin2\\alpha=-\\frac{7}{25}$，对应选项D，和参考答案一致，无疏漏。\n### 2. 复盘总结\n这类\"已知和差角三角函数求二倍角\"的题，核心思路是**不要硬拆单角**，优先走两个方向：要么对单角和/差平方，要么配凑角度用诱导公式+二倍角转换，选择题优先用特殊值法秒杀，正确率最高。"
+    }
+  ]
+}

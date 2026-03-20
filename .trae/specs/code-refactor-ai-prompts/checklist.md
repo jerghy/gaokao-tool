@@ -1,0 +1,28 @@
+# Checklist
+
+- [x] ai/ 目录结构创建完成，包含 __init__.py
+- [x] ai/prompts.py 包含3个提示词函数
+  - [x] get_neural_reaction_prompt() 返回正确字符串
+  - [x] get_preprocessing_prompt_v2() 返回正确字符串
+  - [x] get_evaluation_prompt() 返回正确字符串
+- [x] ai/loader.py 功能完整
+  - [x] ProcessedQuestion dataclass 正确定义
+  - [x] load_question_by_id 函数可正常调用
+- [x] ai/preprocessor.py 功能完整
+  - [x] QuestionAnalysis dataclass 正确定义
+  - [x] generate_question_analysis 调用 prompts.get_preprocessing_prompt_v2()
+  - [x] preprocess_and_save 可保存结果
+- [x] ai/evaluator.py 功能完整
+  - [x] QualityEvaluation dataclass 正确定义
+  - [x] evaluate_question_quality 调用 prompts.get_evaluation_prompt()
+  - [x] evaluate_and_save 可保存结果
+- [x] ai/batch_processor.py 功能完整
+  - [x] batch_process 函数可正常调用
+  - [x] 支持 tags 筛选功能
+- [x] ai/__init__.py 正确导出所有公共接口
+- [x] 原有5个Python文件已删除
+  - [x] question_preprocessor.py 已删除
+  - [x] question_preprocessor_v2.py 已删除
+  - [x] question_loader.py 已删除
+  - [x] question_evaluator.py 已删除
+  - [x] batch_preprocess.py 已删除

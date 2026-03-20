@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>错题打印</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/mhchem.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -443,6 +445,285 @@
             color: #27ae60;
         }
 
+        .thinking-process {
+            margin-top: 3mm;
+            padding-top: 2mm;
+            border-top: 2px solid #8e44ad;
+            font-size: 10pt;
+            line-height: 1.5;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .tp-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2mm;
+        }
+
+        .tp-label {
+            display: inline-block;
+            background: #8e44ad;
+            color: white;
+            padding: 1px 4px;
+            font-weight: bold;
+            font-size: 9pt;
+            margin-right: 2mm;
+        }
+
+        .tp-target {
+            color: #666;
+            font-size: 9pt;
+        }
+
+        .tp-content {
+            color: #222;
+            font-size: 9pt;
+            line-height: 1.4;
+        }
+
+        .tp-content > * {
+            margin: 1mm 0;
+        }
+
+        .tp-content h1 {
+            font-size: 11pt;
+            color: #2c3e50;
+            margin: 1.5mm 0 1mm;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 1mm;
+        }
+
+        .tp-content h2 {
+            font-size: 10.5pt;
+            color: #34495e;
+            margin: 1mm 0 0.5mm;
+            font-weight: bold;
+        }
+
+        .tp-content h3 {
+            font-size: 10pt;
+            color: #2c3e50;
+            margin: 1mm 0 0.5mm;
+            font-weight: bold;
+        }
+
+        .tp-content h4 {
+            font-size: 10pt;
+            color: #34495e;
+            margin: 1mm 0 0.5mm;
+            font-weight: bold;
+        }
+
+        .tp-content hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 2mm 0;
+        }
+
+        .tp-content p {
+            margin: 1mm 0;
+        }
+
+        .tp-content ul, .tp-content ol {
+            margin: 0.5mm 0;
+            padding-left: 4mm;
+        }
+
+        .tp-content li {
+            margin: 0.3mm 0;
+            font-size: 9pt;
+        }
+
+        .tp-content strong {
+            color: #c0392b;
+            font-weight: bold;
+        }
+
+        .tp-content em {
+            color: #8e44ad;
+            font-style: italic;
+        }
+
+        .tp-content code {
+            background: #f5f5f5;
+            padding: 0 2px;
+            font-family: monospace;
+            font-size: 9pt;
+        }
+
+        .tp-content pre {
+            background: #f5f5f5;
+            padding: 2mm;
+            overflow-x: auto;
+            font-size: 9pt;
+        }
+
+        .tp-content pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .tp-content blockquote {
+            border-left: 3px solid #8e44ad;
+            margin: 1mm 0;
+            padding-left: 3mm;
+            color: #555;
+        }
+
+        .tp-content table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1mm 0;
+        }
+
+        .tp-content table, .tp-content th, .tp-content td {
+            border: 1px solid #ddd;
+            padding: 1mm 2mm;
+        }
+
+        .tp-content th {
+            background: #f5f5f5;
+        }
+
+        .immersion-thinking {
+            margin-top: 3mm;
+            padding-top: 2mm;
+            border-top: 2px solid #e74c3c;
+            font-size: 10pt;
+            line-height: 1.5;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .it-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2mm;
+        }
+
+        .it-label {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 1px 4px;
+            font-weight: bold;
+            font-size: 9pt;
+            margin-right: 2mm;
+        }
+
+        .it-content {
+            color: #222;
+            font-size: 9pt;
+            line-height: 1.4;
+        }
+
+        .it-content > * {
+            margin: 1mm 0;
+        }
+
+        .it-content h1 {
+            font-size: 11pt;
+            color: #2c3e50;
+            margin: 1.5mm 0 1mm;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 1mm;
+        }
+
+        .it-content h2 {
+            font-size: 10.5pt;
+            color: #34495e;
+            margin: 1mm 0 0.5mm;
+            font-weight: bold;
+        }
+
+        .it-content h3 {
+            font-size: 10pt;
+            color: #2c3e50;
+            margin: 1mm 0 0.5mm;
+            font-weight: bold;
+        }
+
+        .it-content h4 {
+            font-size: 10pt;
+            color: #34495e;
+            margin: 1mm 0 0.5mm;
+            font-weight: bold;
+        }
+
+        .it-content hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 2mm 0;
+        }
+
+        .it-content p {
+            margin: 1mm 0;
+        }
+
+        .it-content ul, .it-content ol {
+            margin: 0.5mm 0;
+            padding-left: 4mm;
+        }
+
+        .it-content li {
+            margin: 0.3mm 0;
+            font-size: 9pt;
+        }
+
+        .it-content strong {
+            color: #c0392b;
+            font-weight: bold;
+        }
+
+        .it-content em {
+            color: #8e44ad;
+            font-style: italic;
+        }
+
+        .it-content code {
+            background: #f5f5f5;
+            padding: 0 2px;
+            font-family: monospace;
+            font-size: 9pt;
+        }
+
+        .it-content pre {
+            background: #f5f5f5;
+            padding: 2mm;
+            overflow-x: auto;
+            font-size: 9pt;
+        }
+
+        .it-content pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .it-content blockquote {
+            border-left: 3px solid #e74c3c;
+            margin: 1mm 0;
+            padding-left: 3mm;
+            color: #555;
+        }
+
+        .it-content table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1mm 0;
+        }
+
+        .it-content table, .it-content th, .it-content td {
+            border: 1px solid #ddd;
+            padding: 1mm 2mm;
+        }
+
+        .it-content th {
+            background: #f5f5f5;
+        }
+
         .underline-space {
             text-decoration: underline;
             text-underline-offset: 2px;
@@ -583,7 +864,11 @@
             .nr-section,
             .nr-text,
             .qa-section,
-            .qa-text {
+            .qa-text,
+            .thinking-process,
+            .tp-content,
+            .immersion-thinking,
+            .it-content {
                 orphans: 3;
                 widows: 3;
             }
@@ -591,7 +876,11 @@
             .question-content,
             .neural-reaction,
             .answer-block,
-            .nr-text {
+            .nr-text,
+            .thinking-process,
+            .tp-content,
+            .immersion-thinking,
+            .it-content {
                 word-wrap: break-word;
                 overflow-wrap: break-word;
             }
@@ -690,7 +979,7 @@
 
         async function loadQuestions() {
             try {
-                const response = await fetch('/api/questions');
+                const response = await fetch('/api/questions?page=1&page_size=10000');
                 const data = await response.json();
                 questions = data.questions || [];
 
@@ -1122,41 +1411,41 @@
 
         function renderLatex(text) {
             if (!text || typeof text !== 'string') return text;
-            
+
             let result = text;
-            
+
             result = result.replace(/\$\$([\s\S]*?)\$\$/g, (match, formula) => {
                 try {
-                    return katex.renderToString(formula.trim(), { displayMode: true, throwOnError: false });
+                    return katex.renderToString(formula.trim(), { displayMode: true, throwOnError: false, trust: true });
                 } catch (e) {
                     return match;
                 }
             });
-            
+
             result = result.replace(/\\\(([\s\S]*?)\\\)/g, (match, formula) => {
                 try {
-                    return katex.renderToString(formula.trim(), { displayMode: true, throwOnError: false });
+                    return katex.renderToString(formula.trim(), { displayMode: true, throwOnError: false, trust: true });
                 } catch (e) {
                     return match;
                 }
             });
-            
+
             result = result.replace(/\$([^\$\n]+?)\$/g, (match, formula) => {
                 try {
-                    return katex.renderToString(formula.trim(), { displayMode: false, throwOnError: false });
+                    return katex.renderToString(formula.trim(), { displayMode: false, throwOnError: false, trust: true });
                 } catch (e) {
                     return match;
                 }
             });
-            
+
             result = result.replace(/\\\[([\s\S]*?)\\\]/g, (match, formula) => {
                 try {
-                    return katex.renderToString(formula.trim(), { displayMode: true, throwOnError: false });
+                    return katex.renderToString(formula.trim(), { displayMode: true, throwOnError: false, trust: true });
                 } catch (e) {
                     return match;
                 }
             });
-            
+
             return result;
         }
 
@@ -1352,7 +1641,7 @@
         function renderQuestionAnalysis(qa) {
             if (!qa) return '';
             let html = '<div class="question-analysis">';
-            
+
             if (qa.question_basic_info) {
                 const info = qa.question_basic_info;
                 html += '<div class="qa-section"><span class="qa-section-title">题目基本信息</span>';
@@ -1361,7 +1650,7 @@
                 if (info.core_examination_points) html += '<div class="qa-text"><span class="qa-label">考点:</span> ' + processTextWithLatex(info.core_examination_points) + '</div>';
                 html += '</div>';
             }
-            
+
             if (qa.module_1_basic_model_analysis) {
                 const m1 = qa.module_1_basic_model_analysis;
                 html += '<div class="qa-section"><span class="qa-section-title">基础模型分析</span>';
@@ -1371,7 +1660,7 @@
                 if (m1.suitable_practice_stage) html += '<div class="qa-text"><span class="qa-label">适用阶段:</span> ' + processTextWithLatex(m1.suitable_practice_stage) + '</div>';
                 html += '</div>';
             }
-            
+
             if (qa.module_2_student_trial_error_analysis && qa.module_2_student_trial_error_analysis.length > 0) {
                 html += '<div class="qa-section"><span class="qa-section-title">学生试错分析</span>';
                 qa.module_2_student_trial_error_analysis.forEach(item => {
@@ -1386,24 +1675,24 @@
                 });
                 html += '</div>';
             }
-            
+
             if (qa.module_3_multi_dimensional_solution_analysis) {
                 const m3 = qa.module_3_multi_dimensional_solution_analysis;
                 html += '<div class="qa-section"><span class="qa-section-title">多维解题分析</span>';
-                
+
                 if (m3.entry_level_must_learn) {
                     html += '<div class="qa-item"><span class="qa-subsection-title">入门必学</span>';
                     if (m3.entry_level_must_learn.solution_path) html += '<div class="qa-text">' + processTextWithLatex(m3.entry_level_must_learn.solution_path) + '</div>';
                     if (m3.entry_level_must_learn.time_allocation_suggestion) html += '<div class="qa-text" style="color:#666;">' + processTextWithLatex(m3.entry_level_must_learn.time_allocation_suggestion) + '</div>';
                     html += '</div>';
                 }
-                
+
                 if (m3.basic_consolidation) {
                     html += '<div class="qa-item"><span class="qa-subsection-title">基础巩固</span>';
                     if (m3.basic_consolidation.solution_path) html += '<div class="qa-text">' + processTextWithLatex(m3.basic_consolidation.solution_path) + '</div>';
                     html += '</div>';
                 }
-                
+
                 if (m3.advanced_improvement) {
                     html += '<div class="qa-item"><span class="qa-subsection-title">进阶提升</span>';
                     if (m3.advanced_improvement.solution_path) html += '<div class="qa-text">' + processTextWithLatex(m3.advanced_improvement.solution_path) + '</div>';
@@ -1412,18 +1701,18 @@
                 }
                 html += '</div>';
             }
-            
+
             if (qa.module_4_neural_stimulus_trigger_points) {
                 const m4 = qa.module_4_neural_stimulus_trigger_points;
                 html += '<div class="qa-section"><span class="qa-section-title">神经刺激触发点</span>';
-                
+
                 const triggerCategories = [
                     { key: '考点锚定触发线索', title: '考点锚定' },
                     { key: '隐藏信息解码触发线索', title: '隐藏信息解码' },
                     { key: '易错坑点预警触发线索', title: '易错坑点预警' },
                     { key: '同类题迁移触发线索', title: '同类题迁移' }
                 ];
-                
+
                 triggerCategories.forEach(cat => {
                     if (m4[cat.key] && m4[cat.key].length > 0) {
                         html += '<div class="qa-item"><span class="qa-subsection-title">' + cat.title + '</span>';
@@ -1435,9 +1724,60 @@
                 });
                 html += '</div>';
             }
-            
+
             html += '</div>';
             return html;
+        }
+
+        function renderImmersionThinking(it) {
+            if (!it || it.length === 0) return '';
+            let html = '<div class="immersion-thinking">';
+            it.forEach((process, index) => {
+                if (index > 0) {
+                    html += '<div style="border-top: 1px dashed #ccc; margin-top: 2mm; padding-top: 2mm;"></div>';
+                }
+                html += '<div class="it-header">';
+                html += '<span class="it-label">沉浸式思考</span>';
+                html += '</div>';
+                html += '<div class="it-content">' + marked.parse(process.thinking_content || process) + '</div>';
+            });
+            html += '</div>';
+            return html;
+        }
+
+        function renderThinkingProcesses(tp) {
+            if (!tp || tp.length === 0) return '';
+            let html = '<div class="thinking-process">';
+            tp.forEach((process, index) => {
+                if (index > 0) {
+                    html += '<div style="border-top: 1px dashed #ccc; margin-top: 2mm; padding-top: 2mm;"></div>';
+                }
+                html += '<div class="tp-header">';
+                html += '<span class="tp-label">解题思考过程</span>';
+                if (process.target_label && process.target_label !== '整个题目') {
+                    html += '<span class="tp-target">' + escapeHtml(process.target_label) + '</span>';
+                }
+                html += '</div>';
+                html += '<div class="tp-content">' + marked.parse(process.thinking_content) + '</div>';
+            });
+            html += '</div>';
+            const container = document.createElement('div');
+            container.innerHTML = html;
+            container.querySelectorAll('.tp-content').forEach(el => {
+                if (typeof renderMathInElement === 'function') {
+                    renderMathInElement(el, {
+                        delimiters: [
+                            {left: '$$', right: '$$', display: true},
+                            {left: '$', right: '$', display: false},
+                            {left: '\\[', right: '\\]', display: true},
+                            {left: '\\(', right: '\\)', display: false}
+                        ],
+                        trust: true,
+                        throwOnError: false
+                    });
+                }
+            });
+            return container.innerHTML;
         }
 
         function renderPreview() {
@@ -1473,16 +1813,33 @@
 <div class="a4-page">
 <div class="page-header"><div class="page-title">错题练习</div><div class="page-info">第 ${pageIndex + 1} 页 / 共 ${pages.length} 页</div></div>
 <div class="questions-grid ${layout === 'double' ? 'double-column' : 'single-column'}">
-${pageQuestions.map(q => `<div class="question-block"><div class="question-content"><span class="question-id">${q.id}</span>${renderItemsInline(q.question?.items)}</div>${renderNeuralReaction(q.neural_reaction)}${q.answer?.items?.length > 0 ? `<div class="answer-block"><span class="answer-header">答案:</span><span class="answer-content">${renderItemsInline(q.answer.items)}</span></div>` : ''}${renderQuestionAnalysis(q.question_analysis)}</div>`).join('')}
+${pageQuestions.map(q => `<div class="question-block"><div class="question-content"><span class="question-id">${q.id}</span>${renderItemsInline(q.question?.items)}</div>${renderNeuralReaction(q.neural_reaction)}${renderQuestionAnalysis(q.question_analysis)}${renderThinkingProcesses(q.thinking_processes)}${renderImmersionThinking(q.immersion_thinking)}${q.answer?.items?.length > 0 ? `<div class="answer-block"><span class="answer-header">答案:</span><span class="answer-content">${renderItemsInline(q.answer.items)}</span></div>` : ''}</div>`).join('')}
 </div>
 </div>
 `).join('');
             } else {
                 container.innerHTML = `
 <div class="print-content ${layout === 'double' ? 'double-column' : ''}">
-${selected.map(q => `<div class="question-block"><div class="question-content"><span class="question-id">${q.id}</span>${renderItemsInline(q.question?.items)}</div>${renderNeuralReaction(q.neural_reaction)}${q.answer?.items?.length > 0 ? `<div class="answer-block"><span class="answer-header">答案:</span><span class="answer-content">${renderItemsInline(q.answer.items)}</span></div>` : ''}${renderQuestionAnalysis(q.question_analysis)}</div>`).join('')}
+${selected.map(q => `<div class="question-block"><div class="question-content"><span class="question-id">${q.id}</span>${renderItemsInline(q.question?.items)}</div>${renderNeuralReaction(q.neural_reaction)}${renderQuestionAnalysis(q.question_analysis)}${renderThinkingProcesses(q.thinking_processes)}${renderImmersionThinking(q.immersion_thinking)}${q.answer?.items?.length > 0 ? `<div class="answer-block"><span class="answer-header">答案:</span><span class="answer-content">${renderItemsInline(q.answer.items)}</span></div>` : ''}</div>`).join('')}
 </div>
 `;
+            }
+            if (typeof renderMathInElement === 'function') {
+                container.querySelectorAll('.tp-content, .it-content').forEach(el => {
+                    renderMathInElement(el, {
+                        delimiters: [
+                            {left: '$$', right: '$$', display: true},
+                            {left: '$', right: '$', display: false},
+                            {left: '\\[', right: '\\]', display: true},
+                            {left: '\\(', right: '\\)', display: false}
+                        ],
+                        trust: true,
+                        throwOnError: false,
+                        macros: {
+                            '\\ce': '\\mathord{\\text{#1}}'
+                        }
+                    });
+                });
             }
         }
 

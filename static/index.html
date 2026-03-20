@@ -698,11 +698,13 @@
             tab.addEventListener('click', () => {
                 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                 document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                
+
                 tab.classList.add('active');
                 const tabName = tab.dataset.tab;
                 document.getElementById(`${tabName}-tab`).classList.add('active');
                 currentTab = tabName;
+                activeMainPaste = tabName;
+                updateMainPasteButtons();
             });
         });
         

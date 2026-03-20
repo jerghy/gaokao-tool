@@ -1,0 +1,38 @@
+{
+  "id": "20260321134514",
+  "created_at": "2026-03-21 13:45:14",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321134458_7317e01b.png",
+        "display": "center",
+        "width": 450,
+        "height": "auto"
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321134506_bbe12c1a.png",
+        "display": "center",
+        "width": 100,
+        "height": "auto"
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "thinking_processes": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "thinking_content": "# 2022浙江高考三角函数填空题思考过程还原\n---\n## 第一步：审题拆解·锚定核心\n### 1. 题干拆解\n- **显性已知条件**：①$3\\sin\\alpha - \\sin\\beta=\\sqrt{10}$；②$\\alpha+\\beta=\\frac{\\pi}{2}$\n- **隐藏条件**：由$\\alpha+\\beta=\\frac{\\pi}{2}$可得$\\beta=\\frac{\\pi}{2}-\\alpha$，结合诱导公式$\\sin(\\frac{\\pi}{2}-x)=\\cos x$，可推出$\\sin\\beta=\\cos\\alpha$，实现双变量消元\n- **易错陷阱**：诱导公式符号记错、二倍角公式混淆、忽略$\\sin\\alpha\\in[-1,1]$的取值范围限制\n### 2. 明确目标\n分两步求解：先求$\\sin\\alpha$，再求$\\cos2\\beta$，核心是先通过消元把双变量转化为单变量求解\n### 3. 考点预判\n核心考查**三角函数诱导公式、同角三角函数平方关系、辅助角公式、二倍角公式**，命题意图是考察三角恒等变换的消元思想和公式熟练度，属于基础拿分题。\n---\n## 第二步：思路预判·试错路径还原\n### 1. 学生常见初始思路（弯路）\n看到$3\\sin\\alpha - \\sin\\beta$的形式，第一反应想用**和差化积公式**展开，但和差化积要求两个正弦项的系数相同，本题系数分别是3和1，无法直接套用，走到这一步直接卡住。\n### 2. 思路调整\n提醒自己还有第二个条件$\\alpha+\\beta=\\frac{\\pi}{2}$，这是特殊的和角关系，属于互余角，优先用诱导公式消元，把$\\beta$全部替换成$\\alpha$的表达式，就能把两个变量变成一个变量，问题就简化为单角的三角函数方程求解。\n---\n## 第三步：多解法分支·分层拆解\n### 解法1：基础通法（代入消元+同角平方关系）\n#### 适用场景：所有三角双变量等式，基础薄弱学生也能掌握，不易出错\n#### 解题过程：\n1. **消元替换**：由$\\alpha+\\beta=\\frac{\\pi}{2}$得$\\beta=\\frac{\\pi}{2}-\\alpha$，根据诱导公式$\\sin(\\frac{\\pi}{2}-\\alpha)=\\cos\\alpha$，得$\\sin\\beta=\\cos\\alpha$，代入第一个等式：\n   $$3\\sin\\alpha - \\cos\\alpha=\\sqrt{10}$$\n   （依据：诱导公式“奇变偶不变，符号看象限”）\n2. **联立平方关系解方程**：把$\\cos\\alpha=3\\sin\\alpha-\\sqrt{10}$代入$\\sin^2\\alpha+\\cos^2\\alpha=1$：\n   $$\\sin^2\\alpha + (3\\sin\\alpha-\\sqrt{10})^2=1$$\n   展开得：$\\sin^2\\alpha +9\\sin^2\\alpha -6\\sqrt{10}\\sin\\alpha +10=1$，合并同类项：\n   $$10\\sin^2\\alpha -6\\sqrt{10}\\sin\\alpha +9=0$$\n   （依据：同角三角函数基本平方关系）\n3. **求解$\\sin\\alpha$**：上式是完全平方式$(\\sqrt{10}\\sin\\alpha -3)^2=0$，解得$\\sin\\alpha=\\frac{3}{\\sqrt{10}}=\\frac{3\\sqrt{10}}{10}$，验证取值：$\\frac{3\\sqrt{10}}{10}\\approx0.948\\in[-1,1]$，符合要求。\n4. **求$\\cos2\\beta$**：先算$\\sin\\beta=3\\sin\\alpha-\\sqrt{10}=\\frac{9\\sqrt{10}}{10}-\\sqrt{10}=-\\frac{\\sqrt{10}}{10}$，代入二倍角公式$\\cos2\\beta=1-2\\sin^2\\beta$：\n   $$\\cos2\\beta=1-2\\times(\\frac{1}{10})=\\frac{4}{5}$$\n   （依据：余弦二倍角公式）\n---\n### 解法2：巧思巧解（辅助角公式秒杀）\n#### 适用场景：遇到$A\\sin x+B\\cos x=C$的形式，计算速度更快，适合小题秒杀\n#### 解题过程：\n1. 消元步骤和通法一致，得到$3\\sin\\alpha - \\cos\\alpha=\\sqrt{10}$\n2. **辅助角公式化简**：左边变形为$\\sqrt{3^2+(-1)^2}\\sin(\\alpha-\\varphi)=\\sqrt{10}\\sin(\\alpha-\\varphi)$，其中$\\tan\\varphi=\\frac{1}{3}$，因此等式变为：\n   $$\\sqrt{10}\\sin(\\alpha-\\varphi)=\\sqrt{10}\\implies\\sin(\\alpha-\\varphi)=1$$\n   （依据：辅助角公式$a\\sin x+b\\cos x=\\sqrt{a^2+b^2}\\sin(x+\\theta)$）\n3. **直接求$\\sin\\alpha$**：$\\sin(\\alpha-\\varphi)=1$说明$\\alpha-\\varphi=\\frac{\\pi}{2}+2k\\pi$，因此$\\alpha=\\frac{\\pi}{2}+\\varphi+2k\\pi$，结合诱导公式$\\sin(\\frac{\\pi}{2}+\\varphi)=\\cos\\varphi$，由$\\tan\\varphi=\\frac{1}{3}$得$\\cos\\varphi=\\frac{3}{\\sqrt{10}}=\\frac{3\\sqrt{10}}{10}$，直接得出$\\sin\\alpha=\\frac{3\\sqrt{10}}{10}$，比解二次方程快2倍以上。\n4. $\\cos2\\beta$的计算可复用通法步骤，结果一致。\n---\n## 第四步：易错点与难点应对\n### 1. 高频易错点\n| 错误做法 | 错误原因 | 规避方法 |\n| --- | --- | --- |\n| 把$\\sin(\\frac{\\pi}{2}-\\alpha)$记成$\\sin\\alpha$ | 诱导公式混淆 | 牢记口诀“奇变偶不变，符号看象限”，$\\frac{\\pi}{2}$是$\\frac{\\pi}{2}$的奇数倍，所以$\\sin$要变$\\cos$ |\n| 二倍角公式记错为$\\cos2\\beta=2\\sin^2\\beta-1$，算出结果为$-\\frac{4}{5}$ | 二倍角符号记混 | 区分三个余弦二倍角公式：$\\cos2\\beta=\\cos^2\\beta-\\sin^2\\beta=1-2\\sin^2\\beta=2\\cos^2\\beta-1$，记清楚减号位置 |\n| 辅助角公式符号搞错，把$\\tan\\varphi$写成$-\\frac{1}{3}$ | 辅助角标准形式混淆 | 怕出错就优先用通法解二次方程，虽然慢但不会错 |\n### 2. 思维难点破题方法\n以后只要看到**两个角的和/差是$\\frac{\\pi}{2}、\\pi$这类特殊角**，第一反应就是用诱导公式消元，把多变量转化为单变量，这是三角恒等变换的通用消元逻辑，90%的这类题都可以用这个思路破题。\n---\n## 第五步：最终结论·验证复盘\n### 最终答案\n$\\sin\\alpha=\\boldsymbol{\\frac{3\\sqrt{10}}{10}}$，$\\cos2\\beta=\\boldsymbol{\\frac{4}{5}}$，和参考答案完全一致。\n### 复盘总结\n这道题的核心是**消元思想**，利用互余角的诱导公式把双变量转单变量，再用方程求解。小题优先用辅助角公式秒杀，大题优先用通法保证得分，计算完一定要验证三角函数的取值范围，避免出现超出定义域的错误解。"
+    }
+  ]
+}

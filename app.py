@@ -116,6 +116,9 @@ def save_question():
             question_data['answer'] = data.get('answer', question_data.get('answer', {'items': []}))
             question_data['tags'] = new_tags
             question_data['sub_questions'] = data.get('sub_questions', [])
+            for field in ['question_analysis', 'thinking_processes', 'neural_reaction', 'immersion_thinking']:
+                if field in question_data:
+                    del question_data[field]
         else:
             created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             question_data = {
@@ -157,6 +160,9 @@ def get_tags():
 @app.route('/api/questions', methods=['GET'])
 def get_questions():
     try:
+        page = request.args.get('page', 1, type=int)
+        page_size = request.args.get('page_size', 50, type=int)
+
         questions = []
         for filename in sorted(os.listdir(DATA_DIR), reverse=True):
             if filename.endswith('.json'):
@@ -164,8 +170,19 @@ def get_questions():
                 with open(filepath, 'r', encoding='utf-8') as f:
                     data = json.load(f)
                     questions.append(data)
-        
-        return jsonify({'questions': questions})
+
+        total = len(questions)
+        start = (page - 1) * page_size
+        end = start + page_size
+        paginated = questions[start:end]
+
+        return jsonify({
+            'questions': paginated,
+            'total': total,
+            'page': page,
+            'page_size': page_size,
+            'total_pages': (total + page_size - 1) // page_size
+        })
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

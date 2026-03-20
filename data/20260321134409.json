@@ -1,0 +1,41 @@
+{
+  "id": "20260321134409",
+  "created_at": "2026-03-21 13:44:09",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321134356_12ba52aa.png",
+        "display": "center",
+        "width": 400,
+        "height": "auto"
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "richtext",
+        "content": "C",
+        "fragments": [
+          {
+            "text": "C",
+            "underline": false
+          }
+        ]
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "thinking_processes": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "thinking_content": "---\n### 第一步：审题拆解·锚定核心\n#### 1. 条件拆解\n- 显性已知：$\\boldsymbol{\\tan\\alpha=2\\tan\\frac{\\pi}{5}}$\n- 隐藏角度关系：$\\frac{3\\pi}{10}+\\frac{\\pi}{5}=\\frac{\\pi}{2}$，即$\\frac{3\\pi}{10}$与$\\frac{\\pi}{5}$互余，可通过诱导公式互相转换，这是90%的学生容易忽略的关键信息。\n- 易错陷阱：两角和差公式的符号、诱导公式的函数名/符号记错。\n#### 2. 求解目标\n求$\\frac{\\cos\\left(\\alpha-\\frac{3\\pi}{10}\\right)}{\\sin\\left(\\alpha-\\frac{\\pi}{5}\\right)}$的比值，核心是消去未知角$\\alpha$，用已知的$\\frac{\\pi}{5}$的三角函数表示。\n#### 3. 考点预判\n核心考察**三角恒等变换（两角和差公式、诱导公式）、同角三角函数基本关系（切化弦/弦化切）**，命题意图是考察学生对角度关联的敏感度，以及消元化简的能力。\n---\n### 第二步：思路预判·试错路径还原\n#### 1. 学生第一反应的初始思路\n看到已知正切、求弦的比值，第一反应是：把分子分母用两角差公式展开，再把$\\tan\\alpha$切化弦，代入后消去$\\alpha$的三角函数。\n#### 2. 试错卡点\n很多学生展开后看到陌生角度$\\frac{3\\pi}{10}$，会误以为需要计算它的具体数值，直接卡住，不知道$\\frac{3\\pi}{10}$和已知的$\\frac{\\pi}{5}$互余，可以转换。\n#### 3. 思路调整\n先观察所有角度的和差关系：$\\frac{3\\pi}{10}=\\frac{\\pi}{2}-\\frac{\\pi}{5}$，用诱导公式把$\\frac{3\\pi}{10}$的三角函数全部转换成$\\frac{\\pi}{5}$的三角函数，就可以统一角度，再代入切化弦的关系消去$\\alpha$。\n---\n### 第三步：多解法分支·分层拆解\n#### 解法1：基础通法（展开+切化弦+角度转换）\n- 适用场景：所有切弦混合的三角比值题，通用性最强，不需要特殊技巧。\n- 解题过程：\n  1. 先用两角差公式展开分子分母：\n     分子：$\\cos\\left(\\alpha-\\frac{3\\pi}{10}\\right)=\\cos\\alpha\\cos\\frac{3\\pi}{10}+\\sin\\alpha\\sin\\frac{3\\pi}{10}$，依据：两角差余弦公式$\\cos(A-B)=\\cos A\\cos B+\\sin A\\sin B$。\n     分母：$\\sin\\left(\\alpha-\\frac{\\pi}{5}\\right)=\\sin\\alpha\\cos\\frac{\\pi}{5}-\\cos\\alpha\\sin\\frac{\\pi}{5}$，依据：两角差正弦公式$\\sin(A-B)=\\sin A\\cos B-\\cos A\\sin B$。\n  2. 利用角度互余转换：\n     因为$\\frac{3\\pi}{10}=\\frac{\\pi}{2}-\\frac{\\pi}{5}$，所以$\\cos\\frac{3\\pi}{10}=\\sin\\frac{\\pi}{5}$，$\\sin\\frac{3\\pi}{10}=\\cos\\frac{\\pi}{5}$，依据：诱导公式$\\cos(\\frac{\\pi}{2}-x)=\\sin x$，$\\sin(\\frac{\\pi}{2}-x)=\\cos x$。\n     代入分子得：$\\cos\\alpha\\sin\\frac{\\pi}{5}+\\sin\\alpha\\cos\\frac{\\pi}{5}$。\n  3. 切化弦代入已知条件：\n     由$\\tan\\alpha=2\\tan\\frac{\\pi}{5}$得$\\frac{\\sin\\alpha}{\\cos\\alpha}=2\\cdot\\frac{\\sin\\frac{\\pi}{5}}{\\cos\\frac{\\pi}{5}}$，交叉相乘得：$\\sin\\alpha\\cos\\frac{\\pi}{5}=2\\cos\\alpha\\sin\\frac{\\pi}{5}$ ①。\n  4. 代入化简：\n     分子：$\\cos\\alpha\\sin\\frac{\\pi}{5}+\\sin\\alpha\\cos\\frac{\\pi}{5}=\\cos\\alpha\\sin\\frac{\\pi}{5}+2\\cos\\alpha\\sin\\frac{\\pi}{5}=3\\cos\\alpha\\sin\\frac{\\pi}{5}$。\n     分母：$\\sin\\alpha\\cos\\frac{\\pi}{5}-\\cos\\alpha\\sin\\frac{\\pi}{5}=2\\cos\\alpha\\sin\\frac{\\pi}{5}-\\cos\\alpha\\sin\\frac{\\pi}{5}=\\cos\\alpha\\sin\\frac{\\pi}{5}$。\n  5. 约分得：$\\frac{3\\cos\\alpha\\sin\\frac{\\pi}{5}}{\\cos\\alpha\\sin\\frac{\\pi}{5}}=3$。\n---\n#### 解法2：巧思巧解（弦化切+直接代入）\n- 适用场景：分子分母为同次弦的比值，可直接转换为正切计算，速度更快。\n- 解题过程：\n  1. 先对分子做诱导公式转换：\n     $\\cos\\left(\\alpha-\\frac{3\\pi}{10}\\right)=\\cos\\left(\\left(\\alpha+\\frac{\\pi}{5}\\right)-\\frac{\\pi}{2}\\right)=\\sin\\left(\\alpha+\\frac{\\pi}{5}\\right)$，依据：$\\cos(x-\\frac{\\pi}{2})=\\sin x$。\n     原式简化为：$\\frac{\\sin\\left(\\alpha+\\frac{\\pi}{5}\\right)}{\\sin\\left(\\alpha-\\frac{\\pi}{5}\\right)}$。\n  2. 展开分子分母，同除余弦弦化切：\n     分子：$\\sin\\left(\\alpha+\\frac{\\pi}{5}\\right)=\\sin\\alpha\\cos\\frac{\\pi}{5}+\\cos\\alpha\\sin\\frac{\\pi}{5}$\n     分母：$\\sin\\left(\\alpha-\\frac{\\pi}{5}\\right)=\\sin\\alpha\\cos\\frac{\\pi}{5}-\\cos\\alpha\\sin\\frac{\\pi}{5}$\n     分子分母同时除以$\\cos\\alpha\\cos\\frac{\\pi}{5}$得：$\\frac{\\tan\\alpha + \\tan\\frac{\\pi}{5}}{\\tan\\alpha - \\tan\\frac{\\pi}{5}}$。\n  3. 代入$\\tan\\alpha=2\\tan\\frac{\\pi}{5}$：\n     原式=$\\frac{2\\tan\\frac{\\pi}{5}+\\tan\\frac{\\pi}{5}}{2\\tan\\frac{\\pi}{5}-\\tan\\frac{\\pi}{5}}=\\frac{3\\tan\\frac{\\pi}{5}}{\\tan\\frac{\\pi}{5}}=3$。\n---\n#### 解法3：应试秒杀法（特殊值法，仅适用于选择题）\n- 适用场景：选择题，已知条件为恒成立关系，可直接取特殊值计算。\n- 解题过程：\n  取$\\frac{\\pi}{5}=36^\\circ$，则$\\tan36^\\circ\\approx0.7265$，因此$\\tan\\alpha=2\\times0.7265\\approx1.453$，得$\\alpha\\approx55.46^\\circ$。\n  分子：$\\cos(55.46^\\circ-54^\\circ)=\\cos1.46^\\circ\\approx0.9997$\n  分母：$\\sin(55.46^\\circ-36^\\circ)=\\sin19.46^\\circ\\approx0.333$\n  比值≈3，直接选C，10秒出结果。\n---\n### 第四步：易错点与难点应对\n#### 1. 高频易错点\n- ❌ 错误1：两角和差公式符号记错，比如把$\\cos(A-B)$写成$\\cos A\\cos B-\\sin A\\sin B$，$\\sin(A-B)$写成$\\sin A\\cos B+\\cos A\\sin B$。\n  ✅ 规避：记住「余弦同号、正弦异号」的规律，记熟公式。\n- ❌ 错误2：诱导公式符号/函数名记错，比如把$\\cos(\\frac{\\pi}{2}-x)$写成$\\cos x$。\n  ✅ 规避：用「奇变偶不变，符号看象限」的口诀验证。\n- ❌ 错误3：切化弦交叉相乘时比例搞反，把$\\tan\\alpha=2\\tan\\frac{\\pi}{5}$写成$\\sin\\alpha\\sin\\frac{\\pi}{5}=2\\cos\\alpha\\cos\\frac{\\pi}{5}$。\n  ✅ 规避：写切化弦时先写$\\frac{\\sin\\alpha}{\\cos\\alpha}=2\\cdot\\frac{\\sin\\frac{\\pi}{5}}{\\cos\\frac{\\pi}{5}}$，再交叉相乘，不要跳步。\n#### 2. 思维难点应对\n看到陌生角度不要慌，**通用破题方法：先计算陌生角度和题干已知角度的和/差，看是否为特殊角（$\\frac{\\pi}{6}、\\frac{\\pi}{4}、\\frac{\\pi}{3}、\\frac{\\pi}{2}$等）**，如果是，直接用诱导公式转换即可破局。\n---\n### 第五步：最终结论·验证复盘\n最终结果为$\\boldsymbol{3}$，对应选项C，与参考答案一致。\n✅ 复盘核心逻辑：三角恒等变换类题目优先找角度关联，再通过切弦互化消去未知量，同次弦的比值优先弦化切，可大幅提升解题速度。"
+    }
+  ]
+}

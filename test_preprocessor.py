@@ -1,53 +1,37 @@
-import os
-from question_preprocessor import preprocess_and_save, generate_neural_reaction_by_id
+from ai import process_question_with_thinking_tag
 
-data_dir = r"d:\space\html\print\data"
-question_id = "20260314104304"
+# process_question_with_thinking_tag(
+#     data_dir=r"d:\space\html\print\data",
+#     question_id="20260314141514"
+# )
+from ai import batch_process_with_search
 
-os.environ["ARK_API_KEY"] = "0f38123d-549a-48c5-a2ab-46dde690c019"
+# 处理所有带"思维"标签的数学或生物题目
+results = batch_process_with_search(
+    data_dir=r"d:\space\html\print\data",
+    search_query="(tag:化学)",  # 或 "北京"、"tag:重要" 等
+    max_workers=5  
+)
+print(results)
+# {'total_searched': 5, 'success': [id1, id2], 'failed': [], 'skipped_no_thinking_tag': [id3]}
+from ai import batch_process
 
-print(f"正在预处理题目: {question_id}")
-print("=" * 60)
+# 批量处理所有带"生物"标签的题目
+# batch_process(
+#     data_dir=r"d:\space\html\print\data",
+#     tags=["生物"],
+#     require_all_tags=False,
+#     max_workers=5
+# )
+# 处理"解题思考 AI" - 已有 thinking_processes 的题目
 
-reaction = preprocess_and_save(data_dir, question_id)
+# 结果会跳过：没有"思维"标签的、没有 existing thinking_processes 的
 
-if reaction:
-    print(f"核心结论: {reaction.core_conclusion}")
-    print()
-    
-    print("考点锚定反应:")
-    anchor = reaction.reaction_dimensions.get("考点锚定反应", {})
-    print(f"  触发线索: {anchor.get('trigger_clues', '')}")
-    print(f"  固化反应: {anchor.get('fixed_reaction', '')}")
-    print()
-    
-    print("隐含信息解码反应:")
-    for i, item in enumerate(reaction.reaction_dimensions.get("隐含信息解码反应", []), 1):
-        print(f"  {i}. {item.get('trigger_clue', '')} → {item.get('fixed_reaction', '')}")
-    print()
-    
-    print("易错陷阱预警反应:")
-    for item in reaction.reaction_dimensions.get("易错陷阱预警反应", []):
-        print(f"  [{item.get('priority', '')}] {item.get('trigger_clue', '')}")
-        print(f"    避坑要点: {item.get('fixed_reaction', '')}")
-    print()
-    
-    print("正误判断标尺反应:")
-    for item in reaction.reaction_dimensions.get("正误判断标尺反应", []):
-        print(f"  {item.get('ruler_name', '')} ({item.get('related_option', '')}): {item.get('fixed_standard', '')}")
-    print()
-    
-    print("同类题迁移锚点反应:")
-    migration = reaction.reaction_dimensions.get("同类题迁移锚点反应", {})
-    print(f"  触发线索: {migration.get('trigger_clues', '')}")
-    print(f"  固化反应: {migration.get('fixed_reaction', '')}")
-    print()
-    
-    print("核心速记包:")
-    for i, item in enumerate(reaction.core_quick_memory_pack, 1):
-        print(f"  {i}. {item}")
-    print()
-    
-    print(f"结果已保存到: {os.path.join(data_dir, f'{question_id}.json')}")
-else:
-    print("题目不存在")
+# 处理"沉浸式思考 AI" - 已有 immersion_thinking 的题目
+# from ai import batch_process_immersion_with_search
+
+# # 搜索带"数学"标签且有thinking_processes的题目，生成沉浸式思考
+# result = batch_process_immersion_with_search(
+#     data_dir=r"d:\space\html\print\data",
+#     search_query="tag:数学"
+# )

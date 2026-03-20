@@ -1,0 +1,41 @@
+{
+  "id": "20260321131923",
+  "created_at": "2026-03-21 13:19:23",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321131912_ec24e83e.png",
+        "display": "center",
+        "width": 450,
+        "height": "auto"
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "richtext",
+        "content": "　C",
+        "fragments": [
+          {
+            "text": "　C",
+            "underline": false
+          }
+        ]
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "thinking_processes": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "thinking_content": "### 第一步：审题拆解·锚定核心\n#### 1. 题干拆解\n- 显性已知条件：$\\boldsymbol{\\tan\\theta=-2}$，求分式$\\frac{\\sin\\theta(1+\\sin2\\theta)}{\\sin\\theta+\\cos\\theta}$的值\n- 隐藏限定条件：① 分母$\\sin\\theta+\\cos\\theta\\neq0$（分式有意义）；② $\\cos\\theta\\neq0$（$\\tan\\theta$有意义）；③ 隐含同角三角函数基本关系$\\sin^2\\theta+\\cos^2\\theta=1$、二倍角公式$\\sin2\\theta=2\\sin\\theta\\cos\\theta$\n- 易错陷阱：学生容易直接分象限求$\\sin\\theta、\\cos\\theta$的具体值，混淆符号导致计算错误；或者不会化简原式，硬算增大计算量。\n#### 2. 明确目标\n将原式化简为仅含$\\tan\\theta$的表达式，代入求值，避免讨论$\\theta$所在象限。\n#### 3. 考点预判\n核心考点为**同角三角函数的基本关系、二倍角正弦公式、齐次式化切求值**，命题意图是考查学生对三角函数公式的灵活运用能力，避免硬算带来的符号错误。\n\n---\n### 第二步：思路预判·试错路径还原\n1.  **学生初始思路**：看到$\\tan\\theta=-2$，第一反应是结合$\\sin^2\\theta+\\cos^2\\theta=1$，分第二、第四象限求出$\\sin\\theta、\\cos\\theta$的具体值，直接代入原式计算。\n2.  **试错过程**：这个思路是可行的，但存在明显局限：需要分两种情况讨论符号，代入时带根号计算量大，90%的学生容易在符号、计算上出错，比如把第二象限的$\\cos\\theta$符号搞反，算出来结果是$-\\frac{2}{5}$，误选B。\n3.  **调整方向**：先化简原式，利用公式消去可以约分的因式，将原式转化为齐次式，直接用$\\tan\\theta$代入，完全规避符号讨论和根号计算。\n4.  **核心解题意线**：用平方关系代换“1”，将$1+\\sin2\\theta$凑成完全平方，约分后转化为二次齐次式，化切代入求值。\n\n---\n### 第三步：多解法分支·分层拆解\n#### 解法1：基础通法（化简+齐次化，所有同类型题通用）\n- **适用场景**：所有已知$\\tan\\theta$求正弦、余弦分式值的题目，核心逻辑是通过化简转化为齐次式，避免符号讨论。\n- **解题步骤**：\n  1.  化简分子的$1+\\sin2\\theta$：利用$1=\\sin^2\\theta+\\cos^2\\theta$和二倍角公式，得：\n      $$1+\\sin2\\theta=\\sin^2\\theta+2\\sin\\theta\\cos\\theta+\\cos^2\\theta=(\\sin\\theta+\\cos\\theta)^2$$\n      依据：完全平方公式、同角平方关系、二倍角正弦公式。\n  2.  原式约分：把分子代入原式，只要$\\sin\\theta+\\cos\\theta\\neq0$，就可以约去公因式：\n      $$\\text{原式}=\\frac{\\sin\\theta\\cdot(\\sin\\theta+\\cos\\theta)^2}{\\sin\\theta+\\cos\\theta}=\\sin\\theta(\\sin\\theta+\\cos\\theta)=\\sin^2\\theta+\\sin\\theta\\cos\\theta$$\n      这里验证分母不为0：$\\sin\\theta+\\cos\\theta=\\cos\\theta(\\tan\\theta+1)=\\cos\\theta\\times(-1)$，$\\cos\\theta\\neq0$，所以分母不为0，约分合法。\n  3.  齐次化切：将式子补分母$1=\\sin^2\\theta+\\cos^2\\theta$，分子分母同除以$\\cos^2\\theta$：\n      $$\\sin^2\\theta+\\sin\\theta\\cos\\theta=\\frac{\\sin^2\\theta+\\sin\\theta\\cos\\theta}{\\sin^2\\theta+\\cos^2\\theta}=\\frac{\\tan^2\\theta+\\tan\\theta}{\\tan^2\\theta+1}$$\n  4.  代入$\\tan\\theta=-2$计算：\n      $$\\text{原式}=\\frac{(-2)^2+(-2)}{(-2)^2+1}=\\frac{4-2}{4+1}=\\frac{2}{5}$$\n\n#### 解法2：代入消元法（适合不会化简的基础学生）\n- **适用场景**：想不到凑完全平方化简的情况，用$\\sin\\theta=-2\\cos\\theta$整体代入消元，也能规避符号问题。\n- **解题步骤**：\n  1.  由$\\tan\\theta=\\frac{\\sin\\theta}{\\cos\\theta}=-2$得$\\sin\\theta=-2\\cos\\theta$，代入$\\sin^2\\theta+\\cos^2\\theta=1$得$\\cos^2\\theta=\\frac{1}{5}$。\n  2.  把$\\sin\\theta=-2\\cos\\theta$代入已经约分后的式子$\\sin^2\\theta+\\sin\\theta\\cos\\theta$：\n      $$\\text{原式}=(-2\\cos\\theta)^2 + (-2\\cos\\theta)\\cdot\\cos\\theta=4\\cos^2\\theta-2\\cos^2\\theta=2\\cos^2\\theta$$\n  3.  代入$\\cos^2\\theta=\\frac{1}{5}$，得结果为$\\frac{2}{5}$。\n\n#### 解法3：选择题秒杀技巧（特殊值法）\n- **适用场景**：单选、填空题，直接赋值快速出结果。\n- **解题步骤**：取$\\theta$在第四象限，令$\\cos\\theta=\\frac{1}{\\sqrt{5}}$，$\\sin\\theta=-\\frac{2}{\\sqrt{5}}$，直接代入原式计算：\n  分子：$-\\frac{2}{\\sqrt{5}}\\times\\left[1+2\\times(-\\frac{2}{\\sqrt{5}})\\times\\frac{1}{\\sqrt{5}}\\right]=-\\frac{2}{\\sqrt{5}}\\times\\frac{1}{5}=-\\frac{2}{5\\sqrt{5}}$\n  分母：$-\\frac{2}{\\sqrt{5}}+\\frac{1}{\\sqrt{5}}=-\\frac{1}{\\sqrt{5}}$\n  原式$=\\frac{-\\frac{2}{5\\sqrt{5}}}{-\\frac{1}{\\sqrt{5}}}=\\frac{2}{5}$，直接得答案。\n\n---\n### 第四步：易错点与难点应对\n#### 1. 高频易错点\n- **易错点1**：约分前不验证分母是否为0，遇到$\\tan\\theta=-1$的情况会直接出错。规避方法：约分前用$\\sin\\theta+\\cos\\theta=\\cos\\theta(\\tan\\theta+1)$验证，只要$\\tan\\theta\\neq-1$就可以安全约分。\n- **易错点2**：齐次化切时忘记补分母$1=\\sin^2\\theta+\\cos^2\\theta$，直接算成$\\tan^2\\theta+\\tan\\theta=2$，选错答案。规避方法：二次齐次式必须写成分式形式，分母补1再同除$\\cos^2\\theta$。\n- **易错点3**：分象限计算$\\sin\\theta、\\cos\\theta$时符号搞混，算成$-\\frac{2}{5}$误选B。规避方法：优先用化简法消去符号相关的量，不要硬算具体值。\n#### 2. 思维难点应对\n怎么想到先化简原式？通用破题技巧：**遇到$\\sin2\\theta$和“1”同时出现，优先把1换成$\\sin^2\\theta+\\cos^2\\theta$凑完全平方**，这是三角函数化简的固定套路，不要上来就算具体值，先化简永远是第一步。\n\n---\n### 第五步：最终结论·验证复盘\n1.  最终结果为$\\boldsymbol{\\frac{2}{5}}$，对应选项C，和参考答案一致。\n2.  复盘总结：这类题的核心解题逻辑是「凑平方→约分→齐次化切」，记住“遇1想平方和、遇二倍角凑完全平方、齐次式化切”三个技巧，同类型题可以做到10秒出答案。"
+    }
+  ]
+}

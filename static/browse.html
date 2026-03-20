@@ -254,7 +254,28 @@
             font-size: 11px;
             color: #2980b9;
         }
-        
+
+        .question-checkbox {
+            margin-right: 8px;
+            cursor: pointer;
+        }
+
+        .ai-badge {
+            display: inline-block;
+            padding: 1px 6px;
+            background-color: #9b59b6;
+            border-radius: 8px;
+            font-size: 10px;
+            color: white;
+            margin-right: 8px;
+            cursor: help;
+        }
+
+        .question-item-header {
+            display: flex;
+            align-items: center;
+        }
+
         .context-menu {
             position: fixed;
             background-color: #fff;
@@ -301,7 +322,57 @@
             font-size: 13px;
             color: #f57c00;
         }
-        
+
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            background-color: #f5f5f5;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .pagination-info {
+            margin-right: 15px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .pagination-btn {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-btn.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
         .preview-placeholder {
             color: #999;
             font-style: italic;
@@ -978,6 +1049,7 @@
             <div class="selection-info" id="selectionInfo" style="display: none;">
                 已选择 <span id="selectedCount">0</span> 道错题，右键可批量操作
             </div>
+            <div class="pagination-container" id="paginationContainer"></div>
             <div class="panel-content" id="questionList"></div>
         </div>
         
@@ -1061,6 +1133,8 @@
     <div class="context-menu" id="contextMenu">
         <div class="context-menu-item" onclick="batchPrint()">打印选中题目</div>
         <div class="context-menu-item" onclick="batchAddTag()">批量添加标签</div>
+        <div class="context-menu-item" onclick="selectAllWithAiContent()">全选含AI内容</div>
+        <div class="context-menu-item" onclick="batchRemoveAiContent()">删除AI分析内容</div>
         <div class="context-menu-item danger" onclick="batchDelete()">批量删除</div>
     </div>
     
@@ -1097,6 +1171,12 @@
         let currentEditingQuestion = null;
         let activeSubQuestionId = null;
         let activeMainPaste = null;
+
+        let currentPage = 1;
+        let totalPages = 1;
+        let totalQuestions = 0;
+        let pageSize = 50;
+        let currentSearch = '';
 
         function getCurrentItems(target) {
             if (target === 'question') return questionItems;
@@ -2173,23 +2253,88 @@
         async function loadQuestions() {
             applyFilters();
         }
-        
+
         async function applyFilters() {
             try {
-                const searchQuery = document.getElementById('searchInput').value;
-                
-                let url = `${API_BASE}/api/questions?`;
-                url += `search=${encodeURIComponent(searchQuery)}`;
-                
+                currentSearch = document.getElementById('searchInput').value;
+
+                if (currentSearch.trim()) {
+                    let url = `${API_BASE}/api/questions?page=1&page_size=1000`;
+                    const response = await fetch(url);
+                    const result = await response.json();
+                    questions = result.questions || [];
+
+                    if (currentSearch.trim()) {
+                        questions = filterQuestionsLocal(questions, currentSearch);
+                    }
+
+                    totalQuestions = questions.length;
+                    totalPages = 1;
+                    currentPage = 1;
+
+                    renderQuestionList();
+                    renderPagination();
+                } else {
+                    currentPage = 1;
+                    let url = `${API_BASE}/api/questions?page=${currentPage}&page_size=${pageSize}`;
+
+                    const response = await fetch(url);
+                    const result = await response.json();
+                    questions = result.questions || [];
+                    totalQuestions = result.total || 0;
+                    totalPages = result.total_pages || 1;
+
+                    renderQuestionList();
+                    renderPagination();
+                }
+            } catch (error) {
+                console.error('加载错题失败:', error);
+            }
+        }
+
+        function renderPagination() {
+            const container = document.getElementById('paginationContainer');
+            if (!container) return;
+
+            let html = `<span class="pagination-info">共 ${totalQuestions} 题，第 ${currentPage}/${totalPages} 页</span>`;
+
+            if (totalPages > 1) {
+                html += '<div class="pagination-controls">';
+                html += `<button class="pagination-btn" onclick="goToPage(1)" ${currentPage === 1 ? 'disabled' : ''}>首页</button>`;
+                html += `<button class="pagination-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>上一页</button>`;
+
+                const startPage = Math.max(1, currentPage - 2);
+                const endPage = Math.min(totalPages, currentPage + 2);
+                for (let i = startPage; i <= endPage; i++) {
+                    html += `<button class="pagination-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+                }
+
+                html += `<button class="pagination-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>下一页</button>`;
+                html += `<button class="pagination-btn" onclick="goToPage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>末页</button>`;
+                html += '</div>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        async function goToPage(page) {
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+
+            try {
+                let url = `${API_BASE}/api/questions?page=${currentPage}&page_size=${pageSize}`;
+                if (currentSearch) {
+                    url += `&search=${encodeURIComponent(currentSearch)}`;
+                }
+
                 const response = await fetch(url);
                 const result = await response.json();
                 questions = result.questions || [];
-                
-                if (searchQuery.trim()) {
-                    questions = filterQuestionsLocal(questions, searchQuery);
-                }
-                
+                totalQuestions = result.total || 0;
+                totalPages = result.total_pages || 1;
+
                 renderQuestionList();
+                renderPagination();
             } catch (error) {
                 console.error('加载错题失败:', error);
             }
@@ -2493,14 +2638,17 @@
                 }
                 
                 const isSelected = selectedQuestions.has(q.id);
-                
+                const hasAiContent = q.question_analysis || q.thinking_processes || q.neural_reaction || q.immersion_thinking;
+
                 return `
-                    <div class="question-item ${isSelected ? 'selected' : ''}" 
+                    <div class="question-item ${isSelected ? 'selected' : ''}"
                          data-id="${q.id}"
                          onclick="selectQuestion(event, '${q.id}')"
                          oncontextmenu="showContextMenu(event, '${q.id}')">
                         <div class="question-item-header">
+                            <input type="checkbox" class="question-checkbox" ${isSelected ? 'checked' : ''} onclick="toggleQuestionSelection(event, '${q.id}')">
                             <span class="question-item-id">#${q.id}</span>
+                            ${hasAiContent ? '<span class="ai-badge" title="包含AI分析内容">AI</span>' : ''}
                             <span class="question-item-date">${q.created_at || ''}</span>
                         </div>
                         <div class="question-item-preview">${escapeHtml(preview || '(暂无文本内容)')}</div>
@@ -2514,6 +2662,26 @@
             updateSelectionInfo();
         }
         
+        function toggleQuestionSelection(event, id) {
+            event.stopPropagation();
+            if (selectedQuestions.has(id)) {
+                selectedQuestions.delete(id);
+            } else {
+                selectedQuestions.add(id);
+            }
+            renderQuestionList();
+        }
+
+        function selectAllWithAiContent() {
+            hideContextMenu();
+            questions.forEach(q => {
+                if (q.question_analysis || q.thinking_processes || q.neural_reaction || q.immersion_thinking) {
+                    selectedQuestions.add(q.id);
+                }
+            });
+            renderQuestionList();
+        }
+
         function selectQuestion(event, id) {
             if (event.ctrlKey || event.metaKey) {
                 if (selectedQuestions.has(id)) {
@@ -2525,7 +2693,7 @@
                 selectedQuestions.clear();
                 selectedQuestions.add(id);
             }
-            
+
             renderQuestionList();
             loadQuestionForEdit(id);
         }
@@ -2670,11 +2838,11 @@
                 alert('请先选择要操作的错题');
                 return;
             }
-            
+
             if (!confirm(`确定要删除选中的 ${selectedQuestions.size} 道错题吗？此操作不可恢复！`)) {
                 return;
             }
-            
+
             try {
                 let successCount = 0;
                 for (const id of Array.from(selectedQuestions)) {
@@ -2685,12 +2853,100 @@
                         successCount++;
                     }
                 }
-                
+
                 alert(`成功删除 ${successCount} 道错题`);
                 selectedQuestions.clear();
                 loadTags();
                 loadQuestions();
                 resetEditArea();
+            } catch (error) {
+                alert('删除失败: ' + error.message);
+            }
+        }
+
+        async function batchRemoveAiContent() {
+            hideContextMenu();
+            if (selectedQuestions.size === 0) {
+                alert('请先选择要操作的错题');
+                return;
+            }
+
+            if (!confirm(`确定要删除选中的 ${selectedQuestions.size} 道错题的AI分析内容吗？`)) {
+                return;
+            }
+
+            try {
+                let successCount = 0;
+                for (const id of Array.from(selectedQuestions)) {
+                    const question = questions.find(q => q.id === id);
+                    if (!question) continue;
+
+                    const hasAiContent = question.question_analysis || question.thinking_processes || question.neural_reaction || question.immersion_thinking;
+                    if (!hasAiContent) continue;
+
+                    const cleanItems = (items) => {
+                        return items.map(item => {
+                            if (item.type === 'image') {
+                                return {
+                                    type: 'image',
+                                    src: item.src,
+                                    display: item.display,
+                                    width: item.width,
+                                    height: item.height
+                                };
+                            } else if (item.type === 'richtext') {
+                                return {
+                                    type: 'richtext',
+                                    content: item.content,
+                                    fragments: item.fragments
+                                };
+                            }
+                            return { ...item };
+                        });
+                    };
+
+                    const cleanSubQuestions = () => {
+                        return (question.sub_questions || []).map(sq => ({
+                            id: sq.id,
+                            title: sq.title,
+                            question_text: {
+                                items: cleanItems(sq.question_text?.items || [])
+                            },
+                            tags: [...(sq.tags || [])]
+                        }));
+                    };
+
+                    const data = {
+                        id: id,
+                        question: {
+                            items: cleanItems(question.question?.items || [])
+                        },
+                        answer: {
+                            items: cleanItems(question.answer?.items || [])
+                        },
+                        tags: question.tags || [],
+                        sub_questions: cleanSubQuestions()
+                    };
+
+                    const response = await fetch(`${API_BASE}/api/save`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                        successCount++;
+                        const idx = questions.findIndex(q => q.id === id);
+                        if (idx !== -1) {
+                            questions[idx] = { ...questions[idx], ...data, question_analysis: undefined };
+                        }
+                    }
+                }
+
+                alert(`成功删除 ${successCount} 道错题的AI分析内容`);
+                renderQuestionList();
             } catch (error) {
                 alert('删除失败: ' + error.message);
             }
