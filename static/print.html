@@ -71,6 +71,61 @@
             margin-bottom: 15px;
         }
 
+        .file-list-wrapper {
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .file-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            background: #f5f5f5;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .file-list-header:hover {
+            background: #e8e8e8;
+        }
+
+        .file-list-title {
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .file-list-toggle {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .file-list.collapsed {
+            display: none;
+        }
+
+        .search-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        .search-row input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .search-row input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
         .file-item {
             padding: 6px 10px;
             background: #e8f4fc;
@@ -597,12 +652,22 @@
                 </label>
             </div>
         </div>
+        <div class="search-row">
+            <input type="text" id="searchInput" placeholder="支持 Anki 搜索语法，如: (tag:生物 OR tag:化学) tag:重要 -tag:已掌握" oninput="applySearchFilter()">
+            <button class="btn btn-secondary" onclick="clearSearch()">清除</button>
+        </div>
         <div class="tag-filter" id="tagFilter">
             <span class="tag-filter-label">标签筛选:</span>
             <span style="color: #999;">加载中...</span>
         </div>
-        <div class="file-list" id="fileList">
-            <span style="color: #999;">加载中...</span>
+        <div class="file-list-wrapper" id="fileListWrapper">
+            <div class="file-list-header" onclick="toggleFileList()">
+                <span class="file-list-title">已选题目 (<span id="selectedCount">0</span>)</span>
+                <span class="file-list-toggle" id="fileListToggle">▼ 点击折叠</span>
+            </div>
+            <div class="file-list" id="fileList">
+                <span style="color: #999;">加载中...</span>
+            </div>
         </div>
         <div class="btn-group">
             <button class="btn btn-primary" onclick="printSelected()">打印选中</button>
@@ -628,9 +693,30 @@
                 const response = await fetch('/api/questions');
                 const data = await response.json();
                 questions = data.questions || [];
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const preselectedIds = urlParams.get('ids');
+
+                if (preselectedIds) {
+                    const idArray = preselectedIds.split(',');
+                    idArray.forEach(id => {
+                        const question = questions.find(q => q.id == id);
+                        if (question) {
+                            selectedIds.add(question.id);
+                        }
+                    });
+                }
+
                 extractAllTags();
                 renderTagFilter();
                 renderFileList();
+
+                if (preselectedIds && selectedIds.size > 0) {
+                    fileListCollapsed = false;
+                    document.getElementById('fileList').classList.remove('collapsed');
+                    document.getElementById('fileListToggle').textContent = '▼ 点击折叠';
+                    renderPreview();
+                }
             } catch (e) {
                 document.getElementById('fileList').innerHTML = '<span style="color: red;">加载失败</span>';
             }
@@ -669,14 +755,305 @@
         }
 
         function getFilteredQuestions() {
-            if (activeTag === null) {
-                return questions;
+            let filtered = questions;
+
+            const searchQuery = document.getElementById('searchInput').value;
+            if (searchQuery.trim()) {
+                filtered = filtered.filter(q => evaluateSearchQuery(q, searchQuery));
             }
-            return questions.filter(q => q.tags && q.tags.includes(activeTag));
+
+            if (activeTag !== null) {
+                filtered = filtered.filter(q => q.tags && q.tags.includes(activeTag));
+            }
+
+            return filtered;
+        }
+
+        function evaluateSearchQuery(question, query) {
+            const tokens = tokenizeSearchQuery(query);
+            const ast = parseTokensToAST(tokens);
+            return evaluateAST(ast, question);
+        }
+
+        function getEffectiveTags(question) {
+            const ownTags = question.tags || [];
+            const subQuestionTags = (question.sub_questions || [])
+                .flatMap(sq => sq.tags || []);
+            return [...new Set([...ownTags, ...subQuestionTags])];
+        }
+
+        function evaluateAST(node, question) {
+            const questionStr = JSON.stringify(question.question || '').toLowerCase();
+            const answerStr = JSON.stringify(question.answer || '').toLowerCase();
+            const tags = getEffectiveTags(question).map(t => t.toLowerCase());
+
+            if (node.type === 'TAG') {
+                const result = matchTag(node.value, tags);
+                return node.negative ? !result : result;
+            }
+
+            if (node.type === 'TEXT') {
+                const result = matchText(node.value, questionStr, answerStr);
+                return node.negative ? !result : result;
+            }
+
+            if (node.type === 'PHRASE') {
+                const result = matchPhrase(node.value, questionStr, answerStr);
+                return node.negative ? !result : result;
+            }
+
+            if (node.type === 'AND') {
+                return evaluateAST(node.left, question) && evaluateAST(node.right, question);
+            }
+
+            if (node.type === 'OR') {
+                return evaluateAST(node.left, question) || evaluateAST(node.right, question);
+            }
+
+            if (node.type === 'NOT') {
+                return !evaluateAST(node.operand, question);
+            }
+
+            return true;
+        }
+
+        function matchTag(tag, tags) {
+            tag = tag.toLowerCase();
+
+            if (tag.includes('*')) {
+                const regex = createRegex(tag);
+                return tags.some(t => regex.test(t));
+            }
+
+            if (tags.some(t => t === tag)) {
+                return true;
+            }
+
+            if (tags.some(t => t.startsWith(tag + '::'))) {
+                return true;
+            }
+
+            return false;
+        }
+
+        function matchText(text, questionStr, answerStr) {
+            try {
+                const regex = createRegex(text);
+                return regex.test(questionStr) || regex.test(answerStr);
+            } catch (e) {
+                return questionStr.includes(text.toLowerCase()) || answerStr.includes(text.toLowerCase());
+            }
+        }
+
+        function matchPhrase(phrase, questionStr, answerStr) {
+            return questionStr.includes(phrase.toLowerCase()) || answerStr.includes(phrase.toLowerCase());
+        }
+
+        function createRegex(pattern) {
+            pattern = pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            if (pattern.includes('*')) {
+                pattern = pattern.replace(/\*/g, '.*');
+            }
+            if (pattern.includes('_')) {
+                pattern = pattern.replace(/_/g, '.');
+            }
+            return new RegExp(pattern, 'i');
+        }
+
+        function tokenizeSearchQuery(query) {
+            const tokens = [];
+            let i = 0;
+
+            while (i < query.length) {
+                const char = query[i];
+
+                if (char === '(') {
+                    tokens.push({ type: 'LPAREN' });
+                    i++;
+                } else if (char === ')') {
+                    tokens.push({ type: 'RPAREN' });
+                    i++;
+                } else if (char === '-') {
+                    const nextChar = query[i + 1];
+                    if (nextChar === 't' && query.slice(i + 1, i + 5).toLowerCase() === 'tag:') {
+                        const rest = query.slice(i + 5);
+                        const tagEnd = findTokenEnd(rest);
+                        const tagValue = rest.slice(0, tagEnd);
+                        tokens.push({ type: 'TAG', value: tagValue, negative: true });
+                        i += 5 + tagEnd;
+                    } else if (nextChar === '(' || nextChar === '"') {
+                        tokens.push({ type: 'NOT' });
+                        i++;
+                    } else {
+                        const text = parseTextToken(query, i + 1);
+                        tokens.push({ type: 'TEXT', value: text, negative: true });
+                        i += 1 + text.length;
+                    }
+                } else if (query.slice(i, i + 3).toLowerCase() === 'and') {
+                    tokens.push({ type: 'AND' });
+                    i += 3;
+                } else if (query.slice(i, i + 2).toLowerCase() === 'or') {
+                    tokens.push({ type: 'OR' });
+                    i += 2;
+                } else if (query.slice(i, i + 3).toLowerCase() === 'not') {
+                    tokens.push({ type: 'NOT' });
+                    i += 3;
+                } else if (char === '"') {
+                    const end = query.indexOf('"', i + 1);
+                    if (end === -1) {
+                        const text = query.slice(i + 1);
+                        tokens.push({ type: 'PHRASE', value: text });
+                        break;
+                    } else {
+                        const text = query.slice(i + 1, end);
+                        tokens.push({ type: 'PHRASE', value: text });
+                        i = end + 1;
+                    }
+                } else if (char === ' ' || char === '\t') {
+                    i++;
+                } else {
+                    const text = parseTextToken(query, i);
+                    if (text.toLowerCase().startsWith('tag:')) {
+                        const tagValue = text.slice(4);
+                        const negative = tagValue.startsWith('-');
+                        const actualTag = negative ? tagValue.slice(1) : tagValue;
+                        tokens.push({ type: 'TAG', value: actualTag, negative });
+                    } else {
+                        tokens.push({ type: 'TEXT', value: text, negative: false });
+                    }
+                    i += text.length;
+                }
+            }
+
+            return tokens;
+        }
+
+        function parseTextToken(query, start) {
+            let end = start;
+            while (end < query.length) {
+                const char = query[end];
+                if (char === ' ' || char === '\t' || char === '(' || char === ')' || char === '"') {
+                    break;
+                }
+                end++;
+            }
+            return query.slice(start, end);
+        }
+
+        function findTokenEnd(str) {
+            let end = 0;
+            while (end < str.length) {
+                const char = str[end];
+                if (char === ' ' || char === '\t' || char === '(' || char === ')' || char === '"') {
+                    break;
+                }
+                end++;
+            }
+            return end;
+        }
+
+        function parseTokensToAST(tokens) {
+            let pos = 0;
+
+            function parseExpression() {
+                return parseOR();
+            }
+
+            function parseOR() {
+                let left = parseAND();
+                while (pos < tokens.length && tokens[pos].type === 'OR') {
+                    pos++;
+                    const right = parseAND();
+                    left = { type: 'OR', left, right };
+                }
+                return left;
+            }
+
+            function parseAND() {
+                let left = parseNOT();
+                while (pos < tokens.length) {
+                    const t = tokens[pos];
+                    if (t.type === 'AND') {
+                        pos++;
+                        const right = parseNOT();
+                        left = { type: 'AND', left, right };
+                    } else if (t.type === 'TEXT' || t.type === 'PHRASE' || t.type === 'TAG' || t.type === 'LPAREN') {
+                        const right = parseNOT();
+                        left = { type: 'AND', left, right };
+                    } else {
+                        break;
+                    }
+                }
+                return left;
+            }
+
+            function parseNOT() {
+                if (pos < tokens.length && tokens[pos].type === 'NOT') {
+                    pos++;
+                    const operand = parseAtom();
+                    return { type: 'NOT', operand };
+                }
+                return parseAtom();
+            }
+
+            function parseAtom() {
+                if (pos >= tokens.length) {
+                    return { type: 'EMPTY' };
+                }
+
+                const token = tokens[pos];
+                pos++;
+
+                if (token.type === 'LPAREN') {
+                    const expr = parseExpression();
+                    if (pos < tokens.length && tokens[pos].type === 'RPAREN') {
+                        pos++;
+                    }
+                    return expr;
+                }
+
+                if (token.type === 'TAG') {
+                    return { type: 'TAG', value: token.value, negative: token.negative };
+                }
+
+                if (token.type === 'PHRASE') {
+                    return { type: 'PHRASE', value: token.value, negative: token.negative };
+                }
+
+                if (token.type === 'TEXT') {
+                    return { type: 'TEXT', value: token.value, negative: token.negative };
+                }
+
+                return { type: 'EMPTY' };
+            }
+
+            const ast = parseExpression();
+            return ast;
+        }
+
+        function applySearchFilter() {
+            renderFileList();
+            renderPreview();
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            applySearchFilter();
+        }
+
+        let fileListCollapsed = false;
+
+        function toggleFileList() {
+            const fileList = document.getElementById('fileList');
+            const toggle = document.getElementById('fileListToggle');
+            fileListCollapsed = !fileListCollapsed;
+            fileList.classList.toggle('collapsed', fileListCollapsed);
+            toggle.textContent = fileListCollapsed ? '▶ 点击展开' : '▼ 点击折叠';
         }
 
         function renderFileList() {
             const container = document.getElementById('fileList');
+            const countSpan = document.getElementById('selectedCount');
             const filtered = getFilteredQuestions();
             if (filtered.length === 0) {
                 container.innerHTML = '<span style="color: #999;">暂无题目</span>';
@@ -684,11 +1061,15 @@
             }
 
             container.innerHTML = filtered.map(q => `
-                <div class="file-item ${selectedIds.has(q.id) ? 'selected' : ''}" 
+                <div class="file-item ${selectedIds.has(q.id) ? 'selected' : ''}"
                      onclick="toggleSelect('${q.id}')">
                     ${q.id}
                 </div>
             `).join('');
+
+            if (countSpan) {
+                countSpan.textContent = selectedIds.size;
+            }
         }
 
         function toggleSelect(id) {

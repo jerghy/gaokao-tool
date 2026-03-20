@@ -44,6 +44,10 @@ def index():
 def browse():
     return send_from_directory('static', 'browse.html')
 
+@app.route('/print.html')
+def print_page():
+    return send_from_directory('static', 'print.html')
+
 @app.route('/static/<path:filename>')
 def static_files(filename):
     return send_from_directory('static', filename)
