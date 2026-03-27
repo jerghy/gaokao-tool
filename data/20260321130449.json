@@ -8,7 +8,13 @@
         "src": "img/20260321130215_fa8ee917.png",
         "display": "center",
         "width": 450,
-        "height": "auto"
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.021310181531176007,
+          "x": 0.35153749013417523,
+          "y": 0.09810522648083624
+        }
       }
     ]
   },
@@ -19,7 +25,17 @@
         "src": "img/20260321130417_9b8b82d1.png",
         "display": "center",
         "width": 400,
-        "height": "auto"
+        "height": "auto",
+        "charBox": {
+          "fontSize": "small",
+          "size": 0.029141104294478526,
+          "x": 0.1240653374233129,
+          "y": 0.0053906200000000005
+        },
+        "splitLines": [
+          0.141,
+          0.579
+        ]
       }
     ]
   },
@@ -28,11 +44,11 @@
     "思维"
   ],
   "sub_questions": [],
-  "thinking_processes": [
+  "math_thinking_chain": [
     {
       "target_id": "full",
       "target_label": "整个题目",
-      "thinking_content": "# 2021新高考I卷解三角形题 完整思考过程还原\n---\n## 第一步：审题拆解·锚定核心\n### 1. 题干拆解\n- **显性条件**：①△ABC内角A,B,C的对边为a,b,c，满足$\\boldsymbol{b^2=ac}$；②点D在AC边上，等式$\\boldsymbol{BD \\cdot \\sin\\angle ABC = a \\sin C}$；③第二问追加条件$\\boldsymbol{AD=2DC}$。\n- **隐藏条件**：①a,b,c均为正数（三角形边长>0）；②AD+DC=AC=b；③三角形满足三角不等式（任意两边之和大于第三边），且内角余弦值范围为$(-1,1)$。\n- **易错陷阱**：第二问解出边长关系后，90%的学生容易忘记验证三角形存在性，直接代入增根计算导致错误。\n### 2. 求解目标\n(1) 证明$BD=b$；(2) 求$\\cos\\angle ABC$的值。\n### 3. 考点预判\n核心考点为**正弦定理、余弦定理、三角形分点问题处理、隐含条件挖掘**，命题意图是考察解三角形核心定理的灵活应用能力，属于高考中档大题的标准考法。\n---\n## 第二步：思路预判·试错路径还原\n### 1. 第一问试错思路\n- **初始思路（面积法）**：看到$\\sin\\angle ABC$，第一反应联想到三角形面积公式$S_{\\triangle ABC}=\\frac{1}{2}ac\\sin B$，想通过面积和联系BD：$S_{\\triangle ABC}=S_{\\triangle ABD}+S_{\\triangle CBD}$，两个小三角形面积和为$\\frac{1}{2}BD \\cdot b \\cdot \\sin<BD,AC>$，但多了未知的BD与AC的夹角，和$\\angle ABC$没有直接关联，思路卡住。\n- **思路调整**：等式$BD\\sin B=a\\sin C$包含边和对应角的正弦，符合正弦定理的应用场景，转换思路用正弦定理实现边角互化。\n### 2. 第二问试错思路\n- **初始思路（小三角形正弦定理）**：看到△ABD和△CBD有互补的角$\\angle ADB$和$\\angle CDB$，尝试用正弦定理联立，最终仅得到△ABC本身就满足的$\\frac{c}{a}=\\frac{\\sin C}{\\sin A}$，没有新的等量关系，思路卡住。\n- **思路调整**：△ABD和△ABC共享公共角A，同一个角的余弦值唯一，可以用余弦定理分别表示$\\cos A$建立等式，思路可行。\n---\n## 第三步：多解法分支·分层拆解\n### （1）第一问解法（基础通法：正弦定理代换）\n- **适用场景**：所有出现边和对应角正弦的等式，优先选用。\n- **核心逻辑**：正弦定理实现三角形内边与角正弦的直接互化。\n- **解题步骤**：\n  1. 由△ABC的正弦定理：$\\frac{a}{\\sin A}=\\frac{b}{\\sin B}=\\frac{c}{\\sin C}=2R$（R为外接圆半径），可得$\\sin B=\\frac{b}{2R}$，$\\sin C=\\frac{c}{2R}$。\n  2. 代入题干等式：$BD \\cdot \\frac{b}{2R} = a \\cdot \\frac{c}{2R}$，两边同乘2R（2R≠0），得$BD \\cdot b = ac$。\n  3. 代入已知$b^2=ac$，得$BD \\cdot b = b^2$，因为b是边长（b>0），两边同除以b得$BD=b$，得证。\n---\n### （2）第二问解法\n#### 解法1：基础通法（公共角余弦相等，所有学生必须掌握）\n- **适用场景**：两个三角形共享公共角/有邻补角的情况。\n- **核心逻辑**：同一个角的余弦值唯一，分别用余弦定理表示后建立等量关系。\n- **解题步骤**：\n  1. 由AD=2DC，AD+DC=b，得$AD=\\frac{2}{3}b$，$DC=\\frac{1}{3}b$，结合第一问结论BD=b。\n  2. 在△ABD中用余弦定理表示公共角A：\n     $$\\cos A = \\frac{AB^2 + AD^2 - BD^2}{2 \\cdot AB \\cdot AD} = \\frac{c^2 + (\\frac{2}{3}b)^2 - b^2}{2 \\cdot c \\cdot \\frac{2}{3}b} = \\frac{c^2 - \\frac{5}{9}b^2}{\\frac{4}{3}bc}$$\n  3. 在△ABC中用余弦定理表示公共角A：\n     $$\\cos A = \\frac{AB^2 + AC^2 - BC^2}{2 \\cdot AB \\cdot AC} = \\frac{c^2 + b^2 - a^2}{2bc}$$\n  4. 联立两个等式，约去公共分母bc，化简得$3c^2 - 11b^2 + 6a^2=0$。\n  5. 代入$b^2=ac$，得$3c^2 -11ac +6a^2=0$，因式分解为$(c-3a)(3c-2a)=0$，解得$c=3a$或$c=\\frac{2}{3}a$。\n  6. 验证增根：\n     - 若$c=3a$，则$b^2=3a^2$，$b=\\sqrt{3}a$，此时$a+b≈2.732a < 3a=c$，不满足三角不等式，舍去；\n     - 若$c=\\frac{2}{3}a$，则$b^2=\\frac{2}{3}a^2$，$b=\\frac{\\sqrt{6}}{3}a$，满足三边关系，保留。\n  7. 代入余弦定理求$\\cos\\angle ABC$：\n     $$\\cos B = \\frac{a^2 + c^2 - b^2}{2ac} = \\frac{a^2 + (\\frac{2}{3}a)^2 - \\frac{2}{3}a^2}{2 \\cdot a \\cdot \\frac{2}{3}a} = \\frac{7}{12}$$\n---\n#### 解法2：巧思巧解（斯图尔特定理，选填秒杀用）\n- **适用场景**：三角形内有线段连接顶点和对边分点的情况，可直接套用公式。\n- **核心逻辑**：斯图尔特定理：△ABC中D在AC上，AD:DC=m:n，则$AB^2 \\cdot DC + BC^2 \\cdot AD = AC \\cdot (BD^2 + AD \\cdot DC)$。\n- **解题步骤**：\n  1. 代入m=2,n=1，AD=2b/3,DC=b/3,BD=b，得：\n     $$c^2 \\cdot \\frac{b}{3} + a^2 \\cdot \\frac{2b}{3} = b \\cdot (b^2 + \\frac{2b}{3} \\cdot \\frac{b}{3})$$\n  2. 两边约去b，化简直接得$3c^2 +6a^2=11b^2$，和解法1的方程完全一致，后续步骤相同，最终得$\\cos B=\\frac{7}{12}$，比公共角法计算速度快30%。\n---\n#### 解法3：进阶拓展（向量法，无需记额外定理）\n- **适用场景**：对向量运算掌握较好的学生，计算不易出错。\n- **核心逻辑**：分点向量的线性表示，模长平方等于向量平方。\n- **解题步骤**：\n  1. 由分点向量公式：$\\overrightarrow{BD} = \\frac{1}{3}\\overrightarrow{BA} + \\frac{2}{3}\\overrightarrow{BC}$。\n  2. 两边平方：$|\\overrightarrow{BD}|^2 = \\frac{1}{9}|\\overrightarrow{BA}|^2 + \\frac{4}{9}\\overrightarrow{BA} \\cdot \\overrightarrow{BC} + \\frac{4}{9}|\\overrightarrow{BC}|^2$。\n  3. 代入$BD=b,|\\overrightarrow{BA}|=c,|\\overrightarrow{BC}|=a,\\overrightarrow{BA}\\cdot\\overrightarrow{BC}=ac\\cos B$，化简得$9b^2 = c^2 +4ac\\cos B +4a^2$。\n  4. 代入余弦定理$ac\\cos B=\\frac{a^2+c^2-b^2}{2}$，整理得$11b^2=6a^2+3c^2$，和之前方程一致，后续步骤相同，得$\\cos B=\\frac{7}{12}$。\n---\n## 第四步：易错点与难点应对\n### 1. 高频易错点\n- **①忘记验证增根**：解出$c=3a$后直接代入计算，要么得到$\\cos B=\\frac{7}{6}>1$不符合余弦值域，要么忽略三边关系，直接丢分。规避方法：解出边长关系后，要么验证三角不等式，要么代入余弦公式看结果是否在$(-1,1)$范围内。\n- **②化简计算错误**：联立余弦等式时容易约错分母、算错系数，规避方法：每一步化简后回查1次，避免低级失误。\n### 2. 思维难点应对\n- 难点：三角形内有分点时不知道怎么建等式：\n  通用破题方法：三个方向任选其一即可覆盖90%的题型：①找公共角/邻补角用余弦定理；②用分点向量模长平方；③选填直接用斯图尔特定理。\n---\n## 第五步：最终结论·验证复盘\n### 1. 最终结论\n(1) 证明成立，$BD=b$；(2) $\\cos\\angle ABC=\\boldsymbol{\\frac{7}{12}}$，和参考答案完全一致，参考答案无疏漏。\n### 2. 复盘总结\n这道题的核心解题逻辑可迁移到所有解三角形分点题：\n1. 看到边+正弦的组合，优先用正弦定理边角互化；\n2. 三角形内有分点，优先用公共角余弦相等（通法）、向量模长平方两个方法；\n3. 所有解三角形题，解出边长/角度后必须验证是否符合三角形的基本性质，避免增根。"
+      "content": "### 第一问\n**分析**：首先翻译题干已知信息：①△ABC中，由正弦定理定义，任意边与对应角正弦的比为定值，即$\\frac{a}{\\sin A}=\\frac{b}{\\sin B}=\\frac{c}{\\sin C}=2R$（R为三角形外接圆半径）；②已知边的等量关系$b^2=ac$；③点D在AC上，满足$BD \\cdot \\sin\\angle ABC = a \\sin C$，要证明$BD=b$，核心是将等式中的三角函数量转化为边的关系，可通过边角互化或面积等量关系两种路径实现。\n**目标解决1**：需解决目标：将题干的正弦等式转化为仅含BD和已知边的关系，证明$BD=b$。\n**解决方法1**：适用条件：题干同时出现边和对应角的正弦值，优先用正弦定理实现边角互化。\n推导过程：根据正弦定理，△ABC中$\\frac{c}{\\sin C}=\\frac{b}{\\sin \\angle ABC}$，变形得$\\sin C = \\frac{c \\cdot \\sin \\angle ABC}{b}$。\n将该式代入题干等式$BD \\cdot \\sin\\angle ABC = a \\sin C$，得：\n$$BD \\cdot \\sin\\angle ABC = a \\cdot \\frac{c \\cdot \\sin\\angle ABC}{b}$$\n∠ABC为三角形内角，故$\\sin\\angle ABC > 0$，两边约去$\\sin\\angle ABC$得$BD = \\frac{ac}{b}$，结合已知$b^2=ac$，代入得$BD = \\frac{b^2}{b} = b$，得证。\n**解决方法2**：适用条件：题干出现线段、角的正弦乘积，可通过三角形面积的两种表示方式建立等量关系。\n推导过程：△ABC的面积有两种表示：第一种$S_{\\triangle ABC} = \\frac{1}{2}ac\\sin\\angle ABC$（两边及夹角正弦乘积的一半），第二种$S_{\\triangle ABC} = \\frac{1}{2}ab\\sin C$（边BC=a、AC=b及夹角C的正弦乘积的一半），二者相等得$\\frac{1}{2}ac\\sin B = \\frac{1}{2}ab\\sin C$，约去公共项得$c\\sin B = b\\sin C$。\n将该式代入题干等式$BD\\sin B = a\\sin C$，两边乘$b$得$BD\\cdot b\\sin B = ab\\sin C = ac\\sin B$，约去$\\sin B$得$BD\\cdot b = ac = b^2$，故$BD=b$，得证。\n\n### 第二问\n**分析**：已知$AD=2DC$，$AC=b$，故$AD=\\frac{2}{3}b$，$DC=\\frac{1}{3}b$，结合第一问结论$BD=b$、已知$b^2=ac$，要求$\\cos\\angle ABC$，由余弦定理得$\\cos\\angle ABC = \\frac{a^2 + c^2 - b^2}{2ac} = \\frac{a^2 + c^2 - ac}{2ac}$，因此核心目标是求出a和c的比例关系，可通过补角余弦关系、同角余弦相等、向量平方三种路径实现。\n**目标解决2**：需解决目标：利用D点分AC的比例关系，建立a和c的等式，求出$a:c$的比值。\n**解决方法1**：适用条件：同一直线上相邻两角互补，余弦值互为相反数，可分别在两个共边小三角形中用余弦定理表示角的余弦，建立等式。\n推导过程：设$\\angle ADB=\\theta$，则$\\angle CDB=\\pi-\\theta$，故$\\cos\\angle CDB = -\\cos\\theta$。\n在△ABD中由余弦定理：\n$$\\cos\\theta = \\frac{AD^2 + BD^2 - AB^2}{2\\cdot AD\\cdot BD} = \\frac{(\\frac{2b}{3})^2 + b^2 - c^2}{2\\cdot \\frac{2b}{3}\\cdot b} = \\frac{13b^2 - 9c^2}{12b^2}$$\n在△CBD中由余弦定理：\n$$\\cos(\\pi-\\theta) = \\frac{DC^2 + BD^2 - BC^2}{2\\cdot DC\\cdot BD} = \\frac{(\\frac{b}{3})^2 + b^2 - a^2}{2\\cdot \\frac{b}{3}\\cdot b} = \\frac{10b^2 - 9a^2}{6b^2}$$\n由$\\cos(\\pi-\\theta)=-\\cos\\theta$得：\n$$\\frac{10b^2 - 9a^2}{6b^2} = -\\frac{13b^2 - 9c^2}{12b^2}$$\n两边乘$12b^2$化简得$3c^2 + 6a^2 - 11b^2 = 0$，代入$b^2=ac$得$3c^2 - 11ac + 6a^2 = 0$，令$k=\\frac{c}{a}$，方程变为$3k^2-11k+6=0$，解得$k=3$或$k=\\frac{2}{3}$。\n验证三边关系：当$c=3a$时，$b^2=ac=3a^2$，$b=\\sqrt{3}a$，此时$a+b=a+\\sqrt{3}a<3a=c$，不满足三角形两边之和大于第三边，舍去；当$c=\\frac{2}{3}a$时，$b^2=ac=\\frac{2}{3}a^2$，$b=\\frac{\\sqrt{6}}{3}a$，满足三边关系，有效。\n代入余弦定理求$\\cos\\angle ABC$：\n$$\\cos\\angle ABC = \\frac{a^2 + c^2 - b^2}{2ac} = \\frac{a^2 + (\\frac{2a}{3})^2 - \\frac{2a^2}{3}}{2\\cdot a\\cdot \\frac{2a}{3}} = \\frac{\\frac{7a^2}{9}}{\\frac{4a^2}{3}} = \\frac{7}{12}$$\n**解决方法2**：适用条件：两个三角形共享同一个角，可分别在两个三角形中表示该角的余弦值，建立等式。\n推导过程：△ABD和△ABC共享角A，二者的$\\cos A$相等。\n在△ABD中：\n$$\\cos A = \\frac{AB^2 + AD^2 - BD^2}{2\\cdot AB\\cdot AD} = \\frac{c^2 + (\\frac{2b}{3})^2 - b^2}{2\\cdot c\\cdot \\frac{2b}{3}} = \\frac{9c^2 - 5b^2}{12bc}$$\n在△ABC中：\n$$\\cos A = \\frac{AB^2 + AC^2 - BC^2}{2\\cdot AB\\cdot AC} = \\frac{c^2 + b^2 - a^2}{2bc}$$\n联立两式化简得$3c^2 + 6a^2 -11b^2=0$，后续求解、验证、计算$\\cos\\angle ABC$的过程与方法1完全一致，最终得$\\cos\\angle ABC=\\frac{7}{12}$。\n**解决方法3**：适用条件：出现线段的比例分点，用向量法表示分点向量，平方后利用模长和夹角建立等式，计算更简便。\n推导过程：由分点向量公式，$AD=2DC$时$\\overrightarrow{BD} = \\frac{1}{3}\\overrightarrow{BA} + \\frac{2}{3}\\overrightarrow{BC}$，两边取模平方：\n$$|\\overrightarrow{BD}|^2 = \\frac{1}{9}|\\overrightarrow{BA}|^2 + \\frac{4}{9}|\\overrightarrow{BC}|^2 + 2\\cdot \\frac{1}{3}\\cdot \\frac{2}{3}\\cdot \\overrightarrow{BA}\\cdot \\overrightarrow{BC}$$\n代入$|\\overrightarrow{BD}|=b$、$|\\overrightarrow{BA}|=c$、$|\\overrightarrow{BC}|=a$、$\\overrightarrow{BA}\\cdot \\overrightarrow{BC}=ac\\cos\\angle ABC$得：\n$$b^2 = \\frac{c^2}{9} + \\frac{4a^2}{9} + \\frac{4ac\\cos B}{9}$$\n两边乘9，结合余弦定理$ac\\cos B = \\frac{a^2 + c^2 - b^2}{2}$代入化简，得$11b^2=3c^2+6a^2$，后续求解、验证、计算$\\cos\\angle ABC$的过程与方法1完全一致，最终得$\\cos\\angle ABC=\\frac{7}{12}$。\n**合理性验证**：$\\cos\\angle ABC=\\frac{7}{12} \\in (-1,1)$符合余弦值域，所得三边满足三角形三边关系，且完全匹配题干$b^2=ac$的条件，结果正确。\n\n最终结论：(1) $BD=b$得证；(2) $\\cos\\angle ABC=\\boldsymbol{\\frac{7}{12}}$。"
     }
   ]
 }

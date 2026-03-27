@@ -1173,6 +1173,68 @@
             margin-top: 10px;
         }
 
+        .char-box-mode-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .char-box-mode-tab {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            background: #f5f5f5;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .char-box-mode-tab.active {
+            background: #4a90d9;
+            color: white;
+            border-color: #4a90d9;
+        }
+
+        .char-box-split-line {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #2196f3;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+
+        .char-box-split-line:hover {
+            background: #ff5722;
+            height: 3px;
+        }
+
+        .char-box-split-line::before {
+            content: '×';
+            position: absolute;
+            right: 5px;
+            top: -10px;
+            background: #ff5722;
+            color: white;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .char-box-split-line:hover::before {
+            opacity: 1;
+        }
+
+        .char-box-image-container.split-mode {
+            cursor: crosshair;
+        }
+
         .image-item {
             position: relative;
             display: inline-block;
@@ -1314,6 +1376,10 @@
                 <span class="char-box-modal-title">标注字框</span>
                 <button class="char-box-modal-close" onclick="closeCharBoxModal()">&times;</button>
             </div>
+            <div class="char-box-mode-tabs">
+                <button class="char-box-mode-tab active" data-mode="charbox" onclick="switchCharBoxMode('charbox')">字框标注</button>
+                <button class="char-box-mode-tab" data-mode="splitline" onclick="switchCharBoxMode('splitline')">分割线</button>
+            </div>
             <div class="char-box-image-container" id="charBoxImageContainer">
                 <img src="" alt="图片" class="char-box-image" id="charBoxImage">
                 <div class="char-box-overlay" id="charBoxOverlay"></div>
@@ -1330,7 +1396,7 @@
                 <button class="char-box-btn char-box-btn-primary" onclick="confirmCharBox()">确认</button>
                 <button class="char-box-btn char-box-btn-secondary" onclick="closeCharBoxModal()">取消</button>
             </div>
-            <div class="char-box-hint">在图片上拖动鼠标绘制一个正方形，代表一个汉字的大小</div>
+            <div class="char-box-hint" id="charBoxHint">在图片上拖动鼠标绘制一个正方形，代表一个汉字的大小</div>
         </div>
     </div>
 
@@ -2405,26 +2471,10 @@
 
         function updateSearchFromTags() {
             const searchInput = document.getElementById('searchInput');
-            const currentValue = searchInput.value;
             
-            const tokens = tokenizeSearchQuery(currentValue);
-            const nonTagTokens = tokens.filter(t => t.type !== 'TAG');
-            
-            let newTagPart = '';
+            let newValue = '';
             if (selectedTags.size > 0) {
-                newTagPart = Array.from(selectedTags).map(t => `tag:${t}`).join(' ');
-            }
-            
-            let newValue = newTagPart;
-            for (const token of nonTagTokens) {
-                if (newValue) newValue += ' ';
-                if (token.type === 'LPAREN') newValue += '(';
-                else if (token.type === 'RPAREN') newValue += ')';
-                else if (token.type === 'AND') newValue += 'AND';
-                else if (token.type === 'OR') newValue += 'OR';
-                else if (token.type === 'NOT') newValue += 'NOT';
-                else if (token.type === 'TEXT') newValue += token.negative ? `-${token.value}` : token.value;
-                else if (token.type === 'PHRASE') newValue += `"${token.value}"`;
+                newValue = Array.from(selectedTags).map(t => `tag:${t}`).join(' ');
             }
             
             searchInput.value = newValue;
@@ -2444,36 +2494,21 @@
         async function applyFilters() {
             try {
                 currentSearch = document.getElementById('searchInput').value;
+                currentPage = 1;
 
+                let url = `${API_BASE}/api/questions?page=${currentPage}&page_size=${pageSize}`;
                 if (currentSearch.trim()) {
-                    let url = `${API_BASE}/api/questions?page=1&page_size=1000`;
-                    const response = await fetch(url);
-                    const result = await response.json();
-                    questions = result.questions || [];
-
-                    if (currentSearch.trim()) {
-                        questions = filterQuestionsLocal(questions, currentSearch);
-                    }
-
-                    totalQuestions = questions.length;
-                    totalPages = 1;
-                    currentPage = 1;
-
-                    renderQuestionList();
-                    renderPagination();
-                } else {
-                    currentPage = 1;
-                    let url = `${API_BASE}/api/questions?page=${currentPage}&page_size=${pageSize}`;
-
-                    const response = await fetch(url);
-                    const result = await response.json();
-                    questions = result.questions || [];
-                    totalQuestions = result.total || 0;
-                    totalPages = result.total_pages || 1;
-
-                    renderQuestionList();
-                    renderPagination();
+                    url += `&search=${encodeURIComponent(currentSearch)}`;
                 }
+
+                const response = await fetch(url);
+                const result = await response.json();
+                questions = result.questions || [];
+                totalQuestions = result.total || 0;
+                totalPages = result.total_pages || 1;
+
+                renderQuestionList();
+                renderPagination();
             } catch (error) {
                 console.error('加载错题失败:', error);
             }
@@ -2527,273 +2562,6 @@
             }
         }
         
-        function filterQuestionsLocal(questions, query) {
-            if (!query.trim()) return questions;
-            
-            const tokens = tokenizeSearchQuery(query);
-            const ast = parseTokensToAST(tokens);
-            
-            return questions.filter(q => {
-                return evaluateAST(ast, q);
-            });
-        }
-        
-        function getEffectiveTags(question) {
-            const ownTags = question.tags || [];
-            const subQuestionTags = (question.sub_questions || [])
-                .flatMap(sq => sq.tags || []);
-            return [...new Set([...ownTags, ...subQuestionTags])];
-        }
-
-        function evaluateAST(node, question) {
-            const questionStr = JSON.stringify(question.question || '').toLowerCase();
-            const answerStr = JSON.stringify(question.answer || '').toLowerCase();
-            const tags = getEffectiveTags(question).map(t => t.toLowerCase());
-            
-            if (node.type === 'TAG') {
-                const result = matchTag(node.value, tags);
-                return node.negative ? !result : result;
-            }
-            
-            if (node.type === 'TEXT') {
-                const result = matchText(node.value, questionStr, answerStr);
-                return node.negative ? !result : result;
-            }
-            
-            if (node.type === 'PHRASE') {
-                const result = matchPhrase(node.value, questionStr, answerStr);
-                return node.negative ? !result : result;
-            }
-            
-            if (node.type === 'AND') {
-                return evaluateAST(node.left, question) && evaluateAST(node.right, question);
-            }
-            
-            if (node.type === 'OR') {
-                return evaluateAST(node.left, question) || evaluateAST(node.right, question);
-            }
-            
-            if (node.type === 'NOT') {
-                return !evaluateAST(node.operand, question);
-            }
-            
-            return true;
-        }
-        
-        function parseTokensToAST(tokens) {
-            let pos = 0;
-            
-            function parseExpression() {
-                return parseOR();
-            }
-            
-            function parseOR() {
-                let left = parseAND();
-                while (pos < tokens.length && tokens[pos].type === 'OR') {
-                    pos++;
-                    const right = parseAND();
-                    left = { type: 'OR', left, right };
-                }
-                return left;
-            }
-            
-            function parseAND() {
-                let left = parseNOT();
-                while (pos < tokens.length) {
-                    const t = tokens[pos];
-                    if (t.type === 'AND') {
-                        pos++;
-                        const right = parseNOT();
-                        left = { type: 'AND', left, right };
-                    } else if (t.type === 'TEXT' || t.type === 'PHRASE' || t.type === 'TAG' || t.type === 'LPAREN') {
-                        const right = parseNOT();
-                        left = { type: 'AND', left, right };
-                    } else {
-                        break;
-                    }
-                }
-                return left;
-            }
-            
-            function parseNOT() {
-                if (pos < tokens.length && tokens[pos].type === 'NOT') {
-                    pos++;
-                    const operand = parseAtom();
-                    return { type: 'NOT', operand };
-                }
-                return parseAtom();
-            }
-            
-            function parseAtom() {
-                if (pos >= tokens.length) {
-                    return { type: 'EMPTY' };
-                }
-                
-                const token = tokens[pos];
-                pos++;
-                
-                if (token.type === 'LPAREN') {
-                    const expr = parseExpression();
-                    if (pos < tokens.length && tokens[pos].type === 'RPAREN') {
-                        pos++;
-                    }
-                    return expr;
-                }
-                
-                if (token.type === 'TAG') {
-                    return { type: 'TAG', value: token.value, negative: token.negative };
-                }
-                
-                if (token.type === 'PHRASE') {
-                    return { type: 'PHRASE', value: token.value, negative: token.negative };
-                }
-                
-                if (token.type === 'TEXT') {
-                    return { type: 'TEXT', value: token.value, negative: token.negative };
-                }
-                
-                return { type: 'EMPTY' };
-            }
-            
-            const ast = parseExpression();
-            return ast;
-        }
-        
-        function matchTag(tag, tags) {
-            tag = tag.toLowerCase();
-            
-            if (tag.includes('*')) {
-                const regex = createRegex(tag);
-                return tags.some(t => regex.test(t));
-            }
-            
-            if (tags.some(t => t === tag)) {
-                return true;
-            }
-            
-            if (tags.some(t => t.startsWith(tag + '::'))) {
-                return true;
-            }
-            
-            return false;
-        }
-        
-        function matchText(text, questionStr, answerStr) {
-            try {
-                const regex = createRegex(text);
-                return regex.test(questionStr) || regex.test(answerStr);
-            } catch (e) {
-                return questionStr.includes(text.toLowerCase()) || answerStr.includes(text.toLowerCase());
-            }
-        }
-        
-        function matchPhrase(phrase, questionStr, answerStr) {
-            return questionStr.includes(phrase.toLowerCase()) || answerStr.includes(phrase.toLowerCase());
-        }
-        
-        function createRegex(pattern) {
-            pattern = pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            if (pattern.includes('*')) {
-                pattern = pattern.replace(/\*/g, '.*');
-            }
-            if (pattern.includes('_')) {
-                pattern = pattern.replace(/_/g, '.');
-            }
-            return new RegExp(pattern, 'i');
-        }
-        
-        function tokenizeSearchQuery(query) {
-            const tokens = [];
-            let i = 0;
-            
-            while (i < query.length) {
-                const char = query[i];
-                
-                if (char === '(') {
-                    tokens.push({ type: 'LPAREN' });
-                    i++;
-                } else if (char === ')') {
-                    tokens.push({ type: 'RPAREN' });
-                    i++;
-                } else if (char === '-') {
-                    const nextChar = query[i + 1];
-                    if (nextChar === 't' && query.slice(i + 1, i + 5).toLowerCase() === 'tag:') {
-                        const rest = query.slice(i + 5);
-                        const tagEnd = findTokenEnd(rest);
-                        const tagValue = rest.slice(0, tagEnd);
-                        tokens.push({ type: 'TAG', value: tagValue, negative: true });
-                        i += 5 + tagEnd;
-                    } else if (nextChar === '(' || nextChar === '"') {
-                        tokens.push({ type: 'NOT' });
-                        i++;
-                    } else {
-                        const text = parseTextToken(query, i + 1);
-                        tokens.push({ type: 'TEXT', value: text, negative: true });
-                        i += 1 + text.length;
-                    }
-                } else if (query.slice(i, i + 3).toLowerCase() === 'and') {
-                    tokens.push({ type: 'AND' });
-                    i += 3;
-                } else if (query.slice(i, i + 2).toLowerCase() === 'or') {
-                    tokens.push({ type: 'OR' });
-                    i += 2;
-                } else if (query.slice(i, i + 3).toLowerCase() === 'not') {
-                    tokens.push({ type: 'NOT' });
-                    i += 3;
-                } else if (char === '"') {
-                    const end = query.indexOf('"', i + 1);
-                    if (end === -1) {
-                        const text = query.slice(i + 1);
-                        tokens.push({ type: 'PHRASE', value: text });
-                        break;
-                    } else {
-                        const text = query.slice(i + 1, end);
-                        tokens.push({ type: 'PHRASE', value: text });
-                        i = end + 1;
-                    }
-                } else if (char === ' ' || char === '\t') {
-                    i++;
-                } else {
-                    const text = parseTextToken(query, i);
-                    if (text.toLowerCase().startsWith('tag:')) {
-                        const tagValue = text.slice(4);
-                        const negative = tagValue.startsWith('-');
-                        const actualTag = negative ? tagValue.slice(1) : tagValue;
-                        tokens.push({ type: 'TAG', value: actualTag, negative });
-                    } else {
-                        tokens.push({ type: 'TEXT', value: text, negative: false });
-                    }
-                    i += text.length;
-                }
-            }
-            
-            return tokens;
-        }
-        
-        function parseTextToken(query, start) {
-            let end = start;
-            while (end < query.length) {
-                const char = query[end];
-                if (char === ' ' || char === '\t' || char === '(' || char === ')' || char === '"') {
-                    break;
-                }
-                end++;
-            }
-            return query.slice(start, end);
-        }
-        
-        function findTokenEnd(str) {
-            let end = 0;
-            while (end < str.length) {
-                const char = str[end];
-                if (char === ' ' || char === '\t' || char === '(' || char === ')' || char === '"') {
-                    break;
-                }
-                end++;
-            }
-            return end;
-        }
-        
         function debounceApplyFilters() {
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(applyFilters, 300);
@@ -2825,7 +2593,7 @@
                 }
                 
                 const isSelected = selectedQuestions.has(q.id);
-                const hasAiContent = q.question_analysis || q.thinking_processes || q.neural_reaction || q.immersion_thinking;
+                const hasAiContent = q.question_analysis || q.thinking_processes || q.neural_reaction || q.immersion_thinking || q.math_thinking_chain;
 
                 return `
                     <div class="question-item ${isSelected ? 'selected' : ''}"
@@ -2862,7 +2630,7 @@
         function selectAllWithAiContent() {
             hideContextMenu();
             questions.forEach(q => {
-                if (q.question_analysis || q.thinking_processes || q.neural_reaction || q.immersion_thinking) {
+                if (q.question_analysis || q.thinking_processes || q.neural_reaction || q.immersion_thinking || q.math_thinking_chain) {
                     selectedQuestions.add(q.id);
                 }
             });
@@ -2885,10 +2653,11 @@
             loadQuestionForEdit(id);
         }
         
-        function loadQuestionForEdit(id) {
+        function loadQuestionForEdit(id, preserveTab = false) {
             const question = questions.find(q => q.id === id);
             if (!question) return;
 
+            const previousTab = currentTab;
             currentQuestion = question;
             currentEditingQuestion = question;
 
@@ -2909,11 +2678,15 @@
                 }
             });
 
-            currentTab = 'question';
-            document.querySelectorAll('#edit-view .tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('#edit-view .tab-content').forEach(c => c.classList.remove('active'));
-            document.querySelector('#edit-view [data-tab="question"]').classList.add('active');
-            document.getElementById('question-tab').classList.add('active');
+            if (!preserveTab) {
+                currentTab = 'question';
+                document.querySelectorAll('#edit-view .tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('#edit-view .tab-content').forEach(c => c.classList.remove('active'));
+                document.querySelector('#edit-view [data-tab="question"]').classList.add('active');
+                document.getElementById('question-tab').classList.add('active');
+            } else {
+                currentTab = previousTab;
+            }
 
             renderContentList();
             renderTags();
@@ -3068,7 +2841,7 @@
                     const question = questions.find(q => q.id === id);
                     if (!question) continue;
 
-                    const hasAiContent = question.question_analysis || question.thinking_processes || question.neural_reaction || question.immersion_thinking;
+                    const hasAiContent = question.question_analysis || question.thinking_processes || question.neural_reaction || question.immersion_thinking || question.math_thinking_chain;
                     if (!hasAiContent) continue;
 
                     const cleanItems = (items) => {
@@ -3083,6 +2856,9 @@
                                 };
                                 if (item.charBox) {
                                     result.charBox = item.charBox;
+                                }
+                                if (item.splitLines && item.splitLines.length > 0) {
+                                    result.splitLines = item.splitLines;
                                 }
                                 return result;
                             } else if (item.type === 'richtext') {
@@ -3131,7 +2907,7 @@
                         successCount++;
                         const idx = questions.findIndex(q => q.id === id);
                         if (idx !== -1) {
-                            questions[idx] = { ...questions[idx], ...data, question_analysis: undefined };
+                            questions[idx] = { ...questions[idx], ...data, question_analysis: undefined, thinking_processes: undefined, neural_reaction: undefined, immersion_thinking: undefined, math_thinking_chain: undefined };
                         }
                     }
                 }
@@ -3190,6 +2966,9 @@
                         };
                         if (item.charBox) {
                             result.charBox = item.charBox;
+                        }
+                        if (item.splitLines && item.splitLines.length > 0) {
+                            result.splitLines = item.splitLines;
                         }
                         return result;
                     } else if (item.type === 'richtext') {
@@ -3379,7 +3158,9 @@
             startY: 0,
             currentBox: null,
             imageWidth: 0,
-            imageHeight: 0
+            imageHeight: 0,
+            mode: 'charbox',
+            splitLines: []
         };
 
         function openCharBoxModal(questionId, itemIndex, itemType) {
@@ -3402,6 +3183,8 @@
             charBoxModalData.itemIndex = itemIndex;
             charBoxModalData.itemType = itemType;
             charBoxModalData.currentBox = item.charBox ? { ...item.charBox } : null;
+            charBoxModalData.splitLines = item.splitLines ? [...item.splitLines] : [];
+            charBoxModalData.mode = 'charbox';
 
             const modal = document.getElementById('charBoxModal');
             const img = document.getElementById('charBoxImage');
@@ -3411,11 +3194,14 @@
                 charBoxModalData.imageWidth = img.naturalWidth;
                 charBoxModalData.imageHeight = img.naturalHeight;
 
+                switchCharBoxMode('charbox');
+                document.querySelectorAll('.char-box-mode-tab').forEach(tab => {
+                    tab.classList.toggle('active', tab.dataset.mode === 'charbox');
+                });
+
                 if (charBoxModalData.currentBox) {
                     drawCharBox(charBoxModalData.currentBox);
                     document.getElementById('charBoxFontSize').value = charBoxModalData.currentBox.fontSize || 'medium';
-                } else {
-                    clearCharBoxOverlay();
                 }
             };
             img.src = imgSrc;
@@ -3423,10 +3209,74 @@
             modal.style.display = 'flex';
         }
 
+        function switchCharBoxMode(mode) {
+            charBoxModalData.mode = mode;
+            document.querySelectorAll('.char-box-mode-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.mode === mode);
+            });
+            
+            const container = document.getElementById('charBoxImageContainer');
+            container.classList.toggle('split-mode', mode === 'splitline');
+            
+            const hint = document.getElementById('charBoxHint');
+            
+            if (mode === 'splitline') {
+                clearCharBoxOverlay();
+                renderSplitLines();
+                hint.textContent = '右键点击图片添加分割线，左键点击分割线删除';
+            } else {
+                clearSplitLines();
+                hint.textContent = '在图片上拖动鼠标绘制一个正方形，代表一个汉字的大小';
+                if (charBoxModalData.currentBox) {
+                    drawCharBox(charBoxModalData.currentBox);
+                }
+            }
+        }
+
+        function renderSplitLines() {
+            const overlay = document.getElementById('charBoxOverlay');
+            const img = document.getElementById('charBoxImage');
+            const displayHeight = img.clientHeight;
+            
+            charBoxModalData.splitLines.forEach((line, index) => {
+                const lineEl = document.createElement('div');
+                lineEl.className = 'char-box-split-line';
+                lineEl.style.top = (line * displayHeight) + 'px';
+                lineEl.dataset.index = index;
+                lineEl.onclick = function(e) {
+                    e.stopPropagation();
+                    deleteSplitLine(index);
+                };
+                overlay.appendChild(lineEl);
+            });
+        }
+
+        function clearSplitLines() {
+            const overlay = document.getElementById('charBoxOverlay');
+            overlay.querySelectorAll('.char-box-split-line').forEach(el => el.remove());
+        }
+
+        function addSplitLine(yRatio) {
+            const newLine = Math.round(yRatio * 1000) / 1000;
+            if (!charBoxModalData.splitLines.includes(newLine)) {
+                charBoxModalData.splitLines.push(newLine);
+                charBoxModalData.splitLines.sort((a, b) => a - b);
+                clearSplitLines();
+                renderSplitLines();
+            }
+        }
+
+        function deleteSplitLine(index) {
+            charBoxModalData.splitLines.splice(index, 1);
+            clearSplitLines();
+            renderSplitLines();
+        }
+
         function closeCharBoxModal() {
             const modal = document.getElementById('charBoxModal');
             modal.style.display = 'none';
             clearCharBoxOverlay();
+            clearSplitLines();
             charBoxModalData = {
                 questionId: null,
                 itemIndex: null,
@@ -3436,7 +3286,9 @@
                 startY: 0,
                 currentBox: null,
                 imageWidth: 0,
-                imageHeight: 0
+                imageHeight: 0,
+                mode: 'charbox',
+                splitLines: []
             };
         }
 
@@ -3466,15 +3318,15 @@
         }
 
         async function confirmCharBox() {
-            if (!charBoxModalData.currentBox) {
+            if (!charBoxModalData.currentBox && charBoxModalData.mode === 'charbox') {
                 alert('请先绘制字框');
                 return;
             }
 
-            const charBoxData = {
+            const charBoxData = charBoxModalData.currentBox ? {
                 ...charBoxModalData.currentBox,
                 fontSize: document.getElementById('charBoxFontSize').value
-            };
+            } : null;
 
             const question = questions.find(q => q.id === charBoxModalData.questionId);
             if (question) {
@@ -3486,15 +3338,36 @@
                 }
                 const item = items[charBoxModalData.itemIndex];
                 if (item) {
-                    item.charBox = charBoxData;
+                    if (charBoxData) {
+                        item.charBox = charBoxData;
+                    }
+                    if (charBoxModalData.splitLines.length > 0) {
+                        item.splitLines = [...charBoxModalData.splitLines];
+                    } else {
+                        delete item.splitLines;
+                    }
                 }
             }
 
             if (currentQuestion && currentQuestion.id === charBoxModalData.questionId) {
                 if (charBoxModalData.itemType === 'question') {
-                    questionItems[charBoxModalData.itemIndex].charBox = charBoxData;
+                    if (charBoxData) {
+                        questionItems[charBoxModalData.itemIndex].charBox = charBoxData;
+                    }
+                    if (charBoxModalData.splitLines.length > 0) {
+                        questionItems[charBoxModalData.itemIndex].splitLines = [...charBoxModalData.splitLines];
+                    } else {
+                        delete questionItems[charBoxModalData.itemIndex].splitLines;
+                    }
                 } else if (charBoxModalData.itemType === 'answer') {
-                    answerItems[charBoxModalData.itemIndex].charBox = charBoxData;
+                    if (charBoxData) {
+                        answerItems[charBoxModalData.itemIndex].charBox = charBoxData;
+                    }
+                    if (charBoxModalData.splitLines.length > 0) {
+                        answerItems[charBoxModalData.itemIndex].splitLines = [...charBoxModalData.splitLines];
+                    } else {
+                        delete answerItems[charBoxModalData.itemIndex].splitLines;
+                    }
                 }
                 renderContentList();
             }
@@ -3516,9 +3389,15 @@
 
                 const result = await response.json();
                 if (result.success) {
-                    await loadQuestions();
+                    const q = questions.find(q => q.id === charBoxModalData.questionId);
+                    if (q && result.question) {
+                        q.question = result.question.question;
+                        q.answer = result.question.answer;
+                        q.tags = result.question.tags;
+                        q.sub_questions = result.question.sub_questions;
+                    }
                     if (currentQuestion && currentQuestion.id === charBoxModalData.questionId) {
-                        loadQuestionForEdit(charBoxModalData.questionId);
+                        loadQuestionForEdit(charBoxModalData.questionId, true);
                     }
                     closeCharBoxModal();
                 } else {
@@ -3530,6 +3409,18 @@
         }
 
         document.getElementById('charBoxOverlay').addEventListener('mousedown', function(e) {
+            if (charBoxModalData.mode === 'splitline') {
+                if (e.button === 2) {
+                    e.preventDefault();
+                    const rect = this.getBoundingClientRect();
+                    const y = e.clientY - rect.top;
+                    const img = document.getElementById('charBoxImage');
+                    const yRatio = y / img.clientHeight;
+                    addSplitLine(yRatio);
+                }
+                return;
+            }
+
             if (e.button !== 0) return;
 
             const rect = this.getBoundingClientRect();
@@ -3606,6 +3497,12 @@
         document.getElementById('charBoxOverlay').addEventListener('mouseleave', function(e) {
             if (charBoxModalData.isDrawing) {
                 charBoxModalData.isDrawing = false;
+            }
+        });
+
+        document.getElementById('charBoxOverlay').addEventListener('contextmenu', function(e) {
+            if (charBoxModalData.mode === 'splitline') {
+                e.preventDefault();
             }
         });
     </script>

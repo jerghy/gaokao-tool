@@ -8,7 +8,13 @@
         "src": "img/20260321124519_ebf4734b.png",
         "display": "center",
         "width": 450,
-        "height": "auto"
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.028413575374901343,
+          "x": 0.5235974743488556,
+          "y": 0.07166582677165353
+        }
       }
     ]
   },
@@ -19,7 +25,13 @@
         "src": "img/20260321124540_392a0de1.png",
         "display": "center",
         "width": 70,
-        "height": "auto"
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.17,
+          "x": 0.35979333333333335,
+          "y": 0.19047619047619047
+        }
       }
     ]
   },
@@ -28,11 +40,11 @@
     "思维"
   ],
   "sub_questions": [],
-  "thinking_processes": [
+  "math_thinking_chain": [
     {
       "target_id": "full",
       "target_label": "整个题目",
-      "thinking_content": "### 第一步：审题拆解·锚定核心\n#### 1. 条件拆解\n- **显性已知**：$\\triangle ABC$中，$\\angle B=60^\\circ$，$AB=2$，$M$是$BC$中点（即$BM=MC=\\frac{1}{2}BC$），$AM=2\\sqrt{3}$。\n- **隐藏限定**：三角形边长为正，内角范围为$(0^\\circ,180^\\circ)$。\n- **易错陷阱**：易混淆余弦定理的角边对应关系、忽略三角形内角和对角的范围限制、忘记舍去边长的负根。\n#### 2. 目标拆解\n小目标1：先在$\\triangle ABM$中求出$BM$，得到$BC$长度；小目标2：在$\\triangle ABC$中求$AC$；小目标3：在$\\triangle AMC$中求$\\cos\\angle MAC$。\n#### 3. 考点预判\n核心考点为**余弦定理、正弦定理的解三角形应用**，兼顾中点条件的几何转化，命题意图是考察解三角形的基础通法和多思路处理几何问题的能力。\n---\n### 第二步：思路预判·试错路径还原\n#### 1. 初始思路试错（学生最容易想到的弯路）\n看到$\\triangle ABM$有两边$AB=2$、$AM=2\\sqrt{3}$，有角$\\angle B=60^\\circ$，第一反应用正弦定理：$\\frac{AM}{\\sin B}=\\frac{AB}{\\sin\\angle AMB}$，代入得$\\frac{2\\sqrt{3}}{\\sin60^\\circ}=4=\\frac{2}{\\sin\\angle AMB}$，即$\\sin\\angle AMB=\\frac{1}{2}$，此时会得到$\\angle AMB=30^\\circ$或$150^\\circ$两个解，容易直接选$150^\\circ$导致错误。\n#### 2. 错误原因与调整\n忽略三角形内角和为$180^\\circ$：$\\angle B=60^\\circ$，若$\\angle AMB=150^\\circ$，两个角之和已经超过$180^\\circ$，因此只能选$\\angle AMB=30^\\circ$。为了避免这种多解问题，优先调整为**用余弦定理求边长**，余弦值只有唯一解，不会出现范围判定错误。\n#### 3. 核心解题意线\n以已知条件最多的$\\triangle ABM$为突破口，用余弦定理求$BM$→得$BC$→在$\\triangle ABC$求$AC$→在$\\triangle AMC$求$\\cos\\angle MAC$。\n---\n### 第三步：多解法分支·分层拆解\n#### 解法1：基础通法（余弦定理逐级求解，所有学生必须掌握）\n**适用场景**：所有解三角形题型，无特殊条件限制，正确率最高。\n1.  **求$BM$长度**：在$\\triangle ABM$中，设$BM=x$，根据余弦定理（三角形一边的平方等于另外两边平方和减两倍邻边乘积乘夹角余弦）：\n    $$AM^2=AB^2+BM^2-2\\cdot AB\\cdot BM\\cdot \\cos B$$\n    代入数值：$(2\\sqrt{3})^2=2^2+x^2-2\\times2\\times x\\times\\cos60^\\circ$，化简得$12=4+x^2-2x$，即$x^2-2x-8=0$。\n    解方程得$x=\\frac{2\\pm\\sqrt{4+32}}{2}=\\frac{2\\pm6}{2}$，边长为正，舍去负根得$x=4$，因此$BM=4$，$BC=2BM=8$。\n2.  **求$AC$长度**：在$\\triangle ABC$中，再次用余弦定理：\n    $$AC^2=AB^2+BC^2-2\\cdot AB\\cdot BC\\cdot \\cos B$$\n    代入数值：$AC^2=2^2+8^2-2\\times2\\times8\\times\\frac{1}{2}=4+64-16=52$，因此$AC=\\sqrt{52}=2\\sqrt{13}$。\n3.  **求$\\cos\\angle MAC$**：在$\\triangle AMC$中，$\\angle MAC$的对边为$MC=4$，邻边为$AM=2\\sqrt{3}$、$AC=2\\sqrt{13}$，根据余弦定理：\n    $$\\cos\\angle MAC=\\frac{AM^2+AC^2-MC^2}{2\\cdot AM\\cdot AC}$$\n    代入数值：分子$=12+52-16=48$，分母$=2\\times2\\sqrt{3}\\times2\\sqrt{13}=8\\sqrt{39}$，化简得$\\cos\\angle MAC=\\frac{48}{8\\sqrt{39}}=\\frac{2\\sqrt{39}}{13}$。\n---\n#### 解法2：巧思巧解（坐标+向量法，适合有特殊角的题型，计算更快不易错）\n**适用场景**：题干有$30^\\circ/60^\\circ/90^\\circ$等特殊角时，建系转化为坐标计算，无需记忆定理公式。\n1.  **建系设点**：将$B$放在原点$(0,0)$，$BC$沿$x$轴正方向，设$C(c,0)$，则中点$M(\\frac{c}{2},0)$；$\\angle B=60^\\circ$，$AB=2$，因此$A$的坐标为$(2\\cos60^\\circ,2\\sin60^\\circ)=(1,\\sqrt{3})$。\n2.  **求$BC$长度**：已知$AM=2\\sqrt{3}$，由两点距离公式：\n    $$\\sqrt{(\\frac{c}{2}-1)^2+(0-\\sqrt{3})^2}=2\\sqrt{3}$$\n    平方化简得$(\\frac{c}{2}-1)^2=9$，边长为正，得$\\frac{c}{2}=4$，$c=8$，即$BC=8$，$C(8,0)$，$M(4,0)$。\n3.  **求$AC$长度**：由两点距离公式：$AC=\\sqrt{(8-1)^2+(0-\\sqrt{3})^2}=\\sqrt{49+3}=2\\sqrt{13}$。\n4.  **求$\\cos\\angle MAC$**：用向量点积公式，向量$\\overrightarrow{AM}=(3,-\\sqrt{3})$，$\\overrightarrow{AC}=(7,-\\sqrt{3})$，夹角余弦为：\n    $$\\cos\\angle MAC=\\frac{\\overrightarrow{AM}\\cdot\\overrightarrow{AC}}{|\\overrightarrow{AM}|\\cdot|\\overrightarrow{AC}|}=\\frac{3\\times7+(-\\sqrt{3})\\times(-\\sqrt{3})}{2\\sqrt{3}\\times2\\sqrt{13}}=\\frac{24}{4\\sqrt{39}}=\\frac{2\\sqrt{39}}{13}$$\n---\n### 第四步：易错点与难点应对\n#### 1. 高频易错点\n- **正弦定理多解选错**：用正弦定理求角时容易忽略内角和限制，选到超出范围的解。规避方法：有夹角时优先用余弦定理求边长，余弦值无多解问题；若用正弦定理，得到两个解后必须验证内角和是否小于$180^\\circ$。\n- **余弦定理边对应错误**：计算角的余弦值时容易把对边平方放错位置。规避方法：牢记公式：$\\cos\\theta=\\frac{邻边_1^2+邻边_2^2-对边^2}{2\\times邻边_1\\times邻边_2}$，永远减角对的边的平方。\n- **忘记舍负根**：解二次方程得到负边长时直接使用导致错误。规避方法：边长、距离都是正数，解出负根直接舍去。\n#### 2. 思维难点应对\n遇到中点条件不知道怎么转化的通用破题法：①转化为长度相等：$BM=MC$；②建系：中点坐标为两端点坐标平均值；③向量：$\\overrightarrow{AM}=\\frac{1}{2}(\\overrightarrow{AB}+\\overrightarrow{AC})$，三选一即可快速转化条件。\n---\n### 第五步：最终结论·验证复盘\n1.  最终答案：$AC=\\boldsymbol{2\\sqrt{13}}$，$\\cos\\angle MAC=\\boldsymbol{\\frac{2\\sqrt{39}}{13}}$，与参考答案完全一致，无疏漏。\n2.  复盘总结：解三角形题的核心逻辑是**优先找已知条件最多的小三角形作为突破口**，逐步推导未知量；有特殊角时优先用坐标法简化计算，中点条件优先转化为长度/坐标/向量关系，可大幅提升解题速度和正确率。"
+      "content": "**分析**：首先逐句翻译题干信息：1. 根据三角形内角定义，△ABC中∠B=60°，AB=2，∠B为AB与BC的夹角；2. 根据中点定义，M是BC中点，故BM=MC=1/2 BC，可设BM为未知数构造方程；3. 已知AM=2√3，顺推路径可先在△ABM中求解BM长度，逆推路径：求AC需先得BC长度，求cos∠MAC需得△AMC三边长度或对应向量坐标。\n**目标解决1**：需解决目标：求BC的边长\n**解决方法1**：适用条件：三角形中已知两边及夹角/两边及其中一边对角，求第三边时使用余弦定理，为解三角形通用通法。\n在△ABM中，由余弦定理$AM^2 = AB^2 + BM^2 - 2\\cdot AB\\cdot BM\\cdot \\cos\\angle B$，代入已知数值：\n$(2\\sqrt{3})^2 = 2^2 + BM^2 - 2\\times2\\times BM\\times \\cos60^\\circ$\n整理得$12 = 4 + BM^2 - 2BM$，即$BM^2 -2BM -8=0$，解得$BM=\\frac{2\\pm\\sqrt{4+32}}{2}$，边长为正故$BM=4$，因此$BC=2BM=8$。\n**解决方法2**：适用条件：题干存在特殊角（30°/60°/90°），可建立平面直角坐标系，通过坐标运算快速求边长。\n以B为原点，BC为x轴建立平面直角坐标系，得$B(0,0)$，$A(2\\cos60^\\circ,2\\sin60^\\circ)=(1,\\sqrt{3})$，设$M(x,0)$，由$AM=2\\sqrt{3}$及两点距离公式：\n$\\sqrt{(x-1)^2 + (\\sqrt{3})^2}=2\\sqrt{3}$，平方得$(x-1)^2=9$，x为正故$x=4$，即$BM=4$，$BC=8$，$C(8,0)$。\n**分析**：已求得BC=8，接下来求AC长度，可通过余弦定理或坐标法两种路径求解。\n**目标解决2**：需解决目标：求AC的边长\n**解决方法1**：适用条件：三角形已知两边及夹角求第三边，用余弦定理，为通用通法。\n在△ABC中，由余弦定理$AC^2=AB^2 + BC^2 - 2\\cdot AB\\cdot BC\\cdot \\cos\\angle B$，代入数值：\n$AC^2=2^2 + 8^2 - 2\\times2\\times8\\times\\frac{1}{2}=4+64-16=52$，故$AC=\\sqrt{52}=2\\sqrt{13}$。\n**解决方法2**：适用条件：已建立坐标系、各点坐标已知时，用两点距离公式直接计算，运算快不易错。\n由坐标系结果$A(1,\\sqrt{3})$，$C(8,0)$，得$AC=\\sqrt{(8-1)^2 + (0-\\sqrt{3})^2}=\\sqrt{49+3}=\\sqrt{52}=2\\sqrt{13}$，与通法结果一致。\n**分析**：已求得AM=2√3，MC=4，AC=2√13，接下来求cos∠MAC，可通过三角形余弦定理或向量点积两种路径求解。\n**目标解决3**：需解决目标：求$\\cos\\angle MAC$的值\n**解决方法1**：适用条件：三角形已知三边长度，求任意内角余弦值，用余弦定理，为通用通法。\n在△AMC中，∠MAC对边为MC，由余弦定理$MC^2=AM^2 + AC^2 - 2\\cdot AM\\cdot AC\\cdot \\cos\\angle MAC$，代入数值：\n$4^2=(2\\sqrt{3})^2 + (2\\sqrt{13})^2 - 2\\times2\\sqrt{3}\\times2\\sqrt{13}\\cdot\\cos\\angle MAC$\n整理得$16=12+52-8\\sqrt{39}\\cos\\angle MAC$，解得$\\cos\\angle MAC=\\frac{48}{8\\sqrt{39}}=\\frac{6}{\\sqrt{39}}=\\frac{2\\sqrt{39}}{13}$。\n**解决方法2**：适用条件：已知各点坐标，求两向量夹角余弦时，用向量点积公式，直观不易出错。\n由坐标系结果得$\\overrightarrow{AM}=(3,-\\sqrt{3})$，$\\overrightarrow{AC}=(7,-\\sqrt{3})$，由向量夹角公式：\n$\\cos\\angle MAC=\\frac{\\overrightarrow{AM}\\cdot\\overrightarrow{AC}}{|\\overrightarrow{AM}|\\cdot|\\overrightarrow{AC}|}=\\frac{3\\times7 + (-\\sqrt{3})\\times(-\\sqrt{3})}{2\\sqrt{3}\\times2\\sqrt{13}}=\\frac{24}{4\\sqrt{39}}=\\frac{2\\sqrt{39}}{13}$，与通法结果一致。\n**合理性验证**：AC=2√13≈7.21，满足三角形三边关系：2+7.21>8，2+8>7.21；cos∠MAC≈0.96<1且为正，符合锐角的余弦取值范围，结果合理。\n最终答案：$AC=\\boldsymbol{2\\sqrt{13}}$，$\\cos\\angle MAC=\\boldsymbol{\\frac{2\\sqrt{39}}{13}}$。"
     }
   ]
 }

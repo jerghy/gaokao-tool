@@ -787,6 +787,68 @@
             color: #666;
             margin-top: 10px;
         }
+
+        .char-box-mode-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .char-box-mode-tab {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            background: #f5f5f5;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .char-box-mode-tab.active {
+            background: #4a90d9;
+            color: white;
+            border-color: #4a90d9;
+        }
+
+        .char-box-split-line {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #2196f3;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+
+        .char-box-split-line:hover {
+            background: #ff5722;
+            height: 3px;
+        }
+
+        .char-box-split-line::before {
+            content: '×';
+            position: absolute;
+            right: 5px;
+            top: -10px;
+            background: #ff5722;
+            color: white;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .char-box-split-line:hover::before {
+            opacity: 1;
+        }
+
+        .char-box-image-container.split-mode {
+            cursor: crosshair;
+        }
     </style>
 </head>
 <body>
@@ -875,6 +937,10 @@
                 <span class="char-box-modal-title">标注字框</span>
                 <button class="char-box-modal-close" onclick="closeCharBoxModal()">&times;</button>
             </div>
+            <div class="char-box-mode-tabs">
+                <button class="char-box-mode-tab active" data-mode="charbox" onclick="switchCharBoxMode('charbox')">字框标注</button>
+                <button class="char-box-mode-tab" data-mode="splitline" onclick="switchCharBoxMode('splitline')">分割线</button>
+            </div>
             <div class="char-box-image-container" id="charBoxImageContainer">
                 <img src="" alt="图片" class="char-box-image" id="charBoxImage">
                 <div class="char-box-overlay" id="charBoxOverlay"></div>
@@ -891,7 +957,7 @@
                 <button class="char-box-btn char-box-btn-primary" onclick="confirmCharBox()">确认</button>
                 <button class="char-box-btn char-box-btn-secondary" onclick="closeCharBoxModal()">取消</button>
             </div>
-            <div class="char-box-hint">在图片上拖动鼠标绘制一个正方形，代表一个汉字的大小</div>
+            <div class="char-box-hint" id="charBoxHint">在图片上拖动鼠标绘制一个正方形，代表一个汉字的大小</div>
         </div>
     </div>
     
@@ -2018,6 +2084,9 @@
                         if (item.charBox) {
                             result.charBox = item.charBox;
                         }
+                        if (item.splitLines && item.splitLines.length > 0) {
+                            result.splitLines = item.splitLines;
+                        }
                         return result;
                     } else if (item.type === 'richtext') {
                         return {
@@ -2159,8 +2228,73 @@
             startY: 0,
             currentBox: null,
             imageWidth: 0,
-            imageHeight: 0
+            imageHeight: 0,
+            mode: 'charbox',
+            splitLines: []
         };
+
+        function switchCharBoxMode(mode) {
+            charBoxModalData.mode = mode;
+            document.querySelectorAll('.char-box-mode-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.mode === mode);
+            });
+            
+            const container = document.getElementById('charBoxImageContainer');
+            container.classList.toggle('split-mode', mode === 'splitline');
+            
+            const hint = document.getElementById('charBoxHint');
+            
+            if (mode === 'splitline') {
+                clearCharBoxOverlay();
+                renderSplitLines();
+                hint.textContent = '右键点击图片添加分割线，左键点击分割线删除';
+            } else {
+                clearSplitLines();
+                hint.textContent = '在图片上拖动鼠标绘制一个正方形，代表一个汉字的大小';
+                if (charBoxModalData.currentBox) {
+                    drawCharBox(charBoxModalData.currentBox);
+                }
+            }
+        }
+
+        function renderSplitLines() {
+            const overlay = document.getElementById('charBoxOverlay');
+            const img = document.getElementById('charBoxImage');
+            const displayHeight = img.clientHeight;
+            
+            charBoxModalData.splitLines.forEach((line, index) => {
+                const lineEl = document.createElement('div');
+                lineEl.className = 'char-box-split-line';
+                lineEl.style.top = (line * displayHeight) + 'px';
+                lineEl.dataset.index = index;
+                lineEl.onclick = function(e) {
+                    e.stopPropagation();
+                    deleteSplitLine(index);
+                };
+                overlay.appendChild(lineEl);
+            });
+        }
+
+        function clearSplitLines() {
+            const overlay = document.getElementById('charBoxOverlay');
+            overlay.querySelectorAll('.char-box-split-line').forEach(el => el.remove());
+        }
+
+        function addSplitLine(yRatio) {
+            const newLine = Math.round(yRatio * 1000) / 1000;
+            if (!charBoxModalData.splitLines.includes(newLine)) {
+                charBoxModalData.splitLines.push(newLine);
+                charBoxModalData.splitLines.sort((a, b) => a - b);
+                clearSplitLines();
+                renderSplitLines();
+            }
+        }
+
+        function deleteSplitLine(index) {
+            charBoxModalData.splitLines.splice(index, 1);
+            clearSplitLines();
+            renderSplitLines();
+        }
 
         function openCharBoxModal(itemIndex, target) {
             const items = getCurrentItems(target);
@@ -2170,6 +2304,8 @@
             charBoxModalData.itemIndex = itemIndex;
             charBoxModalData.target = target;
             charBoxModalData.currentBox = item.charBox ? { ...item.charBox } : null;
+            charBoxModalData.splitLines = item.splitLines ? [...item.splitLines] : [];
+            charBoxModalData.mode = 'charbox';
 
             const modal = document.getElementById('charBoxModal');
             const img = document.getElementById('charBoxImage');
@@ -2179,11 +2315,14 @@
                 charBoxModalData.imageWidth = img.naturalWidth;
                 charBoxModalData.imageHeight = img.naturalHeight;
                 
+                switchCharBoxMode('charbox');
+                document.querySelectorAll('.char-box-mode-tab').forEach(tab => {
+                    tab.classList.toggle('active', tab.dataset.mode === 'charbox');
+                });
+                
                 if (charBoxModalData.currentBox) {
                     drawCharBox(charBoxModalData.currentBox);
                     document.getElementById('charBoxFontSize').value = charBoxModalData.currentBox.fontSize || 'medium';
-                } else {
-                    clearCharBoxOverlay();
                 }
             };
             img.src = imgSrc;
@@ -2195,6 +2334,7 @@
             const modal = document.getElementById('charBoxModal');
             modal.style.display = 'none';
             clearCharBoxOverlay();
+            clearSplitLines();
             charBoxModalData = {
                 itemIndex: null,
                 target: null,
@@ -2203,7 +2343,9 @@
                 startY: 0,
                 currentBox: null,
                 imageWidth: 0,
-                imageHeight: 0
+                imageHeight: 0,
+                mode: 'charbox',
+                splitLines: []
             };
         }
 
@@ -2233,7 +2375,7 @@
         }
 
         function confirmCharBox() {
-            if (!charBoxModalData.currentBox) {
+            if (!charBoxModalData.currentBox && charBoxModalData.mode === 'charbox') {
                 alert('请先绘制字框');
                 return;
             }
@@ -2241,10 +2383,17 @@
             const items = getCurrentItems(charBoxModalData.target);
             const item = items[charBoxModalData.itemIndex];
             if (item) {
-                item.charBox = {
-                    ...charBoxModalData.currentBox,
-                    fontSize: document.getElementById('charBoxFontSize').value
-                };
+                if (charBoxModalData.currentBox) {
+                    item.charBox = {
+                        ...charBoxModalData.currentBox,
+                        fontSize: document.getElementById('charBoxFontSize').value
+                    };
+                }
+                if (charBoxModalData.splitLines.length > 0) {
+                    item.splitLines = [...charBoxModalData.splitLines];
+                } else {
+                    delete item.splitLines;
+                }
                 setCurrentItems(items, charBoxModalData.target);
                 
                 const contentList = getCurrentContentList(charBoxModalData.target);
@@ -2256,6 +2405,18 @@
         }
 
         document.getElementById('charBoxOverlay').addEventListener('mousedown', function(e) {
+            if (charBoxModalData.mode === 'splitline') {
+                if (e.button === 2) {
+                    e.preventDefault();
+                    const rect = this.getBoundingClientRect();
+                    const y = e.clientY - rect.top;
+                    const img = document.getElementById('charBoxImage');
+                    const yRatio = y / img.clientHeight;
+                    addSplitLine(yRatio);
+                }
+                return;
+            }
+            
             if (e.button !== 0) return;
             
             const rect = this.getBoundingClientRect();
@@ -2332,6 +2493,12 @@
         document.getElementById('charBoxOverlay').addEventListener('mouseleave', function(e) {
             if (charBoxModalData.isDrawing) {
                 charBoxModalData.isDrawing = false;
+            }
+        });
+
+        document.getElementById('charBoxOverlay').addEventListener('contextmenu', function(e) {
+            if (charBoxModalData.mode === 'splitline') {
+                e.preventDefault();
             }
         });
 

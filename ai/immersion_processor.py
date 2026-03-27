@@ -65,6 +65,8 @@ def generate_immersion_thinking(
     image_paths: list[str],
     api_key: Optional[str] = None,
     model: str = "doubao-seed-2-0-pro-260215",
+    max_output_tokens: int = 131072,
+    reasoning_effort: str = "high",
 ) -> ImmersionThinkingProcess:
     if api_key is None:
         api_key = os.getenv("ARK_API_KEY")
@@ -78,15 +80,15 @@ def generate_immersion_thinking(
         timeout=1800,
     )
 
-    user_content = []
+    input_content = []
 
     for image_path in image_paths:
         if os.path.exists(image_path):
             base64_image = encode_image_to_base64(image_path)
             media_type = get_image_media_type(image_path)
-            user_content.append({
-                "type": "image_url",
-                "image_url": {"url": f"data:{media_type};base64,{base64_image}"}
+            input_content.append({
+                "type": "input_image",
+                "image_url": f"data:{media_type};base64,{base64_image}"
             })
 
     prompt_text = f"""请对以下题目进行沉浸式思考过程深化，基于已有的思考内容进行扩展和深化：
@@ -100,29 +102,28 @@ def generate_immersion_thinking(
 
 请严格按照系统提示词中的格式要求，基于以上思考过程，输出更深入、更全面的沉浸式思考过程。"""
 
-    user_content.append({
-        "type": "text",
+    input_content.append({
+        "type": "input_text",
         "text": prompt_text
     })
 
-    response = client.chat.completions.create(
+    response = client.responses.create(
         model=model,
-        messages=[
+        input=[
             {
                 "role": "system",
-                "content": get_immersion_thinking_prompt()
+                "content": [{"type": "input_text", "text": get_immersion_thinking_prompt()}]
             },
             {
                 "role": "user",
-                "content": user_content
+                "content": input_content
             }
         ],
-        thinking={
-            "type": "enabled",
-        },
+        max_output_tokens=max_output_tokens,
+        reasoning={"effort": reasoning_effort},
     )
 
-    raw_response = response.choices[0].message.content
+    raw_response = response.output_text
 
     return ImmersionThinkingProcess(
         thinking_content=raw_response,

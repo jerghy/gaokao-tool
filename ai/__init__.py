@@ -22,6 +22,15 @@ from .immersion_processor import (
     generate_immersion_for_question,
     batch_process_immersion_with_search,
 )
+from .generic_processor import (
+    GenericAIResult,
+    GenericTarget,
+    search_questions_via_api,
+    get_question_via_api,
+    process_with_generic_ai,
+    batch_process_generic,
+    batch_process_generic_by_ids,
+)
 
 __all__ = [
     "ProcessedQuestion",
@@ -54,4 +63,11 @@ __all__ = [
     "generate_immersion_thinking",
     "generate_immersion_for_question",
     "batch_process_immersion_with_search",
+    "GenericAIResult",
+    "GenericTarget",
+    "search_questions_via_api",
+    "get_question_via_api",
+    "process_with_generic_ai",
+    "batch_process_generic",
+    "batch_process_generic_by_ids",
 ]

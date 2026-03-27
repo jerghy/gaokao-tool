@@ -67,9 +67,11 @@ def evaluate_question_quality(
     question: ProcessedQuestion,
     api_key: Optional[str] = None,
     model: str = "doubao-seed-2-0-pro-260215",
+    max_output_tokens: int = 131072,
+    reasoning_effort: str = "high",
 ) -> QualityEvaluation:
     if api_key is None:
-        api_key = "0f38123d-549a-48c5-a2ab-46dde690c019"
+        api_key = os.getenv("ARK_API_KEY")
 
     if not api_key:
         raise ValueError("API KEY未配置，请设置ARK_API_KEY环境变量或传入api_key参数")
@@ -77,17 +79,18 @@ def evaluate_question_quality(
     client = Ark(
         base_url="https://ark.cn-beijing.volces.com/api/v3",
         api_key=api_key,
+        timeout=1800,
     )
 
-    user_content = []
+    input_content = []
 
     for image_path in question.image_paths:
         if os.path.exists(image_path):
             base64_image = encode_image_to_base64(image_path)
             media_type = get_image_media_type(image_path)
-            user_content.append({
-                "type": "image_url",
-                "image_url": {"url": f"data:{media_type};base64,{base64_image}"}
+            input_content.append({
+                "type": "input_image",
+                "image_url": f"data:{media_type};base64,{base64_image}"
             })
 
     prompt_text = f"""请对以下题目进行质量评价：
@@ -100,26 +103,28 @@ def evaluate_question_quality(
 
 请严格按照系统提示词中的JSON格式输出评价结果。"""
 
-    user_content.append({
-        "type": "text",
+    input_content.append({
+        "type": "input_text",
         "text": prompt_text
     })
 
-    response = client.chat.completions.create(
+    response = client.responses.create(
         model=model,
-        messages=[
+        input=[
             {
                 "role": "system",
-                "content": get_evaluation_prompt()
+                "content": [{"type": "input_text", "text": get_evaluation_prompt()}]
             },
             {
                 "role": "user",
-                "content": user_content
+                "content": input_content
             }
-        ]
+        ],
+        max_output_tokens=max_output_tokens,
+        reasoning={"effort": reasoning_effort},
     )
 
-    raw_response = response.choices[0].message.content
+    raw_response = response.output_text
 
     try:
         json_str = raw_response.strip()
