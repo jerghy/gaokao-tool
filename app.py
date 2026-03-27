@@ -5,6 +5,8 @@ import json
 import base64
 from datetime import datetime
 import uuid
+import time
+import threading
 from tag_system import TagSystem
 
 app = Flask(__name__, static_folder='static')
@@ -13,12 +15,17 @@ CORS(app)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 IMG_DIR = os.path.join(BASE_DIR, 'img')
 DATA_DIR = os.path.join(BASE_DIR, 'data')
+SCREENSHOT_DIR = os.path.join(BASE_DIR, 'screenshot_temp')
 
 tag_system = TagSystem(os.path.join(BASE_DIR, 'tags_data.json'))
 TAGS_DATA_PATH = os.path.join(BASE_DIR, 'tags_data.json')
 
 os.makedirs(IMG_DIR, exist_ok=True)
 os.makedirs(DATA_DIR, exist_ok=True)
+os.makedirs(SCREENSHOT_DIR, exist_ok=True)
+
+pending_screenshots = {}
+pending_screenshots_lock = threading.Lock()
 
 tag_system = TagSystem(data_path=TAGS_DATA_PATH)
 
@@ -55,6 +62,10 @@ def static_files(filename):
 @app.route('/img/<path:filename>')
 def serve_image(filename):
     return send_from_directory(IMG_DIR, filename)
+
+@app.route('/pdf')
+def pdf_viewer():
+    return send_from_directory('static/pdfjs/web', 'viewer.html')
 
 @app.route('/api/upload-image', methods=['POST'])
 def upload_image():
@@ -274,6 +285,100 @@ def batch_add_tag():
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@app.route('/api/screenshot/upload', methods=['POST'])
+def upload_screenshot():
+    try:
+        data = request.json
+        if not data or 'image' not in data:
+            return jsonify({'error': 'No image data provided'}), 400
+        
+        image_data = data['image']
+        if image_data.startswith('data:image'):
+            image_data = image_data.split(',')[1]
+        
+        screenshot_id = datetime.now().strftime('%Y%m%d%H%M%S') + '_' + uuid.uuid4().hex[:8]
+        filename = f"{screenshot_id}.png"
+        filepath = os.path.join(SCREENSHOT_DIR, filename)
+        
+        with open(filepath, 'wb') as f:
+            f.write(base64.b64decode(image_data))
+        
+        with pending_screenshots_lock:
+            pending_screenshots[screenshot_id] = {
+                'filename': filename,
+                'path': f'screenshot_temp/{filename}',
+                'timestamp': time.time(),
+                'consumed': False
+            }
+        
+        return jsonify({
+            'success': True,
+            'screenshot_id': screenshot_id,
+            'filename': filename
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/screenshot/check', methods=['GET'])
+def check_screenshot():
+    try:
+        with pending_screenshots_lock:
+            current_time = time.time()
+            expired_ids = [
+                sid for sid, info in pending_screenshots.items()
+                if current_time - info['timestamp'] > 300
+            ]
+            for sid in expired_ids:
+                filepath = os.path.join(SCREENSHOT_DIR, pending_screenshots[sid]['filename'])
+                if os.path.exists(filepath):
+                    os.remove(filepath)
+                del pending_screenshots[sid]
+            
+            available = [
+                {'id': sid, 'path': info['path']}
+                for sid, info in pending_screenshots.items()
+                if not info['consumed']
+            ]
+        
+        return jsonify({
+            'success': True,
+            'has_screenshot': len(available) > 0,
+            'screenshots': available
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/screenshot/consume/<screenshot_id>', methods=['POST'])
+def consume_screenshot(screenshot_id):
+    try:
+        with pending_screenshots_lock:
+            if screenshot_id not in pending_screenshots:
+                return jsonify({'error': 'Screenshot not found'}), 404
+            
+            info = pending_screenshots[screenshot_id]
+            info['consumed'] = True
+            
+            old_filepath = os.path.join(SCREENSHOT_DIR, info['filename'])
+            new_filename = f"{datetime.now().strftime('%Y%m%d%H%M%S')}_{uuid.uuid4().hex[:8]}.png"
+            new_filepath = os.path.join(IMG_DIR, new_filename)
+            
+            if os.path.exists(old_filepath):
+                import shutil
+                shutil.move(old_filepath, new_filepath)
+            
+            del pending_screenshots[screenshot_id]
+        
+        return jsonify({
+            'success': True,
+            'path': f'img/{new_filename}'
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/screenshot_temp/<path:filename>')
+def serve_screenshot_temp(filename):
+    return send_from_directory(SCREENSHOT_DIR, filename)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

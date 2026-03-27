@@ -1521,6 +1521,25 @@
             return html;
         }
 
+        function calculateImageScale(charBox, imgNaturalWidth) {
+            if (!charBox || !charBox.size) return null;
+            
+            const fontSizeMap = {
+                'large': 12,
+                'medium': 11,
+                'small': 10
+            };
+            
+            const targetFontSizePt = fontSizeMap[charBox.fontSize] || 11;
+            const targetFontSizePx = targetFontSizePt * (96 / 72);
+            
+            const charBoxPixelSize = charBox.size * imgNaturalWidth;
+            
+            const scale = targetFontSizePx / charBoxPixelSize;
+            
+            return scale;
+        }
+
         function renderItem(item) {
             if (item.type === 'text') {
                 if (typeof item.content === 'string') {
@@ -1540,9 +1559,22 @@
                 }
             } else if (item.type === 'image') {
                 const floatClass = item.display ? (item.display === 'center' ? 'center' : `float-${item.display}`) : 'center';
-                const width = item.width ? `width: ${item.width}px;` : '';
                 const src = item.src.startsWith('/') ? item.src : '/' + item.src;
-                return `<img src="${src}" class="question-image ${floatClass}" style="${width}">`;
+                
+                let widthStyle = '';
+                if (item.charBox && item.charBox.size) {
+                    const scale = calculateImageScale(item.charBox, item.width || 300);
+                    if (scale && scale > 0) {
+                        const scaledWidth = (item.width || 300) * scale;
+                        widthStyle = `width: ${Math.round(scaledWidth)}px;`;
+                    } else {
+                        widthStyle = item.width ? `width: ${item.width}px;` : '';
+                    }
+                } else {
+                    widthStyle = item.width ? `width: ${item.width}px;` : '';
+                }
+                
+                return `<img src="${src}" class="question-image ${floatClass}" style="${widthStyle}">`;
             }
             return '';
         }
@@ -1569,9 +1601,22 @@
                 }
             } else if (item.type === 'image') {
                 const floatClass = item.display ? (item.display === 'center' ? 'center' : `float-${item.display}`) : 'center';
-                const width = item.width ? `width: ${item.width}px;` : '';
                 const src = item.src.startsWith('/') ? item.src : '/' + item.src;
-                return `<br><img src="${src}" class="question-image ${floatClass}" style="${width}"><br>`;
+                
+                let widthStyle = '';
+                if (item.charBox && item.charBox.size) {
+                    const scale = calculateImageScale(item.charBox, item.width || 300);
+                    if (scale && scale > 0) {
+                        const scaledWidth = (item.width || 300) * scale;
+                        widthStyle = `width: ${Math.round(scaledWidth)}px;`;
+                    } else {
+                        widthStyle = item.width ? `width: ${item.width}px;` : '';
+                    }
+                } else {
+                    widthStyle = item.width ? `width: ${item.width}px;` : '';
+                }
+                
+                return `<br><img src="${src}" class="question-image ${floatClass}" style="${widthStyle}"><br>`;
             }
             return '';
         }

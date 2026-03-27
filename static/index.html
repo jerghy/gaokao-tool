@@ -496,6 +496,69 @@
         .save-btn:hover {
             background-color: #357abd;
         }
+
+        .connection-section {
+            padding: 10px 15px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .connection-section label {
+            font-size: 14px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .port-input {
+            width: 80px;
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .connect-btn {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .connect-btn:hover {
+            background-color: #219a52;
+        }
+
+        .connect-btn.disconnect {
+            background-color: #e74c3c;
+        }
+
+        .connect-btn.disconnect:hover {
+            background-color: #c0392b;
+        }
+
+        .connection-status {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+
+        .connection-status.connected {
+            background-color: #e8f8ef;
+            color: #27ae60;
+        }
+
+        .connection-status.disconnected {
+            background-color: #f5f5f5;
+            color: #999;
+        }
         
         .a4-preview {
             width: 210mm;
@@ -576,6 +639,154 @@
                 transform: scale(0.5);
             }
         }
+
+        .char-box-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .char-box-modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .char-box-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .char-box-modal-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .char-box-modal-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .char-box-image-container {
+            position: relative;
+            overflow: hidden;
+            cursor: crosshair;
+        }
+
+        .char-box-image {
+            max-width: 100%;
+            max-height: 60vh;
+            display: block;
+        }
+
+        .char-box-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .char-box-rect {
+            position: absolute;
+            border: 2px solid #ff4444;
+            background: rgba(255, 68, 68, 0.2);
+            pointer-events: none;
+        }
+
+        .char-box-controls {
+            margin-top: 15px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .char-box-font-size-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .char-box-font-size-group label {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .char-box-font-size-group select {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .char-box-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .char-box-btn-primary {
+            background: #4a90d9;
+            color: white;
+        }
+
+        .char-box-btn-primary:hover {
+            background: #357abd;
+        }
+
+        .char-box-btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .char-box-btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        .char-box-btn-annotate {
+            background: #9b59b6;
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        .char-box-btn-annotate:hover {
+            background: #8e44ad;
+        }
+
+        .char-box-btn-annotate.has-box {
+            background: #27ae60;
+        }
+
+        .char-box-btn-annotate.has-box:hover {
+            background: #219a52;
+        }
+
+        .char-box-hint {
+            font-size: 12px;
+            color: #666;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -634,6 +845,11 @@
                 <div id="subQuestionsList"></div>
             </div>
 
+            <div class="connection-section">
+                <label>截图监听：</label>
+                <span class="connection-status connected" id="connection-status">监听中...</span>
+            </div>
+
             <button class="save-btn" id="browse-btn" onclick="location.href='/browse'" style="background-color: #27ae60; margin-bottom: 0;">浏览错题</button>
             <button class="save-btn" id="save-btn">保存题目</button>
         </div>
@@ -650,6 +866,32 @@
                     <div class="preview-content" id="answer-preview"></div>
                 </div>
             </div>
+        </div>
+    </div>
+    
+    <div id="charBoxModal" class="char-box-modal" style="display: none;">
+        <div class="char-box-modal-content">
+            <div class="char-box-modal-header">
+                <span class="char-box-modal-title">标注字框</span>
+                <button class="char-box-modal-close" onclick="closeCharBoxModal()">&times;</button>
+            </div>
+            <div class="char-box-image-container" id="charBoxImageContainer">
+                <img src="" alt="图片" class="char-box-image" id="charBoxImage">
+                <div class="char-box-overlay" id="charBoxOverlay"></div>
+            </div>
+            <div class="char-box-controls">
+                <div class="char-box-font-size-group">
+                    <label>字体大小:</label>
+                    <select id="charBoxFontSize">
+                        <option value="large">大 (12pt)</option>
+                        <option value="medium" selected>中 (11pt)</option>
+                        <option value="small">小 (10pt)</option>
+                    </select>
+                </div>
+                <button class="char-box-btn char-box-btn-primary" onclick="confirmCharBox()">确认</button>
+                <button class="char-box-btn char-box-btn-secondary" onclick="closeCharBoxModal()">取消</button>
+            </div>
+            <div class="char-box-hint">在图片上拖动鼠标绘制一个正方形，代表一个汉字的大小</div>
         </div>
     </div>
     
@@ -969,6 +1211,7 @@
                     const div = document.createElement('div');
                     div.className = 'image-card';
                     const imgSrc = item.base64 || (item.src && !item.src.startsWith('http') ? '/' + item.src : item.src);
+                    const hasCharBox = item.charBox ? true : false;
                     div.innerHTML = `
                         <img src="${imgSrc}" class="image-preview" alt="图片">
                         <div class="image-controls">
@@ -982,6 +1225,7 @@
                             <input type="number" value="${item.width || 300}" onchange="updateImageSizeForTarget(${index}, 'width', this.value, 'image', 'image')">
                             <label>高度:</label>
                             <input type="number" value="${item.height === 'auto' ? '' : item.height}" onchange="updateImageSizeForTarget(${index}, 'height', this.value, 'image', 'image')" placeholder="自动">
+                            <button class="char-box-btn-annotate ${hasCharBox ? 'has-box' : ''}" onclick="openCharBoxModal(${index}, '${target}')">${hasCharBox ? '已标注' : '标注字框'}</button>
                             <button class="delete-btn" onclick="deleteItemForTarget(${index}, 'image', 'image')">删除</button>
                         </div>
                     `;
@@ -1022,6 +1266,7 @@
                     const imageCard = document.createElement('div');
                     imageCard.className = 'image-card';
                     const imgSrc = item.base64 || (item.src && !item.src.startsWith('http') ? '/' + item.src : item.src);
+                    const hasCharBox = item.charBox ? true : false;
                     imageCard.innerHTML = `
                         <img src="${imgSrc}" class="image-preview" alt="图片">
                         <div class="image-controls">
@@ -1035,6 +1280,7 @@
                             <input type="number" value="${item.width || 300}" onchange="updateImageSize(${index}, 'width', this.value)">
                             <label>高度:</label>
                             <input type="number" value="${item.height === 'auto' ? '' : item.height}" onchange="updateImageSize(${index}, 'height', this.value)" placeholder="自动">
+                            <button class="char-box-btn-annotate ${hasCharBox ? 'has-box' : ''}" onclick="openCharBoxModal(${index}, '${currentTab}')">${hasCharBox ? '已标注' : '标注字框'}</button>
                             <button class="delete-btn" onclick="deleteItem(${index})">删除</button>
                         </div>
                     `;
@@ -1762,13 +2008,17 @@
             const cleanItems = (items) => {
                 return items.map(item => {
                     if (item.type === 'image') {
-                        return {
+                        const result = {
                             type: 'image',
                             src: item.src,
                             display: item.display,
                             width: item.width,
                             height: item.height
                         };
+                        if (item.charBox) {
+                            result.charBox = item.charBox;
+                        }
+                        return result;
                     } else if (item.type === 'richtext') {
                         return {
                             type: 'richtext',
@@ -1845,6 +2095,247 @@
 
         renderPreview();
         renderContentList();
+
+        let pollInterval = null;
+
+        function startPolling() {
+            if (pollInterval) return;
+            pollInterval = setInterval(checkForScreenshots, 1000);
+            checkForScreenshots();
+            console.log('开始轮询检查截图...');
+        }
+
+        function checkForScreenshots() {
+            fetch(`${API_BASE}/api/screenshot/check`)
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success && result.has_screenshot) {
+                        result.screenshots.forEach(screenshot => {
+                            consumeScreenshot(screenshot.id);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('检查截图失败:', error);
+                });
+        }
+
+        function consumeScreenshot(screenshotId) {
+            fetch(`${API_BASE}/api/screenshot/consume/${screenshotId}`, {
+                method: 'POST'
+            })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        const target = currentTab;
+                        const items = getCurrentItems(target);
+                        const newItem = {
+                            id: ++itemCounter,
+                            type: 'image',
+                            src: result.path,
+                            display: 'center',
+                            width: 300,
+                            height: 'auto'
+                        };
+                        items.push(newItem);
+                        setCurrentItems(items, target);
+
+                        const contentList = getCurrentContentList(target);
+                        renderContentListForTarget(contentList, items, target);
+                        renderPreview();
+                        console.log('截图已加载:', result.path);
+                    }
+                })
+                .catch(error => {
+                    console.error('消费截图失败:', error);
+                });
+        }
+
+        let charBoxModalData = {
+            itemIndex: null,
+            target: null,
+            isDrawing: false,
+            startX: 0,
+            startY: 0,
+            currentBox: null,
+            imageWidth: 0,
+            imageHeight: 0
+        };
+
+        function openCharBoxModal(itemIndex, target) {
+            const items = getCurrentItems(target);
+            const item = items[itemIndex];
+            if (!item || item.type !== 'image') return;
+
+            charBoxModalData.itemIndex = itemIndex;
+            charBoxModalData.target = target;
+            charBoxModalData.currentBox = item.charBox ? { ...item.charBox } : null;
+
+            const modal = document.getElementById('charBoxModal');
+            const img = document.getElementById('charBoxImage');
+            const imgSrc = item.base64 || (item.src && !item.src.startsWith('http') ? '/' + item.src : item.src);
+            
+            img.onload = function() {
+                charBoxModalData.imageWidth = img.naturalWidth;
+                charBoxModalData.imageHeight = img.naturalHeight;
+                
+                if (charBoxModalData.currentBox) {
+                    drawCharBox(charBoxModalData.currentBox);
+                    document.getElementById('charBoxFontSize').value = charBoxModalData.currentBox.fontSize || 'medium';
+                } else {
+                    clearCharBoxOverlay();
+                }
+            };
+            img.src = imgSrc;
+
+            modal.style.display = 'flex';
+        }
+
+        function closeCharBoxModal() {
+            const modal = document.getElementById('charBoxModal');
+            modal.style.display = 'none';
+            clearCharBoxOverlay();
+            charBoxModalData = {
+                itemIndex: null,
+                target: null,
+                isDrawing: false,
+                startX: 0,
+                startY: 0,
+                currentBox: null,
+                imageWidth: 0,
+                imageHeight: 0
+            };
+        }
+
+        function clearCharBoxOverlay() {
+            const overlay = document.getElementById('charBoxOverlay');
+            overlay.innerHTML = '';
+        }
+
+        function drawCharBox(box) {
+            const overlay = document.getElementById('charBoxOverlay');
+            const img = document.getElementById('charBoxImage');
+            
+            overlay.innerHTML = '';
+            
+            const rect = document.createElement('div');
+            rect.className = 'char-box-rect';
+            
+            const displayWidth = img.clientWidth;
+            const displayHeight = img.clientHeight;
+            
+            rect.style.left = (box.x * displayWidth) + 'px';
+            rect.style.top = (box.y * displayHeight) + 'px';
+            rect.style.width = (box.size * displayWidth) + 'px';
+            rect.style.height = (box.size * displayWidth) + 'px';
+            
+            overlay.appendChild(rect);
+        }
+
+        function confirmCharBox() {
+            if (!charBoxModalData.currentBox) {
+                alert('请先绘制字框');
+                return;
+            }
+
+            const items = getCurrentItems(charBoxModalData.target);
+            const item = items[charBoxModalData.itemIndex];
+            if (item) {
+                item.charBox = {
+                    ...charBoxModalData.currentBox,
+                    fontSize: document.getElementById('charBoxFontSize').value
+                };
+                setCurrentItems(items, charBoxModalData.target);
+                
+                const contentList = getCurrentContentList(charBoxModalData.target);
+                renderContentListForTarget(contentList, items, charBoxModalData.target);
+                renderPreview();
+            }
+
+            closeCharBoxModal();
+        }
+
+        document.getElementById('charBoxOverlay').addEventListener('mousedown', function(e) {
+            if (e.button !== 0) return;
+            
+            const rect = this.getBoundingClientRect();
+            charBoxModalData.isDrawing = true;
+            charBoxModalData.startX = e.clientX - rect.left;
+            charBoxModalData.startY = e.clientY - rect.top;
+            
+            clearCharBoxOverlay();
+            
+            const box = document.createElement('div');
+            box.className = 'char-box-rect';
+            box.id = 'tempCharBox';
+            box.style.left = charBoxModalData.startX + 'px';
+            box.style.top = charBoxModalData.startY + 'px';
+            box.style.width = '0px';
+            box.style.height = '0px';
+            this.appendChild(box);
+        });
+
+        document.getElementById('charBoxOverlay').addEventListener('mousemove', function(e) {
+            if (!charBoxModalData.isDrawing) return;
+            
+            const rect = this.getBoundingClientRect();
+            const currentX = e.clientX - rect.left;
+            const currentY = e.clientY - rect.top;
+            
+            const deltaX = currentX - charBoxModalData.startX;
+            const deltaY = currentY - charBoxModalData.startY;
+            
+            const size = Math.max(Math.abs(deltaX), Math.abs(deltaY));
+            
+            const box = document.getElementById('tempCharBox');
+            if (box) {
+                let left = charBoxModalData.startX;
+                let top = charBoxModalData.startY;
+                
+                if (deltaX < 0) left = charBoxModalData.startX - size;
+                if (deltaY < 0) top = charBoxModalData.startY - size;
+                
+                box.style.left = left + 'px';
+                box.style.top = top + 'px';
+                box.style.width = size + 'px';
+                box.style.height = size + 'px';
+            }
+        });
+
+        document.getElementById('charBoxOverlay').addEventListener('mouseup', function(e) {
+            if (!charBoxModalData.isDrawing) return;
+            
+            charBoxModalData.isDrawing = false;
+            
+            const box = document.getElementById('tempCharBox');
+            if (box) {
+                const img = document.getElementById('charBoxImage');
+                const displayWidth = img.clientWidth;
+                const displayHeight = img.clientHeight;
+                
+                const boxLeft = parseFloat(box.style.left);
+                const boxTop = parseFloat(box.style.top);
+                const boxSize = parseFloat(box.style.width);
+                
+                if (boxSize > 10) {
+                    charBoxModalData.currentBox = {
+                        x: boxLeft / displayWidth,
+                        y: boxTop / displayHeight,
+                        size: boxSize / displayWidth
+                    };
+                } else {
+                    clearCharBoxOverlay();
+                }
+            }
+        });
+
+        document.getElementById('charBoxOverlay').addEventListener('mouseleave', function(e) {
+            if (charBoxModalData.isDrawing) {
+                charBoxModalData.isDrawing = false;
+            }
+        });
+
+        startPolling();
     </script>
 </body>
 </html>

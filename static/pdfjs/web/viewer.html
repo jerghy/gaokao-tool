@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <!--
 Copyright 2012 Mozilla Foundation
 
@@ -28,12 +28,109 @@ See https://github.com/adobe-type-tools/cmap-resources
     <title>PDF.js viewer</title>
 
 <!-- This snippet is used in production (included from viewer.html) -->
-<link rel="resource" type="application/l10n" href="locale/locale.json" />
-<script src="../build/pdf.mjs" type="module"></script>
+<link rel="resource" type="application/l10n" href="/static/pdfjs/web/locale/locale.json" />
+<script>
+    window.pdfjsWorkerSrc = '/static/pdfjs/build/pdf.worker.mjs';
+</script>
+<script src="/static/pdfjs/build/pdf.mjs" type="module"></script>
 
-    <link rel="stylesheet" href="viewer.css" />
+    <link rel="stylesheet" href="/static/pdfjs/web/viewer.css" />
 
-  <script src="viewer.mjs" type="module"></script>
+  <script src="/static/pdfjs/web/viewer.mjs" type="module"></script>
+
+    <style>
+/* 截图功能样式 */
+.screenshot-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999999;
+    cursor: crosshair;
+}
+.screenshot-selection {
+    position: absolute;
+    border: 2px dashed #ff0000;
+    background: rgba(255, 0, 0, 0.1);
+    pointer-events: none;
+}
+.screenshot-context-menu {
+    position: fixed;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    z-index: 1000000;
+    padding: 8px 0;
+    min-width: 150px;
+}
+.screenshot-context-menu-item {
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.screenshot-context-menu-item:hover {
+    background: #f0f0f0;
+}
+
+/* PDF页面无间距布局 */
+.pdfViewer {
+    padding: 0 !important;
+}
+.pdfViewer .page {
+    margin: 0 auto !important;
+    border: none !important;
+}
+.pdfViewer .spread {
+    margin: 0 !important;
+}
+.pdfViewer.removePageBorders .page {
+    margin: 0 auto !important;
+}
+/* 连接区域样式 */
+.connection-section {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    z-index: 999998;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.port-input {
+    width: 80px;
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+.connect-btn {
+    padding: 6px 16px;
+    background: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.connect-btn.disconnect {
+    background: #e74c3c;
+}
+.connection-status {
+    font-size: 12px;
+}
+.connection-status.connected {
+    color: #27ae60;
+}
+.connection-status.disconnected {
+    color: #999;
+}
+    </style>
   </head>
 
   <body tabindex="0">
@@ -1215,5 +1312,434 @@ See https://github.com/adobe-type-tools/cmap-resources
     </div>
     <!-- outerContainer -->
     <div id="printContainer"></div>
+
+    <script>
+    (function() {
+        'use strict';
+
+        var ScreenshotTool = {
+            overlay: null,
+            selection: null,
+            startX: 0,
+            startY: 0,
+            isSelecting: false,
+            currentSelection: null,
+            contextMenu: null,
+            screenshotData: null,
+            continuousMode: false,
+
+            init: function() {
+                this.createOverlay();
+                this.createContextMenu();
+                this.bindEvents();
+                this.bindKeyboardShortcut();
+            },
+
+            createOverlay: function() {
+                this.overlay = document.createElement('div');
+                this.overlay.className = 'screenshot-overlay';
+                this.overlay.style.display = 'none';
+
+                this.selection = document.createElement('div');
+                this.selection.className = 'screenshot-selection';
+                this.overlay.appendChild(this.selection);
+
+                document.body.appendChild(this.overlay);
+            },
+
+            createContextMenu: function() {
+                this.contextMenu = document.createElement('div');
+                this.contextMenu.className = 'screenshot-context-menu';
+                this.contextMenu.style.display = 'none';
+
+                var sendItem = document.createElement('div');
+                sendItem.className = 'screenshot-context-menu-item';
+                sendItem.textContent = '发送截图';
+                sendItem.addEventListener('click', this.sendScreenshot.bind(this));
+                this.contextMenu.appendChild(sendItem);
+
+                document.body.appendChild(this.contextMenu);
+            },
+
+            bindKeyboardShortcut: function() {
+                var self = this;
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 's' && !e.ctrlKey && !e.altKey && !e.metaKey) {
+                        var activeElement = document.activeElement;
+                        if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') {
+                            return;
+                        }
+                        e.preventDefault();
+                        self.toggleContinuousMode();
+                    }
+                });
+            },
+
+            toggleContinuousMode: function() {
+                this.continuousMode = !this.continuousMode;
+                if (this.continuousMode) {
+                    this.start();
+                    this.updateModeIndicator();
+                } else {
+                    this.cancelSelection();
+                    this.updateModeIndicator();
+                }
+            },
+
+            updateModeIndicator: function() {
+                var indicator = document.getElementById('screenshot-mode-indicator');
+                if (this.continuousMode) {
+                    if (!indicator) {
+                        indicator = document.createElement('div');
+                        indicator.id = 'screenshot-mode-indicator';
+                        indicator.style.cssText = 'position:fixed;top:10px;left:50%;transform:translateX(-50%);background:#27ae60;color:white;padding:8px 16px;border-radius:4px;z-index:1000000;font-size:14px;';
+                        indicator.textContent = '持续截图模式 (按 S 退出)';
+                        document.body.appendChild(indicator);
+                    }
+                } else {
+                    if (indicator) {
+                        indicator.remove();
+                    }
+                }
+            },
+
+            bindEvents: function() {
+                var self = this;
+
+                this.overlay.addEventListener('mousedown', function(e) {
+                    if (e.button === 0) {
+                        self.startSelection(e);
+                    }
+                });
+
+                this.overlay.addEventListener('mousemove', function(e) {
+                    if (self.isSelecting) {
+                        self.updateSelection(e);
+                    }
+                });
+
+                this.overlay.addEventListener('mouseup', function(e) {
+                    if (e.button === 0 && self.isSelecting) {
+                        self.endSelection();
+                    }
+                });
+
+                this.overlay.addEventListener('contextmenu', function(e) {
+                    e.preventDefault();
+                    if (self.currentSelection && self.screenshotData) {
+                        self.sendScreenshotDirect();
+                    }
+                });
+
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && self.overlay.style.display !== 'none') {
+                        if (self.continuousMode) {
+                            self.toggleContinuousMode();
+                        } else {
+                            self.cancelSelection();
+                        }
+                    }
+                });
+            },
+
+            start: function() {
+                this.overlay.style.display = 'block';
+                this.resetSelection();
+            },
+
+            startSelection: function(e) {
+                this.startX = e.clientX;
+                this.startY = e.clientY;
+                this.isSelecting = true;
+
+                this.selection.style.left = this.startX + 'px';
+                this.selection.style.top = this.startY + 'px';
+                this.selection.style.width = '0px';
+                this.selection.style.height = '0px';
+                this.selection.style.display = 'block';
+            },
+
+            updateSelection: function(e) {
+                var currentX = e.clientX;
+                var currentY = e.clientY;
+
+                var left = Math.min(this.startX, currentX);
+                var top = Math.min(this.startY, currentY);
+                var width = Math.abs(currentX - this.startX);
+                var height = Math.abs(currentY - this.startY);
+
+                this.selection.style.left = left + 'px';
+                this.selection.style.top = top + 'px';
+                this.selection.style.width = width + 'px';
+                this.selection.style.height = height + 'px';
+
+                this.currentSelection = {
+                    left: left,
+                    top: top,
+                    width: width,
+                    height: height
+                };
+            },
+
+            endSelection: function() {
+                this.isSelecting = false;
+
+                if (this.currentSelection && this.currentSelection.width > 5 && this.currentSelection.height > 5) {
+                    this.captureSelection();
+                }
+            },
+
+            captureSelection: function() {
+                var self = this;
+                var sel = this.currentSelection;
+
+                var viewerContainer = document.getElementById('viewerContainer');
+                if (!viewerContainer) {
+                    return;
+                }
+
+                var viewer = document.getElementById('viewer');
+                if (!viewer) {
+                    return;
+                }
+
+                var canvas = document.createElement('canvas');
+                var pages = viewer.querySelectorAll('.page');
+
+                if (pages.length === 0) {
+                    alert('截图失败：请先打开PDF文件');
+                    this.cancelSelection();
+                    return;
+                }
+
+                var captured = false;
+                var scale = 2.5;
+
+                canvas.width = sel.width * scale;
+                canvas.height = sel.height * scale;
+                var ctx = canvas.getContext('2d');
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                pages.forEach(function(page, index) {
+                    var pageCanvas = page.querySelector('canvas');
+                    if (!pageCanvas) return;
+
+                    var pageRect = page.getBoundingClientRect();
+                    var pdfScale = pageCanvas.width / pageRect.width;
+
+                    var selRect = {
+                        left: sel.left,
+                        top: sel.top,
+                        right: sel.left + sel.width,
+                        bottom: sel.top + sel.height
+                    };
+
+                    if (pageRect.left < selRect.right &&
+                        pageRect.right > selRect.left &&
+                        pageRect.top < selRect.bottom &&
+                        pageRect.bottom > selRect.top) {
+
+                        var overlapLeft = Math.max(pageRect.left, selRect.left);
+                        var overlapTop = Math.max(pageRect.top, selRect.top);
+                        var overlapRight = Math.min(pageRect.right, selRect.right);
+                        var overlapBottom = Math.min(pageRect.bottom, selRect.bottom);
+
+                        var srcX = Math.round((overlapLeft - pageRect.left) * pdfScale);
+                        var srcY = Math.round((overlapTop - pageRect.top) * pdfScale);
+                        var srcWidth = Math.round((overlapRight - overlapLeft) * pdfScale);
+                        var srcHeight = Math.round((overlapBottom - overlapTop) * pdfScale);
+
+                        var destX = Math.round((overlapLeft - selRect.left) * scale);
+                        var destY = Math.round((overlapTop - selRect.top) * scale);
+                        var destWidth = Math.round((overlapRight - overlapLeft) * scale);
+                        var destHeight = Math.round((overlapBottom - overlapTop) * scale);
+
+                        if (srcWidth > 0 && srcHeight > 0) {
+                            ctx.drawImage(
+                                pageCanvas,
+                                srcX, srcY, srcWidth, srcHeight,
+                                destX, destY, destWidth, destHeight
+                            );
+                            captured = true;
+                        }
+                    }
+                });
+
+                if (captured) {
+                    this.screenshotData = canvas.toDataURL('image/png');
+                }
+            },
+
+            sendScreenshotDirect: function() {
+                if (this.screenshotData) {
+                    if (typeof window.sendScreenshotImage === 'function') {
+                        window.sendScreenshotImage(this.screenshotData);
+                    }
+                }
+
+                if (this.continuousMode) {
+                    this.resetSelection();
+                } else {
+                    this.cancelSelection();
+                }
+            },
+
+            captureDomElement: function(sel) {
+                var self = this;
+                var element = document.getElementById('viewerContainer');
+
+                if (!element) {
+                    console.error('无法找到可截取的元素');
+                    return;
+                }
+
+                if (typeof html2canvas !== 'undefined') {
+                    html2canvas(element, {
+                        x: sel.left - element.getBoundingClientRect().left,
+                        y: sel.top - element.getBoundingClientRect().top,
+                        width: sel.width,
+                        height: sel.height,
+                        useCORS: true,
+                        logging: false
+                    }).then(function(canvas) {
+                        self.screenshotData = canvas.toDataURL('image/png');
+                        console.log('截图成功（html2canvas）');
+                    }).catch(function(err) {
+                        console.error('截图失败:', err);
+                    });
+                } else {
+                    console.log('html2canvas未加载，使用备用截图方法');
+                    self.screenshotData = null;
+                }
+            },
+
+            showContextMenu: function(x, y) {
+                this.contextMenu.style.left = x + 'px';
+                this.contextMenu.style.top = y + 'px';
+                this.contextMenu.style.display = 'block';
+            },
+
+            hideContextMenu: function() {
+                this.contextMenu.style.display = 'none';
+            },
+
+            sendScreenshot: function() {
+                this.hideContextMenu();
+
+                if (this.screenshotData) {
+                    if (typeof window.sendScreenshotImage === 'function') {
+                        window.sendScreenshotImage(this.screenshotData);
+                    }
+                }
+
+                this.cancelSelection();
+            },
+
+            resetSelection: function() {
+                this.selection.style.display = 'none';
+                this.currentSelection = null;
+                this.isSelecting = false;
+            },
+
+            cancelSelection: function() {
+                this.overlay.style.display = 'none';
+                this.hideContextMenu();
+                this.resetSelection();
+            }
+        };
+
+        window.startScreenshot = function() {
+            ScreenshotTool.start();
+        };
+
+        window.getScreenshotData = function() {
+            return ScreenshotTool.screenshotData;
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                ScreenshotTool.init();
+            });
+        } else {
+            ScreenshotTool.init();
+        }
+
+        var ConnectionManager = {
+            serverUrl: '',
+            elements: {},
+
+            init: function() {
+                this.serverUrl = window.location.origin;
+                this.createUI();
+                this.bindEvents();
+            },
+
+            createUI: function() {
+                var section = document.createElement('div');
+                section.className = 'connection-section';
+                section.innerHTML = 
+                    '<button class="screenshot-btn" style="padding:6px 16px;background:#3498db;color:white;border:none;border-radius:4px;cursor:pointer;font-size:14px;">截图</button>';
+
+                document.body.appendChild(section);
+
+                this.elements = {
+                    section: section,
+                    screenshotBtn: section.querySelector('.screenshot-btn')
+                };
+            },
+
+            bindEvents: function() {
+                var self = this;
+                this.elements.screenshotBtn.addEventListener('click', function() {
+                    if (typeof window.startScreenshot === 'function') {
+                        window.startScreenshot();
+                    }
+                });
+            },
+
+            uploadImage: function(base64Data) {
+                var pureBase64 = base64Data;
+                if (base64Data.indexOf('base64,') !== -1) {
+                    pureBase64 = base64Data.split('base64,')[1];
+                }
+
+                fetch(this.serverUrl + '/api/screenshot/upload', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ image: pureBase64 })
+                })
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    if (!data.success) {
+                        console.error('上传失败:', data.error);
+                    }
+                })
+                .catch(function(error) {
+                    console.error('上传失败:', error);
+                });
+            }
+        };
+
+        window.ConnectionManager = ConnectionManager;
+
+        window.sendScreenshotImage = function(base64Data) {
+            ConnectionManager.uploadImage(base64Data);
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                ConnectionManager.init();
+            });
+        } else {
+            ConnectionManager.init();
+        }
+
+    })();
+    </script>
   </body>
 </html>
