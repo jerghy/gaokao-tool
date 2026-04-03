@@ -1296,7 +1296,7 @@
                             📋 点击此处粘贴原题内容
                         </button>
                         <div class="content-list" id="question-content-list">
-                            <button class="add-text-btn" onclick="addTextItemMain()">+ 添加文本</button>
+                            <button class="add-text-btn" onclick="addTextItem()">+ 添加文本</button>
                         </div>
                     </div>
                 </div>
@@ -1307,7 +1307,7 @@
                             📋 点击此处粘贴答案内容
                         </button>
                         <div class="content-list" id="answer-content-list">
-                            <button class="add-text-btn" onclick="addTextItemMain()">+ 添加文本</button>
+                            <button class="add-text-btn" onclick="addTextItem()">+ 添加文本</button>
                         </div>
                     </div>
                 </div>
@@ -1400,6 +1400,11 @@
         </div>
     </div>
 
+    <script src="static/js/utils.js"></script>
+    <script src="static/js/api.js"></script>
+    <script src="static/js/image-handler.js"></script>
+    <script src="static/js/content-renderer.js"></script>
+    <script src="static/js/state.js"></script>
     <script>
         const API_BASE = '';
         
@@ -1583,7 +1588,7 @@
             setCurrentItems(items, target);
 
             const contentList = getCurrentContentList(target);
-            renderContentListForTarget(contentList, items, target);
+            renderContentList(contentList, items, target);
             renderPreview();
         }
 
@@ -1602,7 +1607,7 @@
             setCurrentItems(items, target);
 
             const contentList = getCurrentContentList(target);
-            renderContentListForTarget(contentList, items, target);
+            renderContentList(contentList, items, target);
             renderPreview();
         }
 
@@ -1614,15 +1619,7 @@
                 reader.onload = async (e) => {
                     const base64 = e.target.result;
 
-                    const response = await fetch(`${API_BASE}/api/upload-image`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ image: base64 })
-                    });
-
-                    const result = await response.json();
+                    const result = await API.uploadImage(base64);
 
                     if (result.success) {
                         const items = getCurrentItems(target);
@@ -1641,7 +1638,7 @@
                         setCurrentItems(items, target);
 
                         const contentList = getCurrentContentList(target);
-                        renderContentListForTarget(contentList, items, target);
+                        renderContentList(contentList, items, target);
                         renderPreview();
                     } else {
                         alert('图片上传失败: ' + result.error);
@@ -1653,7 +1650,18 @@
             }
         }
 
-        function renderContentListForTarget(contentList, items, target) {
+        function renderContentList(contentListOrTarget, itemsOrUndefined, targetOrUndefined) {
+            let contentList, items, target;
+            if (typeof contentListOrTarget === 'string' || contentListOrTarget === undefined) {
+                target = contentListOrTarget || currentTab;
+                contentList = getCurrentContentList(target);
+                items = getCurrentItems(target);
+            } else {
+                contentList = contentListOrTarget;
+                items = itemsOrUndefined;
+                target = targetOrUndefined;
+            }
+
             const addTextBtn = contentList.querySelector('.add-text-btn');
             contentList.innerHTML = '';
 
@@ -1661,30 +1669,32 @@
                 if (item.type === 'text' || item.type === 'richtext') {
                     const div = document.createElement('div');
                     div.className = 'text-item';
-                    const content = item.type === 'richtext' ? renderRichtext(item.fragments) : escapeHtml(item.content);
+                    const content = item.type === 'richtext' ? Utils.renderRichtext(item.fragments) : Utils.escapeHtml(item.content);
                     div.innerHTML = `
-                        <div class="text-item-content" ondblclick="doEditTextForTarget(this, ${index}, '${target}')">${content}</div>
-                        <button class="delete-btn" onclick="deleteItemForTarget(${index}, 'text', '${target}')">删除</button>
+                        <div class="text-item-content" ondblclick="doEditText(this, ${index}, '${target}')">${content}</div>
+                        <button class="delete-btn" onclick="deleteItem(${index}, '${target}')">删除</button>
                     `;
                     contentList.appendChild(div);
                 } else if (item.type === 'image') {
                     const div = document.createElement('div');
                     div.className = 'image-card';
                     const imgSrc = item.base64 || (item.src && !item.src.startsWith('http') ? '/' + item.src : item.src);
+                    const hasCharBox = item.charBox ? true : false;
                     div.innerHTML = `
                         <img src="${imgSrc}" class="image-preview" alt="图片">
                         <div class="image-controls">
                             <label>显示方式:</label>
-                            <select onchange="updateImageDisplayForTarget(${index}, this.value, 'image', 'image')">
+                            <select onchange="updateImageDisplay(${index}, this.value, '${target}')">
                                 <option value="center" ${item.display === 'center' ? 'selected' : ''}>居中显示</option>
                                 <option value="float-left" ${item.display === 'float-left' ? 'selected' : ''}>文字环绕(左)</option>
                                 <option value="float-right" ${item.display === 'float-right' ? 'selected' : ''}>文字环绕(右)</option>
                             </select>
                             <label>宽度:</label>
-                            <input type="number" value="${item.width || 300}" onchange="updateImageSizeForTarget(${index}, 'width', this.value, 'image', 'image')">
+                            <input type="number" value="${item.width || 300}" onchange="updateImageSize(${index}, 'width', this.value, '${target}')">
                             <label>高度:</label>
-                            <input type="number" value="${item.height === 'auto' ? '' : item.height}" onchange="updateImageSizeForTarget(${index}, 'height', this.value, 'image', 'image')" placeholder="自动">
-                            <button class="delete-btn" onclick="deleteItemForTarget(${index}, 'image', 'image')">删除</button>
+                            <input type="number" value="${item.height === 'auto' ? '' : item.height}" onchange="updateImageSize(${index}, 'height', this.value, '${target}')" placeholder="自动">
+                            <button class="char-box-btn-annotate ${hasCharBox ? 'has-box' : ''}" onclick="openCharBoxModal('${currentQuestion?.id}', ${index}, '${target}')">${hasCharBox ? '已标注' : '标注字框'}</button>
+                            <button class="delete-btn" onclick="deleteItem(${index}, '${target}')">删除</button>
                         </div>
                     `;
                     contentList.appendChild(div);
@@ -1696,7 +1706,7 @@
             }
         }
 
-        function addTextItemForTarget(target) {
+        function addTextItem(target = currentTab) {
             const items = getCurrentItems(target);
             const newItem = {
                 id: ++itemCounter,
@@ -1706,23 +1716,23 @@
             items.push(newItem);
             const newIndex = items.length - 1;
             setCurrentItems(items, target);
-            const contentList = getCurrentContentList(target);
-            renderContentListForTarget(contentList, items, target);
+            renderContentList(target);
             renderPreview();
 
+            const contentList = getCurrentContentList(target);
             const textElements = contentList.querySelectorAll('.text-item');
             const lastTextElement = textElements[textElements.length - 1];
             if (lastTextElement) {
                 const textContent = lastTextElement.querySelector('.text-item-content');
                 if (textContent) {
                     setTimeout(() => {
-                        doEditTextForTarget(textContent, newIndex, target);
+                        doEditText(textContent, newIndex, target);
                     }, 10);
                 }
             }
         }
 
-        function doEditTextForTarget(element, index, target) {
+        function doEditText(element, index, target = currentTab) {
             const items = getCurrentItems(target);
             const item = items[index];
             if (!item) return;
@@ -1761,171 +1771,23 @@
             selection.removeAllRanges();
             selection.addRange(range);
         }
-        
-        function renderContentList() {
-            const contentList = getCurrentContentList(currentTab);
-            const items = getCurrentItems(currentTab);
 
-            const addTextBtn = contentList.querySelector('.add-text-btn');
-            contentList.innerHTML = '';
-
-            items.forEach((item, index) => {
-                if (item.type === 'text') {
-                    const textDiv = document.createElement('div');
-                    textDiv.className = 'text-item';
-                    textDiv.innerHTML = `
-                        <div class="text-item-content" ondblclick="doEditText(this, ${index})">${escapeHtml(item.content)}</div>
-                        <button class="delete-btn" onclick="deleteItem(${index})">删除</button>
-                    `;
-                    contentList.appendChild(textDiv);
-                } else if (item.type === 'richtext') {
-                    const textDiv = document.createElement('div');
-                    textDiv.className = 'text-item';
-                    textDiv.innerHTML = `
-                        <div class="text-item-content" ondblclick="doEditText(this, ${index})">${renderRichtext(item.fragments)}</div>
-                        <button class="delete-btn" onclick="deleteItem(${index})">删除</button>
-                    `;
-                    contentList.appendChild(textDiv);
-                } else if (item.type === 'image') {
-                    const imageCard = document.createElement('div');
-                    imageCard.className = 'image-card';
-                    const imgSrc = item.base64 || (item.src && !item.src.startsWith('http') ? '/' + item.src : item.src);
-                    const hasCharBox = item.charBox ? true : false;
-                    imageCard.innerHTML = `
-                        <img src="${imgSrc}" class="image-preview" alt="图片">
-                        <div class="image-controls">
-                            <label>显示方式:</label>
-                            <select onchange="updateImageDisplay(${index}, this.value)">
-                                <option value="center" ${item.display === 'center' ? 'selected' : ''}>居中显示</option>
-                                <option value="float-left" ${item.display === 'float-left' ? 'selected' : ''}>文字环绕(左)</option>
-                                <option value="float-right" ${item.display === 'float-right' ? 'selected' : ''}>文字环绕(右)</option>
-                            </select>
-                            <label>宽度:</label>
-                            <input type="number" value="${item.width || 300}" onchange="updateImageSize(${index}, 'width', this.value)">
-                            <label>高度:</label>
-                            <input type="number" value="${item.height === 'auto' ? '' : item.height}" onchange="updateImageSize(${index}, 'height', this.value)" placeholder="自动">
-                            <button class="char-box-btn-annotate ${hasCharBox ? 'has-box' : ''}" onclick="openCharBoxModal('${currentQuestion?.id}', ${index}, '${currentTab}')">${hasCharBox ? '已标注' : '标注字框'}</button>
-                            <button class="delete-btn" onclick="deleteItem(${index})">删除</button>
-                        </div>
-                    `;
-                    contentList.appendChild(imageCard);
-                }
-            });
-
-            if (addTextBtn) {
-                contentList.appendChild(addTextBtn);
-            }
-        }
-
-        function addTextItemMain() {
-            const items = getCurrentItems(currentTab);
-            const newItem = {
-                id: ++itemCounter,
-                type: 'text',
-                content: ''
-            };
-            items.push(newItem);
-            const newIndex = items.length - 1;
-            setCurrentItems(items, currentTab);
-            renderContentList();
-            renderPreview();
-
-            const contentList = getCurrentContentList(currentTab);
-            const textElements = contentList.querySelectorAll('.text-item');
-            const lastTextElement = textElements[textElements.length - 1];
-            if (lastTextElement) {
-                const textContent = lastTextElement.querySelector('.text-item-content');
-                if (textContent) {
-                    setTimeout(() => {
-                        doEditText(textContent, newIndex);
-                    }, 10);
-                }
-            }
-        }
-
-        function doEditText(element, index) {
-            const items = getCurrentItems(currentTab);
-            const item = items[index];
-            if (!item) return;
-
-            const currentContent = item.content || '';
-            element.contentEditable = 'true';
-            element.classList.add('editing');
-
-            element.addEventListener('blur', function onBlur() {
-                const newContent = element.textContent;
-                items[index].content = newContent;
-                setCurrentItems(items, currentTab);
-                element.contentEditable = 'false';
-                element.classList.remove('editing');
-                element.removeEventListener('blur', onBlur);
-                element.removeEventListener('keydown', onKeydown);
-                renderPreview();
-            });
-
-            element.addEventListener('keydown', function onKeydown(e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    element.blur();
-                }
-                if (e.key === 'Escape') {
-                    e.preventDefault();
-                    element.textContent = currentContent;
-                    element.blur();
-                }
-            });
-
-            element.focus();
-            const selection = window.getSelection();
-            const range = document.createRange();
-            range.selectNodeContents(element);
-            selection.removeAllRanges();
-            selection.addRange(range);
-        }
-
-        function deleteItem(index) {
-            const items = getCurrentItems(currentTab);
-            items.splice(index, 1);
-            setCurrentItems(items, currentTab);
-            renderContentList();
-            renderPreview();
-        }
-
-        function deleteItemForTarget(index, type, target) {
+        function deleteItem(index, target = currentTab) {
             const items = getCurrentItems(target);
             items.splice(index, 1);
             setCurrentItems(items, target);
-            const contentList = getCurrentContentList(target);
-            renderContentListForTarget(contentList, items, target);
+            renderContentList(target);
             renderPreview();
         }
 
-        function updateImageDisplay(index, display) {
-            const items = getCurrentItems(currentTab);
-            items[index].display = display;
-            setCurrentItems(items, currentTab);
-            renderPreview();
-        }
-
-        function updateImageDisplayForTarget(index, display, type, target) {
+        function updateImageDisplay(index, display, target = currentTab) {
             const items = getCurrentItems(target);
             items[index].display = display;
             setCurrentItems(items, target);
             renderPreview();
         }
 
-        function updateImageSize(index, dimension, value) {
-            const items = getCurrentItems(currentTab);
-            if (dimension === 'height' && !value) {
-                items[index][dimension] = 'auto';
-            } else {
-                items[index][dimension] = parseInt(value) || 300;
-            }
-            setCurrentItems(items, currentTab);
-            renderPreview();
-        }
-
-        function updateImageSizeForTarget(index, dimension, value, type, target) {
+        function updateImageSize(index, dimension, value, target = currentTab) {
             const items = getCurrentItems(target);
             if (dimension === 'height' && !value) {
                 items[index][dimension] = 'auto';
@@ -2022,7 +1884,7 @@
                 card.innerHTML = `
                     <div class="sub-question-card-header">
                         <div class="sub-question-card-title">
-                            <input type="text" value="${escapeHtml(sq.title)}" onchange="updateSubQuestionTitle(${sq.id}, this.value)">
+                            <input type="text" value="${Utils.escapeHtml(sq.title)}" onchange="updateSubQuestionTitle(${sq.id}, this.value)">
                         </div>
                         <button class="sub-question-remove-btn" onclick="removeSubQuestion(${sq.id})">删除</button>
                     </div>
@@ -2035,7 +1897,7 @@
                         </div>
                         <div class="sub-question-tags" id="sq-tags-${sq.id}">
                             ${(sq.tags || []).map((tag, idx) => `
-                                <span class="tag-item">${escapeHtml(tag)}<span class="tag-remove" onclick="removeSubQuestionTag(${sq.id}, ${idx})">×</span></span>
+                                <span class="tag-item">${Utils.escapeHtml(tag)}<span class="tag-remove" onclick="removeSubQuestionTag(${sq.id}, ${idx})">×</span></span>
                             `).join('')}
                             <input type="text" placeholder="输入标签后回车" onkeydown="handleSubQuestionTagInput(${sq.id}, event)">
                             <div class="sub-question-quick-tags">
@@ -2266,83 +2128,6 @@
             }
         }
 
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML.replace(/\n/g, '<br>');
-        }
-        
-        function renderLatex(text) {
-            if (!text || typeof text !== 'string') return text;
-            
-            let result = text;
-            
-            result = result.replace(/\$\$([\s\S]*?)\$\$/g, (match, formula) => {
-                try {
-                    return katex.renderToString(formula.trim(), { displayMode: true, throwOnError: false });
-                } catch (e) {
-                    return match;
-                }
-            });
-            
-            result = result.replace(/\\\(([\s\S]*?)\\\)/g, (match, formula) => {
-                try {
-                    return katex.renderToString(formula.trim(), { displayMode: true, throwOnError: false });
-                } catch (e) {
-                    return match;
-                }
-            });
-            
-            result = result.replace(/\$([^\$\n]+?)\$/g, (match, formula) => {
-                try {
-                    return katex.renderToString(formula.trim(), { displayMode: false, throwOnError: false });
-                } catch (e) {
-                    return match;
-                }
-            });
-            
-            result = result.replace(/\\\[([\s\S]*?)\\\]/g, (match, formula) => {
-                try {
-                    return katex.renderToString(formula.trim(), { displayMode: true, throwOnError: false });
-                } catch (e) {
-                    return match;
-                }
-            });
-            
-            return result;
-        }
-        
-        function processTextWithLatex(text) {
-            if (!text) return '';
-            const escaped = escapeHtml(text);
-            const withBreaks = escaped.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>').replace(/\r/g, '<br>');
-            return renderLatex(withBreaks);
-        }
-        
-        function renderRichtext(fragments) {
-            let html = '';
-            for (const frag of fragments) {
-                let text = frag.text;
-                let isUnderline = frag.underline;
-                
-                if (isUnderline) {
-                    text = text.replace(/\u3000/g, ' ');
-                    text = text.replace(/ /g, '_');
-                }
-                const escaped = escapeHtml(text);
-                
-                if (!isUnderline) {
-                    const withLatex = renderLatex(escaped);
-                    const withBreaks = withLatex.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>').replace(/\r/g, '<br>');
-                    html += withBreaks;
-                } else {
-                    const withBreaks = escaped.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>').replace(/\r/g, '<br>');
-                    html += `<span class="underline-space">${withBreaks}</span>`;
-                }
-            }
-            return html;
-        }
-        
         function renderItemsPreview(items) {
             if (!items || items.length === 0) {
                 return '<div style="color: #999; font-style: italic;">暂无内容</div>';
@@ -2352,10 +2137,10 @@
             
             items.forEach(item => {
                 if (item.type === 'text') {
-                    const processed = processTextWithLatex(item.content);
+                    const processed = Utils.processTextWithLatex(item.content);
                     html += `<span class="preview-text">${processed}</span>`;
                 } else if (item.type === 'richtext') {
-                    html += `<span class="preview-text">${renderRichtext(item.fragments)}</span>`;
+                    html += `<span class="preview-text">${Utils.renderRichtext(item.fragments)}</span>`;
                 } else if (item.type === 'image') {
                     let imgClass = 'preview-image-center';
                     if (item.display === 'float-left') {
@@ -2440,7 +2225,7 @@
                 }
                 
                 html += `<input type="checkbox" class="tag-tree-checkbox" ${isSelected ? 'checked' : ''} onclick="toggleTagSelection('${fullTag}')">`;
-                html += `<span class="tag-tree-label">${escapeHtml(tag)}</span>`;
+                html += `<span class="tag-tree-label">${Utils.escapeHtml(tag)}</span>`;
                 html += `</div>`;
                 
                 if (hasChildren) {
@@ -2611,9 +2396,9 @@
                             ${hasAiContent ? '<span class="ai-badge" title="包含AI分析内容">AI</span>' : ''}
                             <span class="question-item-date">${q.created_at || ''}</span>
                         </div>
-                        <div class="question-item-preview">${escapeHtml(preview || '(暂无文本内容)')}</div>
+                        <div class="question-item-preview">${Utils.escapeHtml(preview || '(暂无文本内容)')}</div>
                         <div class="question-item-tags">
-                            ${(q.tags || []).map(t => `<span class="question-tag">${escapeHtml(t)}</span>`).join('')}
+                            ${(q.tags || []).map(t => `<span class="question-tag">${Utils.escapeHtml(t)}</span>`).join('')}
                         </div>
                     </div>
                 `;

@@ -1,9 +1,9 @@
 import os
 import json
-from typing import Optional
+from typing import Optional, Union
 from dataclasses import dataclass
 
-from ai.base import AIConfig, AIClient, build_input_content
+from ai.base import AI, ReasoningEffort, call_ai, build_input_content
 from ai.loader import ProcessedQuestion, load_question_by_id
 from ai.evaluation_prompt import get_evaluation_prompt
 
@@ -44,18 +44,19 @@ class QualityEvaluation:
 
 def evaluate_question_quality(
     question: ProcessedQuestion,
+    ai: Optional[AI] = None,
     api_key: Optional[str] = None,
-    model: str = "doubao-seed-2-0-pro-260215",
-    max_output_tokens: int = 131072,
-    reasoning_effort: str = "high",
+    model: Optional[str] = None,
+    max_output_tokens: Optional[int] = None,
+    reasoning_effort: Optional[Union[ReasoningEffort, str]] = None,
 ) -> QualityEvaluation:
-    config = AIConfig(
-        api_key=api_key or os.getenv("ARK_API_KEY", ""),
+    base_ai = ai or AI()
+    final_ai = base_ai.with_overrides(
         model=model,
-        max_output_tokens=max_output_tokens,
         reasoning_effort=reasoning_effort,
+        max_output_tokens=max_output_tokens,
+        api_key=api_key,
     )
-    client = AIClient(config)
 
     prompt_text = f"""请对以下题目进行质量评价：
 
@@ -68,7 +69,7 @@ def evaluate_question_quality(
 请严格按照系统提示词中的JSON格式输出评价结果。"""
 
     user_content = build_input_content(prompt_text, question.image_paths)
-    raw_response = client.call(get_evaluation_prompt(), user_content)
+    raw_response = call_ai(final_ai, get_evaluation_prompt(), user_content)
 
     try:
         json_str = raw_response.strip()
@@ -100,13 +101,14 @@ def evaluate_question_quality(
 def evaluate_question_by_id(
     data_dir: str,
     question_id: str,
+    ai: Optional[AI] = None,
     api_key: Optional[str] = None,
-    model: str = "doubao-seed-2-0-pro-260215",
+    model: Optional[str] = None,
 ) -> Optional[QualityEvaluation]:
     question = load_question_by_id(data_dir, question_id)
     if question is None:
         return None
-    return evaluate_question_quality(question, api_key, model)
+    return evaluate_question_quality(question, ai=ai, api_key=api_key, model=model)
 
 
 def save_evaluation_to_json(
@@ -133,10 +135,11 @@ def save_evaluation_to_json(
 def evaluate_and_save(
     data_dir: str,
     question_id: str,
+    ai: Optional[AI] = None,
     api_key: Optional[str] = None,
-    model: str = "doubao-seed-2-0-pro-260215",
+    model: Optional[str] = None,
 ) -> Optional[QualityEvaluation]:
-    evaluation = evaluate_question_by_id(data_dir, question_id, api_key, model)
+    evaluation = evaluate_question_by_id(data_dir, question_id, ai=ai, api_key=api_key, model=model)
 
     if evaluation is None:
         return None

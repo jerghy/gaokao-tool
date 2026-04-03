@@ -4,9 +4,9 @@ from typing import Optional, Any, Union
 from dataclasses import dataclass, field
 
 from ai.base import (
-    AIConfig,
-    AIClient,
+    AI,
     ReasoningEffort,
+    call_ai,
     build_input_content,
     parse_items_text,
     extract_image_paths_from_items,
@@ -23,21 +23,33 @@ __all__ = [
     "Question",
     "batch_ai",
     "ReasoningEffort",
+    "AI",
 ]
 
 
 class AIContext:
-    def __init__(self, data_dir: str, api_key: Optional[str] = None, model: str = "doubao-seed-2-0-pro-260215", api_base_url: str = "http://localhost:5000"):
+    def __init__(
+        self,
+        data_dir: str,
+        ai: Optional[AI] = None,
+        api_base_url: str = "http://localhost:5000",
+        api_key: Optional[str] = None,
+        model: Optional[str] = None,
+    ):
         self.data_dir = data_dir
-        self._config = AIConfig(
-            api_key=api_key or os.getenv("ARK_API_KEY", ""),
-            model=model,
-        )
         self.api_base_url = api_base_url
-
+        
+        if ai is not None:
+            self._ai = ai
+        else:
+            self._ai = AI(
+                api_key=api_key,
+                model=model or "doubao-seed-2-0-pro-260215",
+            )
+    
     @property
-    def config(self) -> AIConfig:
-        return self._config
+    def ai(self) -> AI:
+        return self._ai
 
     def question(self, question_id: str) -> "Question":
         return Question.load(question_id, ctx=self)
@@ -116,32 +128,38 @@ class Question:
             _ctx=ctx,
         )
 
-    def ai(self, system_prompt: str, output_field: Optional[str] = None, **kwargs) -> str:
-        extra_context = kwargs.pop("context", None)
-        api_key = kwargs.pop("api_key", None)
-        model = kwargs.pop("model", None)
-        max_output_tokens = kwargs.pop("max_output_tokens", 131072)
-        reasoning_effort = kwargs.pop("reasoning_effort", ReasoningEffort.high)
+    def ai(
+        self,
+        system_prompt: str,
+        output_field: Optional[str] = None,
+        ai: Optional[AI] = None,
+        context: Optional[str] = None,
+        model: Optional[str] = None,
+        reasoning_effort: Optional[Union[ReasoningEffort, str]] = None,
+        max_output_tokens: Optional[int] = None,
+        api_key: Optional[str] = None,
+    ) -> str:
+        base_ai = ai or (self._ctx.ai if self._ctx else AI())
+        
+        final_ai = base_ai.with_overrides(
+            model=model,
+            reasoning_effort=reasoning_effort,
+            max_output_tokens=max_output_tokens,
+            api_key=api_key,
+        )
 
         prompt_parts = []
         if self.question_text:
             prompt_parts.append(f"【题目】\n{self.question_text}")
         if self.answer_text:
             prompt_parts.append(f"【答案】\n{self.answer_text}")
-        if extra_context:
-            prompt_parts.append(f"【额外上下文】\n{extra_context}")
+        if context:
+            prompt_parts.append(f"【额外上下文】\n{context}")
 
         user_text = "\n\n".join(prompt_parts)
-
-        config = AIConfig(
-            api_key=api_key or (self._ctx.config.api_key if self._ctx else os.getenv("ARK_API_KEY", "")),
-            model=model or (self._ctx.config.model if self._ctx else "doubao-seed-2-0-pro-260215"),
-            max_output_tokens=max_output_tokens,
-            reasoning_effort=reasoning_effort,
-        )
-        client = AIClient(config)
         user_content = build_input_content(user_text, self.image_paths)
-        result = client.call(system_prompt, user_content)
+        
+        result = call_ai(final_ai, system_prompt, user_content)
 
         self._last_ai_result = result
 
@@ -211,7 +229,14 @@ class Question:
         return filtered
 
 
-def batch_ai(questions: list[Question], system_prompt: str, output_field: str = None, max_workers: int = 3, **kwargs) -> dict:
+def batch_ai(
+    questions: list[Question],
+    system_prompt: str,
+    output_field: str = None,
+    ai: Optional[AI] = None,
+    max_workers: int = 3,
+    **kwargs
+) -> dict:
     import threading
     from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -239,7 +264,10 @@ def batch_ai(questions: list[Question], system_prompt: str, output_field: str = 
                             print(f"[{index}/{total}] ~ {q.id}: 已存在，跳过")
                         return entry
 
-            r = q.ai(system_prompt, output_field=output_field, **kwargs)
+            call_kwargs = {"output_field": output_field, **kwargs}
+            if ai is not None:
+                call_kwargs["ai"] = ai
+            r = q.ai(system_prompt, **call_kwargs)
             entry["success"] = True
             entry["message"] = "处理完成"
             with print_lock:

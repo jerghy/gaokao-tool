@@ -20,14 +20,14 @@
   "answer": {
     "items": [
       {
-        "type": "richtext",
         "content": "C",
         "fragments": [
           {
             "text": "C",
             "underline": false
           }
-        ]
+        ],
+        "type": "richtext"
       }
     ]
   },

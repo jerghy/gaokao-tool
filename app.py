@@ -158,6 +158,7 @@ def index():
 def browse():
     return send_from_directory('static', 'browse.html')
 
+@app.route('/print')
 @app.route('/print.html')
 def print_page():
     return send_from_directory('static', 'print.html')
@@ -304,7 +305,9 @@ def get_questions():
     page = request.args.get('page', 1, type=int)
     page_size = request.args.get('page_size', 50, type=int)
     search = request.args.get('search', '')
-
+    
+    logger.info(f'GET /api/questions - page={page}, page_size={page_size}, search="{search}"')
+    
     if search:
         result = search_engine.search(search, page, page_size)
         for q in result['questions']:

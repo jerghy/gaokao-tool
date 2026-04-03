@@ -1108,6 +1108,11 @@
         </div>
     </div>
 
+    <script src="static/js/utils.js"></script>
+    <script src="static/js/api.js"></script>
+    <script src="static/js/image-handler.js"></script>
+    <script src="static/js/content-renderer.js"></script>
+    <script src="static/js/state.js"></script>
     <script>
         let questions = [];
         let selectedIds = new Set();
@@ -1117,15 +1122,16 @@
 
         async function loadQuestions(searchQuery = '') {
             try {
-                let url = '/api/questions?page=1&page_size=10000';
-                if (searchQuery && searchQuery.trim()) {
-                    url += '&search=' + encodeURIComponent(searchQuery.trim());
-                }
-                
-                const response = await fetch(url);
-                const data = await response.json();
+                const data = await API.getQuestions({ page: 1, page_size: 10000, search: searchQuery.trim() || undefined });
+                console.log('API response:', data);
                 questions = data.questions || [];
                 currentSearchQuery = searchQuery;
+                console.log('Questions loaded:', questions.length);
+                
+                if (questions.length > 0) {
+                    const firstQ = questions[0];
+                    console.log('First question items:', firstQ.question?.items);
+                }
 
                 const urlParams = new URLSearchParams(window.location.search);
                 const preselectedIds = urlParams.get('ids');
@@ -1151,7 +1157,8 @@
                     renderPreview();
                 }
             } catch (e) {
-                document.getElementById('fileList').innerHTML = '<span style="color: red;">加载失败</span>';
+                console.error('Load questions failed:', e);
+                document.getElementById('fileList').innerHTML = '<span style="color: red;">加载失败: ' + e.message + '</span>';
             }
         }
 
@@ -1410,6 +1417,10 @@
         const splitImageApiCache = {};
 
         async function fetchSplitImageFromServer(item) {
+            if (!item.src) {
+                console.error('Image src is missing:', item);
+                return [{ src: '', width: item.width || 300 }];
+            }
             const src = item.src.startsWith('/') ? item.src : '/' + item.src;
             const splitLines = item.splitLines || [];
             let imgWidth = item.width || 300;
@@ -1427,19 +1438,12 @@
             }
             
             try {
-                const response = await fetch('/api/split-image', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        src: src,
-                        splitLines: splitLines,
-                        width: imgWidth
-                    })
+                const result = await API.splitImage({
+                    src: src,
+                    splitLines: splitLines,
+                    width: imgWidth
                 });
                 
-                const result = await response.json();
                 if (result.success) {
                     splitImageApiCache[cacheKey] = result.parts;
                     return result.parts;
@@ -1539,6 +1543,16 @@
             } else if (item.type === 'image') {
                 if (item.splitLines && item.splitLines.length > 0) {
                     return { needsSplit: true, item };
+                }
+                
+                if (!item.src) {
+                    console.error('Image item missing src:', item);
+                    return '<p style="color: red;">[图片加载失败: 缺少src]</p>';
+                }
+                
+                if (!item.src) {
+                    console.error('Image item missing src:', item);
+                    return '<span style="color: red;">[图片加载失败]</span>';
                 }
                 
                 const floatClass = item.display ? (item.display === 'center' ? 'center' : `float-${item.display}`) : 'center';

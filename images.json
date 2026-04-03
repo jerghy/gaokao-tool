@@ -1409,6 +1409,24 @@
       "width": 670,
       "height": 420,
       "file_size": 310389
+    },
+    "img_20260403224955_bob99m5o": {
+      "id": "img_20260403224955_bob99m5o",
+      "filename": "20260403224955_3475ffd9.png",
+      "path": "img/20260403224955_3475ffd9.png",
+      "created_at": "2026-04-03 22:49:55",
+      "width": 1367,
+      "height": 707,
+      "file_size": 616833
+    },
+    "img_20260403225009_1puyf617": {
+      "id": "img_20260403225009_1puyf617",
+      "filename": "20260403225009_a7ae1a9e.png",
+      "path": "img/20260403225009_a7ae1a9e.png",
+      "created_at": "2026-04-03 22:50:09",
+      "width": 625,
+      "height": 505,
+      "file_size": 182456
     }
   },
   "configs": {
@@ -1420,6 +1438,15 @@
       "height": "auto",
       "used_by": [
         "20260314094138"
+      ],
+      "charBox": {
+        "x": 0.573,
+        "y": 0.375,
+        "size": 0.0375,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.5
       ]
     },
     "cfg_20260403210203_9xtbrrxg": {
@@ -1430,6 +1457,17 @@
       "height": "auto",
       "used_by": [
         "20260314100325"
+      ],
+      "charBox": {
+        "x": 0.891,
+        "y": 0.835,
+        "size": 0.032,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.25,
+        0.5,
+        0.75
       ]
     },
     "cfg_20260403210203_yatbdh6s": {
@@ -1440,7 +1478,14 @@
       "height": "auto",
       "used_by": [
         "20260314100743"
-      ]
+      ],
+      "charBox": {
+        "x": 0.412,
+        "y": 0.418,
+        "size": 0.082,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210203_hazyf8cl": {
       "id": "cfg_20260403210203_hazyf8cl",
@@ -1450,7 +1495,14 @@
       "height": "auto",
       "used_by": [
         "20260314101445"
-      ]
+      ],
+      "charBox": {
+        "x": 0.193,
+        "y": 0.25,
+        "size": 0.05,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210203_66xheoi2": {
       "id": "cfg_20260403210203_66xheoi2",
@@ -1460,6 +1512,15 @@
       "height": "auto",
       "used_by": [
         "20260314101445"
+      ],
+      "charBox": {
+        "x": 0.635,
+        "y": 0.93,
+        "size": 0.055,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.5
       ]
     },
     "cfg_20260403210203_7mjn8bc3": {
@@ -1470,6 +1531,17 @@
       "height": "auto",
       "used_by": [
         "20260314101518"
+      ],
+      "charBox": {
+        "x": 0.295,
+        "y": 0.395,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.16,
+        0.5,
+        0.83
       ]
     },
     "cfg_20260403210203_kb3m266r": {
@@ -1480,6 +1552,15 @@
       "height": "auto",
       "used_by": [
         "20260314101554"
+      ],
+      "charBox": {
+        "x": 0.183,
+        "y": 0.896,
+        "size": 0.037,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.08
       ]
     },
     "cfg_20260403210203_02fq4gnd": {
@@ -1490,6 +1571,15 @@
       "height": "auto",
       "used_by": [
         "20260314103748"
+      ],
+      "charBox": {
+        "x": 0.051,
+        "y": 0.497,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.11
       ]
     },
     "cfg_20260403210203_vquu5fb8": {
@@ -1500,6 +1590,15 @@
       "height": "auto",
       "used_by": [
         "20260314104304"
+      ],
+      "charBox": {
+        "x": 0.925,
+        "y": 0.125,
+        "size": 0.1625,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.5
       ]
     },
     "cfg_20260403210203_4iugc2b1": {
@@ -1510,6 +1609,15 @@
       "height": "auto",
       "used_by": [
         "20260314104415"
+      ],
+      "charBox": {
+        "x": 0.438,
+        "y": 0.421,
+        "size": 0.038,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.7
       ]
     },
     "cfg_20260403210203_upai323v": {
@@ -1520,7 +1628,14 @@
       "height": "auto",
       "used_by": [
         "20260314105907"
-      ]
+      ],
+      "charBox": {
+        "x": 0.477,
+        "y": 0.915,
+        "size": 0.022,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210203_fe97m79p": {
       "id": "cfg_20260403210203_fe97m79p",
@@ -1530,6 +1645,17 @@
       "height": "auto",
       "used_by": [
         "20260314105907"
+      ],
+      "charBox": {
+        "x": 0.871,
+        "y": 0.912,
+        "size": 0.038,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.25,
+        0.5,
+        0.75
       ]
     },
     "cfg_20260403210203_f8z4sxim": {
@@ -1540,6 +1666,17 @@
       "height": "auto",
       "used_by": [
         "20260314110004"
+      ],
+      "charBox": {
+        "x": 0.871,
+        "y": 0.457,
+        "size": 0.028,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.25,
+        0.5,
+        0.75
       ]
     },
     "cfg_20260403210203_as5yysgu": {
@@ -1550,6 +1687,16 @@
       "height": "auto",
       "used_by": [
         "20260314111924"
+      ],
+      "charBox": {
+        "x": 0.047,
+        "y": 0.178,
+        "size": 0.0445,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.25,
+        0.5
       ]
     },
     "cfg_20260403210203_8ymxt8ze": {
@@ -1560,6 +1707,17 @@
       "height": "auto",
       "used_by": [
         "20260314112019"
+      ],
+      "charBox": {
+        "x": 0.538,
+        "y": 0.932,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.23,
+        0.5,
+        0.78
       ]
     },
     "cfg_20260403210203_tseg0q76": {
@@ -1570,7 +1728,14 @@
       "height": "auto",
       "used_by": [
         "20260314112019"
-      ]
+      ],
+      "charBox": {
+        "x": 0.539,
+        "y": 0.807,
+        "size": 0.04,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210203_3drbc71h": {
       "id": "cfg_20260403210203_3drbc71h",
@@ -1580,6 +1745,15 @@
       "height": "auto",
       "used_by": [
         "20260314112052"
+      ],
+      "charBox": {
+        "x": 0.071,
+        "y": 0.933,
+        "size": 0.037,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.5
       ]
     },
     "cfg_20260403210203_xqtmf2uo": {
@@ -1590,6 +1764,16 @@
       "height": "auto",
       "used_by": [
         "20260314112129"
+      ],
+      "charBox": {
+        "x": 0.137,
+        "y": 0.833,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.25,
+        0.75
       ]
     },
     "cfg_20260403210203_8bx54eph": {
@@ -1600,6 +1784,18 @@
       "height": "auto",
       "used_by": [
         "20260314112155"
+      ],
+      "charBox": {
+        "x": 0.65,
+        "y": 0.292,
+        "size": 0.0215,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.19,
+        0.4,
+        0.61,
+        0.81
       ]
     },
     "cfg_20260403210203_ufxiy61u": {
@@ -1610,6 +1806,17 @@
       "height": "auto",
       "used_by": [
         "20260314112232"
+      ],
+      "charBox": {
+        "x": 0.955,
+        "y": 0.535,
+        "size": 0.052500000000000005,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.25,
+        0.5,
+        0.75
       ]
     },
     "cfg_20260403210203_275z5bh0": {
@@ -1620,6 +1827,17 @@
       "height": "auto",
       "used_by": [
         "20260314112425"
+      ],
+      "charBox": {
+        "x": 0.127,
+        "y": 0.64,
+        "size": 0.042,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.25,
+        0.5,
+        0.75
       ]
     },
     "cfg_20260403210203_bnh9irf3": {
@@ -1630,6 +1848,15 @@
       "height": "auto",
       "used_by": [
         "20260314112525"
+      ],
+      "charBox": {
+        "x": 0.554,
+        "y": 0.889,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.498
       ]
     },
     "cfg_20260403210203_4yx0dlff": {
@@ -1640,6 +1867,15 @@
       "height": "auto",
       "used_by": [
         "20260314112525"
+      ],
+      "charBox": {
+        "x": 0.512,
+        "y": 0.865,
+        "size": 0.038,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.77
       ]
     },
     "cfg_20260403210203_1evqf6cq": {
@@ -1650,7 +1886,14 @@
       "height": "auto",
       "used_by": [
         "20260314112607"
-      ]
+      ],
+      "charBox": {
+        "x": 0.442,
+        "y": 0.925,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210203_pnwc7xod": {
       "id": "cfg_20260403210203_pnwc7xod",
@@ -1660,7 +1903,14 @@
       "height": "auto",
       "used_by": [
         "20260314112653"
-      ]
+      ],
+      "charBox": {
+        "x": 0.566,
+        "y": 0.886,
+        "size": 0.07,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210203_ikc82flw": {
       "id": "cfg_20260403210203_ikc82flw",
@@ -1670,6 +1920,15 @@
       "height": "auto",
       "used_by": [
         "20260314112653"
+      ],
+      "charBox": {
+        "x": 0.503,
+        "y": 0.945,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.12
       ]
     },
     "cfg_20260403210203_nti1dfnl": {
@@ -1680,6 +1939,18 @@
       "height": "auto",
       "used_by": [
         "20260314112727"
+      ],
+      "charBox": {
+        "x": 0.062,
+        "y": 0.507,
+        "size": 0.042,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.167,
+        0.333,
+        0.583,
+        0.833
       ]
     },
     "cfg_20260403210203_0j792qon": {
@@ -1690,6 +1961,15 @@
       "height": "auto",
       "used_by": [
         "20260314133246"
+      ],
+      "charBox": {
+        "x": 0.706,
+        "y": 0.926,
+        "size": 0.038,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.5
       ]
     },
     "cfg_20260403210203_73gthkns": {
@@ -1700,6 +1980,16 @@
       "height": "auto",
       "used_by": [
         "20260314133246"
+      ],
+      "charBox": {
+        "x": 0.218,
+        "y": 0.405,
+        "size": 0.038,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.25,
+        0.67
       ]
     },
     "cfg_20260403210203_5envwgy6": {
@@ -1710,6 +2000,17 @@
       "height": "auto",
       "used_by": [
         "20260314134444"
+      ],
+      "charBox": {
+        "x": 0.403,
+        "y": 0.688,
+        "size": 0.028,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.28,
+        0.5,
+        0.77
       ]
     },
     "cfg_20260403210203_5ntulshr": {
@@ -2708,7 +3009,14 @@
       "height": "auto",
       "used_by": [
         "20260321140002"
-      ]
+      ],
+      "charBox": {
+        "x": 0.006,
+        "y": 0.07,
+        "size": 0.0275,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210203_glh2rqir": {
       "id": "cfg_20260403210203_glh2rqir",
@@ -2718,7 +3026,14 @@
       "height": "auto",
       "used_by": [
         "20260321140002"
-      ]
+      ],
+      "charBox": {
+        "x": 0.835,
+        "y": 0.4,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210203_173bvl1y": {
       "id": "cfg_20260403210203_173bvl1y",
@@ -2728,6 +3043,16 @@
       "height": "auto",
       "used_by": [
         "20260321140002"
+      ],
+      "charBox": {
+        "x": 0.157,
+        "y": 0.945,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.175,
+        0.91
       ]
     },
     "cfg_20260403210203_8dn7bpom": {
@@ -2738,6 +3063,18 @@
       "height": "auto",
       "used_by": [
         "20260321140002"
+      ],
+      "charBox": {
+        "x": 0.376,
+        "y": 0.052,
+        "size": 0.012,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.19,
+        0.39,
+        0.59,
+        0.8
       ]
     },
     "cfg_20260403210203_wao7o3wm": {
@@ -2748,6 +3085,15 @@
       "height": "auto",
       "used_by": [
         "20260321140002"
+      ],
+      "charBox": {
+        "x": 0.262,
+        "y": 0.945,
+        "size": 0.07,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.8
       ]
     },
     "cfg_20260403210203_szmyl42o": {
@@ -2758,6 +3104,18 @@
       "height": "auto",
       "used_by": [
         "20260321140002"
+      ],
+      "charBox": {
+        "x": 0.03,
+        "y": 0.62,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.08,
+        0.38,
+        0.7,
+        0.88
       ]
     },
     "cfg_20260403210203_8t7zg81l": {
@@ -2768,6 +3126,16 @@
       "height": "auto",
       "used_by": [
         "20260321140422"
+      ],
+      "charBox": {
+        "x": 0.518,
+        "y": 0.787,
+        "size": 0.037,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.22,
+        0.78
       ]
     },
     "cfg_20260403210203_zszhesnx": {
@@ -2778,6 +3146,15 @@
       "height": "auto",
       "used_by": [
         "20260321140422"
+      ],
+      "charBox": {
+        "x": 0.494,
+        "y": 0.396,
+        "size": 0.024,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.5
       ]
     },
     "cfg_20260403210203_gdlzxxys": {
@@ -2788,6 +3165,17 @@
       "height": "auto",
       "used_by": [
         "20260321140422"
+      ],
+      "charBox": {
+        "x": 0.023,
+        "y": 0.058,
+        "size": 0.015,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.16,
+        0.51,
+        0.83
       ]
     },
     "cfg_20260403210203_u1uk81io": {
@@ -2798,6 +3186,17 @@
       "height": "auto",
       "used_by": [
         "20260321140422"
+      ],
+      "charBox": {
+        "x": 0.296,
+        "y": 0.89,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.166,
+        0.332,
+        0.5
       ]
     },
     "cfg_20260403210203_ptiasu0j": {
@@ -2808,6 +3207,19 @@
       "height": "auto",
       "used_by": [
         "20260321140422"
+      ],
+      "charBox": {
+        "x": 0.076,
+        "y": 0.336,
+        "size": 0.037,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.15,
+        0.3,
+        0.45,
+        0.65,
+        0.85
       ]
     },
     "cfg_20260403210203_k8f3ce7q": {
@@ -2818,6 +3230,15 @@
       "height": "auto",
       "used_by": [
         "20260321140841"
+      ],
+      "charBox": {
+        "x": 0.021,
+        "y": 0.125,
+        "size": 0.0375,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.5
       ]
     },
     "cfg_20260403210203_nqfqs1fg": {
@@ -2828,6 +3249,15 @@
       "height": "auto",
       "used_by": [
         "20260321140841"
+      ],
+      "charBox": {
+        "x": 0.272,
+        "y": 0.565,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.55
       ]
     },
     "cfg_20260403210203_0t3si8uj": {
@@ -2838,6 +3268,19 @@
       "height": "auto",
       "used_by": [
         "20260321140841"
+      ],
+      "charBox": {
+        "x": 0.102,
+        "y": 0.927,
+        "size": 0.038,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.12,
+        0.28,
+        0.45,
+        0.68,
+        0.88
       ]
     },
     "cfg_20260403210203_9mdh18vu": {
@@ -2848,6 +3291,17 @@
       "height": "auto",
       "used_by": [
         "20260321140841"
+      ],
+      "charBox": {
+        "x": 0.037,
+        "y": 0.086,
+        "size": 0.033,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.25,
+        0.5,
+        0.75
       ]
     },
     "cfg_20260403210203_o987sqpe": {
@@ -2858,6 +3312,19 @@
       "height": "auto",
       "used_by": [
         "20260321140841"
+      ],
+      "charBox": {
+        "x": 0.067,
+        "y": 0.95,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.18,
+        0.37,
+        0.56,
+        0.75,
+        0.94
       ]
     },
     "cfg_20260403210203_cmf7b798": {
@@ -2868,6 +3335,16 @@
       "height": "auto",
       "used_by": [
         "20260321141041"
+      ],
+      "charBox": {
+        "x": 0.807,
+        "y": 0.721,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.165,
+        0.92
       ]
     },
     "cfg_20260403210203_e7cp65a7": {
@@ -2878,6 +3355,18 @@
       "height": "auto",
       "used_by": [
         "20260321141041"
+      ],
+      "charBox": {
+        "x": 0.009,
+        "y": 0.96,
+        "size": 0.022,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.12,
+        0.28,
+        0.49,
+        0.88
       ]
     },
     "cfg_20260403210203_62ij3kqo": {
@@ -2888,7 +3377,14 @@
       "height": "auto",
       "used_by": [
         "20260321141041"
-      ]
+      ],
+      "charBox": {
+        "x": 0.902,
+        "y": 0.5,
+        "size": 0.052500000000000005,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210203_5n4sydd0": {
       "id": "cfg_20260403210203_5n4sydd0",
@@ -2898,6 +3394,15 @@
       "height": "auto",
       "used_by": [
         "20260321141041"
+      ],
+      "charBox": {
+        "x": 0.0,
+        "y": 0.77,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.49
       ]
     },
     "cfg_20260403210203_1bbq4ibk": {
@@ -2908,6 +3413,18 @@
       "height": "auto",
       "used_by": [
         "20260321141041"
+      ],
+      "charBox": {
+        "x": 0.093,
+        "y": 0.435,
+        "size": 0.032,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.18,
+        0.4,
+        0.65,
+        0.87
       ]
     },
     "cfg_20260403210203_sxacgico": {
@@ -2918,6 +3435,17 @@
       "height": "auto",
       "used_by": [
         "20260321141148"
+      ],
+      "charBox": {
+        "x": 0.102,
+        "y": 0.787,
+        "size": 0.018,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.16,
+        0.7,
+        0.86
       ]
     },
     "cfg_20260403210203_1dffapcn": {
@@ -2928,6 +3456,16 @@
       "height": "auto",
       "used_by": [
         "20260321141148"
+      ],
+      "charBox": {
+        "x": 0.577,
+        "y": 0.091,
+        "size": 0.022,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.23,
+        0.48
       ]
     },
     "cfg_20260403210203_3q9mf70e": {
@@ -2938,6 +3476,17 @@
       "height": "auto",
       "used_by": [
         "20260321141148"
+      ],
+      "charBox": {
+        "x": 0.507,
+        "y": 0.517,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.23,
+        0.48,
+        0.74
       ]
     },
     "cfg_20260403210203_n1kp0573": {
@@ -2948,6 +3497,15 @@
       "height": "auto",
       "used_by": [
         "20260321141148"
+      ],
+      "charBox": {
+        "x": 0.018,
+        "y": 0.715,
+        "size": 0.022,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.12
       ]
     },
     "cfg_20260403210203_tmndzfgp": {
@@ -2958,6 +3516,20 @@
       "height": "auto",
       "used_by": [
         "20260321141148"
+      ],
+      "charBox": {
+        "x": 0.077,
+        "y": 0.927,
+        "size": 0.03,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.1,
+        0.25,
+        0.39,
+        0.58,
+        0.77,
+        0.91
       ]
     },
     "cfg_20260403210203_vyjeij0o": {
@@ -2968,6 +3540,16 @@
       "height": "auto",
       "used_by": [
         "20260321141410"
+      ],
+      "charBox": {
+        "x": 0.017,
+        "y": 0.565,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.12,
+        0.68
       ]
     },
     "cfg_20260403210203_1kgvp6qy": {
@@ -2978,6 +3560,17 @@
       "height": "auto",
       "used_by": [
         "20260321141410"
+      ],
+      "charBox": {
+        "x": 0.192,
+        "y": 0.855,
+        "size": 0.038,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.22,
+        0.48,
+        0.75
       ]
     },
     "cfg_20260403210203_c1ijapy4": {
@@ -2988,6 +3581,19 @@
       "height": "auto",
       "used_by": [
         "20260321141410"
+      ],
+      "charBox": {
+        "x": 0.006,
+        "y": 0.105,
+        "size": 0.018,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.08,
+        0.22,
+        0.37,
+        0.52,
+        0.7
       ]
     },
     "cfg_20260403210203_doram7nx": {
@@ -2998,6 +3604,20 @@
       "height": "auto",
       "used_by": [
         "20260321141410"
+      ],
+      "charBox": {
+        "x": 0.033,
+        "y": 0.748,
+        "size": 0.022,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.12,
+        0.25,
+        0.38,
+        0.61,
+        0.8,
+        0.93
       ]
     },
     "cfg_20260403210204_srvxmhna": {
@@ -3008,7 +3628,14 @@
       "height": "auto",
       "used_by": [
         "20260321141544"
-      ]
+      ],
+      "charBox": {
+        "x": 0.407,
+        "y": 0.522,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210204_t8g61e1a": {
       "id": "cfg_20260403210204_t8g61e1a",
@@ -3018,6 +3645,17 @@
       "height": "auto",
       "used_by": [
         "20260321141544"
+      ],
+      "charBox": {
+        "x": 0.034,
+        "y": 0.647,
+        "size": 0.022,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.25,
+        0.5,
+        0.75
       ]
     },
     "cfg_20260403210204_qeqee1y4": {
@@ -3028,6 +3666,17 @@
       "height": "auto",
       "used_by": [
         "20260321141544"
+      ],
+      "charBox": {
+        "x": 0.028,
+        "y": 0.405,
+        "size": 0.025,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.25,
+        0.5,
+        0.75
       ]
     },
     "cfg_20260403210204_a5dkbhk3": {
@@ -3038,6 +3687,16 @@
       "height": "auto",
       "used_by": [
         "20260321141544"
+      ],
+      "charBox": {
+        "x": 0.261,
+        "y": 0.858,
+        "size": 0.036500000000000005,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.25,
+        0.5
       ]
     },
     "cfg_20260403210204_ifmgitio": {
@@ -3048,6 +3707,18 @@
       "height": "auto",
       "used_by": [
         "20260321141544"
+      ],
+      "charBox": {
+        "x": 0.045,
+        "y": 0.85,
+        "size": 0.02,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.08,
+        0.22,
+        0.55,
+        0.78
       ]
     },
     "cfg_20260403210204_9wa6phdi": {
@@ -3058,6 +3729,16 @@
       "height": "auto",
       "used_by": [
         "20260321141544"
+      ],
+      "charBox": {
+        "x": 0.297,
+        "y": 0.795,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.25,
+        0.5
       ]
     },
     "cfg_20260403210204_6t77ilb1": {
@@ -3068,7 +3749,14 @@
       "height": "auto",
       "used_by": [
         "20260321142429"
-      ]
+      ],
+      "charBox": {
+        "x": 0.102,
+        "y": 0.507,
+        "size": 0.038,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210204_zg63608m": {
       "id": "cfg_20260403210204_zg63608m",
@@ -3078,6 +3766,17 @@
       "height": "auto",
       "used_by": [
         "20260321142429"
+      ],
+      "charBox": {
+        "x": 0.102,
+        "y": 0.84,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.25,
+        0.5,
+        0.75
       ]
     },
     "cfg_20260403210204_c6ky1rsy": {
@@ -3088,6 +3787,15 @@
       "height": "auto",
       "used_by": [
         "20260321142429"
+      ],
+      "charBox": {
+        "x": 0.405,
+        "y": 0.585,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.58
       ]
     },
     "cfg_20260403210204_ywtcrvyg": {
@@ -3098,6 +3806,15 @@
       "height": "auto",
       "used_by": [
         "20260321142429"
+      ],
+      "charBox": {
+        "x": 0.659,
+        "y": 0.861,
+        "size": 0.022,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.7
       ]
     },
     "cfg_20260403210204_yyp9efwf": {
@@ -3108,6 +3825,16 @@
       "height": "auto",
       "used_by": [
         "20260321142429"
+      ],
+      "charBox": {
+        "x": 0.527,
+        "y": 0.803,
+        "size": 0.03,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.12,
+        0.55
       ]
     },
     "cfg_20260403210204_zgr6cvys": {
@@ -3118,6 +3845,18 @@
       "height": "auto",
       "used_by": [
         "20260321142607"
+      ],
+      "charBox": {
+        "x": 0.017,
+        "y": 0.955,
+        "size": 0.022,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.28,
+        0.42,
+        0.58,
+        0.82
       ]
     },
     "cfg_20260403210204_xqbpuvez": {
@@ -3128,6 +3867,16 @@
       "height": "auto",
       "used_by": [
         "20260321142607"
+      ],
+      "charBox": {
+        "x": 0.009,
+        "y": 0.327,
+        "size": 0.013,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.18,
+        0.52
       ]
     },
     "cfg_20260403210204_2suvvkl6": {
@@ -3138,6 +3887,17 @@
       "height": "auto",
       "used_by": [
         "20260321142607"
+      ],
+      "charBox": {
+        "x": 0.326,
+        "y": 0.373,
+        "size": 0.022,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.24,
+        0.5,
+        0.75
       ]
     },
     "cfg_20260403210204_q8m1x471": {
@@ -3148,6 +3908,15 @@
       "height": "auto",
       "used_by": [
         "20260321142812"
+      ],
+      "charBox": {
+        "x": 0.022,
+        "y": 0.627,
+        "size": 0.036500000000000005,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.22
       ]
     },
     "cfg_20260403210204_mniuog6z": {
@@ -3158,6 +3927,18 @@
       "height": "auto",
       "used_by": [
         "20260321142812"
+      ],
+      "charBox": {
+        "x": 0.069,
+        "y": 0.477,
+        "size": 0.022,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.09,
+        0.27,
+        0.43,
+        0.61
       ]
     },
     "cfg_20260403210204_yzym49c9": {
@@ -3168,6 +3949,15 @@
       "height": "auto",
       "used_by": [
         "20260321142812"
+      ],
+      "charBox": {
+        "x": 0.112,
+        "y": 0.88,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.3
       ]
     },
     "cfg_20260403210204_5d2qftbb": {
@@ -3178,6 +3968,15 @@
       "height": "auto",
       "used_by": [
         "20260321142812"
+      ],
+      "charBox": {
+        "x": 0.116,
+        "y": 0.955,
+        "size": 0.036500000000000005,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.62
       ]
     },
     "cfg_20260403210204_2xf5daij": {
@@ -3188,6 +3987,16 @@
       "height": "auto",
       "used_by": [
         "20260321142812"
+      ],
+      "charBox": {
+        "x": 0.058,
+        "y": 0.892,
+        "size": 0.022,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.495,
+        0.74
       ]
     },
     "cfg_20260403210204_gzpul1fe": {
@@ -3198,6 +4007,17 @@
       "height": "auto",
       "used_by": [
         "20260321142924"
+      ],
+      "charBox": {
+        "x": 0.905,
+        "y": 0.795,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.18,
+        0.39,
+        0.6
       ]
     },
     "cfg_20260403210204_zjx20igq": {
@@ -3208,6 +4028,16 @@
       "height": "auto",
       "used_by": [
         "20260321142924"
+      ],
+      "charBox": {
+        "x": 0.071,
+        "y": 0.952,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.25,
+        0.5
       ]
     },
     "cfg_20260403210204_44z9fg9v": {
@@ -3218,6 +4048,16 @@
       "height": "auto",
       "used_by": [
         "20260321142924"
+      ],
+      "charBox": {
+        "x": 0.017,
+        "y": 0.605,
+        "size": 0.022,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.17,
+        0.5
       ]
     },
     "cfg_20260403210204_l4nsiw1t": {
@@ -3228,6 +4068,16 @@
       "height": "auto",
       "used_by": [
         "20260321142924"
+      ],
+      "charBox": {
+        "x": 0.044,
+        "y": 0.83,
+        "size": 0.052500000000000005,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.49,
+        0.745
       ]
     },
     "cfg_20260403210204_m3tbm4tw": {
@@ -3238,6 +4088,16 @@
       "height": "auto",
       "used_by": [
         "20260321143126"
+      ],
+      "charBox": {
+        "x": 0.548,
+        "y": 0.487,
+        "size": 0.0485,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.18,
+        0.82
       ]
     },
     "cfg_20260403210204_n9z0shhp": {
@@ -3248,6 +4108,16 @@
       "height": "auto",
       "used_by": [
         "20260321143126"
+      ],
+      "charBox": {
+        "x": 0.022,
+        "y": 0.825,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.22,
+        0.4
       ]
     },
     "cfg_20260403210204_uqc4bpwl": {
@@ -3258,7 +4128,14 @@
       "height": "auto",
       "used_by": [
         "20260321143126"
-      ]
+      ],
+      "charBox": {
+        "x": 0.057,
+        "y": 0.827,
+        "size": 0.022,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210204_pn9bw3vx": {
       "id": "cfg_20260403210204_pn9bw3vx",
@@ -3268,6 +4145,16 @@
       "height": "auto",
       "used_by": [
         "20260321143126"
+      ],
+      "charBox": {
+        "x": 0.224,
+        "y": 0.804,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.18,
+        0.62
       ]
     },
     "cfg_20260403210204_o6oaju63": {
@@ -3278,7 +4165,14 @@
       "height": "auto",
       "used_by": [
         "20260321143126"
-      ]
+      ],
+      "charBox": {
+        "x": 0.071,
+        "y": 0.743,
+        "size": 0.059,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210204_bs4k93z7": {
       "id": "cfg_20260403210204_bs4k93z7",
@@ -3288,6 +4182,16 @@
       "height": "auto",
       "used_by": [
         "20260321143245"
+      ],
+      "charBox": {
+        "x": 0.659,
+        "y": 0.628,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.18,
+        0.87
       ]
     },
     "cfg_20260403210204_tyyfznz1": {
@@ -3298,6 +4202,18 @@
       "height": "auto",
       "used_by": [
         "20260321143245"
+      ],
+      "charBox": {
+        "x": 0.08,
+        "y": 0.915,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.15,
+        0.37,
+        0.59,
+        0.81
       ]
     },
     "cfg_20260403210204_pcgxzqof": {
@@ -3308,6 +4224,15 @@
       "height": "auto",
       "used_by": [
         "20260321143245"
+      ],
+      "charBox": {
+        "x": 0.218,
+        "y": 0.685,
+        "size": 0.032,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.33
       ]
     },
     "cfg_20260403210204_6rjmjmow": {
@@ -3318,6 +4243,19 @@
       "height": "auto",
       "used_by": [
         "20260321143245"
+      ],
+      "charBox": {
+        "x": 0.117,
+        "y": 0.805,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.09,
+        0.25,
+        0.42,
+        0.58,
+        0.78
       ]
     },
     "cfg_20260403210204_14j3uohm": {
@@ -3328,6 +4266,16 @@
       "height": "auto",
       "used_by": [
         "20260321143435"
+      ],
+      "charBox": {
+        "x": 0.459,
+        "y": 0.867,
+        "size": 0.012,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.16,
+        0.84
       ]
     },
     "cfg_20260403210204_02o64x9l": {
@@ -3338,6 +4286,16 @@
       "height": "auto",
       "used_by": [
         "20260321143435"
+      ],
+      "charBox": {
+        "x": 0.052,
+        "y": 0.958,
+        "size": 0.038,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.18,
+        0.67
       ]
     },
     "cfg_20260403210204_okaqgko9": {
@@ -3348,6 +4306,16 @@
       "height": "auto",
       "used_by": [
         "20260321143435"
+      ],
+      "charBox": {
+        "x": 0.176,
+        "y": 0.697,
+        "size": 0.03,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.12,
+        0.5
       ]
     },
     "cfg_20260403210204_d7gzi2gk": {
@@ -3358,6 +4326,18 @@
       "height": "auto",
       "used_by": [
         "20260321143435"
+      ],
+      "charBox": {
+        "x": 0.135,
+        "y": 0.375,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.22,
+        0.4,
+        0.6,
+        0.8
       ]
     },
     "cfg_20260403210204_cyzk0q8w": {
@@ -3368,6 +4348,15 @@
       "height": "auto",
       "used_by": [
         "20260321143627"
+      ],
+      "charBox": {
+        "x": 0.171,
+        "y": 0.375,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.57
       ]
     },
     "cfg_20260403210204_8gvuie2k": {
@@ -3378,6 +4367,16 @@
       "height": "auto",
       "used_by": [
         "20260321143627"
+      ],
+      "charBox": {
+        "x": 0.198,
+        "y": 0.738,
+        "size": 0.038,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.25,
+        0.6
       ]
     },
     "cfg_20260403210204_f1oi7k1j": {
@@ -3388,6 +4387,16 @@
       "height": "auto",
       "used_by": [
         "20260321143627"
+      ],
+      "charBox": {
+        "x": 0.017,
+        "y": 0.625,
+        "size": 0.025,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.68,
+        0.82
       ]
     },
     "cfg_20260403210204_kq8271wo": {
@@ -3398,6 +4407,16 @@
       "height": "auto",
       "used_by": [
         "20260321143627"
+      ],
+      "charBox": {
+        "x": 0.571,
+        "y": 0.943,
+        "size": 0.032,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.15,
+        0.7
       ]
     },
     "cfg_20260403210204_734yuich": {
@@ -3408,6 +4427,16 @@
       "height": "auto",
       "used_by": [
         "20260321143627"
+      ],
+      "charBox": {
+        "x": 0.343,
+        "y": 0.642,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.22,
+        0.48
       ]
     },
     "cfg_20260403210204_hf5ifqb1": {
@@ -3418,6 +4447,18 @@
       "height": "auto",
       "used_by": [
         "20260321143627"
+      ],
+      "charBox": {
+        "x": 0.136,
+        "y": 0.694,
+        "size": 0.022,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.18,
+        0.37,
+        0.55,
+        0.73
       ]
     },
     "cfg_20260403210204_5apucg4l": {
@@ -3428,6 +4469,18 @@
       "height": "auto",
       "used_by": [
         "20260321143627"
+      ],
+      "charBox": {
+        "x": 0.027,
+        "y": 0.863,
+        "size": 0.022,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.12,
+        0.3,
+        0.6,
+        0.8
       ]
     },
     "cfg_20260403210204_gh6nbpye": {
@@ -3438,6 +4491,17 @@
       "height": "auto",
       "used_by": [
         "20260321143627"
+      ],
+      "charBox": {
+        "x": 0.052,
+        "y": 0.75,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.21,
+        0.57,
+        0.8
       ]
     },
     "cfg_20260403210204_nbfv0fxg": {
@@ -3448,7 +4512,14 @@
       "height": "auto",
       "used_by": [
         "20260321143808"
-      ]
+      ],
+      "charBox": {
+        "x": 0.102,
+        "y": 0.218,
+        "size": 0.022,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210204_h16pvxba": {
       "id": "cfg_20260403210204_h16pvxba",
@@ -3458,6 +4529,15 @@
       "height": "auto",
       "used_by": [
         "20260321143906"
+      ],
+      "charBox": {
+        "x": 0.108,
+        "y": 0.952,
+        "size": 0.032,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.22
       ]
     },
     "cfg_20260403210204_l989fooo": {
@@ -3468,7 +4548,14 @@
       "height": "auto",
       "used_by": [
         "20260321143906"
-      ]
+      ],
+      "charBox": {
+        "x": 0.067,
+        "y": 0.275,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210204_qzk7ynsf": {
       "id": "cfg_20260403210204_qzk7ynsf",
@@ -3478,7 +4565,14 @@
       "height": "auto",
       "used_by": [
         "20260321144008"
-      ]
+      ],
+      "charBox": {
+        "x": 0.637,
+        "y": 0.125,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210204_n2vw28n6": {
       "id": "cfg_20260403210204_n2vw28n6",
@@ -3488,6 +4582,15 @@
       "height": "auto",
       "used_by": [
         "20260321144008"
+      ],
+      "charBox": {
+        "x": 0.775,
+        "y": 0.875,
+        "size": 0.03,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.5
       ]
     },
     "cfg_20260403210204_vw8mf8cb": {
@@ -3498,6 +4601,17 @@
       "height": "auto",
       "used_by": [
         "20260321144008"
+      ],
+      "charBox": {
+        "x": 0.117,
+        "y": 0.375,
+        "size": 0.036500000000000005,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.25,
+        0.5,
+        0.75
       ]
     },
     "cfg_20260403210204_erkonmoc": {
@@ -3508,7 +4622,14 @@
       "height": "auto",
       "used_by": [
         "20260321144104"
-      ]
+      ],
+      "charBox": {
+        "x": 0.017,
+        "y": 0.91,
+        "size": 0.02,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210204_fdmy0ua8": {
       "id": "cfg_20260403210204_fdmy0ua8",
@@ -3518,6 +4639,17 @@
       "height": "auto",
       "used_by": [
         "20260321144104"
+      ],
+      "charBox": {
+        "x": 0.05,
+        "y": 0.47,
+        "size": 0.025,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.17,
+        0.34,
+        0.51
       ]
     },
     "cfg_20260403210204_bm7kk22x": {
@@ -3528,7 +4660,14 @@
       "height": "auto",
       "used_by": [
         "20260321144158"
-      ]
+      ],
+      "charBox": {
+        "x": 0.484,
+        "y": 0.688,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210204_zr78ercp": {
       "id": "cfg_20260403210204_zr78ercp",
@@ -3538,7 +4677,14 @@
       "height": "auto",
       "used_by": [
         "20260321144158"
-      ]
+      ],
+      "charBox": {
+        "x": 0.071,
+        "y": 0.075,
+        "size": 0.028,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210204_hsrzidij": {
       "id": "cfg_20260403210204_hsrzidij",
@@ -3548,7 +4694,14 @@
       "height": "auto",
       "used_by": [
         "20260321144158"
-      ]
+      ],
+      "charBox": {
+        "x": 0.218,
+        "y": 0.655,
+        "size": 0.038,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210204_drer8tvb": {
       "id": "cfg_20260403210204_drer8tvb",
@@ -3558,6 +4711,15 @@
       "height": "auto",
       "used_by": [
         "20260321144257"
+      ],
+      "charBox": {
+        "fontSize": "medium",
+        "size": 0.039,
+        "x": 0.046,
+        "y": 0.075
+      },
+      "splitLines": [
+        0.5
       ]
     },
     "cfg_20260403210204_c4ch5ttw": {
@@ -3568,7 +4730,14 @@
       "height": "auto",
       "used_by": [
         "20260321144257"
-      ]
+      ],
+      "charBox": {
+        "x": 0.0528169014084507,
+        "y": 0.35694444444444445,
+        "size": 0.0721830985915493,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210204_8l5xs7hx": {
       "id": "cfg_20260403210204_8l5xs7hx",
@@ -3578,6 +4747,17 @@
       "height": "auto",
       "used_by": [
         "20260321144257"
+      ],
+      "charBox": {
+        "fontSize": "medium",
+        "size": 0.035,
+        "x": 0.178,
+        "y": 0.815
+      },
+      "splitLines": [
+        0.24,
+        0.49,
+        0.75
       ]
     },
     "cfg_20260403210204_8wcl1i3g": {
@@ -3588,6 +4768,15 @@
       "height": "auto",
       "used_by": [
         "20260321144340"
+      ],
+      "charBox": {
+        "fontSize": "medium",
+        "size": 0.02,
+        "x": 0.042,
+        "y": 0.16
+      },
+      "splitLines": [
+        0.49
       ]
     },
     "cfg_20260403210204_262uxijj": {
@@ -3598,7 +4787,14 @@
       "height": "auto",
       "used_by": [
         "20260321144340"
-      ]
+      ],
+      "charBox": {
+        "x": 0.3360128617363344,
+        "y": 0.44026548672566373,
+        "size": 0.05305466237942122,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210204_1tpgucwq": {
       "id": "cfg_20260403210204_1tpgucwq",
@@ -3608,7 +4804,14 @@
       "height": "auto",
       "used_by": [
         "20260321144340"
-      ]
+      ],
+      "charBox": {
+        "fontSize": "medium",
+        "size": 0.032,
+        "x": 0.408,
+        "y": 0.865
+      },
+      "splitLines": []
     },
     "cfg_20260403210204_yy9hehrc": {
       "id": "cfg_20260403210204_yy9hehrc",
@@ -3618,7 +4821,14 @@
       "height": "auto",
       "used_by": [
         "20260321144408"
-      ]
+      ],
+      "charBox": {
+        "x": 0.033,
+        "y": 0.727,
+        "size": 0.028,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210204_0ehye4rj": {
       "id": "cfg_20260403210204_0ehye4rj",
@@ -3644,6 +4854,15 @@
       "height": "auto",
       "used_by": [
         "20260321144500"
+      ],
+      "charBox": {
+        "x": 0.218,
+        "y": 0.938,
+        "size": 0.035,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.5
       ]
     },
     "cfg_20260403210204_2jumkun0": {
@@ -3670,7 +4889,14 @@
       "height": "auto",
       "used_by": [
         "20260321144548"
-      ]
+      ],
+      "charBox": {
+        "x": 0.29679595278246207,
+        "y": 0.5411255411255411,
+        "size": 0.03372681281618887,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210204_6p6oc76w": {
       "id": "cfg_20260403210204_6p6oc76w",
@@ -3680,6 +4906,15 @@
       "height": "auto",
       "used_by": [
         "20260321144548"
+      ],
+      "charBox": {
+        "fontSize": "medium",
+        "size": 0.022,
+        "x": 0.605,
+        "y": 0.595
+      },
+      "splitLines": [
+        0.5
       ]
     },
     "cfg_20260403210204_mlwlsy3v": {
@@ -3690,6 +4925,15 @@
       "height": "auto",
       "used_by": [
         "20260321144548"
+      ],
+      "charBox": {
+        "fontSize": "medium",
+        "size": 0.025,
+        "x": 0.083,
+        "y": 0.775
+      },
+      "splitLines": [
+        0.5
       ]
     },
     "cfg_20260403210204_j7vg3rwi": {
@@ -3700,6 +4944,15 @@
       "height": "auto",
       "used_by": [
         "20260321144645"
+      ],
+      "charBox": {
+        "fontSize": "medium",
+        "size": 0.035,
+        "x": 0.308,
+        "y": 0.648
+      },
+      "splitLines": [
+        0.5
       ]
     },
     "cfg_20260403210204_8baeq5tf": {
@@ -3710,7 +4963,14 @@
       "height": "auto",
       "used_by": [
         "20260321144645"
-      ]
+      ],
+      "charBox": {
+        "x": 0.03187250996015936,
+        "y": 0.5575842696629213,
+        "size": 0.0796812749003984,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210204_hpat3tbm": {
       "id": "cfg_20260403210204_hpat3tbm",
@@ -3720,6 +4980,16 @@
       "height": "auto",
       "used_by": [
         "20260321144645"
+      ],
+      "charBox": {
+        "fontSize": "medium",
+        "size": 0.035,
+        "x": 0.073,
+        "y": 0.658
+      },
+      "splitLines": [
+        0.15,
+        0.48
       ]
     },
     "cfg_20260403210204_gj69u9io": {
@@ -3730,7 +5000,14 @@
       "height": "auto",
       "used_by": [
         "20260321144724"
-      ]
+      ],
+      "charBox": {
+        "x": 0.967,
+        "y": 0.866,
+        "size": 0.022,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210204_r75ppcip": {
       "id": "cfg_20260403210204_r75ppcip",
@@ -3740,7 +5017,14 @@
       "height": "auto",
       "used_by": [
         "20260321144724"
-      ]
+      ],
+      "charBox": {
+        "x": 0.782,
+        "y": 0.498,
+        "size": 0.032,
+        "fontSize": "medium"
+      },
+      "splitLines": []
     },
     "cfg_20260403210204_j9gfcojn": {
       "id": "cfg_20260403210204_j9gfcojn",
@@ -3750,6 +5034,18 @@
       "height": "auto",
       "used_by": [
         "20260321144724"
+      ],
+      "charBox": {
+        "x": 0.205,
+        "y": 0.872,
+        "size": 0.038,
+        "fontSize": "medium"
+      },
+      "splitLines": [
+        0.1,
+        0.26,
+        0.42,
+        0.78
       ]
     },
     "cfg_20260403210204_ml77ob1x": {
@@ -3776,7 +5072,13 @@
       "height": "auto",
       "used_by": [
         "20260321144813"
-      ]
+      ],
+      "charBox": {
+        "x": 0.16536458333333334,
+        "y": 0.30443548387096775,
+        "size": 0.049479166666666664,
+        "fontSize": "medium"
+      }
     },
     "cfg_20260403210204_1ec23vf0": {
       "id": "cfg_20260403210204_1ec23vf0",
@@ -3789,10 +5091,13 @@
       ],
       "charBox": {
         "fontSize": "medium",
-        "size": 0.02521823472356935,
-        "x": 0.3757352085354025,
-        "y": 0.1293906
-      }
+        "size": 0.03588748787584869,
+        "x": 0.3941639185257032,
+        "y": 0.47739
+      },
+      "splitLines": [
+        0.435
+      ]
     },
     "cfg_20260403210419_donza21v": {
       "id": "cfg_20260403210419_donza21v",

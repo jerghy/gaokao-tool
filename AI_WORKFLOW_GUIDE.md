@@ -11,6 +11,7 @@
   - [Question 数据对象](#question-数据对象)
   - [batch_ai 批量处理](#batch_ai-批量处理)
 - [基础工具函数](#基础工具函数)
+  - [AI 对象](#ai-对象)
   - [ReasoningEffort 推理深度枚举](#reasoningeffort-推理深度枚举)
   - [AIConfig 配置类](#aiconfig-配置类)
   - [AIClient 客户端类](#aiclient-客户端类)
@@ -381,6 +382,81 @@ results = batch_ai(questions, prompt, "field")
 ---
 
 ## 基础工具函数
+
+### AI 对象
+
+`AI` 是 AI 配置的封装对象，包含模型、推理深度、输出长度等所有 AI 调用相关配置：
+
+```python
+from ai import AI, ReasoningEffort
+
+# 创建 AI 对象
+ai = AI(
+    model="doubao-seed-2-0-pro-260215",
+    reasoning_effort=ReasoningEffort.high,
+    max_output_tokens=131072,
+    api_key="your-api-key",  # 可选，None 表示从环境变量读取
+)
+
+# 使用预设模式（推荐）
+ai = AI.fast()   # 快速模式：低推理深度，适合简单任务
+ai = AI.think()  # 思考模式：高推理深度，适合复杂分析（默认）
+ai = AI.deep()   # 深度模式：最大推理深度和输出长度
+```
+
+**预设模式说明**:
+
+| 模式 | 推理深度 | 输出长度 | 适用场景 |
+|------|----------|----------|----------|
+| `AI.fast()` | `low` | 32768 | 简单分类、快速响应 |
+| `AI.think()` | `high` | 131072 | 复杂分析、深度思考 |
+| `AI.deep()` | `high` | 262144 | 超长输出、详细分析 |
+
+**在 AIContext 中使用**:
+```python
+from ai import AIContext, AI
+
+# 方式一：使用默认 AI 配置
+ctx = AIContext(data_dir="data")
+
+# 方式二：传入自定义 AI 对象
+ctx = AIContext(data_dir="data", ai=AI.deep())
+
+# 方式三：使用预设模式
+ctx = AIContext(data_dir="data", ai=AI.think())
+```
+
+**在 Question.ai() 中使用**:
+```python
+from ai import AI, ReasoningEffort
+
+q = ctx.question("xxx")
+
+# 使用上下文默认 AI
+q.ai("分析题目")
+
+# 临时使用快速模式
+q.ai("简单分类", ai=AI.fast())
+
+# 临时使用深度模式
+q.ai("深度分析", ai=AI.deep())
+
+# 覆盖单个参数（仍支持向后兼容）
+q.ai("分析", reasoning_effort=ReasoningEffort.minimal)
+```
+
+**预定义项目级配置**:
+```python
+from ai import AI, ReasoningEffort
+
+# 在项目配置文件中定义
+FAST_AI = AI(reasoning_effort=ReasoningEffort.low, max_output_tokens=32768)
+THINK_AI = AI(reasoning_effort=ReasoningEffort.high, max_output_tokens=131072)
+DEEP_AI = AI(reasoning_effort=ReasoningEffort.high, max_output_tokens=262144)
+
+# 批量处理时使用
+batch_ai(questions, "分析", ai=THINK_AI)
+```
 
 ### ReasoningEffort 推理深度枚举
 
@@ -939,6 +1015,32 @@ result = q.ai("""请分析这道几何题：
 
 ### ai.workflow 模块
 
+#### AI
+
+```python
+from dataclasses import dataclass
+
+@dataclass
+class AI:
+    model: str = "doubao-seed-2-0-pro-260215"
+    reasoning_effort: Union[ReasoningEffort, str] = ReasoningEffort.high
+    max_output_tokens: int = 131072
+    api_key: Optional[str] = None
+    timeout: int = 1800
+    base_url: str = "https://ark.cn-beijing.volces.com/api/v3"
+    
+    @classmethod
+    def fast(cls) -> "AI": ...
+    
+    @classmethod
+    def think(cls) -> "AI": ...
+    
+    @classmethod
+    def deep(cls) -> "AI": ...
+    
+    def to_config(self) -> AIConfig: ...
+```
+
 #### ReasoningEffort
 
 ```python
@@ -958,10 +1060,14 @@ class AIContext:
     def __init__(
         self,
         data_dir: str,
+        ai: Optional[AI] = None,
+        api_base_url: str = "http://localhost:5000",
         api_key: Optional[str] = None,
-        model: str = "doubao-seed-2-0-pro-260215",
-        api_base_url: str = "http://localhost:5000"
+        model: Optional[str] = None,
     ): ...
+    
+    @property
+    def ai(self) -> AI: ...
     
     @property
     def config(self) -> AIConfig: ...
@@ -993,10 +1099,11 @@ class Question:
         self,
         system_prompt: str,
         output_field: Optional[str] = None,
+        ai: Optional[AI] = None,
         context: Optional[str] = None,
-        max_output_tokens: int = 131072,
-        reasoning_effort: Union[ReasoningEffort, str] = ReasoningEffort.high,
         model: Optional[str] = None,
+        reasoning_effort: Optional[Union[ReasoningEffort, str]] = None,
+        max_output_tokens: Optional[int] = None,
         api_key: Optional[str] = None,
     ) -> str: ...
     
@@ -1028,15 +1135,26 @@ def batch_ai(
     questions: list[Question],
     system_prompt: str,
     output_field: str = None,
+    ai: Optional[AI] = None,
     max_workers: int = 3,
-    max_output_tokens: int = 131072,
-    reasoning_effort: Union[ReasoningEffort, str] = ReasoningEffort.high,
-    skip_if_exists: bool = True,
     **kwargs
 ) -> dict: ...
 ```
 
 ### ai.base 模块
+
+#### AI
+
+```python
+@dataclass
+class AI:
+    model: str = "doubao-seed-2-0-pro-260215"
+    reasoning_effort: Union[ReasoningEffort, str] = ReasoningEffort.high
+    max_output_tokens: int = 131072
+    api_key: Optional[str] = None
+    timeout: int = 1800
+    base_url: str = "https://ark.cn-beijing.volces.com/api/v3"
+```
 
 #### ReasoningEffort
 

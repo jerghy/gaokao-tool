@@ -2,11 +2,11 @@ import os
 import re
 import json
 import threading
-from typing import Optional
+from typing import Optional, Union
 from dataclasses import dataclass
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from ai.base import AIConfig, AIClient, build_input_content, parse_items_text, extract_image_paths_from_items
+from ai.base import AI, ReasoningEffort, call_ai, build_input_content, parse_items_text, extract_image_paths_from_items
 from ai.thinking_process_prompt import get_thinking_process_prompt
 
 print_lock = threading.Lock()
@@ -188,22 +188,23 @@ def generate_thinking_process(
     answer_text: str,
     image_paths: list[str],
     target_label: str,
+    ai: Optional[AI] = None,
     api_key: Optional[str] = None,
-    model: str = "doubao-seed-2-0-pro-260215",
-    max_output_tokens: int = 131072,
-    reasoning_effort: str = "high",
+    model: Optional[str] = None,
+    max_output_tokens: Optional[int] = None,
+    reasoning_effort: Optional[Union[ReasoningEffort, str]] = None,
 ) -> ThinkingProcess:
-    config = AIConfig(
-        api_key=api_key or os.getenv("ARK_API_KEY", ""),
+    base_ai = ai or AI()
+    final_ai = base_ai.with_overrides(
         model=model,
-        max_output_tokens=max_output_tokens,
         reasoning_effort=reasoning_effort,
+        max_output_tokens=max_output_tokens,
+        api_key=api_key,
     )
-    client = AIClient(config)
 
     prompt_text = build_thinking_prompt(question_text, answer_text, target_label)
     user_content = build_input_content(prompt_text, image_paths)
-    raw_response = client.call(get_thinking_process_prompt(), user_content)
+    raw_response = call_ai(final_ai, get_thinking_process_prompt(), user_content)
 
     return ThinkingProcess(
         target_id="",

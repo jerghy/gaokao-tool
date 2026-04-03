@@ -2,14 +2,15 @@ import os
 import json
 import threading
 import requests
-from typing import Optional
+from typing import Optional, Union
 from dataclasses import dataclass
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from urllib.parse import urlencode
 
 from ai.base import (
-    AIConfig,
-    AIClient,
+    AI,
+    ReasoningEffort,
+    call_ai,
     build_input_content,
     parse_items_text,
     extract_image_paths_from_items,
@@ -233,53 +234,41 @@ def build_user_prompt(
     return prompt
 
 
-def call_ai_api(
+def call_ai_for_target(
+    ai: AI,
     system_prompt: str,
-    question_text: str,
-    answer_text: str,
-    target_label: str,
-    image_paths: list[str],
+    target: GenericTarget,
     extra_context: Optional[str] = None,
-    api_key: Optional[str] = None,
-    model: str = "doubao-seed-2-0-pro-260215",
-    max_output_tokens: int = 131072,
-    reasoning_effort: str = "high",
 ) -> str:
-    config = AIConfig(
-        api_key=api_key or os.getenv("ARK_API_KEY", ""),
-        model=model,
-        max_output_tokens=max_output_tokens,
-        reasoning_effort=reasoning_effort,
+    prompt_text = build_user_prompt(
+        target.question_text,
+        target.answer_text,
+        target.target_label,
+        extra_context
     )
-    client = AIClient(config)
-
-    prompt_text = build_user_prompt(question_text, answer_text, target_label, extra_context)
-    user_content = build_input_content(prompt_text, image_paths)
-
-    return client.call(system_prompt, user_content)
+    user_content = build_input_content(prompt_text, target.image_paths)
+    return call_ai(ai, system_prompt, user_content)
 
 
 def process_single_target(
     target: GenericTarget,
     system_prompt: str,
+    ai: Optional[AI] = None,
     extra_context: Optional[str] = None,
     api_key: Optional[str] = None,
-    model: str = "doubao-seed-2-0-pro-260215",
-    max_output_tokens: int = 131072,
-    reasoning_effort: str = "high",
+    model: Optional[str] = None,
+    reasoning_effort: Optional[Union[ReasoningEffort, str]] = None,
+    max_output_tokens: Optional[int] = None,
 ) -> GenericAIResult:
-    raw_response = call_ai_api(
-        system_prompt=system_prompt,
-        question_text=target.question_text,
-        answer_text=target.answer_text,
-        target_label=target.target_label,
-        image_paths=target.image_paths,
-        extra_context=extra_context,
-        api_key=api_key,
+    base_ai = ai or AI()
+    final_ai = base_ai.with_overrides(
         model=model,
-        max_output_tokens=max_output_tokens,
         reasoning_effort=reasoning_effort,
+        max_output_tokens=max_output_tokens,
+        api_key=api_key,
     )
+    
+    raw_response = call_ai_for_target(final_ai, system_prompt, target, extra_context)
 
     return GenericAIResult(
         target_id=target.target_id,
@@ -294,15 +283,16 @@ def process_with_generic_ai(
     question_id: str,
     system_prompt: str,
     output_field: str = "generic_ai_result",
+    ai: Optional[AI] = None,
     extra_context: Optional[str] = None,
     sub_question_tags: Optional[list[str]] = None,
     require_all_sub_tags: bool = False,
     enable_sub_question_filter: bool = False,
     skip_if_exists: bool = True,
     api_key: Optional[str] = None,
-    model: str = "doubao-seed-2-0-pro-260215",
-    max_output_tokens: int = 131072,
-    reasoning_effort: str = "high",
+    model: Optional[str] = None,
+    max_output_tokens: Optional[int] = None,
+    reasoning_effort: Optional[Union[ReasoningEffort, str]] = None,
 ) -> list[GenericAIResult]:
     file_path = os.path.join(data_dir, f"{question_id}.json")
 
@@ -329,16 +319,21 @@ def process_with_generic_ai(
     if not targets:
         return []
 
+    base_ai = ai or AI()
+    final_ai = base_ai.with_overrides(
+        model=model,
+        reasoning_effort=reasoning_effort,
+        max_output_tokens=max_output_tokens,
+        api_key=api_key,
+    )
+
     results = []
     for target in targets:
         result = process_single_target(
             target=target,
             system_prompt=system_prompt,
+            ai=final_ai,
             extra_context=extra_context,
-            api_key=api_key,
-            model=model,
-            max_output_tokens=max_output_tokens,
-            reasoning_effort=reasoning_effort,
         )
         results.append(result)
 
@@ -378,15 +373,16 @@ def process_single_question_generic(
     qid: str,
     system_prompt: str,
     output_field: str,
+    ai: Optional[AI],
     extra_context: Optional[str],
     sub_question_tags: Optional[list[str]],
     require_all_sub_tags: bool,
     enable_sub_question_filter: bool,
     skip_if_exists: bool,
     api_key: Optional[str],
-    model: str,
-    max_output_tokens: int,
-    reasoning_effort: str,
+    model: Optional[str],
+    max_output_tokens: Optional[int],
+    reasoning_effort: Optional[Union[ReasoningEffort, str]],
     index: int,
     total: int
 ) -> dict:
@@ -398,6 +394,7 @@ def process_single_question_generic(
             question_id=qid,
             system_prompt=system_prompt,
             output_field=output_field,
+            ai=ai,
             extra_context=extra_context,
             sub_question_tags=sub_question_tags,
             require_all_sub_tags=require_all_sub_tags,
@@ -430,15 +427,16 @@ def batch_process_generic_by_ids(
     question_ids: list[str],
     system_prompt: str,
     output_field: str = "generic_ai_result",
+    ai: Optional[AI] = None,
     extra_context: Optional[str] = None,
     sub_question_tags: Optional[list[str]] = None,
     require_all_sub_tags: bool = False,
     enable_sub_question_filter: bool = False,
     skip_if_exists: bool = True,
     api_key: Optional[str] = None,
-    model: str = "doubao-seed-2-0-pro-260215",
-    max_output_tokens: int = 131072,
-    reasoning_effort: str = "high",
+    model: Optional[str] = None,
+    max_output_tokens: Optional[int] = None,
+    reasoning_effort: Optional[Union[ReasoningEffort, str]] = None,
     max_workers: int = 3,
 ) -> dict:
     results = {
@@ -462,7 +460,7 @@ def batch_process_generic_by_ids(
             executor.submit(
                 process_single_question_generic,
                 data_dir, qid, system_prompt, output_field,
-                extra_context, sub_question_tags, require_all_sub_tags,
+                ai, extra_context, sub_question_tags, require_all_sub_tags,
                 enable_sub_question_filter, skip_if_exists,
                 api_key, model, max_output_tokens, reasoning_effort, i, total
             ): qid
@@ -494,15 +492,16 @@ def batch_process_generic(
     system_prompt: str,
     search_query: str = "",
     output_field: str = "generic_ai_result",
+    ai: Optional[AI] = None,
     extra_context: Optional[str] = None,
     sub_question_tags: Optional[list[str]] = None,
     require_all_sub_tags: bool = False,
     enable_sub_question_filter: bool = False,
     skip_if_exists: bool = True,
     api_key: Optional[str] = None,
-    model: str = "doubao-seed-2-0-pro-260215",
-    max_output_tokens: int = 131072,
-    reasoning_effort: str = "high",
+    model: Optional[str] = None,
+    max_output_tokens: Optional[int] = None,
+    reasoning_effort: Optional[Union[ReasoningEffort, str]] = None,
     max_workers: int = 3,
     api_base_url: str = DEFAULT_API_BASE_URL,
 ) -> dict:
@@ -529,7 +528,7 @@ def batch_process_generic(
             executor.submit(
                 process_single_question_generic,
                 data_dir, qid, system_prompt, output_field,
-                extra_context, sub_question_tags, require_all_sub_tags,
+                ai, extra_context, sub_question_tags, require_all_sub_tags,
                 enable_sub_question_filter, skip_if_exists,
                 api_key, model, max_output_tokens, reasoning_effort, i, total
             ): qid

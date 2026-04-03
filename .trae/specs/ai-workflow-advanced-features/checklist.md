@@ -1,0 +1,9 @@
+- [x] `call_ai_stream` 函数支持流式输出
+- [x] `CachedAI` 类支持结果缓存
+- [x] `ProgressTracker` 类支持进度持久化
+- [x] `RateLimiter` 类支持速率限制
+- [x] `validate_result` 函数支持结果验证
+- [x] `parse_json_result` 函数支持 JSON 解析
+- [x] `extract_markdown_code` 函数支持代码提取
+- [x] 所有新函数有完整的类型注解
+- [x] 所有新函数有使用示例

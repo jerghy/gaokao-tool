@@ -20,8 +20,18 @@ class TagSystem:
 
     def _load_data(self) -> dict:
         if os.path.exists(self.data_path):
-            with open(self.data_path, 'r', encoding='utf-8') as f:
-                return json.load(f)
+            try:
+                with open(self.data_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                    if not content.strip():
+                        data = {"records": {}, "tag_tree": {}}
+                        self._save_data(data)
+                        return data
+                    return json.loads(content)
+            except json.JSONDecodeError:
+                data = {"records": {}, "tag_tree": {}}
+                self._save_data(data)
+                return data
         else:
             data = {"records": {}, "tag_tree": {}}
             self._save_data(data)
