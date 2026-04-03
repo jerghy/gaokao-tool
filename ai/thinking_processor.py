@@ -1,14 +1,12 @@
 import os
 import re
 import json
-import base64
 import threading
-from typing import Optional, List
+from typing import Optional
 from dataclasses import dataclass
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from volcenginesdkarkruntime import Ark
-
+from ai.base import AIConfig, AIClient, build_input_content, parse_items_text, extract_image_paths_from_items
 from ai.thinking_process_prompt import get_thinking_process_prompt
 
 print_lock = threading.Lock()
@@ -16,8 +14,6 @@ print_lock = threading.Lock()
 __all__ = [
     "ThinkingProcess",
     "ThinkingTarget",
-    "encode_image_to_base64",
-    "get_image_media_type",
     "generate_thinking_process",
     "generate_thinking_process_for_targets",
     "save_thinking_process_to_json",
@@ -48,23 +44,6 @@ class ThinkingProcess:
             "target_label": self.target_label,
             "thinking_content": self.thinking_content,
         }
-
-
-def encode_image_to_base64(image_path: str) -> str:
-    with open(image_path, "rb") as f:
-        return base64.b64encode(f.read()).decode("utf-8")
-
-
-def get_image_media_type(image_path: str) -> str:
-    ext = os.path.splitext(image_path)[1].lower()
-    media_types = {
-        ".png": "image/png",
-        ".jpg": "image/jpeg",
-        ".jpeg": "image/jpeg",
-        ".gif": "image/gif",
-        ".webp": "image/webp",
-    }
-    return media_types.get(ext, "image/png")
 
 
 def get_effective_tags(data: dict) -> list[str]:
@@ -132,76 +111,6 @@ def tokenize_search_query(query: str) -> list:
     return tokens
 
 
-def parse_and_evaluate(tokens: list, pos: int):
-    result, pos = parse_or(tokens, pos)
-    return result, pos
-
-
-def parse_or(tokens: list, pos: int):
-    left, pos = parse_and(tokens, pos)
-    while pos < len(tokens) and tokens[pos][0] == 'OR':
-        pos += 1
-        right, pos = parse_and(tokens, pos)
-        left = left | right
-    return left, pos
-
-
-def parse_and(tokens: list, pos: int):
-    left, pos = parse_not(tokens, pos)
-    while pos < len(tokens):
-        token_type = tokens[pos][0]
-        if token_type in ('AND', 'TAG', 'LPAREN'):
-            if token_type == 'AND':
-                pos += 1
-            right, pos = parse_not(tokens, pos)
-            left = left & right
-        elif token_type == 'NOT':
-            pos += 1
-            right, pos = parse_atom(tokens, pos)
-            left = left - right
-        else:
-            break
-    return left, pos
-
-
-def parse_not(tokens: list, pos: int):
-    if pos < len(tokens) and tokens[pos][0] == 'NOT':
-        pos += 1
-        result, pos = parse_atom(tokens, pos)
-        return set(range(100000)) - result, pos
-    return parse_atom(tokens, pos)
-
-
-def parse_atom(tokens: list, pos: int):
-    if pos < len(tokens):
-        token_type, token_val = tokens[pos]
-        if token_type == 'TAG':
-            return {'tag': token_val}, pos + 1
-        elif token_type == 'TEXT':
-            return {'text': token_val}, pos + 1
-        elif token_type == 'LPAREN':
-            pos += 1
-            result, pos = parse_or(tokens, pos)
-            if pos < len(tokens) and tokens[pos][0] == 'RPAREN':
-                pos += 1
-            return result, pos
-    return set(), pos
-
-
-def evaluate_ast(node, question_str: str, answer_str: str, tags: list[str]):
-    if 'tag' in node:
-        return match_tag(node['tag'], tags)
-    elif 'text' in node:
-        return match_text(node['text'], question_str, answer_str)
-    elif 'and' in node:
-        return all(evaluate_ast(child, question_str, answer_str, tags) for child in node['and'])
-    elif 'or' in node:
-        return any(evaluate_ast(child, question_str, answer_str, tags) for child in node['or'])
-    elif 'not' in node:
-        return not evaluate_ast(node['not'], question_str, answer_str, tags)
-    return True
-
-
 def search_questions(data_dir: str, query: str) -> list[str]:
     if not query.strip():
         question_ids = []
@@ -240,16 +149,6 @@ def search_questions(data_dir: str, query: str) -> list[str]:
                 if not match_text(token_val, question_str, answer_str):
                     matched = False
                     break
-            elif token_type == 'AND':
-                pass
-            elif token_type == 'OR':
-                pass
-            elif token_type == 'NOT':
-                pass
-            elif token_type == 'LPAREN':
-                pass
-            elif token_type == 'RPAREN':
-                pass
             i += 1
 
         if matched:
@@ -294,53 +193,17 @@ def generate_thinking_process(
     max_output_tokens: int = 131072,
     reasoning_effort: str = "high",
 ) -> ThinkingProcess:
-    if api_key is None:
-        api_key = os.getenv("ARK_API_KEY")
-
-    if not api_key:
-        raise ValueError("API KEY未配置，请设置ARK_API_KEY环境变量或传入api_key参数")
-
-    client = Ark(
-        base_url="https://ark.cn-beijing.volces.com/api/v3",
-        api_key=api_key,
-        timeout=1800,
+    config = AIConfig(
+        api_key=api_key or os.getenv("ARK_API_KEY", ""),
+        model=model,
+        max_output_tokens=max_output_tokens,
+        reasoning_effort=reasoning_effort,
     )
-
-    input_content = []
-
-    for image_path in image_paths:
-        if os.path.exists(image_path):
-            base64_image = encode_image_to_base64(image_path)
-            media_type = get_image_media_type(image_path)
-            input_content.append({
-                "type": "input_image",
-                "image_url": f"data:{media_type};base64,{base64_image}"
-            })
+    client = AIClient(config)
 
     prompt_text = build_thinking_prompt(question_text, answer_text, target_label)
-
-    input_content.append({
-        "type": "input_text",
-        "text": prompt_text
-    })
-
-    response = client.responses.create(
-        model=model,
-        input=[
-            {
-                "role": "system",
-                "content": [{"type": "input_text", "text": get_thinking_process_prompt()}]
-            },
-            {
-                "role": "user",
-                "content": input_content
-            }
-        ],
-        max_output_tokens=max_output_tokens,
-        reasoning={"effort": reasoning_effort},
-    )
-
-    raw_response = response.output_text
+    user_content = build_input_content(prompt_text, image_paths)
+    raw_response = client.call(get_thinking_process_prompt(), user_content)
 
     return ThinkingProcess(
         target_id="",
@@ -365,28 +228,13 @@ def extract_thinking_targets(
     if "思维" not in tags:
         return []
 
-    base_path = os.path.dirname(os.path.dirname(file_path))
-
-    def parse_text(items):
-        text_parts = []
-        for item in items:
-            if item.get("type") in ("text", "richtext"):
-                text_parts.append(item.get("content", ""))
-        return "".join(text_parts)
-
     question_items = data.get("question", {}).get("items", [])
     answer_items = data.get("answer", {}).get("items", [])
 
-    question_text = parse_text(question_items)
-    answer_text = parse_text(answer_items)
+    question_text = parse_items_text(question_items)
+    answer_text = parse_items_text(answer_items)
 
-    image_paths = []
-    for item in question_items + answer_items:
-        if item.get("type") == "image":
-            src = item.get("src", "")
-            if src:
-                full_path = os.path.normpath(os.path.join(base_path, src))
-                image_paths.append(full_path)
+    image_paths = extract_image_paths_from_items(question_items + answer_items, data_dir)
 
     sub_questions = data.get("sub_questions", [])
 
@@ -401,15 +249,9 @@ def extract_thinking_targets(
         for subq in sub_questions:
             if "思维" in subq.get("tags", []):
                 subq_text_items = subq.get("question_text", {}).get("items", [])
-                subq_text = parse_text(subq_text_items)
+                subq_text = parse_items_text(subq_text_items)
 
-                subq_images = []
-                for item in subq_text_items:
-                    if item.get("type") == "image":
-                        src = item.get("src", "")
-                        if src:
-                            full_path = os.path.normpath(os.path.join(base_path, src))
-                            subq_images.append(full_path)
+                subq_images = extract_image_paths_from_items(subq_text_items, data_dir)
 
                 targets.append(ThinkingTarget(
                     target_id=str(subq.get("id", "")),

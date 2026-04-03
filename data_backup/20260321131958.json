@@ -1,0 +1,47 @@
+{
+  "id": "20260321131958",
+  "created_at": "2026-03-21 13:19:58",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321131948_0bee91ec.png",
+        "display": "center",
+        "width": 450,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.028729281767955802,
+          "x": 0.38950276243093923,
+          "y": 0.11315789473684211
+        }
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "richtext",
+        "content": "C",
+        "fragments": [
+          {
+            "text": "C",
+            "underline": false
+          }
+        ]
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "math_thinking_chain": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "content": "**分析**：本题为三角恒等变换类选择题，题干给出含α、β的三角恒等式，要求推导tan(α±β)的值，首先逐句翻译已知信息：1. 根据辅助角公式，同角正弦加余弦$\\sin x+\\cos x$可合并为$\\sqrt{2}\\sin(x+\\frac{\\pi}{4})$或$\\sqrt{2}\\cos(x-\\frac{\\pi}{4})$；2. 右侧$\\cos(\\alpha+\\frac{\\pi}{4})$可通过余弦和角公式展开为$\\frac{\\sqrt{2}}{2}(\\cos\\alpha-\\sin\\alpha)$。解题可选路径包括：辅助角+角拼凑法、全展开合并同类项法、特殊值代入验证法，三类方法分别对应通用通法、基础运算通法、选择题巧法。\n**目标解决1**：需解决目标：通过辅助角+角拼凑的方法推导α与β的关系。\n**解决方法1**：适用条件：等式中存在同角正弦、余弦的线性组合，且角可拆分为已知结构的和差形式时，优先用辅助角合并后凑和差角公式。\n对等式左边用辅助角公式化简：$\\sin(\\alpha+\\beta)+\\cos(\\alpha+\\beta) = \\sqrt{2}\\sin\\left[(\\alpha+\\beta) + \\frac{\\pi}{4}\\right]$，将角拆分为$(\\alpha+\\frac{\\pi}{4}) + \\beta$，原等式变为：\n$$\\sqrt{2}\\sin\\left[(\\alpha+\\frac{\\pi}{4})+\\beta\\right] = 2\\sqrt{2}\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta$$\n两边约去$\\sqrt{2}$得：\n$$\\sin\\left[(\\alpha+\\frac{\\pi}{4})+\\beta\\right] = 2\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta$$\n用正弦和角公式展开左边：$\\sin(\\alpha+\\frac{\\pi}{4})\\cos\\beta + \\cos(\\alpha+\\frac{\\pi}{4})\\sin\\beta = 2\\cos(\\alpha+\\frac{\\pi}{4})\\sin\\beta$\n移项合并同类项：$\\sin(\\alpha+\\frac{\\pi}{4})\\cos\\beta - \\cos(\\alpha+\\frac{\\pi}{4})\\sin\\beta = 0$\n左边符合正弦差角公式，即$\\sin\\left[(\\alpha+\\frac{\\pi}{4}) - \\beta\\right] = \\sin\\left(\\alpha - \\beta + \\frac{\\pi}{4}\\right) = 0$\n因此$\\alpha - \\beta + \\frac{\\pi}{4} = k\\pi, k\\in\\mathbb{Z}$，两边取正切得$\\tan(\\alpha - \\beta) = \\tan(k\\pi - \\frac{\\pi}{4}) = -1$。\n**解决方法2**：适用条件：三角恒等式中所有角均为和角形式，无明显凑角结构时，直接展开所有和差角公式整理。\n分别展开等式左右两侧所有和角：\n左侧：$\\sin(\\alpha+\\beta)+\\cos(\\alpha+\\beta) = \\sin\\alpha\\cos\\beta + \\cos\\alpha\\sin\\beta + \\cos\\alpha\\cos\\beta - \\sin\\alpha\\sin\\beta$\n右侧：先展开$\\cos(\\alpha+\\frac{\\pi}{4})=\\frac{\\sqrt{2}}{2}(\\cos\\alpha - \\sin\\alpha)$，代入得$2\\sqrt{2} \\times \\frac{\\sqrt{2}}{2}(\\cos\\alpha - \\sin\\alpha)\\sin\\beta = 2(\\cos\\alpha - \\sin\\alpha)\\sin\\beta = 2\\cos\\alpha\\sin\\beta - 2\\sin\\alpha\\sin\\beta$\n左右相等，移项合并所有项到左侧：\n$$\\sin\\alpha\\cos\\beta + \\cos\\alpha\\sin\\beta + \\cos\\alpha\\cos\\beta - \\sin\\alpha\\sin\\beta - 2\\cos\\alpha\\sin\\beta + 2\\sin\\alpha\\sin\\beta = 0$$\n化简得：$(\\sin\\alpha\\cos\\beta - \\cos\\alpha\\sin\\beta) + (\\cos\\alpha\\cos\\beta + \\sin\\alpha\\sin\\beta) = 0$\n前项为$\\sin(\\alpha-\\beta)$，后项为$\\cos(\\alpha-\\beta)$，即$\\sin(\\alpha-\\beta) + \\cos(\\alpha-\\beta) = 0$，移项得$\\sin(\\alpha-\\beta) = -\\cos(\\alpha-\\beta)$，两边同除以$\\cos(\\alpha-\\beta)$（显然$\\cos(\\alpha-\\beta)\\neq0$，否则$\\sin(\\alpha-\\beta)=0$矛盾），得$\\tan(\\alpha-\\beta) = -1$。\n**解决方法3**：适用条件：选择题，题干为对任意变量成立的恒等式时，可通过赋值特殊角快速排除错误选项。\n第一次赋值：令$\\beta=0$，代入原等式得$\\sin\\alpha + \\cos\\alpha = 0$，即$\\tan\\alpha=-1$，取$\\alpha=-\\frac{\\pi}{4}$，此时$\\alpha-\\beta=-\\frac{\\pi}{4}$，$\\tan(\\alpha-\\beta)=-1$，$\\alpha+\\beta=-\\frac{\\pi}{4}$，$\\tan(\\alpha+\\beta)=-1$，排除选项A、B；\n第二次赋值：令$\\beta=\\frac{\\pi}{4}$，代入原等式得$\\sin(\\alpha+\\frac{\\pi}{4})+\\cos(\\alpha+\\frac{\\pi}{4})=2\\sqrt{2}\\cos(\\alpha+\\frac{\\pi}{4})\\cdot\\sin\\frac{\\pi}{4}$，化简左侧为$\\sqrt{2}\\sin(\\alpha+\\frac{\\pi}{2})=\\sqrt{2}\\cos\\alpha$，右侧为$2\\sqrt{2}\\cos(\\alpha+\\frac{\\pi}{4})\\cdot\\frac{\\sqrt{2}}{2}=2\\cos(\\alpha+\\frac{\\pi}{4})=\\sqrt{2}\\cos\\alpha - \\sqrt{2}\\sin\\alpha$，等式化简得$\\sin\\alpha=0$，取$\\alpha=0$，此时$\\alpha-\\beta=-\\frac{\\pi}{4}$，$\\tan(\\alpha-\\beta)=-1$，$\\alpha+\\beta=\\frac{\\pi}{4}$，$\\tan(\\alpha+\\beta)=1$，排除选项D，最终选C。\n**分析**：对结果进行合理性验证：将$\\tan(\\alpha-\\beta)=-1$即$\\alpha=\\beta - \\frac{\\pi}{4} +k\\pi$代入原等式，左侧$\\sin(2\\beta - \\frac{\\pi}{4} +k\\pi)+\\cos(2\\beta - \\frac{\\pi}{4} +k\\pi)=(-1)^k (\\sin(2\\beta - \\frac{\\pi}{4})+\\cos(2\\beta - \\frac{\\pi}{4}))=(-1)^k \\sqrt{2}\\sin2\\beta$，右侧$2\\sqrt{2}\\cos(\\beta - \\frac{\\pi}{4} +k\\pi + \\frac{\\pi}{4})\\sin\\beta=2\\sqrt{2}\\cos(\\beta+k\\pi)\\sin\\beta=(-1)^k \\sqrt{2}\\sin2\\beta$，左右完全相等，结果正确。\n最终答案：$\\boldsymbol{C}$"
+    }
+  ]
+}

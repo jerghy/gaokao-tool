@@ -5,24 +5,15 @@
     "items": [
       {
         "type": "image",
-        "src": "img/20260321143339_4f45ab02.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_14j3uohm"
       },
       {
         "type": "image",
-        "src": "img/20260321143402_6c5eeeae.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_02o64x9l"
       },
       {
         "type": "image",
-        "src": "img/20260321143412_5fb75bad.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_okaqgko9"
       }
     ]
   },
@@ -30,10 +21,7 @@
     "items": [
       {
         "type": "image",
-        "src": "img/20260321143420_7f1f064a.png",
-        "display": "center",
-        "width": 300,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_d7gzi2gk"
       }
     ]
   },

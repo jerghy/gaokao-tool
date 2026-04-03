@@ -1237,6 +1237,8 @@
                         const newItem = {
                             id: ++itemCounter,
                             type: 'image',
+                            image_id: result.image_id,
+                            config_id: null,
                             src: result.path,
                             display: 'center',
                             width: 300,
@@ -2031,6 +2033,8 @@
                             sq.questionText.items.push({
                                 id: ++itemCounter,
                                 type: 'image',
+                                image_id: result.image_id,
+                                config_id: null,
                                 src: result.path,
                                 display: 'center',
                                 width: 300,
@@ -2081,6 +2085,12 @@
                             width: item.width,
                             height: item.height
                         };
+                        if (item.image_id) {
+                            result.image_id = item.image_id;
+                        }
+                        if (item.config_id) {
+                            result.config_id = item.config_id;
+                        }
                         if (item.charBox) {
                             result.charBox = item.charBox;
                         }
@@ -2201,6 +2211,8 @@
                         const newItem = {
                             id: ++itemCounter,
                             type: 'image',
+                            image_id: result.image_id,
+                            config_id: null,
                             src: result.path,
                             display: 'center',
                             width: 300,

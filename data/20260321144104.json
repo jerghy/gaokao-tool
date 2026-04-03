@@ -5,17 +5,11 @@
     "items": [
       {
         "type": "image",
-        "src": "img/20260321144048_819fe40f.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_erkonmoc"
       },
       {
         "type": "image",
-        "src": "img/20260321144054_d21e0f22.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_fdmy0ua8"
       }
     ]
   },

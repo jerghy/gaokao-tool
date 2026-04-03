@@ -1,0 +1,47 @@
+{
+  "id": "20260321134409",
+  "created_at": "2026-03-21 13:44:09",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321134356_12ba52aa.png",
+        "display": "center",
+        "width": 400,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.03857142857142857,
+          "x": 0.39,
+          "y": 0.29891304347826086
+        }
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "richtext",
+        "content": "C",
+        "fragments": [
+          {
+            "text": "C",
+            "underline": false
+          }
+        ]
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "math_thinking_chain": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "content": "**分析**：首先逐句翻译推演题干信息：1. 已知$\\tan\\alpha=2\\tan\\frac{\\pi}{5}$，根据正切定义，等价于$\\frac{\\sin\\alpha}{\\cos\\alpha}=\\frac{2\\sin\\frac{\\pi}{5}}{\\cos\\frac{\\pi}{5}}$，交叉相乘得$\\sin\\alpha\\cos\\frac{\\pi}{5}=2\\cos\\alpha\\sin\\frac{\\pi}{5}$，记为①式。2. 观察目标式分子角度$\\alpha-\\frac{3\\pi}{10}$，发现$\\frac{3\\pi}{10}=\\frac{\\pi}{2}-\\frac{\\pi}{5}$，因此$\\alpha-\\frac{3\\pi}{10}=\\left(\\alpha+\\frac{\\pi}{5}\\right)-\\frac{\\pi}{2}$，根据诱导公式$\\cos\\left(x-\\frac{\\pi}{2}\\right)=\\sin x$，可将分子化简为$\\sin\\left(\\alpha+\\frac{\\pi}{5}\\right)$，目标式简化为$\\frac{\\sin\\left(\\alpha+\\frac{\\pi}{5}\\right)}{\\sin\\left(\\alpha-\\frac{\\pi}{5}\\right)}$。共有三类解题路径：路径1：展开和角公式代入①式化简；路径2：分式同除余弦乘积转化为正切形式代入已知条件；路径3：选择题场景下代入特殊值快速计算。\n**目标解决1**：需解决目标：计算分式$\\frac{\\sin\\left(\\alpha+\\frac{\\pi}{5}\\right)}{\\sin\\left(\\alpha-\\frac{\\pi}{5}\\right)}$的值。\n**解决方法1**：适用条件：已知正弦余弦乘积的等量关系，求角度和差的正弦分式值，通用通法。\n推导过程：首先用正弦和差公式展开分子分母：\n分子$\\sin\\left(\\alpha+\\frac{\\pi}{5}\\right)=\\sin\\alpha\\cos\\frac{\\pi}{5}+\\cos\\alpha\\sin\\frac{\\pi}{5}$，\n分母$\\sin\\left(\\alpha-\\frac{\\pi}{5}\\right)=\\sin\\alpha\\cos\\frac{\\pi}{5}-\\cos\\alpha\\sin\\frac{\\pi}{5}$，\n将①式$\\sin\\alpha\\cos\\frac{\\pi}{5}=2\\cos\\alpha\\sin\\frac{\\pi}{5}$代入：\n分子变为$2\\cos\\alpha\\sin\\frac{\\pi}{5}+\\cos\\alpha\\sin\\frac{\\pi}{5}=3\\cos\\alpha\\sin\\frac{\\pi}{5}$，\n分母变为$2\\cos\\alpha\\sin\\frac{\\pi}{5}-\\cos\\alpha\\sin\\frac{\\pi}{5}=\\cos\\alpha\\sin\\frac{\\pi}{5}$，\n已知$\\tan\\alpha$存在则$\\cos\\alpha\\neq0$，$\\frac{\\pi}{5}$为锐角则$\\sin\\frac{\\pi}{5}\\neq0$，约分得$\\frac{3\\cos\\alpha\\sin\\frac{\\pi}{5}}{\\cos\\alpha\\sin\\frac{\\pi}{5}}=3$。\n**解决方法2**：适用条件：已知正切的比例关系，求正弦和差分式的值，巧法，不用展开乘积直接转化为正切计算。\n推导过程：将分子分母同时除以$\\cos\\alpha\\cos\\frac{\\pi}{5}$（二者均不为0，原式有意义）：\n分子变为$\\frac{\\sin\\alpha\\cos\\frac{\\pi}{5}+\\cos\\alpha\\sin\\frac{\\pi}{5}}{\\cos\\alpha\\cos\\frac{\\pi}{5}}=\\tan\\alpha+\\tan\\frac{\\pi}{5}$，\n分母变为$\\frac{\\sin\\alpha\\cos\\frac{\\pi}{5}-\\cos\\alpha\\sin\\frac{\\pi}{5}}{\\cos\\alpha\\cos\\frac{\\pi}{5}}=\\tan\\alpha-\\tan\\frac{\\pi}{5}$，\n代入$\\tan\\alpha=2\\tan\\frac{\\pi}{5}$得：\n分子=$2\\tan\\frac{\\pi}{5}+\\tan\\frac{\\pi}{5}=3\\tan\\frac{\\pi}{5}$，分母=$2\\tan\\frac{\\pi}{5}-\\tan\\frac{\\pi}{5}=\\tan\\frac{\\pi}{5}$，\n$\\tan\\frac{\\pi}{5}\\neq0$约分得$\\frac{3\\tan\\frac{\\pi}{5}}{\\tan\\frac{\\pi}{5}}=3$。\n**解决方法3**：适用条件：题型为选择题，题干给出的是恒成立关系，结果唯一，特殊值速解法。\n推导过程：计算得$\\tan\\frac{\\pi}{5}=\\tan36^\\circ\\approx0.7265$，取$\\tan\\alpha=2\\times0.7265\\approx1.453$，对应$\\alpha\\approx55.45^\\circ$，代入目标式：\n分子：$\\cos\\left(55.45^\\circ-\\frac{3\\pi}{10}\\right)=\\cos(55.45^\\circ-54^\\circ)=\\cos1.45^\\circ\\approx0.9997$，\n分母：$\\sin\\left(55.45^\\circ-\\frac{\\pi}{5}\\right)=\\sin(55.45^\\circ-36^\\circ)=\\sin19.45^\\circ\\approx0.333$，\n比值约为$\\frac{0.9997}{0.333}\\approx3$，与前两种方法结果一致。\n**分析**：合理性验证：三种方法计算结果均为3，约去的$\\cos\\alpha、\\sin\\frac{\\pi}{5}、\\tan\\frac{\\pi}{5}$均不为0，符合题干条件，结果正确。\n最终答案为$\\boxed{3}$，对应选项C。"
+    }
+  ]
+}

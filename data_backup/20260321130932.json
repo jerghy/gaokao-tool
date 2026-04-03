@@ -1,0 +1,47 @@
+{
+  "id": "20260321130932",
+  "created_at": "2026-03-21 13:09:32",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321130913_c2f9c0f8.png",
+        "display": "center",
+        "width": 450,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.028892455858747994,
+          "x": 0.24398073836276082,
+          "y": 0.002004008016032064
+        }
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "richtext",
+        "content": "答案　B",
+        "fragments": [
+          {
+            "text": "答案　B",
+            "underline": false
+          }
+        ]
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "math_thinking_chain": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "content": "**分析**：逐句翻译题干信息：1. 圆半径$r=2$，依据圆的定义，得$OA=OB=OP=2$；2. $A,B$为定点，$P$为圆周动点，$\\angle APB=\\beta$为锐角，依据圆周角定理（同弧所对圆周角是圆心角的一半），可得劣弧$AB$对应的圆心角$\\angle AOB=2\\beta$为定值，因此弦$AB$长度、劣弧$AB$对应扇形面积均为固定值。观察阴影区域为线段$PA$、$PB$与优弧$AB$围成的区域，要最大化该面积，优弧$AB$为固定弧，仅需最大化$PA$、$PB$与弦$AB$围成的$\\triangle PAB$的面积即可，$\\triangle PAB$底$AB$固定，因此仅需最大化$P$到$AB$的距离，当$P$为优弧$AB$中点时$P$到$AB$的距离最大。\n**目标解决1**：需解决目标：计算劣弧$AB$对应扇形$OAB$的固定面积\n**解决方法1**：适用条件：已知半径和圆心角求扇形面积，用扇形面积公式$S=\\frac{1}{2}r^2\\theta$（$\\theta$为圆心角弧度值）\n推导：圆心角$\\angle AOB=2\\beta$，$r=2$，代入得$S_{扇OAB}=\\frac{1}{2} \\times 2^2 \\times 2\\beta = 4\\beta$，为固定值。\n**目标解决2**：需解决目标：计算可变部分的最大面积\n**解决方法1**：适用条件：已知两边及夹角求三角形面积，用$S=\\frac{1}{2}ab\\sin\\theta$公式结合三角函数最值求解\n推导：将阴影可变部分拆为$\\triangle OPA$和$\\triangle OPB$的面积和，设$\\angle AOP=x$，则$\\angle BOP=2\\pi-2\\beta -x$，$\\triangle OPA$面积$S_1=\\frac{1}{2} \\times OA \\times OP \\times \\sin x=2\\sin x$，$\\triangle OPB$面积$S_2=\\frac{1}{2} \\times OB \\times OP \\times \\sin(2\\pi-2\\beta-x)=-2\\sin(x+2\\beta)$，总面积$S_{\\text{和}}=2\\sin x -2\\sin(x+2\\beta)$，利用和差化积公式$\\sin A-\\sin B=2\\cos\\frac{A+B}{2}\\sin\\frac{A-B}{2}$，化简得$S_{\\text{和}}=-4\\sin\\beta \\cdot \\cos(x+\\beta)$，$\\beta$为锐角则$\\sin\\beta>0$，要最大化$S_{\\text{和}}$需$\\cos(x+\\beta)$取最小值$-1$，此时最大值为$4\\sin\\beta$，对应$x=\\pi-\\beta$，即$P$为优弧$AB$中点，符合几何直观。\n**解决方法2**：适用条件：三角形底固定求最大面积，用底乘高公式拆分面积\n推导：先求弦$AB$长度，在$\\triangle OAB$中作$OC\\perp AB$于$C$，$\\angle AOC=\\beta$，得$AB=2AC=4\\sin\\beta$，圆心$O$到$AB$的距离$OC=2\\cos\\beta$，$P$到$AB$的最大高度为$OC+OP=2\\cos\\beta+2$，因此$\\triangle PAB$最大面积$S_{\\triangle PAB}=\\frac{1}{2} \\times 4\\sin\\beta \\times (2+2\\cos\\beta)=4\\sin\\beta+4\\sin\\beta\\cos\\beta$。劣弧$AB$与$AB$围成的弓形固定面积$S_{\\text{弓}}=S_{扇OAB}-S_{\\triangle OAB}=4\\beta - 2\\sin2\\beta$，阴影最大面积为$S_{\\text{弓}}+S_{\\triangle PAB}=4\\beta - 2\\sin2\\beta +4\\sin\\beta +4\\sin\\beta\\cos\\beta$，由$\\sin2\\beta=2\\sin\\beta\\cos\\beta$抵消三角函数项，得$S_{\\text{max}}=4\\beta+4\\sin\\beta$，结果与解法1一致。\n**分析**：两种解法均得到阴影最大面积为$4\\beta+4\\sin\\beta$，对比选项对应选项B。\n**合理性验证**：取特殊值$\\beta=\\frac{\\pi}{2}$（趋近锐角最大值），此时$AB$为直径，阴影最大面积为半圆面积$2\\pi$加等腰直角$\\triangle PAB$的面积$4$，代入公式得$4\\times\\frac{\\pi}{2}+4\\sin\\frac{\\pi}{2}=2\\pi+4$，与实际计算结果一致，验证正确。\n最终答案：$\\boxed{B}$"
+    }
+  ]
+}

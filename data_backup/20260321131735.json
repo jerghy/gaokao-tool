@@ -1,0 +1,47 @@
+{
+  "id": "20260321131735",
+  "created_at": "2026-03-21 13:17:35",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321131716_7189f05e.png",
+        "display": "center",
+        "width": 450,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.03278688524590164,
+          "x": 0.14637002341920374,
+          "y": 0.04316546762589928
+        }
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "richtext",
+        "content": "D",
+        "fragments": [
+          {
+            "text": "D",
+            "underline": false
+          }
+        ]
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "math_thinking_chain": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "content": "**分析**：首先翻译题干信息：1. 题干中两个角$\\frac{\\pi}{12}$和$\\frac{5\\pi}{12}$，根据角度和的运算，$\\frac{\\pi}{12}+\\frac{5\\pi}{12}=\\frac{\\pi}{2}$，因此两角互余，满足诱导公式转化条件；2. 原式为两个余弦平方的差，既符合降幂公式的结构，也符合平方差公式的结构，可选的解题路径有互余角转化、降幂展开、平方差因式分解三类，最终目标都是将非特殊角的运算转化为特殊角三角函数值计算。\n**目标解决1**：需解决目标：计算$\\cos^2\\frac{\\pi}{12}-\\cos^2\\frac{5\\pi}{12}$的最终数值。\n**解决方法1**：适用条件：当表达式中两个角互余时，优先用诱导公式转化为同角正余弦平方差，结合二倍角公式速算，属于高效巧法。\n推导过程：根据诱导公式$\\cos(\\frac{\\pi}{2}-\\alpha)=\\sin\\alpha$，可得$\\cos\\frac{5\\pi}{12}=\\cos(\\frac{\\pi}{2}-\\frac{\\pi}{12})=\\sin\\frac{\\pi}{12}$，因此$\\cos^2\\frac{5\\pi}{12}=\\sin^2\\frac{\\pi}{12}$，代入原式得：\n$$\\text{原式}=\\cos^2\\frac{\\pi}{12}-\\sin^2\\frac{\\pi}{12}$$\n根据二倍角余弦公式$\\cos2\\alpha=\\cos^2\\alpha-\\sin^2\\alpha$，代入$\\alpha=\\frac{\\pi}{12}$得：\n$$\\text{原式}=\\cos(2\\times\\frac{\\pi}{12})=\\cos\\frac{\\pi}{6}=\\frac{\\sqrt{3}}{2}$$\n**解决方法2**：适用条件：遇到任意余弦平方的运算，无特殊角关系时通用的通法，用降幂公式展开计算，普适性最强。\n推导过程：根据二倍角降幂公式$\\cos^2\\alpha=\\frac{1+\\cos2\\alpha}{2}$，分别展开两项：\n$$\\cos^2\\frac{\\pi}{12}=\\frac{1+\\cos(2\\times\\frac{\\pi}{12})}{2}=\\frac{1+\\cos\\frac{\\pi}{6}}{2}$$\n$$\\cos^2\\frac{5\\pi}{12}=\\frac{1+\\cos(2\\times\\frac{5\\pi}{12})}{2}=\\frac{1+\\cos\\frac{5\\pi}{6}}{2}$$\n代入原式化简：\n$$\\text{原式}=\\frac{1+\\cos\\frac{\\pi}{6}}{2}-\\frac{1+\\cos\\frac{5\\pi}{6}}{2}=\\frac{\\cos\\frac{\\pi}{6}-\\cos\\frac{5\\pi}{6}}{2}$$\n代入特殊角三角函数值$\\cos\\frac{\\pi}{6}=\\frac{\\sqrt{3}}{2}$，$\\cos\\frac{5\\pi}{6}=-\\frac{\\sqrt{3}}{2}$得：\n$$\\text{原式}=\\frac{\\frac{\\sqrt{3}}{2}-(-\\frac{\\sqrt{3}}{2})}{2}=\\frac{\\sqrt{3}}{2}$$\n**解决方法3**：适用条件：遇到平方差结构的代数式，优先因式分解后结合和差化积公式计算，适用于代数结构特征明显的题型。\n推导过程：利用平方差公式因式分解原式：\n$$\\text{原式}=(\\cos\\frac{\\pi}{12}-\\cos\\frac{5\\pi}{12})(\\cos\\frac{\\pi}{12}+\\cos\\frac{5\\pi}{12})$$\n根据和差化积公式：\n$\\cos A-\\cos B=-2\\sin\\frac{A+B}{2}\\sin\\frac{A-B}{2}$，$\\cos A+\\cos B=2\\cos\\frac{A+B}{2}\\cos\\frac{A-B}{2}$\n代入$A=\\frac{\\pi}{12},B=\\frac{5\\pi}{12}$，得$\\frac{A+B}{2}=\\frac{\\pi}{4}$，$\\frac{A-B}{2}=-\\frac{\\pi}{6}$：\n$$\\cos\\frac{\\pi}{12}-\\cos\\frac{5\\pi}{12}=-2\\sin\\frac{\\pi}{4}\\sin(-\\frac{\\pi}{6})=2\\times\\frac{\\sqrt{2}}{2}\\times\\frac{1}{2}=\\frac{\\sqrt{2}}{2}$$\n$$\\cos\\frac{\\pi}{12}+\\cos\\frac{5\\pi}{12}=2\\cos\\frac{\\pi}{4}\\cos(-\\frac{\\pi}{6})=2\\times\\frac{\\sqrt{2}}{2}\\times\\frac{\\sqrt{3}}{2}=\\frac{\\sqrt{6}}{2}$$\n两部分相乘得：\n$$\\text{原式}=\\frac{\\sqrt{2}}{2}\\times\\frac{\\sqrt{6}}{2}=\\frac{\\sqrt{12}}{4}=\\frac{2\\sqrt{3}}{4}=\\frac{\\sqrt{3}}{2}$$\n**分析**：现在做合理性验证：1. 数值验证：$\\cos^215^\\circ\\approx0.933$，$\\cos^275^\\circ\\approx0.067$，差值约为0.866，和$\\frac{\\sqrt{3}}{2}\\approx0.866$完全匹配；2. 三种解法结果一致，符合题干取值范围，无符号、公式误用问题，结果正确。\n最终答案为$\\frac{\\sqrt{3}}{2}$，对应选项$\\boxed{D}$。"
+    }
+  ]
+}

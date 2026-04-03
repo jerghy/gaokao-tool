@@ -1,0 +1,83 @@
+{
+  "id": "20260314143850",
+  "created_at": "2026-03-14 14:38:50",
+  "question": {
+    "items": [
+      {
+        "type": "richtext",
+        "content": "1.(2023北京,7,4分,易)在△ABC中,(a+c)·(sin A-sin C)=b(sin A-sin B),则∠C=\t(　　)",
+        "fragments": [
+          {
+            "text": "1.(2023北京,7,4分,易)在△ABC中,(a+c)·(sin A-sin C)=b(sin A-sin B),则∠C= (　　)\n",
+            "underline": false
+          }
+        ]
+      },
+      {
+        "type": "image",
+        "src": "img/20260314143814_4dbafdd3.png",
+        "display": "center",
+        "width": 252,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.06878306878306878,
+          "x": 0.5088183421516755,
+          "y": 0.24761904761904763
+        }
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260314143838_e54c977a.png",
+        "display": "center",
+        "width": 450,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.03314917127071823,
+          "x": 0.5472754538279401,
+          "y": 0.030016466165413532
+        }
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "积累",
+    "测试1::测试2"
+  ],
+  "sub_questions": [
+    {
+      "id": 1774059753944,
+      "title": "第1小问",
+      "question_text": {
+        "items": [
+          {
+            "type": "richtext",
+            "content": "1.(2023北京,7,4分,易)在△ABC中,(a+c)·(sin A-sin C)=b(sin A-sin B),则∠C= (　　)",
+            "fragments": [
+              {
+                "text": "\n1.(2023北京,7,4分,易)在△ABC中,(a+c)·(sin A-sin C)=b(sin A-sin B),则∠C= (　　)\n\n",
+                "underline": false
+              }
+            ]
+          }
+        ]
+      },
+      "tags": [
+        "思维"
+      ]
+    }
+  ],
+  "math_thinking_chain": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "content": "**分析**：题干为△ABC中边与内角正弦的关系式，目标求角C的大小，核心思路是将角和边的混合关系转化为纯边或纯角的关系，结合余弦定理或三角恒等变换求解。首先翻译题干信息：根据正弦定理，任意△ABC中$\\frac{a}{\\sin A}=\\frac{b}{\\sin B}=\\frac{c}{\\sin C}=2R$（R为外接圆半径），等式两边均为正弦的一次齐次式，可直接实现角化边。\n**目标解决1**：需解决目标：将含正弦的等式转化为仅含边长$a,b,c$的关系式\n**解决方法1**：适用条件：等式两边每一项均为正弦的一次式，可直接用正弦定理角化边\n将$\\sin A=\\frac{a}{2R},\\sin B=\\frac{b}{2R},\\sin C=\\frac{c}{2R}$代入原式：\n左边$(a+c)(\\sin A-\\sin C)=(a+c)\\cdot\\frac{a-c}{2R}=\\frac{a^2-c^2}{2R}$\n右边$b(\\sin A-\\sin B)=b\\cdot\\frac{a-b}{2R}=\\frac{ab-b^2}{2R}$\n两边同乘$2R$消去分母，得$a^2-c^2=ab-b^2$，整理得$a^2+b^2-c^2=ab$。\n**解决方法2**：适用条件：已知等式为正弦的齐次式，可直接用正弦定理的比例关系$\\sin A:\\sin B:\\sin C=a:b:c$替换，无需引入外接圆半径\n直接将原式中所有$\\sin A,\\sin B,\\sin C$替换为对应边$a,b,c$，得$(a+c)(a-c)=b(a-b)$，展开整理后同样得到$a^2+b^2-c^2=ab$，运算更快捷。\n**分析**：已得到三边平方关系$a^2+b^2-c^2=ab$，刚好匹配余弦定理中$\\cos C$的分子结构，可直接代入求$\\cos C$；也可将边再次转化为角，用三角恒等变换求解。\n**目标解决2**：需解决目标：根据$a^2+b^2-c^2=ab$求角$C$的大小\n**解决方法1**：适用条件：已知三边的平方和差关系，求某一内角，直接用余弦定理\n由余弦定理：$\\cos C=\\frac{a^2+b^2-c^2}{2ab}$，将$a^2+b^2-c^2=ab$代入得：\n$\\cos C=\\frac{ab}{2ab}=\\frac{1}{2}$，又$C\\in(0,\\pi)$，余弦值为$\\frac{1}{2}$的内角仅为$\\frac{\\pi}{3}$，故$C=\\frac{\\pi}{3}$。\n**解决方法2**：适用条件：对三角恒等变换更熟悉，可将边转化为角推导\n由正弦定理将$a=2R\\sin A,b=2R\\sin B,c=2R\\sin C$代入$a^2+b^2-c^2=ab$，得：\n$\\sin^2A+\\sin^2B-\\sin^2C=\\sin A\\sin B$\n利用三角恒等式$\\sin^2\\alpha=\\frac{1-\\cos2\\alpha}{2}$，代入化简得：\n$\\frac{1-\\cos2A}{2}+\\frac{1-\\cos2B}{2}-\\frac{1-\\cos2C}{2}=\\sin A\\sin B$\n结合$A+B=\\pi-C$，故$\\cos(A+B)=-\\cos C$，用和差化积公式$\\cos2A+\\cos2B=2\\cos(A+B)\\cos(A-B)$，最终整理得$2\\cos C=1$，即$\\cos C=\\frac{1}{2}$，结合$C\\in(0,\\pi)$得$C=\\frac{\\pi}{3}$。\n**合理性验证**：取$a=1,b=1$，则$c^2=1+1-1=1$，$c=1$，△ABC为等边三角形，$C=\\frac{\\pi}{3}$，代入原式左边$(1+1)(\\sin\\frac{\\pi}{3}-\\sin\\frac{\\pi}{3})=0$，右边$1\\cdot(\\sin\\frac{\\pi}{3}-\\sin\\frac{\\pi}{3})=0$，等式成立；$C=\\frac{\\pi}{3}$在三角形内角范围内，结果唯一正确。\n最终答案：$\\boxed{B}$"
+    }
+  ]
+}

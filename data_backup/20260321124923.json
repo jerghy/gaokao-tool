@@ -1,0 +1,50 @@
+{
+  "id": "20260321124923",
+  "created_at": "2026-03-21 12:49:23",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321124906_95e92a0f.png",
+        "display": "center",
+        "width": 450,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.02999210734017364,
+          "x": 0.5235974743488556,
+          "y": 0.074768046875
+        }
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321124914_f0df0c01.png",
+        "display": "center",
+        "width": 70,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.195,
+          "x": 0.4346875,
+          "y": 0.27884615384615385
+        }
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "math_thinking_chain": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "content": "**分析**：首先梳理题干信息：1. 给定△ABC，内角A,B,C对应边a,b,c，满足正弦定理、余弦定理、射影定理的适用前提；2. 已知等式$2b\\cos B = a\\cos C + c\\cos A$为边与角余弦的齐次结构，有三类转化思路：一是通过正弦定理将边转化为角的正弦，用三角恒等变换化简；二是通过余弦定理将余弦转化为边的表达式，用代数运算化简；三是利用射影定理直接化简右侧固定结构。最终目标是求角B，只要得到$\\cos B$或$\\sin B$的取值，结合$B\\in(0,\\pi)$即可确定角度。\n\n**目标解决1**：需解决目标：化简已知等式，得到仅含角B的三角函数关系。\n**解决方法1**：适用条件：三角形中出现边与角正弦/余弦的齐次线性等式，优先用正弦定理统一为角的三角函数运算，是解三角形的通用通法。\n根据正弦定理，$\\frac{a}{\\sin A}=\\frac{b}{\\sin B}=\\frac{c}{\\sin C}=2R$（R为△ABC外接圆半径，$R\\neq0$），因此$a=2R\\sin A$，$b=2R\\sin B$，$c=2R\\sin C$，代入已知等式后两侧约去2R，得：\n$$2\\sin B\\cos B = \\sin A\\cos C + \\sin C\\cos A$$\n右侧根据两角和的正弦公式，$\\sin A\\cos C + \\sin C\\cos A = \\sin(A+C)$，又因为△ABC内角和为$\\pi$，$A+C=\\pi-B$，因此$\\sin(A+C)=\\sin(\\pi-B)=\\sin B$，等式化简为：\n$$2\\sin B\\cos B = \\sin B$$\n由于$B\\in(0,\\pi)$，因此$\\sin B>0$，两侧同时除以$\\sin B$得$2\\cos B=1$，即$\\cos B=\\frac{1}{2}$，结合$B\\in(0,\\pi)$，可得$B=\\frac{\\pi}{3}$（即$60^\\circ$）。\n\n**解决方法2**：适用条件：不熟悉三角恒等变换时，可通过余弦定理统一为边的代数运算，思路直接无额外记忆点，是通法。\n根据余弦定理：$\\cos B=\\frac{a^2+c^2-b^2}{2ac}$，$\\cos C=\\frac{a^2+b^2-c^2}{2ab}$，$\\cos A=\\frac{b^2+c^2-a^2}{2bc}$，代入已知等式：\n左侧：$2b\\times\\frac{a^2+c^2-b^2}{2ac}=\\frac{b(a^2+c^2-b^2)}{ac}$\n右侧：$a\\times\\frac{a^2+b^2-c^2}{2ab} + c\\times\\frac{b^2+c^2-a^2}{2bc}=\\frac{a^2+b^2-c^2}{2b}+\\frac{b^2+c^2-a^2}{2b}=\\frac{2b^2}{2b}=b$\n左右两侧相等得$\\frac{b(a^2+c^2-b^2)}{ac}=b$，由于b是三角形边长，$b>0$，约去b得$\\frac{a^2+c^2-b^2}{ac}=1$，即$\\frac{a^2+c^2-b^2}{2ac}=\\frac{1}{2}$，左侧即为$\\cos B$，因此$\\cos B=\\frac{1}{2}$，结合$B\\in(0,\\pi)$得$B=60^\\circ$。\n\n**解决方法3**：适用条件：等式中出现$a\\cos C + c\\cos A$、$a\\cos B + b\\cos A$这类固定结构时，可直接用射影定理秒杀，属于高效巧法。\n根据射影定理，△ABC中任意一边等于另外两边在该边上的投影之和，即$b = a\\cos C + c\\cos A$，因此已知等式右侧直接等于b，等式化简为$2b\\cos B = b$，由于$b>0$，约去b得$\\cos B=\\frac{1}{2}$，结合$B\\in(0,\\pi)$得$B=60^\\circ$。\n\n**分析**：对结果做合理性验证：1. 取值范围验证：$60^\\circ\\in(0,180^\\circ)$，符合三角形内角的取值要求；2. 题干条件匹配验证：将$B=60^\\circ$代入原等式，左侧$2b\\cos60^\\circ=b$，右侧由射影定理得$a\\cos C + c\\cos A=b$，左右两侧完全相等，符合题干要求；3. 易错点排查：化简$2\\sin B\\cos B=\\sin B$时，若忽略三角形内角的限制，可能会考虑$\\sin B=0$的情况，但$B\\in(0,\\pi)$时$\\sin B$不可能为0，因此无漏解，结果唯一。\n\n最终答案：$\\boldsymbol{60^\\circ}$（或$\\boldsymbol{\\frac{\\pi}{3}}$）。"
+    }
+  ]
+}

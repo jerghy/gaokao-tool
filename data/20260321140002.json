@@ -5,38 +5,23 @@
     "items": [
       {
         "type": "image",
-        "src": "img/20260321135829_cf4142f4.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto"
+        "config_id": "cfg_20260403210203_yvfacc9l"
       },
       {
         "type": "image",
-        "src": "img/20260321135840_55088720.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto"
+        "config_id": "cfg_20260403210203_glh2rqir"
       },
       {
         "type": "image",
-        "src": "img/20260321135904_35b11a9a.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto"
+        "config_id": "cfg_20260403210203_173bvl1y"
       },
       {
         "type": "image",
-        "src": "img/20260321135926_b97050e8.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto"
+        "config_id": "cfg_20260403210203_8dn7bpom"
       },
       {
         "type": "image",
-        "src": "img/20260321135936_b2fd1f8c.png",
-        "display": "center",
-        "width": 100,
-        "height": "auto"
+        "config_id": "cfg_20260403210203_wao7o3wm"
       }
     ]
   },
@@ -44,10 +29,7 @@
     "items": [
       {
         "type": "image",
-        "src": "img/20260321135956_8f347bee.png",
-        "display": "center",
-        "width": 300,
-        "height": "auto"
+        "config_id": "cfg_20260403210203_szmyl42o"
       }
     ]
   },

@@ -5,16 +5,7 @@
     "items": [
       {
         "type": "image",
-        "src": "img/20260321131642_3656e2f2.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto",
-        "charBox": {
-          "fontSize": "medium",
-          "size": 0.02920443101711984,
-          "x": 0.2502517623363545,
-          "y": 0.07462686567164178
-        }
+        "config_id": "cfg_20260403210203_sxza9yyn"
       }
     ]
   },

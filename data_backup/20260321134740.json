@@ -1,0 +1,50 @@
+{
+  "id": "20260321134740",
+  "created_at": "2026-03-21 13:47:40",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321134724_388795b6.png",
+        "display": "center",
+        "width": 400,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.056640625,
+          "x": 0.2529296875,
+          "y": 0.029545454545454545
+        }
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321134736_6d755c40.png",
+        "display": "center",
+        "width": 300,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.07253886010362694,
+          "x": 0.33678756476683935,
+          "y": 0.1559278350515464
+        }
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "math_thinking_chain": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "content": "### 第一问\n**分析**：首先翻译题干信息：已知$\\tan\\alpha=2$，依据正切定义可得$\\frac{\\sin\\alpha}{\\cos\\alpha}=2$，且隐含$\\cos\\alpha\\neq0$的条件；要求$\\tan\\left(\\alpha+\\frac{\\pi}{4}\\right)$，可直接套用两角和正切公式，也可展开为正余弦形式转化为正切计算，两种路径均可行。\n**目标解决1**：需解决目标：计算$\\tan\\left(\\alpha+\\frac{\\pi}{4}\\right)$的值\n**解决方法1**：适用条件：已知两个角的正切值，求两角和/差的正切，直接套用两角和正切公式，属于通用通法。\n根据两角和正切公式：$\\tan(A+B)=\\frac{\\tan A+\\tan B}{1-\\tan A\\tan B}$，取$A=\\alpha$，$B=\\frac{\\pi}{4}$，且$\\tan\\frac{\\pi}{4}=1$，代入已知$\\tan\\alpha=2$得：\n$$\\tan\\left(\\alpha+\\frac{\\pi}{4}\\right)=\\frac{\\tan\\alpha+\\tan\\frac{\\pi}{4}}{1-\\tan\\alpha\\cdot\\tan\\frac{\\pi}{4}}=\\frac{2+1}{1-2\\times1}=\\frac{3}{-1}=-3$$\n**解决方法2**：适用条件：忘记两角和正切公式时，可将正切转化为正余弦的比值，展开后转化为正切计算，无需额外记公式。\n根据正切定义$\\tan\\left(\\alpha+\\frac{\\pi}{4}\\right)=\\frac{\\sin\\left(\\alpha+\\frac{\\pi}{4}\\right)}{\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)}$，用两角和正余弦公式展开：\n分子：$\\sin\\alpha\\cos\\frac{\\pi}{4}+\\cos\\alpha\\sin\\frac{\\pi}{4}=\\frac{\\sqrt{2}}{2}(\\sin\\alpha+\\cos\\alpha)$\n分母：$\\cos\\alpha\\cos\\frac{\\pi}{4}-\\sin\\alpha\\sin\\frac{\\pi}{4}=\\frac{\\sqrt{2}}{2}(\\cos\\alpha-\\sin\\alpha)$\n约掉公共项$\\frac{\\sqrt{2}}{2}$后，分子分母同除以$\\cos\\alpha$（$\\cos\\alpha\\neq0$）得：\n$$\\frac{\\sin\\alpha+\\cos\\alpha}{\\cos\\alpha-\\sin\\alpha}=\\frac{\\tan\\alpha+1}{1-\\tan\\alpha}=\\frac{2+1}{1-2}=-3$$\n**分析**：两种方法结果一致，且$\\tan\\alpha=2>0$说明$\\alpha$在第一或第三象限，$\\alpha+\\frac{\\pi}{4}$在第二或第四象限，正切值为负，符合计算结果，合理。\n\n---\n\n### 第二问\n**分析**：要求$\\frac{\\sin2\\alpha}{\\sin^2\\alpha+\\sin\\alpha\\cos\\alpha-\\cos2\\alpha-1}$的值，已知$\\tan\\alpha=2$，可先利用二倍角公式化简原式为正弦余弦的齐次式，转化为仅含$\\tan\\alpha$的表达式计算，也可先求$\\sin\\alpha$、$\\cos\\alpha$的具体值代入，还可使用万能公式直接代入，三种路径均可行。\n**目标解决2**：需解决目标：计算$\\frac{\\sin2\\alpha}{\\sin^2\\alpha+\\sin\\alpha\\cos\\alpha-\\cos2\\alpha-1}$的值\n**解决方法1**：适用条件：已知正切值，求正弦余弦齐次分式的值，将分子分母同除以余弦的最高次幂转化为正切表达式，无需讨论象限，是通用通法。\n首先利用二倍角公式和同角三角函数平方关系化简原式：\n- 分子：根据二倍角正弦公式，$\\sin2\\alpha=2\\sin\\alpha\\cos\\alpha$\n- 分母：先展开$\\cos2\\alpha=\\cos^2\\alpha-\\sin^2\\alpha$，再将$1$替换为$\\sin^2\\alpha+\\cos^2\\alpha$，得：\n$$\\begin{align*}\\text{分母}&=\\sin^2\\alpha+\\sin\\alpha\\cos\\alpha-(\\cos^2\\alpha-\\sin^2\\alpha)-(\\sin^2\\alpha+\\cos^2\\alpha)\\\\&=\\sin^2\\alpha+\\sin\\alpha\\cos\\alpha-\\cos^2\\alpha+\\sin^2\\alpha-\\sin^2\\alpha-\\cos^2\\alpha\\\\&=\\sin^2\\alpha+\\sin\\alpha\\cos\\alpha-2\\cos^2\\alpha\\end{align*}$$\n此时原式为$\\frac{2\\sin\\alpha\\cos\\alpha}{\\sin^2\\alpha+\\sin\\alpha\\cos\\alpha-2\\cos^2\\alpha}$，分子分母均为二次齐次式，同除以$\\cos^2\\alpha$（$\\cos\\alpha\\neq0$）得：\n$$\\frac{2\\tan\\alpha}{\\tan^2\\alpha+\\tan\\alpha-2}$$\n代入$\\tan\\alpha=2$得：$\\frac{2\\times2}{4+2-2}=\\frac{4}{4}=1$。\n**解决方法2**：适用条件：对齐次式概念不熟悉时，可根据同角三角函数关系求出$\\sin\\alpha$、$\\cos\\alpha$的平方值代入，避免公式记错。\n由$\\tan\\alpha=2$得$\\sin\\alpha=2\\cos\\alpha$，代入$\\sin^2\\alpha+\\cos^2\\alpha=1$得$4\\cos^2\\alpha+\\cos^2\\alpha=1$，即$\\cos^2\\alpha=\\frac{1}{5}$。\n代入化简后的原式$\\frac{2\\sin\\alpha\\cos\\alpha}{\\sin^2\\alpha+\\sin\\alpha\\cos\\alpha-2\\cos^2\\alpha}$：\n分子：$2\\times2\\cos\\alpha\\times\\cos\\alpha=4\\cos^2\\alpha$\n分母：$(2\\cos\\alpha)^2+2\\cos\\alpha\\times\\cos\\alpha-2\\cos^2\\alpha=4\\cos^2\\alpha+2\\cos^2\\alpha-2\\cos^2\\alpha=4\\cos^2\\alpha$\n约掉$\\cos^2\\alpha$得原式$=1$，无需考虑$\\cos\\alpha$的正负，结果一致。\n**解决方法3**：适用条件：熟悉万能公式时，可直接用万能公式将所有三角函数转化为$\\tan\\alpha$的表达式代入，属于速解方法。\n万能公式：$\\sin2\\alpha=\\frac{2\\tan\\alpha}{1+\\tan^2\\alpha}$，$\\cos2\\alpha=\\frac{1-\\tan^2\\alpha}{1+\\tan^2\\alpha}$，$\\sin^2\\alpha=\\frac{1-\\cos2\\alpha}{2}$。\n代入$\\tan\\alpha=2$得：\n$\\sin2\\alpha=\\frac{4}{5}$，$\\cos2\\alpha=-\\frac{3}{5}$，$\\sin^2\\alpha=\\frac{1-(-\\frac{3}{5})}{2}=\\frac{4}{5}$，$\\sin\\alpha\\cos\\alpha=\\frac{\\sin2\\alpha}{2}=\\frac{2}{5}$\n代入原式得：\n$$\\frac{\\frac{4}{5}}{\\frac{4}{5}+\\frac{2}{5}-(-\\frac{3}{5})-1}=\\frac{\\frac{4}{5}}{\\frac{4}{5}}=1$$\n**分析**：三种方法结果均为1，验证可得分子$\\sin2\\alpha$与分母始终同号，结果为正，数值计算一致，合理。\n\n---\n最终结论：(1) $\\boldsymbol{\\tan\\left(\\alpha+\\frac{\\pi}{4}\\right)=-3}$；(2) 所求分式的值为$\\boldsymbol{1}$。"
+    }
+  ]
+}

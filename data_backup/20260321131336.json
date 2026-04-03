@@ -1,0 +1,47 @@
+{
+  "id": "20260321131336",
+  "created_at": "2026-03-21 13:13:36",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321131319_b4575fbf.png",
+        "display": "center",
+        "width": 450,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.03435114503816794,
+          "x": 0.2875318066157761,
+          "y": 0.14692982456140352
+        }
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "richtext",
+        "content": "D",
+        "fragments": [
+          {
+            "text": "D",
+            "underline": false
+          }
+        ]
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "math_thinking_chain": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "content": "**分析**：首先逐句翻译题干信息：1. 根据锐角的定义，$\\alpha\\in(0,\\frac{\\pi}{2})$，可推得$\\frac{\\alpha}{2}\\in(0,\\frac{\\pi}{4})$，因此$\\sin\\frac{\\alpha}{2}$为正数，且数值范围为$(0,\\frac{\\sqrt{2}}{2}\\approx0.707)$，可用于后续结果验证；2. 已知$\\cos\\alpha=\\frac{1+\\sqrt{5}}{4}$，最终目标是求$\\sin\\frac{\\alpha}{2}$，根据三角恒等变换的二倍角/半角关系，可通过建立$\\cos\\alpha$与$\\sin\\frac{\\alpha}{2}$的等式求解，可选路径包括：利用二倍角余弦公式列方程、直接套用半角公式、数值估算排除、特殊角二级结论秒杀。\n**目标解决1**：需解决目标：结合$\\frac{\\alpha}{2}$的取值范围，由$\\cos\\alpha$的值计算$\\sin\\frac{\\alpha}{2}$的准确值。\n**解决方法1**：适用条件：已知单角余弦求半角正弦，未记住半角公式时可通过二倍角余弦公式推导，属于通用通法，适用于所有同类型题型。\n根据二倍角余弦的变形公式：$\\cos\\alpha = 1 - 2\\sin^2\\frac{\\alpha}{2}$，移项得$\\sin^2\\frac{\\alpha}{2}=\\frac{1-\\cos\\alpha}{2}$。\n代入已知$\\cos\\alpha=\\frac{1+\\sqrt{5}}{4}$，计算得：\n$1-\\cos\\alpha=1-\\frac{1+\\sqrt{5}}{4}=\\frac{3-\\sqrt{5}}{4}$，因此$\\sin^2\\frac{\\alpha}{2}=\\frac{3-\\sqrt{5}}{4}\\times\\frac{1}{2}=\\frac{3-\\sqrt{5}}{8}$。\n将右侧根式内的式子凑完全平方：$\\frac{3-\\sqrt{5}}{8}=\\frac{6-2\\sqrt{5}}{16}=\\frac{(\\sqrt{5})^2-2\\times\\sqrt{5}\\times1+1^2}{16}=\\frac{(\\sqrt{5}-1)^2}{16}$。\n由于$\\frac{\\alpha}{2}\\in(0,\\frac{\\pi}{4})$，$\\sin\\frac{\\alpha}{2}>0$，开平方得$\\sin\\frac{\\alpha}{2}=\\frac{\\sqrt{5}-1}{4}=\\frac{-1+\\sqrt{5}}{4}$。\n**解决方法2**：适用条件：记住半角公式$\\sin\\frac{\\theta}{2}=\\pm\\sqrt{\\frac{1-\\cos\\theta}{2}}$，且能准确判断半角三角函数符号时，可直接套用公式快速计算。\n直接调用半角公式，因$\\frac{\\alpha}{2}$为第一象限角，$\\sin\\frac{\\alpha}{2}$取正号：\n$\\sin\\frac{\\alpha}{2}=\\sqrt{\\frac{1-\\cos\\alpha}{2}}=\\sqrt{\\frac{1-\\frac{1+\\sqrt{5}}{4}}{2}}=\\sqrt{\\frac{3-\\sqrt{5}}{8}}$，后续化简步骤同方法1，最终得$\\sin\\frac{\\alpha}{2}=\\frac{-1+\\sqrt{5}}{4}$。\n**解决方法3**：适用条件：题型为选择题，选项数值差异明显时，可通过近似估算快速排除错误选项，属于应试巧法，大幅缩短解题时间。\n首先估算$\\sqrt{5}\\approx2.236$，因此$\\cos\\alpha=\\frac{1+2.236}{4}\\approx0.809$，对应锐角$\\alpha\\approx36^\\circ$，则$\\frac{\\alpha}{2}\\approx18^\\circ$，$\\sin18^\\circ\\approx0.309$。\n计算四个选项的近似值：\nA.$\\frac{3-2.236}{8}\\approx0.096$，排除；B.$\\frac{-1+2.236}{8}\\approx0.155$，排除；C.$\\frac{3-2.236}{4}\\approx0.191$，排除；D.$\\frac{-1+2.236}{4}\\approx0.309$，符合估算结果，直接选D。\n**解决方法4**：适用条件：记住特殊角$36^\\circ$、$18^\\circ$的三角函数二级结论，遇到匹配的已知条件可直接秒杀。\n高中阶段常用二级结论：$\\cos36^\\circ=\\frac{1+\\sqrt{5}}{4}$，$\\sin18^\\circ=\\frac{\\sqrt{5}-1}{4}$，题干中α为锐角且$\\cos\\alpha=\\frac{1+\\sqrt{5}}{4}$，因此$\\alpha=36^\\circ$，$\\frac{\\alpha}{2}=18^\\circ$，直接得$\\sin\\frac{\\alpha}{2}=\\frac{\\sqrt{5}-1}{4}$，对应选项D。\n**分析**：现在进行合理性验证：1. 取值范围验证：$\\frac{-1+\\sqrt{5}}{4}\\approx0.309$，符合$\\frac{\\alpha}{2}\\in(0,\\frac{\\pi}{4})$时$\\sin\\frac{\\alpha}{2}\\in(0,0.707)$的要求，符号为正符合第一象限角特征；2. 条件匹配验证：将结果代入二倍角公式，$\\cos\\alpha=1-2\\sin^2\\frac{\\alpha}{2}=1-2\\times(\\frac{\\sqrt{5}-1}{4})^2=1-2\\times\\frac{6-2\\sqrt{5}}{16}=1-\\frac{3-\\sqrt{5}}{4}=\\frac{1+\\sqrt{5}}{4}$，和题干给出的$\\cos\\alpha$完全一致，结果正确。\n最终答案：$\\boxed{D}$"
+    }
+  ]
+}

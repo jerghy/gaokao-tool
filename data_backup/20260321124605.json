@@ -1,0 +1,50 @@
+{
+  "id": "20260321124605",
+  "created_at": "2026-03-21 12:46:05",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321124519_ebf4734b.png",
+        "display": "center",
+        "width": 450,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.028413575374901343,
+          "x": 0.5235974743488556,
+          "y": 0.07166582677165353
+        }
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321124540_392a0de1.png",
+        "display": "center",
+        "width": 70,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.17,
+          "x": 0.35979333333333335,
+          "y": 0.19047619047619047
+        }
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "math_thinking_chain": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "content": "**分析**：首先逐句翻译题干信息：1. 根据三角形内角定义，△ABC中∠B=60°，AB=2，∠B为AB与BC的夹角；2. 根据中点定义，M是BC中点，故BM=MC=1/2 BC，可设BM为未知数构造方程；3. 已知AM=2√3，顺推路径可先在△ABM中求解BM长度，逆推路径：求AC需先得BC长度，求cos∠MAC需得△AMC三边长度或对应向量坐标。\n**目标解决1**：需解决目标：求BC的边长\n**解决方法1**：适用条件：三角形中已知两边及夹角/两边及其中一边对角，求第三边时使用余弦定理，为解三角形通用通法。\n在△ABM中，由余弦定理$AM^2 = AB^2 + BM^2 - 2\\cdot AB\\cdot BM\\cdot \\cos\\angle B$，代入已知数值：\n$(2\\sqrt{3})^2 = 2^2 + BM^2 - 2\\times2\\times BM\\times \\cos60^\\circ$\n整理得$12 = 4 + BM^2 - 2BM$，即$BM^2 -2BM -8=0$，解得$BM=\\frac{2\\pm\\sqrt{4+32}}{2}$，边长为正故$BM=4$，因此$BC=2BM=8$。\n**解决方法2**：适用条件：题干存在特殊角（30°/60°/90°），可建立平面直角坐标系，通过坐标运算快速求边长。\n以B为原点，BC为x轴建立平面直角坐标系，得$B(0,0)$，$A(2\\cos60^\\circ,2\\sin60^\\circ)=(1,\\sqrt{3})$，设$M(x,0)$，由$AM=2\\sqrt{3}$及两点距离公式：\n$\\sqrt{(x-1)^2 + (\\sqrt{3})^2}=2\\sqrt{3}$，平方得$(x-1)^2=9$，x为正故$x=4$，即$BM=4$，$BC=8$，$C(8,0)$。\n**分析**：已求得BC=8，接下来求AC长度，可通过余弦定理或坐标法两种路径求解。\n**目标解决2**：需解决目标：求AC的边长\n**解决方法1**：适用条件：三角形已知两边及夹角求第三边，用余弦定理，为通用通法。\n在△ABC中，由余弦定理$AC^2=AB^2 + BC^2 - 2\\cdot AB\\cdot BC\\cdot \\cos\\angle B$，代入数值：\n$AC^2=2^2 + 8^2 - 2\\times2\\times8\\times\\frac{1}{2}=4+64-16=52$，故$AC=\\sqrt{52}=2\\sqrt{13}$。\n**解决方法2**：适用条件：已建立坐标系、各点坐标已知时，用两点距离公式直接计算，运算快不易错。\n由坐标系结果$A(1,\\sqrt{3})$，$C(8,0)$，得$AC=\\sqrt{(8-1)^2 + (0-\\sqrt{3})^2}=\\sqrt{49+3}=\\sqrt{52}=2\\sqrt{13}$，与通法结果一致。\n**分析**：已求得AM=2√3，MC=4，AC=2√13，接下来求cos∠MAC，可通过三角形余弦定理或向量点积两种路径求解。\n**目标解决3**：需解决目标：求$\\cos\\angle MAC$的值\n**解决方法1**：适用条件：三角形已知三边长度，求任意内角余弦值，用余弦定理，为通用通法。\n在△AMC中，∠MAC对边为MC，由余弦定理$MC^2=AM^2 + AC^2 - 2\\cdot AM\\cdot AC\\cdot \\cos\\angle MAC$，代入数值：\n$4^2=(2\\sqrt{3})^2 + (2\\sqrt{13})^2 - 2\\times2\\sqrt{3}\\times2\\sqrt{13}\\cdot\\cos\\angle MAC$\n整理得$16=12+52-8\\sqrt{39}\\cos\\angle MAC$，解得$\\cos\\angle MAC=\\frac{48}{8\\sqrt{39}}=\\frac{6}{\\sqrt{39}}=\\frac{2\\sqrt{39}}{13}$。\n**解决方法2**：适用条件：已知各点坐标，求两向量夹角余弦时，用向量点积公式，直观不易出错。\n由坐标系结果得$\\overrightarrow{AM}=(3,-\\sqrt{3})$，$\\overrightarrow{AC}=(7,-\\sqrt{3})$，由向量夹角公式：\n$\\cos\\angle MAC=\\frac{\\overrightarrow{AM}\\cdot\\overrightarrow{AC}}{|\\overrightarrow{AM}|\\cdot|\\overrightarrow{AC}|}=\\frac{3\\times7 + (-\\sqrt{3})\\times(-\\sqrt{3})}{2\\sqrt{3}\\times2\\sqrt{13}}=\\frac{24}{4\\sqrt{39}}=\\frac{2\\sqrt{39}}{13}$，与通法结果一致。\n**合理性验证**：AC=2√13≈7.21，满足三角形三边关系：2+7.21>8，2+8>7.21；cos∠MAC≈0.96<1且为正，符合锐角的余弦取值范围，结果合理。\n最终答案：$AC=\\boldsymbol{2\\sqrt{13}}$，$\\cos\\angle MAC=\\boldsymbol{\\frac{2\\sqrt{39}}{13}}$。"
+    }
+  ]
+}

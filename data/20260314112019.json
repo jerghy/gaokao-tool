@@ -15,17 +15,11 @@
       },
       {
         "type": "image",
-        "src": "img/20260314111935_711096fe.png",
-        "display": "center",
-        "width": 149,
-        "height": "auto"
+        "config_id": "cfg_20260403210203_8ymxt8ze"
       },
       {
         "type": "image",
-        "src": "img/20260314111940_9579bd9f.png",
-        "display": "center",
-        "width": 177,
-        "height": "auto"
+        "config_id": "cfg_20260403210203_tseg0q76"
       },
       {
         "type": "richtext",

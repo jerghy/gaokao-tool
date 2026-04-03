@@ -1,109 +1,23 @@
 import os
-import base64
 import json
 import threading
 import requests
-from typing import Optional, List, Callable
+from typing import Optional
 from dataclasses import dataclass
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from urllib.parse import urlencode
 
-from volcenginesdkarkruntime import Ark
+from ai.base import (
+    AIConfig,
+    AIClient,
+    build_input_content,
+    parse_items_text,
+    extract_image_paths_from_items,
+)
 
 print_lock = threading.Lock()
 
 DEFAULT_API_BASE_URL = "http://localhost:5000"
-
-
-def search_questions_via_api(
-    search_query: str,
-    api_base_url: str = DEFAULT_API_BASE_URL,
-    page_size: int = 1000,
-) -> list[str]:
-    """
-    通过 HTTP API 搜索题目，返回匹配的题目 ID 列表
-    
-    Args:
-        search_query: 搜索查询字符串，如 "tag:数学" 或 "(tag:生物 OR tag:化学) -tag:已掌握"
-        api_base_url: API 基础地址
-        page_size: 每页数量，默认足够大以获取所有结果
-    
-    Returns:
-        list[str]: 匹配的题目 ID 列表
-    """
-    all_ids = []
-    page = 1
-    
-    while True:
-        params = {
-            "page": page,
-            "page_size": page_size,
-            "search": search_query
-        }
-        
-        url = f"{api_base_url}/api/questions?{urlencode(params)}"
-        
-        try:
-            response = requests.get(url, timeout=30)
-            response.raise_for_status()
-            data = response.json()
-            
-            questions = data.get("questions", [])
-            for q in questions:
-                qid = q.get("id")
-                if qid:
-                    all_ids.append(qid)
-            
-            total = data.get("total", 0)
-            total_pages = data.get("total_pages", 1)
-            
-            if page >= total_pages:
-                break
-            
-            page += 1
-            
-        except requests.RequestException as e:
-            print(f"API 请求失败: {e}")
-            break
-    
-    return all_ids
-
-
-def get_question_via_api(
-    question_id: str,
-    api_base_url: str = DEFAULT_API_BASE_URL,
-) -> Optional[dict]:
-    """
-    通过 HTTP API 获取单个题目数据
-    
-    Args:
-        question_id: 题目 ID
-        api_base_url: API 基础地址
-    
-    Returns:
-        dict 或 None: 题目数据
-    """
-    params = {
-        "page": 1,
-        "page_size": 1,
-        "search": question_id
-    }
-    
-    url = f"{api_base_url}/api/questions?{urlencode(params)}"
-    
-    try:
-        response = requests.get(url, timeout=30)
-        response.raise_for_status()
-        data = response.json()
-        
-        questions = data.get("questions", [])
-        if questions:
-            return questions[0]
-        
-    except requests.RequestException as e:
-        print(f"API 请求失败: {e}")
-    
-    return None
 
 __all__ = [
     "GenericAIResult",
@@ -140,29 +54,73 @@ class GenericAIResult:
         }
 
 
-def encode_image_to_base64(image_path: str) -> str:
-    with open(image_path, "rb") as f:
-        return base64.b64encode(f.read()).decode("utf-8")
+def search_questions_via_api(
+    search_query: str,
+    api_base_url: str = DEFAULT_API_BASE_URL,
+    page_size: int = 1000,
+) -> list[str]:
+    all_ids = []
+    page = 1
+
+    while True:
+        params = {
+            "page": page,
+            "page_size": page_size,
+            "search": search_query
+        }
+
+        url = f"{api_base_url}/api/questions?{urlencode(params)}"
+
+        try:
+            response = requests.get(url, timeout=30)
+            response.raise_for_status()
+            data = response.json()
+
+            questions = data.get("questions", [])
+            for q in questions:
+                qid = q.get("id")
+                if qid:
+                    all_ids.append(qid)
+
+            total_pages = data.get("total_pages", 1)
+
+            if page >= total_pages:
+                break
+
+            page += 1
+
+        except requests.RequestException as e:
+            print(f"API 请求失败: {e}")
+            break
+
+    return all_ids
 
 
-def get_image_media_type(image_path: str) -> str:
-    ext = os.path.splitext(image_path)[1].lower()
-    media_types = {
-        ".png": "image/png",
-        ".jpg": "image/jpeg",
-        ".jpeg": "image/jpeg",
-        ".gif": "image/gif",
-        ".webp": "image/webp",
+def get_question_via_api(
+    question_id: str,
+    api_base_url: str = DEFAULT_API_BASE_URL,
+) -> Optional[dict]:
+    params = {
+        "page": 1,
+        "page_size": 1,
+        "search": question_id
     }
-    return media_types.get(ext, "image/png")
 
+    url = f"{api_base_url}/api/questions?{urlencode(params)}"
 
-def parse_items_text(items: list) -> str:
-    text_parts = []
-    for item in items:
-        if item.get("type") in ("text", "richtext"):
-            text_parts.append(item.get("content", ""))
-    return "".join(text_parts)
+    try:
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+        data = response.json()
+
+        questions = data.get("questions", [])
+        if questions:
+            return questions[0]
+
+    except requests.RequestException as e:
+        print(f"API 请求失败: {e}")
+
+    return None
 
 
 def extract_generic_targets(
@@ -178,21 +136,13 @@ def extract_generic_targets(
         with open(file_path, "r", encoding="utf-8") as f:
             data = json.load(f)
 
-    base_path = os.path.dirname(os.path.dirname(file_path))
-
     question_items = data.get("question", {}).get("items", [])
     answer_items = data.get("answer", {}).get("items", [])
 
     question_text = parse_items_text(question_items)
     answer_text = parse_items_text(answer_items)
 
-    image_paths = []
-    for item in question_items + answer_items:
-        if item.get("type") == "image":
-            src = item.get("src", "")
-            if src:
-                full_path = os.path.normpath(os.path.join(base_path, src))
-                image_paths.append(full_path)
+    image_paths = extract_image_paths_from_items(question_items + answer_items, data_dir)
 
     sub_questions = data.get("sub_questions", [])
 
@@ -232,13 +182,7 @@ def extract_generic_targets(
         subq_text_items = subq.get("question_text", {}).get("items", [])
         subq_text = parse_items_text(subq_text_items)
 
-        subq_images = []
-        for item in subq_text_items:
-            if item.get("type") == "image":
-                src = item.get("src", "")
-                if src:
-                    full_path = os.path.normpath(os.path.join(base_path, src))
-                    subq_images.append(full_path)
+        subq_images = extract_image_paths_from_items(subq_text_items, data_dir)
 
         targets.append(GenericTarget(
             target_id=str(subq.get("id", "")),
@@ -289,18 +233,6 @@ def build_user_prompt(
     return prompt
 
 
-def extract_response_text(response) -> str:
-    """
-    从 responses.create 返回的 Response 对象中提取输出文本
-    """
-    for item in response.output:
-        if hasattr(item, 'content') and item.content:
-            for c in item.content:
-                if hasattr(c, 'text') and c.text:
-                    return c.text
-    return ""
-
-
 def call_ai_api(
     system_prompt: str,
     question_text: str,
@@ -313,52 +245,18 @@ def call_ai_api(
     max_output_tokens: int = 131072,
     reasoning_effort: str = "high",
 ) -> str:
-    if api_key is None:
-        api_key = os.getenv("ARK_API_KEY")
-
-    if not api_key:
-        raise ValueError("API KEY未配置，请设置ARK_API_KEY环境变量或传入api_key参数")
-
-    client = Ark(
-        base_url="https://ark.cn-beijing.volces.com/api/v3",
-        api_key=api_key,
-        timeout=1800,
+    config = AIConfig(
+        api_key=api_key or os.getenv("ARK_API_KEY", ""),
+        model=model,
+        max_output_tokens=max_output_tokens,
+        reasoning_effort=reasoning_effort,
     )
-
-    input_content = []
-
-    for image_path in image_paths:
-        if os.path.exists(image_path):
-            base64_image = encode_image_to_base64(image_path)
-            media_type = get_image_media_type(image_path)
-            input_content.append({
-                "type": "input_image",
-                "image_url": f"data:{media_type};base64,{base64_image}"
-            })
+    client = AIClient(config)
 
     prompt_text = build_user_prompt(question_text, answer_text, target_label, extra_context)
-    input_content.append({
-        "type": "input_text",
-        "text": prompt_text
-    })
+    user_content = build_input_content(prompt_text, image_paths)
 
-    response = client.responses.create(
-        model=model,
-        input=[
-            {
-                "role": "system",
-                "content": [{"type": "input_text", "text": system_prompt}]
-            },
-            {
-                "role": "user",
-                "content": input_content
-            }
-        ],
-        max_output_tokens=max_output_tokens,
-        reasoning={"effort": reasoning_effort},
-    )
-
-    return extract_response_text(response)
+    return client.call(system_prompt, user_content)
 
 
 def process_single_target(
@@ -450,92 +348,6 @@ def process_with_generic_ai(
     return results
 
 
-def batch_process_generic_by_ids(
-    data_dir: str,
-    question_ids: list[str],
-    system_prompt: str,
-    output_field: str = "generic_ai_result",
-    extra_context: Optional[str] = None,
-    sub_question_tags: Optional[list[str]] = None,
-    require_all_sub_tags: bool = False,
-    enable_sub_question_filter: bool = False,
-    skip_if_exists: bool = True,
-    api_key: Optional[str] = None,
-    model: str = "doubao-seed-2-0-pro-260215",
-    max_output_tokens: int = 131072,
-    reasoning_effort: str = "high",
-    max_workers: int = 3,
-) -> dict:
-    """
-    根据题目 ID 列表批量处理，支持多线程
-    
-    Args:
-        data_dir: 数据目录
-        question_ids: 题目 ID 列表
-        system_prompt: AI 系统提示词
-        output_field: JSON 保存字段名
-        extra_context: 额外上下文
-        sub_question_tags: 小问标签筛选
-        require_all_sub_tags: 是否需要全部标签匹配
-        enable_sub_question_filter: 是否开启小问筛选
-        skip_if_exists: 已存在则跳过
-        api_key: API 密钥
-        model: 模型名称
-        max_output_tokens: 最大输出 token 数
-        reasoning_effort: 推理深度 (low/medium/high)
-        max_workers: 并发数
-    
-    Returns:
-        dict: 处理结果统计
-    """
-    results = {
-        "total": len(question_ids),
-        "success": [],
-        "failed": [],
-        "skipped": []
-    }
-
-    total = len(question_ids)
-    print(f"共 {total} 个题目需要处理")
-    print(f"输出字段: {output_field}")
-    print(f"并发数: {max_workers}")
-    print("=" * 60)
-
-    if total == 0:
-        return results
-
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = {
-            executor.submit(
-                process_single_question_generic,
-                data_dir, qid, system_prompt, output_field,
-                extra_context, sub_question_tags, require_all_sub_tags,
-                enable_sub_question_filter, skip_if_exists,
-                api_key, model, max_output_tokens, reasoning_effort, i, total
-            ): qid
-            for i, qid in enumerate(question_ids, 1)
-        }
-
-        for future in as_completed(futures):
-            result = future.result()
-            if result["success"]:
-                results["success"].append(result["id"])
-            elif result["message"] == "无目标或已存在":
-                results["skipped"].append(result["id"])
-            else:
-                results["failed"].append({"id": result["id"], "reason": result["message"]})
-
-    print("\n" + "=" * 60)
-    print(f"处理完成: 成功 {len(results['success'])} 个, 失败 {len(results['failed'])} 个, 跳过 {len(results['skipped'])} 个")
-
-    if results["failed"]:
-        print("\n失败列表:")
-        for item in results["failed"]:
-            print(f"  - {item['id']}: {item['reason']}")
-
-    return results
-
-
 def save_generic_results(
     data_dir: str,
     question_id: str,
@@ -611,6 +423,70 @@ def process_single_question_generic(
         print(f"[{index}/{total}] {status} {qid}: {result['message'][:50]}")
 
     return result
+
+
+def batch_process_generic_by_ids(
+    data_dir: str,
+    question_ids: list[str],
+    system_prompt: str,
+    output_field: str = "generic_ai_result",
+    extra_context: Optional[str] = None,
+    sub_question_tags: Optional[list[str]] = None,
+    require_all_sub_tags: bool = False,
+    enable_sub_question_filter: bool = False,
+    skip_if_exists: bool = True,
+    api_key: Optional[str] = None,
+    model: str = "doubao-seed-2-0-pro-260215",
+    max_output_tokens: int = 131072,
+    reasoning_effort: str = "high",
+    max_workers: int = 3,
+) -> dict:
+    results = {
+        "total": len(question_ids),
+        "success": [],
+        "failed": [],
+        "skipped": []
+    }
+
+    total = len(question_ids)
+    print(f"共 {total} 个题目需要处理")
+    print(f"输出字段: {output_field}")
+    print(f"并发数: {max_workers}")
+    print("=" * 60)
+
+    if total == 0:
+        return results
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        futures = {
+            executor.submit(
+                process_single_question_generic,
+                data_dir, qid, system_prompt, output_field,
+                extra_context, sub_question_tags, require_all_sub_tags,
+                enable_sub_question_filter, skip_if_exists,
+                api_key, model, max_output_tokens, reasoning_effort, i, total
+            ): qid
+            for i, qid in enumerate(question_ids, 1)
+        }
+
+        for future in as_completed(futures):
+            result = future.result()
+            if result["success"]:
+                results["success"].append(result["id"])
+            elif result["message"] == "无目标或已存在":
+                results["skipped"].append(result["id"])
+            else:
+                results["failed"].append({"id": result["id"], "reason": result["message"]})
+
+    print("\n" + "=" * 60)
+    print(f"处理完成: 成功 {len(results['success'])} 个, 失败 {len(results['failed'])} 个, 跳过 {len(results['skipped'])} 个")
+
+    if results["failed"]:
+        print("\n失败列表:")
+        for item in results["failed"]:
+            print(f"  - {item['id']}: {item['reason']}")
+
+    return results
 
 
 def batch_process_generic(

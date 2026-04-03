@@ -1,0 +1,63 @@
+{
+  "id": "20260321130626",
+  "created_at": "2026-03-21 13:06:26",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321130525_36820a95.png",
+        "display": "center",
+        "width": 430,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.04431314623338257,
+          "x": 0.07311669128508123,
+          "y": 0.0502283105022831
+        }
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321130549_f020218c.png",
+        "display": "center",
+        "width": 400,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.03636363636363636,
+          "x": 0.2404040404040404,
+          "y": 0.03094059405940594
+        }
+      },
+      {
+        "type": "image",
+        "src": "img/20260321130601_484fabde.png",
+        "display": "center",
+        "width": 300,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.05197132616487455,
+          "x": 0.3870967741935484,
+          "y": 0.1484375
+        }
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "math_thinking_chain": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "content": "### 第一问\n**分析**：已知△ABC内角C满足三角等式$\\sin2C=\\sqrt{3}\\sin C$，目标求角C的大小。首先三角形内角C的范围为$(0,\\pi)$，因此$\\sin C>0$（隐藏条件），可利用二倍角正弦公式展开等式，消去非零的$\\sin C$后得到$\\cos C$的值，再结合角的范围确定角C。\n**目标解决1**：需解决目标：求角C的大小\n**解决方法1**：适用条件：已知等式同时含某角的二倍角正弦和单角正弦，且该角为三角形内角（正弦恒正）时使用，属于通用通法\n根据二倍角正弦公式$\\sin2\\alpha=2\\sin\\alpha\\cos\\alpha$，将等式展开得：$2\\sin C \\cos C = \\sqrt{3}\\sin C$\n因为$C\\in(0,\\pi)$，所以$\\sin C>0$，等式两边同时除以$\\sin C$得：$2\\cos C=\\sqrt{3}$，即$\\cos C=\\frac{\\sqrt{3}}{2}$\n结合$C\\in(0,\\pi)$，得$C=\\frac{\\pi}{6}$\n**解决方法2**：适用条件：等式两边含公共三角函数项，为避免漏解（适用于任意角场景），采用移项因式分解的方法\n将等式移项得$\\sin2C - \\sqrt{3}\\sin C=0$，展开二倍角得$2\\sin C \\cos C - \\sqrt{3}\\sin C=0$\n提取公因式$\\sin C$得：$\\sin C(2\\cos C - \\sqrt{3})=0$\n因为$C\\in(0,\\pi)$，$\\sin C\\neq0$，所以$2\\cos C - \\sqrt{3}=0$，即$\\cos C=\\frac{\\sqrt{3}}{2}$，结合角范围得$C=\\frac{\\pi}{6}$\n---\n### 第二问\n**分析**：已知$b=6$，$S_{\\triangle ABC}=6\\sqrt{3}$，结合第一问求得的$C=\\frac{\\pi}{6}$，目标求三角形周长，周长为$a+b+c$，已知$b=6$，因此只需先求边长$a$，再求边长$c$即可。首先可通过面积公式求$a$，再通过余弦定理/正弦定理求$c$。\n**目标解决2**：需解决目标：求边长$a$的值\n**解决方法1**：适用条件：已知三角形两边及夹角的面积公式，已知一边、夹角、面积时求另一边，属于通用通法\n根据三角形面积公式$S_{\\triangle ABC}=\\frac{1}{2}ab\\sin C$，代入$S=6\\sqrt{3}$，$b=6$，$\\sin\\frac{\\pi}{6}=\\frac{1}{2}$得：\n$6\\sqrt{3}=\\frac{1}{2}\\times a \\times6\\times\\frac{1}{2}$，化简右边为$\\frac{3a}{2}$，解得$a=\\frac{6\\sqrt{3}\\times2}{3}=4\\sqrt{3}$\n**解决方法2**：适用条件：数形结合思路，通过作高将斜三角形转化为直角三角形，利用高计算面积求边长\n过点$B$作$BD\\perp AC$于$D$，$BD$为$AC$边上的高，在$Rt\\triangle BDC$中，$\\angle C=\\frac{\\pi}{6}$，$BC=a$，因此高$BD=a\\cdot\\sin C=\\frac{a}{2}$\n三角形面积$S=\\frac{1}{2}\\times AC\\times BD=\\frac{1}{2}\\times6\\times\\frac{a}{2}=\\frac{3a}{2}=6\\sqrt{3}$，解得$a=4\\sqrt{3}$\n**分析**：已求得$a=4\\sqrt{3}$，现在需要求边长$c$，已知两边$a,b$和夹角$C$，可直接用余弦定理求$c$，也可通过正弦定理求角后再求$c$。\n**目标解决3**：需解决目标：求边长$c$的值\n**解决方法1**：适用条件：已知三角形两边及其夹角求第三边，通用通法\n根据余弦定理$c^2=a^2+b^2-2ab\\cos C$，代入$a=4\\sqrt{3}$，$b=6$，$\\cos\\frac{\\pi}{6}=\\frac{\\sqrt{3}}{2}$得：\n$a^2=(4\\sqrt{3})^2=48$，$b^2=36$，$2ab\\cos C=2\\times4\\sqrt{3}\\times6\\times\\frac{\\sqrt{3}}{2}=72$\n因此$c^2=48+36-72=12$，边长为正，故$c=2\\sqrt{3}$\n**解决方法2**：适用条件：已知两边及一角，通过正弦定理求其余内角后再求边，适合验证三角形形状的场景\n根据正弦定理$\\frac{a}{\\sin A}=\\frac{b}{\\sin B}$，且$A+B=\\pi-C=\\frac{5\\pi}{6}$，即$B=\\frac{5\\pi}{6}-A$\n代入$a=4\\sqrt{3},b=6$得：$\\frac{4\\sqrt{3}}{\\sin A}=\\frac{6}{\\sin(\\frac{5\\pi}{6}-A)}$\n展开$\\sin(\\frac{5\\pi}{6}-A)=\\frac{1}{2}\\cos A+\\frac{\\sqrt{3}}{2}\\sin A$，交叉相乘得：\n$4\\sqrt{3}(\\frac{1}{2}\\cos A+\\frac{\\sqrt{3}}{2}\\sin A)=6\\sin A$，化简左边为$2\\sqrt{3}\\cos A+6\\sin A=6\\sin A$\n因此$2\\sqrt{3}\\cos A=0$，即$\\cos A=0$，$A\\in(0,\\pi)$，故$A=\\frac{\\pi}{2}$，△ABC为直角三角形\n角C对边为c，因此$c=a\\cdot\\sin C=4\\sqrt{3}\\times\\frac{1}{2}=2\\sqrt{3}$\n**分析**：已求得$a=4\\sqrt{3},c=2\\sqrt{3},b=6$，现在计算周长，同时验证结果合理性。\n三角形周长为$a+b+c=4\\sqrt{3}+6+2\\sqrt{3}=6+6\\sqrt{3}$\n合理性验证：① 面积验证：$\\frac{1}{2}ab\\sin C=\\frac{1}{2}\\times4\\sqrt{3}\\times6\\times\\frac{1}{2}=6\\sqrt{3}$，与题干给出的面积一致；② 正弦定理验证：$\\frac{a}{\\sin A}=\\frac{4\\sqrt{3}}{1}=4\\sqrt{3}$，$\\frac{b}{\\sin B}=\\frac{6}{\\sin\\frac{\\pi}{3}}=4\\sqrt{3}$，$\\frac{c}{\\sin C}=\\frac{2\\sqrt{3}}{\\frac{1}{2}}=4\\sqrt{3}$，三者相等符合正弦定理，结果正确。\n最终结论：\n(1) $\\boldsymbol{\\angle C=\\frac{\\pi}{6}}$（或30°）；\n(2) △ABC的周长为$\\boldsymbol{6+6\\sqrt{3}}$。"
+    }
+  ]
+}

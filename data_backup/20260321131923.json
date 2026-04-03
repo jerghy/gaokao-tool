@@ -1,0 +1,47 @@
+{
+  "id": "20260321131923",
+  "created_at": "2026-03-21 13:19:23",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321131912_ec24e83e.png",
+        "display": "center",
+        "width": 450,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.02445414847161572,
+          "x": 0.3663755458515284,
+          "y": 0.064
+        }
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "richtext",
+        "content": "　C",
+        "fragments": [
+          {
+            "text": "　C",
+            "underline": false
+          }
+        ]
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "math_thinking_chain": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "content": "**分析**：首先逐句翻译题干信息：1. 根据正切函数定义，$\\tan\\theta=-2$等价于$\\frac{\\sin\\theta}{\\cos\\theta}=-2$，即$\\sin\\theta=-2\\cos\\theta$，且$\\cos\\theta\\neq0$；2. 待求式为$\\frac{\\sin\\theta(1+\\sin2\\theta)}{\\sin\\theta+\\cos\\theta}$，根据二倍角公式与同角三角函数平方和关系，$1+\\sin2\\theta=\\sin^2\\theta+\\cos^2\\theta+2\\sin\\theta\\cos\\theta$，可合并为完全平方式。顺推路径可先化简待求式再计算，逆推路径可直接代入弦值计算，两种路径均可行。\n**目标解决1**：需解决目标：化简待求式，消去可约分项。\n**解决方法1**：适用条件：待求式分子含$1+\\sin2\\theta$结构，且分母为$\\sin\\theta+\\cos\\theta$，优先用完全平方公式合并降次。\n推导过程：由二倍角正弦公式$\\sin2\\theta=2\\sin\\theta\\cos\\theta$、同角基本关系$\\sin^2\\theta+\\cos^2\\theta=1$，得$1+\\sin2\\theta=(\\sin\\theta+\\cos\\theta)^2$，代入原式：\n$$\\text{原式}=\\frac{\\sin\\theta\\cdot(\\sin\\theta+\\cos\\theta)^2}{\\sin\\theta+\\cos\\theta}$$\n由$\\tan\\theta=-2\\neq-1$，可知$\\sin\\theta+\\cos\\theta\\neq0$，可约去该分项，得化简后式子：$\\text{原式}=\\sin\\theta(\\sin\\theta+\\cos\\theta)=\\sin^2\\theta+\\sin\\theta\\cos\\theta$。\n**分析**：化简后得到二次齐次式$\\sin^2\\theta+\\sin\\theta\\cos\\theta$，已知$\\tan\\theta$的值，可通过齐次化切、直接代入弦值、象限分类计算三种方法求解。\n**目标解决2**：需解决目标：计算$\\sin^2\\theta+\\sin\\theta\\cos\\theta$的值。\n**解决方法1**：适用条件：已知$\\tan\\theta$，求正弦余弦的二次齐次式的值，优先用同除$\\cos^2\\theta$化切的通用通法。\n推导过程：将式子除以$\\sin^2\\theta+\\cos^2\\theta=1$构造齐次分式：\n$$\\sin^2\\theta+\\sin\\theta\\cos\\theta=\\frac{\\sin^2\\theta+\\sin\\theta\\cos\\theta}{\\sin^2\\theta+\\cos^2\\theta}$$\n分子分母同时除以$\\cos^2\\theta$（$\\cos\\theta\\neq0$），得：\n$$\\frac{\\tan^2\\theta+\\tan\\theta}{\\tan^2\\theta+1}$$\n代入$\\tan\\theta=-2$，计算得：$\\frac{(-2)^2+(-2)}{(-2)^2+1}=\\frac{4-2}{4+1}=\\frac{2}{5}$。\n**解决方法2**：适用条件：已知$\\tan\\theta$的具体数值，可直接用切弦关系替换正弦为余弦代入计算，适合不熟悉齐次化方法的场景。\n推导过程：由$\\sin\\theta=-2\\cos\\theta$，代入同角基本关系得$(-2\\cos\\theta)^2+\\cos^2\\theta=1$，即$5\\cos^2\\theta=1$，$\\cos^2\\theta=\\frac{1}{5}$。\n代入化简后式子：$\\sin^2\\theta+\\sin\\theta\\cos\\theta=4\\cos^2\\theta+(-2\\cos\\theta)\\cdot\\cos\\theta=2\\cos^2\\theta=2\\times\\frac{1}{5}=\\frac{2}{5}$。\n**解决方法3**：适用条件：已知$\\tan\\theta$的正负，可结合象限分类计算具体弦值代入，适合数形结合思路的场景。\n推导过程：$\\tan\\theta=-2$说明$\\theta$在第二或第四象限，构造直角三角形得斜边长为$\\sqrt{1^2+2^2}=\\sqrt{5}$：\n- 若$\\theta$在第二象限：$\\sin\\theta=\\frac{2}{\\sqrt{5}},\\cos\\theta=-\\frac{1}{\\sqrt{5}}$，代入得$\\frac{4}{5}+\\frac{2}{\\sqrt{5}}\\times(-\\frac{1}{\\sqrt{5}})=\\frac{4}{5}-\\frac{2}{5}=\\frac{2}{5}$\n- 若$\\theta$在第四象限：$\\sin\\theta=-\\frac{2}{\\sqrt{5}},\\cos\\theta=\\frac{1}{\\sqrt{5}}$，代入得$\\frac{4}{5}+(-\\frac{2}{\\sqrt{5}})\\times\\frac{1}{\\sqrt{5}}=\\frac{4}{5}-\\frac{2}{5}=\\frac{2}{5}$\n两种情况结果一致，均为$\\frac{2}{5}$。\n**分析**：也可选择不先化简原式，直接代入弦值计算，验证结果一致性。\n**目标解决3**：需解决目标：不化简原式，直接代入切弦关系计算待求式的值。\n**解决方法1**：适用条件：不想做结构变形，直接替换所有正弦为余弦计算，适合结构识别不敏感的场景。\n推导过程：将$\\sin\\theta=-2\\cos\\theta$、$\\sin2\\theta=2\\sin\\theta\\cos\\theta=-4\\cos^2\\theta$代入原式：\n$$\\text{原式}=\\frac{(-2\\cos\\theta)\\cdot(1-4\\cos^2\\theta)}{-2\\cos\\theta+\\cos\\theta}=\\frac{-2\\cos\\theta(1-4\\cos^2\\theta)}{-\\cos\\theta}=2(1-4\\cos^2\\theta)$$\n代入$\\cos^2\\theta=\\frac{1}{5}$，得$2\\times(1-\\frac{4}{5})=2\\times\\frac{1}{5}=\\frac{2}{5}$，和之前结果一致。\n**分析**：合理性验证：首先约分项$\\sin\\theta+\\cos\\theta=-\\cos\\theta\\neq0$，约去合理；其次不管$\\theta$在第二还是第四象限，结果均为正，排除A、B选项，数值为$\\frac{2}{5}$排除D选项，结果唯一正确。\n最终答案：$\\boxed{C}$"
+    }
+  ]
+}

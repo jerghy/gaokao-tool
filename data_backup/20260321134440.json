@@ -1,0 +1,47 @@
+{
+  "id": "20260321134440",
+  "created_at": "2026-03-21 13:44:40",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321134431_947ca416.png",
+        "display": "center",
+        "width": 400,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.04460431654676259,
+          "x": 0.39784172661870504,
+          "y": 0.15548780487804878
+        }
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "richtext",
+        "content": "D",
+        "fragments": [
+          {
+            "text": "D",
+            "underline": false
+          }
+        ]
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "math_thinking_chain": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "content": "**分析**：本题为三角函数给值求值题型，首先翻译题干信息：已知角为$\\frac{\\pi}{4}-\\alpha$，其余弦值为$\\frac{3}{5}$，目标是求$2\\alpha$的正弦值，核心突破口是建立已知角和目标角的角度关联，可延伸出三种解题路径：1.换元转化已知角，用二倍角公式直接计算；2.展开差角余弦公式，平方后利用二倍角公式推导；3.用诱导公式转化已知角为和角正弦，再套二倍角公式速解。\n**目标解决1**：需解决目标：利用已知角的三角函数值求$\\sin2\\alpha$\n**解决方法1**：适用条件：已知角和目标角存在二倍的互余/互补关系时，优先用换元法速解\n设$\\theta=\\frac{\\pi}{4}-\\alpha$，则$\\cos\\theta=\\frac{3}{5}$，目标角$2\\alpha=2\\times(\\frac{\\pi}{4}-\\theta)=\\frac{\\pi}{2}-2\\theta$，根据诱导公式$\\sin(\\frac{\\pi}{2}-x)=\\cos x$可得：\n$\\sin2\\alpha=\\sin(\\frac{\\pi}{2}-2\\theta)=\\cos2\\theta$\n再代入二倍角余弦公式$\\cos2\\theta=2\\cos^2\\theta-1$：\n$\\cos2\\theta=2\\times(\\frac{3}{5})^2-1=2\\times\\frac{9}{25}-1=\\frac{18}{25}-1=-\\frac{7}{25}$\n即$\\sin2\\alpha=-\\frac{7}{25}$。\n**解决方法2**：适用条件：已知和差角三角函数值，无明显角度关联时用通用通法：展开+平方+二倍角公式推导\n根据余弦差角公式展开已知式：\n$\\cos(\\frac{\\pi}{4}-\\alpha)=\\cos\\frac{\\pi}{4}\\cos\\alpha+\\sin\\frac{\\pi}{4}\\sin\\alpha=\\frac{\\sqrt{2}}{2}(\\cos\\alpha+\\sin\\alpha)=\\frac{3}{5}$\n两边乘$\\sqrt{2}$得：$\\cos\\alpha+\\sin\\alpha=\\frac{3\\sqrt{2}}{5}$\n等式两边平方：$(\\cos\\alpha+\\sin\\alpha)^2=(\\frac{3\\sqrt{2}}{5})^2$\n左边根据同角平方和、二倍角正弦公式展开：$\\cos^2\\alpha+2\\sin\\alpha\\cos\\alpha+\\sin^2\\alpha=1+\\sin2\\alpha$\n右边计算得：$\\frac{18}{25}$\n因此$1+\\sin2\\alpha=\\frac{18}{25}$，移项得$\\sin2\\alpha=\\frac{18}{25}-1=-\\frac{7}{25}$。\n**解决方法3**：适用条件：已知余弦差角，可通过诱导公式转化为正弦和角，凑出目标角的二倍关系速解\n根据诱导公式$\\cos x=\\sin(\\frac{\\pi}{2}-x)$可得：\n$\\cos(\\frac{\\pi}{4}-\\alpha)=\\sin(\\frac{\\pi}{2}-(\\frac{\\pi}{4}-\\alpha))=\\sin(\\frac{\\pi}{4}+\\alpha)=\\frac{3}{5}$\n再根据诱导公式$\\sin2\\alpha=-\\cos(\\frac{\\pi}{2}+2\\alpha)$，而$\\frac{\\pi}{2}+2\\alpha=2\\times(\\frac{\\pi}{4}+\\alpha)$，因此：\n$\\sin2\\alpha=-\\cos[2\\times(\\frac{\\pi}{4}+\\alpha)]=-(1-2\\sin^2(\\frac{\\pi}{4}+\\alpha))$\n代入$\\sin(\\frac{\\pi}{4}+\\alpha)=\\frac{3}{5}$得：\n$\\sin2\\alpha=-(1-2\\times\\frac{9}{25})=-(1-\\frac{18}{25})=-\\frac{7}{25}$。\n**分析**：三种方法计算结果一致，验证取值范围：$\\cos(\\frac{\\pi}{4}-\\alpha)=\\frac{3}{5}$，则$2(\\frac{\\pi}{4}-\\alpha)=\\frac{\\pi}{2}-2\\alpha$的余弦值为$2\\times(\\frac{3}{5})^2-1=-\\frac{7}{25}$，即$\\cos(\\frac{\\pi}{2}-2\\alpha)=\\sin2\\alpha=-\\frac{7}{25}$，结果合理，对应选项D。\n最终答案：$\\boxed{D}$"
+    }
+  ]
+}

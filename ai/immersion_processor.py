@@ -1,13 +1,11 @@
 import os
-import base64
 import json
 import threading
-from typing import Optional, List
+from typing import Optional
 from dataclasses import dataclass
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from volcenginesdkarkruntime import Ark
-
+from ai.base import AIConfig, AIClient, build_input_content, parse_items_text, extract_image_paths_from_items
 from ai.thinking_processor import search_questions
 from ai.immersion_thinking_prompt import get_immersion_thinking_prompt
 
@@ -33,31 +31,6 @@ class ImmersionThinkingProcess:
         }
 
 
-def encode_image_to_base64(image_path: str) -> str:
-    with open(image_path, "rb") as f:
-        return base64.b64encode(f.read()).decode("utf-8")
-
-
-def get_image_media_type(image_path: str) -> str:
-    ext = os.path.splitext(image_path)[1].lower()
-    media_types = {
-        ".png": "image/png",
-        ".jpg": "image/jpeg",
-        ".jpeg": "image/jpeg",
-        ".gif": "image/gif",
-        ".webp": "image/webp",
-    }
-    return media_types.get(ext, "image/png")
-
-
-def parse_items_text(items: list) -> str:
-    text_parts = []
-    for item in items:
-        if item.get("type") in ("text", "richtext"):
-            text_parts.append(item.get("content", ""))
-    return "".join(text_parts)
-
-
 def generate_immersion_thinking(
     question_text: str,
     answer_text: str,
@@ -68,28 +41,13 @@ def generate_immersion_thinking(
     max_output_tokens: int = 131072,
     reasoning_effort: str = "high",
 ) -> ImmersionThinkingProcess:
-    if api_key is None:
-        api_key = os.getenv("ARK_API_KEY")
-
-    if not api_key:
-        raise ValueError("API KEY未配置，请设置ARK_API_KEY环境变量或传入api_key参数")
-
-    client = Ark(
-        base_url="https://ark.cn-beijing.volces.com/api/v3",
-        api_key=api_key,
-        timeout=1800,
+    config = AIConfig(
+        api_key=api_key or os.getenv("ARK_API_KEY", ""),
+        model=model,
+        max_output_tokens=max_output_tokens,
+        reasoning_effort=reasoning_effort,
     )
-
-    input_content = []
-
-    for image_path in image_paths:
-        if os.path.exists(image_path):
-            base64_image = encode_image_to_base64(image_path)
-            media_type = get_image_media_type(image_path)
-            input_content.append({
-                "type": "input_image",
-                "image_url": f"data:{media_type};base64,{base64_image}"
-            })
+    client = AIClient(config)
 
     prompt_text = f"""请对以下题目进行沉浸式思考过程深化，基于已有的思考内容进行扩展和深化：
 
@@ -102,28 +60,8 @@ def generate_immersion_thinking(
 
 请严格按照系统提示词中的格式要求，基于以上思考过程，输出更深入、更全面的沉浸式思考过程。"""
 
-    input_content.append({
-        "type": "input_text",
-        "text": prompt_text
-    })
-
-    response = client.responses.create(
-        model=model,
-        input=[
-            {
-                "role": "system",
-                "content": [{"type": "input_text", "text": get_immersion_thinking_prompt()}]
-            },
-            {
-                "role": "user",
-                "content": input_content
-            }
-        ],
-        max_output_tokens=max_output_tokens,
-        reasoning={"effort": reasoning_effort},
-    )
-
-    raw_response = response.output_text
+    user_content = build_input_content(prompt_text, image_paths)
+    raw_response = client.call(get_immersion_thinking_prompt(), user_content)
 
     return ImmersionThinkingProcess(
         thinking_content=raw_response,
@@ -151,21 +89,13 @@ def generate_immersion_for_question(
     if not existing_processes:
         return None
 
-    base_path = os.path.dirname(os.path.dirname(file_path))
-
     question_items = data.get("question", {}).get("items", [])
     answer_items = data.get("answer", {}).get("items", [])
 
     question_text = parse_items_text(question_items)
     answer_text = parse_items_text(answer_items)
 
-    image_paths = []
-    for item in question_items + answer_items:
-        if item.get("type") == "image":
-            src = item.get("src", "")
-            if src:
-                full_path = os.path.normpath(os.path.join(base_path, src))
-                image_paths.append(full_path)
+    image_paths = extract_image_paths_from_items(question_items + answer_items, data_dir)
 
     existing_content = "\n\n".join([
         p.get("thinking_content", "")

@@ -1,0 +1,50 @@
+{
+  "id": "20260321125444",
+  "created_at": "2026-03-21 12:54:44",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321125426_865cd00e.png",
+        "display": "center",
+        "width": 450,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.03383084577114428,
+          "x": 0.45422885572139304,
+          "y": 0.3430232558139535
+        }
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321125435_337a37b1.png",
+        "display": "center",
+        "width": 70,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.22325581395348837,
+          "x": 0.4508720930232558,
+          "y": 0.24615384615384617
+        }
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "math_thinking_chain": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "content": "**分析**：首先逐句翻译题干信息：1. 已知△ABC，根据三角形内角和定理，三个内角和为180°，已知∠A=45°，∠C=75°，可先推导得∠B=180°-45°-75°=60°；2. 边AC对应∠B，边BC对应∠A，属于已知两角及一条对边的AAS型解三角形问题，顺推可直接用正弦定理列比例式求解，逆推也可通过作高拆分为直角三角形、余弦定理等路径求解。\n**目标解决1**：需解决目标：求BC的长度\n**解决方法1**：适用条件：解三角形中已知两角及任意一边（AAS/ASA题型），通用通法为正弦定理，适用于所有此类解三角形场景，无额外限制条件。\n根据正弦定理，任意△ABC中满足$\\frac{a}{\\sin A}=\\frac{b}{\\sin B}=\\frac{c}{\\sin C}$，其中a为∠A对边（即BC），b为∠B对边（即AC），代入已知值：\n$$\\frac{BC}{\\sin A}=\\frac{AC}{\\sin B}$$\n代入∠A=45°，∠B=60°，AC=√3，以及特殊角三角函数值$\\sin45^\\circ=\\frac{\\sqrt{2}}{2}$，$\\sin60^\\circ=\\frac{\\sqrt{3}}{2}$，得：\n$$BC=\\frac{AC\\cdot\\sin A}{\\sin B}=\\frac{\\sqrt{3}\\times\\frac{\\sqrt{2}}{2}}{\\frac{\\sqrt{3}}{2}}=\\sqrt{2}$$\n**解决方法2**：适用条件：对正弦定理记忆不牢，更擅长直角三角形边角计算时，可通过作高将斜三角形拆分为两个直角三角形求解，适合所有斜三角形转直角三角形的场景。\n过点C作CD⊥AB，交AB于点D：\n1. 在Rt△ACD中，∠A=45°，AC=√3，根据直角三角形对边公式，高$CD=AC\\cdot\\sin A=\\sqrt{3}\\times\\sin45^\\circ=\\frac{\\sqrt{6}}{2}$；\n2. 在Rt△BCD中，∠B=60°，CD为∠B的对边，BC为斜边，根据正弦定义$\\sin B=\\frac{CD}{BC}$，得：\n$$BC=\\frac{CD}{\\sin B}=\\frac{\\frac{\\sqrt{6}}{2}}{\\sin60^\\circ}=\\frac{\\frac{\\sqrt{6}}{2}}{\\frac{\\sqrt{3}}{2}}=\\sqrt{2}$$\n**解决方法3**：适用条件：忘记正弦定理，或想验证结果时，可先求第三边再用余弦定理计算，属于兜底验证类解法，适合所有解三角形已知两角一边的场景。\n首先用正弦定理求AB的长度：$\\frac{AB}{\\sin C}=\\frac{AC}{\\sin B}$，∠C=75°，$\\sin75^\\circ=\\sin(45^\\circ+30^\\circ)=\\frac{\\sqrt{6}+\\sqrt{2}}{4}$，代入得：\n$$AB=\\frac{AC\\cdot\\sin C}{\\sin B}=\\frac{\\sqrt{3}\\times\\frac{\\sqrt{6}+\\sqrt{2}}{4}}{\\frac{\\sqrt{3}}{2}}=\\frac{\\sqrt{6}+\\sqrt{2}}{2}$$\n再根据余弦定理，$BC^2=AB^2+AC^2-2\\cdot AB\\cdot AC\\cdot\\cos A$，代入数值：\n$AB^2=(\\frac{\\sqrt{6}+\\sqrt{2}}{2})^2=2+\\sqrt{3}$，$AC^2=3$，$2\\cdot AB\\cdot AC\\cdot\\cos A=2\\times\\frac{\\sqrt{6}+\\sqrt{2}}{2}\\times\\sqrt{3}\\times\\frac{\\sqrt{2}}{2}=3+\\sqrt{3}$\n因此$BC^2=2+\\sqrt{3}+3-(3+\\sqrt{3})=2$，边长为正，故$BC=\\sqrt{2}$\n**分析**：现在对结果做合理性验证：根据三角形大角对大边规则，∠B=60°>∠A=45°，对应边AC=√3≈1.732>BC=√2≈1.414，符合规律；代入正弦定理验证比例：$\\frac{BC}{\\sin45^\\circ}=2$，$\\frac{AC}{\\sin60^\\circ}=2$，比例相等，结果正确。\n最终答案：$\\boxed{\\sqrt{2}}$"
+    }
+  ]
+}

@@ -1,19 +1,15 @@
 import os
-import base64
 import json
 from typing import Optional
 from dataclasses import dataclass
 
-from volcenginesdkarkruntime import Ark
-
+from ai.base import AIConfig, AIClient, build_input_content
 from ai.loader import ProcessedQuestion, load_question_by_id
 from ai.preprocessing_prompt_v2 import get_preprocessing_prompt_v2
 
 
 __all__ = [
     "QuestionAnalysis",
-    "encode_image_to_base64",
-    "get_image_media_type",
     "generate_question_analysis",
     "generate_analysis_by_id",
     "save_analysis_to_json",
@@ -40,23 +36,6 @@ class QuestionAnalysis:
         }
 
 
-def encode_image_to_base64(image_path: str) -> str:
-    with open(image_path, "rb") as f:
-        return base64.b64encode(f.read()).decode("utf-8")
-
-
-def get_image_media_type(image_path: str) -> str:
-    ext = os.path.splitext(image_path)[1].lower()
-    media_types = {
-        ".png": "image/png",
-        ".jpg": "image/jpeg",
-        ".jpeg": "image/jpeg",
-        ".gif": "image/gif",
-        ".webp": "image/webp",
-    }
-    return media_types.get(ext, "image/png")
-
-
 def generate_question_analysis(
     question: ProcessedQuestion,
     api_key: Optional[str] = None,
@@ -64,28 +43,13 @@ def generate_question_analysis(
     max_output_tokens: int = 131072,
     reasoning_effort: str = "high",
 ) -> QuestionAnalysis:
-    if api_key is None:
-        api_key = os.getenv("ARK_API_KEY")
-
-    if not api_key:
-        raise ValueError("API KEY未配置，请设置ARK_API_KEY环境变量或传入api_key参数")
-
-    client = Ark(
-        base_url="https://ark.cn-beijing.volces.com/api/v3",
-        api_key=api_key,
-        timeout=1800,
+    config = AIConfig(
+        api_key=api_key or os.getenv("ARK_API_KEY", ""),
+        model=model,
+        max_output_tokens=max_output_tokens,
+        reasoning_effort=reasoning_effort,
     )
-
-    input_content = []
-
-    for image_path in question.image_paths:
-        if os.path.exists(image_path):
-            base64_image = encode_image_to_base64(image_path)
-            media_type = get_image_media_type(image_path)
-            input_content.append({
-                "type": "input_image",
-                "image_url": f"data:{media_type};base64,{base64_image}"
-            })
+    client = AIClient(config)
 
     prompt_text = f"""请对以下题目进行全维度预处理分析：
 
@@ -97,28 +61,8 @@ def generate_question_analysis(
 
 请严格按照系统提示词中的JSON格式输出。"""
 
-    input_content.append({
-        "type": "input_text",
-        "text": prompt_text
-    })
-
-    response = client.responses.create(
-        model=model,
-        input=[
-            {
-                "role": "system",
-                "content": [{"type": "input_text", "text": get_preprocessing_prompt_v2()}]
-            },
-            {
-                "role": "user",
-                "content": input_content
-            }
-        ],
-        max_output_tokens=max_output_tokens,
-        reasoning={"effort": reasoning_effort},
-    )
-
-    raw_response = response.output_text
+    user_content = build_input_content(prompt_text, question.image_paths)
+    raw_response = client.call(get_preprocessing_prompt_v2(), user_content)
 
     try:
         json_str = raw_response.strip()

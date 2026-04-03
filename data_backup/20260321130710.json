@@ -1,0 +1,51 @@
+{
+  "id": "20260321130710",
+  "created_at": "2026-03-21 13:07:10",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321130657_a1116d12.png",
+        "display": "center",
+        "width": 450,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.023668639053254437,
+          "x": 0.3913570019723866,
+          "y": 0.1353906
+        },
+        "splitLines": [
+          0.349,
+          0.871
+        ]
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "richtext",
+        "content": "答案　B",
+        "fragments": [
+          {
+            "text": "答案　B",
+            "underline": false
+          }
+        ]
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "math_thinking_chain": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "content": "**分析**：首先逐句翻译题干信息：1. 依据同圆半径相等，得OA=OB=2；2. 已知∠AOB=60°，C是AB中点，依据垂径定理可得O、C、D三点共线，且OC⊥AB；3. 需计算弧长近似值$s=AB+\\frac{CD^2}{OA}$，逆推可知需先分别求出弦AB的长度、线段CD的长度，再代入公式即可得结果。\n**目标解决1**：需解决目标：求弦AB的长度\n**解决方法1**：适用条件：已知三角形两边及夹角，求第三边时使用余弦定理\n在$\\triangle AOB$中，$OA=OB=2$，$\\angle AOB=60^\\circ$，由余弦定理得：\n$AB^2=OA^2+OB^2-2\\cdot OA\\cdot OB\\cdot\\cos60^\\circ=4+4-2\\times2\\times2\\times\\frac{1}{2}=4$，故$AB=2$（长度取正值）。\n**解决方法2**：适用条件：等腰三角形顶角为60°时，可直接判定为等边三角形得边长\n因$OA=OB=2$，$\\angle AOB=60^\\circ$，故$\\triangle AOB$为等边三角形，等边三角形三边相等，因此$AB=OA=2$。\n**分析**：AB已求得为2，接下来求CD的长度，由O、C、D共线可知$CD=OD-OC$，其中OD为半径长度为2，故仅需求出OC的长度即可。\n**目标解决2**：需解决目标：求线段CD的长度\n**解决方法1**：适用条件：等边三角形的高可直接用边长计算\n$\\triangle AOB$为等边三角形，C是AB中点，故OC为等边三角形AB边上的高，等边三角形高$h=\\frac{\\sqrt{3}}{2}\\times$边长，因此$OC=\\frac{\\sqrt{3}}{2}\\times2=\\sqrt{3}$，则$CD=OD-OC=2-\\sqrt{3}$。\n**解决方法2**：适用条件：直角三角形已知两边求第三边时用勾股定理\n在$Rt\\triangle AOC$中，$\\angle ACO=90^\\circ$，$OA=2$，$AC=\\frac{AB}{2}=1$，由勾股定理得：\n$OC=\\sqrt{OA^2-AC^2}=\\sqrt{4-1}=\\sqrt{3}$，因此$CD=2-\\sqrt{3}$。\n**解决方法3**：适用条件：建立平面直角坐标系，用坐标差求竖直线段长度\n以O为原点，OC所在直线为y轴建立平面直角坐标系，A点坐标为$(-1,\\sqrt{3})$，B点坐标为$(1,\\sqrt{3})$，故C点坐标为$(0,\\sqrt{3})$，D为弧AB与y轴正半轴交点，坐标为$(0,2)$，因此$CD=2-\\sqrt{3}$。\n**分析**：CD已求得为$2-\\sqrt{3}$，OA=2，AB=2，代入公式即可计算s的值。\n**目标解决3**：需解决目标：代入公式计算s的最终值\n**解决方法1**：适用条件：公式所有参数已知时直接代入计算\n先计算$CD^2=(2-\\sqrt{3})^2=4-4\\sqrt{3}+3=7-4\\sqrt{3}$，因此$\\frac{CD^2}{OA}=\\frac{7-4\\sqrt{3}}{2}$，则：\n$s=AB+\\frac{CD^2}{OA}=2+\\frac{7-4\\sqrt{3}}{2}=\\frac{4+7-4\\sqrt{3}}{2}=\\frac{11-4\\sqrt{3}}{2}$。\n**合理性验证**：真实弧长为$\\frac{60\\pi\\times2}{180}=\\frac{2\\pi}{3}\\approx2.094$，计算所得近似值$\\frac{11-4\\sqrt{3}}{2}\\approx\\frac{11-6.928}{2}\\approx2.036$，略小于真实弧长，符合近似公式特征，结果合理。\n最终答案对应选项$\\boxed{B}$。"
+    }
+  ]
+}

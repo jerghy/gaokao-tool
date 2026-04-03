@@ -1,0 +1,50 @@
+{
+  "id": "20260321124805",
+  "created_at": "2026-03-21 12:48:05",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321124737_7d38ef1e.png",
+        "display": "center",
+        "width": 450,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.027624309392265192,
+          "x": 0.5851602209944752,
+          "y": 0.03452433823529412
+        }
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321124758_6c032926.png",
+        "display": "center",
+        "width": 70,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.15953307392996108,
+          "x": 0.40831906614785995,
+          "y": 0.1534090909090909
+        }
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "math_thinking_chain": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "content": "**分析**：首先逐句翻译题干信息：1. 依据三角形基本定义，△ABC内角A,B,C的取值范围均为$(0,\\pi)$，因此$\\sin A>0$，边长$a,b,c$均为正数；2. 已知等式$b\\sin A+a\\cos B=0$同时包含边$a,b$和角的三角函数，最终目标是求角$B$，可采用「正弦定理边化角」「余弦定理角化边」「坐标几何法」三类路径求解，优先选择消元效率最高的边化角思路。\n**目标解决1**：需解决目标：推导角$B$的三角函数值，结合内角范围确定$B$的大小\n**解决方法1**：适用条件：三角形中等式同时包含边和对应角的正弦，目标求角时，优先用正弦定理实现边化角，消去公共参数简化方程\n根据正弦定理$\\frac{a}{\\sin A}=\\frac{b}{\\sin B}=2R$（$R$为△ABC外接圆半径，$R\\neq0$），可得$a=2R\\sin A$，$b=2R\\sin B$，代入已知等式得：\n$$2R\\sin B\\cdot\\sin A + 2R\\sin A\\cdot\\cos B = 0$$\n由于$R\\neq0$、$\\sin A>0$，两边同时除以$2R\\sin A$，化简得：\n$$\\sin B + \\cos B = 0$$\n移项得$\\sin B=-\\cos B$，因为$B\\in(0,\\pi)$，$\\cos B\\neq0$（若$\\cos B=0$则$\\sin B=\\pm1$，等式不成立），两边除以$\\cos B$得：\n$$\\tan B=-1$$\n结合$B\\in(0,\\pi)$，可得$B=\\frac{3\\pi}{4}$。\n**解决方法2**：适用条件：等式包含角的余弦项时，可结合余弦定理将三角函数转化为边的关系，再配合正弦定理消元求解\n根据余弦定理$\\cos B=\\frac{a^2+c^2-b^2}{2ac}$，代入已知等式得：\n$$b\\sin A + a\\cdot\\frac{a^2+c^2-b^2}{2ac}=0$$\n约去第二项分子分母的$a$，得$b\\sin A+\\frac{a^2+c^2-b^2}{2c}=0$，再结合正弦定理$\\sin A=\\frac{a\\sin B}{b}$代入上式：\n$$b\\cdot\\frac{a\\sin B}{b}+\\frac{a^2+c^2-b^2}{2c}=0$$\n化简第一项得$a\\sin B$，两边乘$2c$得$2ac\\sin B + a^2+c^2-b^2=0$，再根据余弦定理$a^2+c^2-b^2=2ac\\cos B$，代入得：\n$$2ac\\sin B + 2ac\\cos B=0$$\n由于$a,c>0$，约去$2ac$得$\\sin B+\\cos B=0$，后续推导同方法1，得$\\tan B=-1$，$B=\\frac{3\\pi}{4}$。\n**解决方法3**：适用条件：可建立坐标系将三角形边长、角度转化为坐标关系，适合对三角恒等变换不熟悉的场景\n将点$B$放在坐标原点，$BC$边放在$x$轴正半轴，设$B(0,0)$、$C(a,0)$、$A(x,y)$（$y>0$），则$\\cos B=\\frac{\\overrightarrow{BA}\\cdot\\overrightarrow{BC}}{|\\overrightarrow{BA}||\\overrightarrow{BC}|}=\\frac{x}{c}$，$\\sin A$可由正弦定理得$\\sin A=\\frac{a\\sin B}{b}$，代入已知等式得：\n$$b\\cdot\\frac{a\\sin B}{b} + a\\cdot\\frac{x}{c}=0$$\n约去公共项$a$得$\\sin B + \\frac{x}{c}=0$，而$x=c\\cos B$，代入得$\\sin B+\\cos B=0$，同理得$B=\\frac{3\\pi}{4}$。\n**分析**：现在做合理性验证：1. 取值范围验证：$B=\\frac{3\\pi}{4}\\in(0,\\pi)$，符合三角形内角要求，剩余两内角和为$\\frac{\\pi}{4}>0$，满足内角和定理；2. 原式匹配验证：将$\\sin B=\\frac{\\sqrt{2}}{2}$、$\\cos B=-\\frac{\\sqrt{2}}{2}$代入原式，结合正弦定理$b=\\frac{a\\sin B}{\\sin A}$，代入得$\\frac{a\\sin B}{\\sin A}\\cdot\\sin A + a\\cos B=a\\cdot\\frac{\\sqrt{2}}{2} + a\\cdot(-\\frac{\\sqrt{2}}{2})=0$，完全符合题干等式，结果正确。\n最终答案：$\\boldsymbol{B=\\frac{3\\pi}{4}}$"
+    }
+  ]
+}

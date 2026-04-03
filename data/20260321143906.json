@@ -5,17 +5,11 @@
     "items": [
       {
         "type": "image",
-        "src": "img/20260321143845_8a30ed90.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_h16pvxba"
       },
       {
         "type": "image",
-        "src": "img/20260321143851_d8976940.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_l989fooo"
       }
     ]
   },

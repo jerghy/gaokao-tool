@@ -1,0 +1,47 @@
+{
+  "id": "20260321144813",
+  "created_at": "2026-03-21 14:48:13",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321144743_b81e4bc4.png",
+        "display": "center",
+        "width": 448,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.025423728813559324,
+          "x": 0.4864406779661017,
+          "y": 0.1885593220338983
+        }
+      },
+      {
+        "type": "image",
+        "src": "img/20260321144756_8b7bc689.png",
+        "display": "center",
+        "width": 450,
+        "height": "auto"
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "richtext",
+        "content": "C",
+        "fragments": [
+          {
+            "text": "C",
+            "underline": false
+          }
+        ]
+      }
+    ]
+  },
+  "tags": [
+    "化学",
+    "思维"
+  ],
+  "sub_questions": []
+}

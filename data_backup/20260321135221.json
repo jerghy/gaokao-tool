@@ -1,0 +1,63 @@
+{
+  "id": "20260321135221",
+  "created_at": "2026-03-21 13:52:21",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321135141_3ff81a1f.png",
+        "display": "center",
+        "width": 400,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.03790849673202614,
+          "x": 0.3872549019607843,
+          "y": 0.14556755102040816
+        }
+      },
+      {
+        "type": "image",
+        "src": "img/20260321135152_f5afa7df.png",
+        "display": "center",
+        "width": 400,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.036601307189542485,
+          "x": 0.39248366013071895,
+          "y": 0.12261074380165289
+        }
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321135208_ce414dbd.png",
+        "display": "center",
+        "width": 30,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.38144329896907214,
+          "x": 0.3704896907216495,
+          "y": 0.33152173913043476
+        }
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "math_thinking_chain": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "content": "**分析**：首先对题干信息做翻译和推演：1. 根据三角形内角定义，$A,B,C\\in(0,\\pi)$，故$\\sin B>0$，$\\sin C>0$，边$a,b,c>0$；2. 第一个已知条件$b\\sin C + c\\sin B = 4a\\sin B \\sin C$，属于边角混合等式，符合正弦定理边角互化的适用场景；3. 第二个已知条件$b^2+c^2-a^2=8$，完全匹配余弦定理的左侧结构，同时三角形面积公式为$S=\\frac{1}{2}bc\\sin A$，逆推可知要得到面积，需先确定$\\sin A$和$bc$的值，或直接得到$bc\\sin A$的乘积。\n**目标解决1**：需解决目标：求角A的正弦值$\\sin A$\n**解决方法1**：适用条件：等式所有项均为一次边与正弦的乘积形式，可直接用正弦定理全量边角互化\n根据正弦定理$\\frac{a}{\\sin A}=\\frac{b}{\\sin B}=\\frac{c}{\\sin C}=2R$（$R$为$\\triangle ABC$外接圆半径，$R\\neq0$），得$b=2R\\sin B$，$c=2R\\sin C$，$a=2R\\sin A$，代入原式：\n左边：$2R\\sin B \\cdot \\sin C + 2R\\sin C \\cdot \\sin B = 4R\\sin B \\sin C$\n右边：$4 \\cdot 2R\\sin A \\cdot \\sin B \\sin C = 8R\\sin A \\sin B \\sin C$\n等式两边相等，且$R\\neq0,\\sin B>0,\\sin C>0$，两边同时约去$4R\\sin B \\sin C$，得$1=2\\sin A$，即$\\sin A=\\frac{1}{2}$。\n**解决方法2**：适用条件：等式每一项都含有公因子$\\sin B\\sin C$且不为0，可先约去公因子简化计算\n原式两边同时除以$\\sin B \\sin C$，得$\\frac{b}{\\sin B} + \\frac{c}{\\sin C} = 4a$，由正弦定理可知$\\frac{b}{\\sin B}=\\frac{c}{\\sin C}=2R$，故左边为$2R+2R=4R$，右边$4a=4\\cdot2R\\sin A$，因此$4R=8R\\sin A$，约去$4R$得$\\sin A=\\frac{1}{2}$，计算更简便。\n**分析**：由$\\sin A=\\frac{1}{2}$，$A\\in(0,\\pi)$，得$A=\\frac{\\pi}{6}$或$A=\\frac{5\\pi}{6}$，结合第二个已知条件$b^2+c^2-a^2=8>0$，由余弦定理$\\cos A=\\frac{b^2+c^2-a^2}{2bc}$，$bc>0$，故$\\cos A>0$，因此排除$A=\\frac{5\\pi}{6}$（此时$\\cos A=-\\frac{\\sqrt{3}}{2}<0$），得$\\cos A=\\frac{\\sqrt{3}}{2}$。现在需要求面积，面积公式$S=\\frac{1}{2}bc\\sin A$，已知$\\sin A=\\frac{1}{2}$，故只需得到$bc$的值，或直接推导$bc\\sin A$的乘积。\n**目标解决2**：需解决目标：求$\\triangle ABC$的面积$S$\n**解决方法1**：适用条件：已知$b^2+c^2-a^2$和$\\cos A$，可直接通过余弦定理变形求$bc$，再代入面积公式\n由余弦定理$\\cos A=\\frac{b^2+c^2-a^2}{2bc}$，代入$\\cos A=\\frac{\\sqrt{3}}{2}$，$b^2+c^2-a^2=8$，得：\n$\\frac{\\sqrt{3}}{2}=\\frac{8}{2bc}$，化简得$\\frac{\\sqrt{3}}{2}=\\frac{4}{bc}$，交叉相乘得$bc=\\frac{8}{\\sqrt{3}}=\\frac{8\\sqrt{3}}{3}$\n代入面积公式：$S=\\frac{1}{2}bc\\sin A=\\frac{1}{2} \\times \\frac{8\\sqrt{3}}{3} \\times \\frac{1}{2}=\\frac{2\\sqrt{3}}{3}$\n**解决方法2**：适用条件：已知$b^2+c^2-a^2$和$\\sin A$、$\\cos A$的关系，可通过代换直接求面积，无需计算$bc$\n由余弦定理得$b^2+c^2-a^2=2bc\\cos A=8$，故$bc\\cos A=4$，两边同时乘以$\\tan A$得$bc\\cos A \\cdot \\frac{\\sin A}{\\cos A}=bc\\sin A=4\\tan A$\n已知$\\tan A=\\frac{\\sin A}{\\cos A}=\\frac{\\frac{1}{2}}{\\frac{\\sqrt{3}}{2}}=\\frac{1}{\\sqrt{3}}$，故$bc\\sin A=4\\times\\frac{1}{\\sqrt{3}}=\\frac{4\\sqrt{3}}{3}$\n代入面积公式$S=\\frac{1}{2}bc\\sin A=\\frac{1}{2}\\times\\frac{4\\sqrt{3}}{3}=\\frac{2\\sqrt{3}}{3}$，计算量更小。\n**分析**：合理性验证：1. 结果$\\frac{2\\sqrt{3}}{3}>0$，符合三角形面积为正的要求；2. 代入原条件验证：$b\\sin C +c\\sin B=4a\\sin B\\sin C$，由正弦定理左边为$4R\\sin B\\sin C$，右边为$4a\\sin B\\sin C=4\\times2R\\times\\frac{1}{2}\\sin B\\sin C=4R\\sin B\\sin C$，等式成立；3. 角A的取值排除了钝角情况，符合$b^2+c^2-a^2>0$的条件，无逻辑矛盾。\n最终$\\triangle ABC$的面积为$\\boxed{\\frac{2\\sqrt{3}}{3}}$。"
+    }
+  ]
+}

@@ -34,6 +34,15 @@ def parse_items(items: list[dict], base_path: str) -> tuple[str, list[str]]:
     text_parts = []
     image_paths = []
 
+    images_json_path = os.path.join(base_path, "images.json")
+    images_data = {}
+    if os.path.exists(images_json_path):
+        try:
+            with open(images_json_path, "r", encoding="utf-8") as f:
+                images_data = json.load(f)
+        except (json.JSONDecodeError, IOError):
+            pass
+
     for item in items:
         item_type = item.get("type", "")
 
@@ -47,6 +56,16 @@ def parse_items(items: list[dict], base_path: str) -> tuple[str, list[str]]:
 
         elif item_type == "image":
             src = item.get("src", "")
+            config_id = item.get("config_id", "")
+            
+            if config_id and images_data:
+                config = images_data.get("configs", {}).get(config_id)
+                if config:
+                    image_id = config.get("image_id")
+                    image_info = images_data.get("images", {}).get(image_id)
+                    if image_info:
+                        src = image_info.get("path", "")
+            
             if src:
                 image_name = os.path.basename(src)
                 placeholder = f"[图片:{image_name}]"

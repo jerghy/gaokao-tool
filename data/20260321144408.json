@@ -5,10 +5,7 @@
     "items": [
       {
         "type": "image",
-        "src": "img/20260321144402_d3c2b801.png",
-        "display": "center",
-        "width": 300,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_yy9hehrc"
       }
     ]
   },

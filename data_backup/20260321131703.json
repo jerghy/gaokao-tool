@@ -1,0 +1,47 @@
+{
+  "id": "20260321131703",
+  "created_at": "2026-03-21 13:17:03",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321131642_3656e2f2.png",
+        "display": "center",
+        "width": 450,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.02920443101711984,
+          "x": 0.2502517623363545,
+          "y": 0.07462686567164178
+        }
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "richtext",
+        "content": "B",
+        "fragments": [
+          {
+            "text": "B",
+            "underline": false
+          }
+        ]
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "math_thinking_chain": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "content": "**分析**：首先逐句翻译题干信息：1. 根据正弦差角展开公式$\\sin(A-B)=\\sin A\\cos B-\\cos A\\sin B$，可将$\\sin(\\alpha-\\beta)=\\frac{1}{3}$翻译为$\\sin\\alpha\\cos\\beta - \\cos\\alpha\\sin\\beta=\\frac{1}{3}$；2. 题干直接给出$\\cos\\alpha\\sin\\beta=\\frac{1}{6}$。逆推最终目标：$\\cos(2\\alpha+2\\beta)=\\cos\\left[2(\\alpha+\\beta)\\right]$，根据二倍角余弦公式，只需要求出$\\sin(\\alpha+\\beta)$或$\\cos(\\alpha+\\beta)$即可计算结果，而$\\sin(\\alpha+\\beta)=\\sin\\alpha\\cos\\beta+\\cos\\alpha\\sin\\beta$，刚好可以通过已知条件推导得到，因此优先选择该路径。\n**目标解决1**：需解决目标：求$\\sin\\alpha\\cos\\beta$的值\n**解决方法1**：适用条件：已知两角差的正弦展开式，以及其中一个交叉乘积项的值，直接代入求解\n推导过程：将$\\cos\\alpha\\sin\\beta=\\frac{1}{6}$代入$\\sin\\alpha\\cos\\beta - \\cos\\alpha\\sin\\beta=\\frac{1}{3}$，移项得$\\sin\\alpha\\cos\\beta=\\frac{1}{3}+\\frac{1}{6}=\\frac{1}{2}$，结果符合正弦余弦乘积的值域要求，正确。\n**分析**：已经得到$\\sin\\alpha\\cos\\beta$和$\\cos\\alpha\\sin\\beta$的值，接下来即可计算$\\sin(\\alpha+\\beta)$。\n**目标解决2**：需解决目标：求$\\sin(\\alpha+\\beta)$的值\n**解决方法1**：适用条件：已知两角的正弦余弦交叉乘积项，直接使用正弦和角公式计算\n推导过程：根据正弦和角公式$\\sin(A+B)=\\sin A\\cos B+\\cos A\\sin B$，代入$\\sin\\alpha\\cos\\beta=\\frac{1}{2}$、$\\cos\\alpha\\sin\\beta=\\frac{1}{6}$，得$\\sin(\\alpha+\\beta)=\\frac{1}{2}+\\frac{1}{6}=\\frac{2}{3}$，结果在[-1,1]范围内，符合正弦函数值域要求。\n**目标解决3**：需解决目标：求$\\cos(2\\alpha+2\\beta)$的值\n**解决方法1**：适用条件：已知单角的正弦值，求其二倍角的余弦值，优先选用含正弦平方的二倍角公式，无需判断符号\n推导过程：由二倍角余弦公式$\\cos2\\theta=1-2\\sin^2\\theta$，令$\\theta=\\alpha+\\beta$，则$\\cos(2\\alpha+2\\beta)=\\cos2\\theta=1-2\\sin^2\\theta$，代入$\\sin\\theta=\\frac{2}{3}$，得原式$=1-2\\times\\left(\\frac{2}{3}\\right)^2=1-\\frac{8}{9}=\\frac{1}{9}$。\n**解决方法2**：适用条件：题干同时出现两角和、两角差结构的三角函数，可采用换元法+积化和差公式简化计算\n推导过程：令$x=\\alpha+\\beta$，$y=\\alpha-\\beta$，已知$\\sin y=\\frac{1}{3}$，将$\\alpha=\\frac{x+y}{2}$、$\\beta=\\frac{x-y}{2}$代入$\\cos\\alpha\\sin\\beta=\\frac{1}{6}$，得$\\cos\\left(\\frac{x+y}{2}\\right)\\sin\\left(\\frac{x-y}{2}\\right)=\\frac{1}{6}$。根据积化和差公式$\\cos A\\sin B=\\frac{1}{2}\\left[\\sin(A+B)-\\sin(A-B)\\right]$，代入得左边$=\\frac{1}{2}\\left[\\sin x - \\sin y\\right]=\\frac{1}{6}$，代入$\\sin y=\\frac{1}{3}$，解得$\\sin x=\\frac{2}{3}$，即$\\sin(\\alpha+\\beta)=\\frac{2}{3}$，后续同方法1计算得$\\cos2x=1-2\\times\\left(\\frac{2}{3}\\right)^2=\\frac{1}{9}$。\n**分析**：合理性验证：所有推导步骤均使用高中课标内的三角函数公式，无超纲内容，计算得到的$\\sin(\\alpha+\\beta)=\\frac{2}{3}$、$\\cos(2\\alpha+2\\beta)=\\frac{1}{9}$均符合三角函数值域要求，代入题干原始条件验证无矛盾，结果正确。\n最终答案为$\\boxed{\\frac{1}{9}}$，对应选项B。"
+    }
+  ]
+}

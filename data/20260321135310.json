@@ -5,16 +5,7 @@
     "items": [
       {
         "type": "image",
-        "src": "img/20260321135233_b0726d37.png",
-        "display": "center",
-        "width": 400,
-        "height": "auto",
-        "charBox": {
-          "fontSize": "medium",
-          "size": 0.0356718192627824,
-          "x": 0.5439952437574316,
-          "y": 0.05787037037037037
-        }
+        "config_id": "cfg_20260403210203_t3jhq87m"
       }
     ]
   },
@@ -22,42 +13,15 @@
     "items": [
       {
         "type": "image",
-        "src": "img/20260321135248_ed2d21ee.png",
-        "display": "center",
-        "width": 300,
-        "height": "auto",
-        "charBox": {
-          "fontSize": "medium",
-          "size": 0.0449438202247191,
-          "x": 0.41760299625468167,
-          "y": 0.009523809523809525
-        }
+        "config_id": "cfg_20260403210203_xqbk8jlg"
       },
       {
         "type": "image",
-        "src": "img/20260321135257_336d6b5d.png",
-        "display": "center",
-        "width": 300,
-        "height": "auto",
-        "charBox": {
-          "fontSize": "medium",
-          "size": 0.039440203562340966,
-          "x": 0.455470737913486,
-          "y": 0.04878048780487805
-        }
+        "config_id": "cfg_20260403210203_l0tod2rd"
       },
       {
         "type": "image",
-        "src": "img/20260321135304_8ad187cc.png",
-        "display": "center",
-        "width": 300,
-        "height": "auto",
-        "charBox": {
-          "fontSize": "medium",
-          "size": 0.044897959183673466,
-          "x": 0.2904761904761905,
-          "y": 0.026376146788990827
-        }
+        "config_id": "cfg_20260403210203_zhizr8so"
       }
     ]
   },

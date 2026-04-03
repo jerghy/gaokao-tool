@@ -5,16 +5,7 @@
     "items": [
       {
         "type": "image",
-        "src": "img/20260321124648_042725fe.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto",
-        "charBox": {
-          "fontSize": "medium",
-          "size": 0.028413575374901343,
-          "x": 0.5022872928176796,
-          "y": 0.10703559322033898
-        }
+        "config_id": "cfg_20260403210203_98qiouxl"
       }
     ]
   },
@@ -22,16 +13,7 @@
     "items": [
       {
         "type": "image",
-        "src": "img/20260321124657_659b9444.png",
-        "display": "center",
-        "width": 70,
-        "height": "auto",
-        "charBox": {
-          "fontSize": "medium",
-          "size": 0.1646586345381526,
-          "x": 0.47766265060240964,
-          "y": 0.14903846153846154
-        }
+        "config_id": "cfg_20260403210203_qe4otzlx"
       }
     ]
   },

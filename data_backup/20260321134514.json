@@ -1,0 +1,50 @@
+{
+  "id": "20260321134514",
+  "created_at": "2026-03-21 13:45:14",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321134458_7317e01b.png",
+        "display": "center",
+        "width": 450,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.0308839190628328,
+          "x": 0.40628328008519704,
+          "y": 0.18902439024390244
+        }
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321134506_bbe12c1a.png",
+        "display": "center",
+        "width": 100,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.13875598086124402,
+          "x": 0.17673444976076555,
+          "y": 0.24675324675324675
+        }
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "math_thinking_chain": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "content": "**分析**：首先对题干信息做翻译和推演：1. 由条件$\\alpha+\\beta=\\frac{\\pi}{2}$，根据诱导公式$\\sin(\\frac{\\pi}{2}-x)=\\cos x$、$\\cos(\\frac{\\pi}{2}-x)=\\sin x$，可得$\\sin\\beta=\\cos\\alpha$，$\\cos\\beta=\\sin\\alpha$，同时$2\\beta=\\pi-2\\alpha$，进一步推导得$\\cos2\\beta=\\cos(\\pi-2\\alpha)=-\\cos2\\alpha$；2. 把$\\sin\\beta=\\cos\\alpha$代入第一个已知条件$3\\sin\\alpha - \\sin\\beta=\\sqrt{10}$，可得到仅含$\\alpha$的三角方程：$3\\sin\\alpha - \\cos\\alpha=\\sqrt{10}$。顺推路径：解该方程求出$\\sin\\alpha$，再通过诱导公式或二倍角公式求$\\cos2\\beta$；逆推路径：要求$\\sin\\alpha$需先消去$\\beta$，要求$\\cos2\\beta$可先求$\\sin\\beta$或$\\cos\\beta$，也可通过$\\alpha$的二倍角间接求解。\n**目标解决1**：需解决目标：求解$\\sin\\alpha$的值\n**解决方法1**：适用条件：遇到形如$A\\sin x + B\\cos x = C$的线性三角方程，优先用辅助角公式化简求解\n推导过程：对$3\\sin\\alpha - \\cos\\alpha$提取$\\sqrt{3^2 + (-1)^2}=\\sqrt{10}$，可得：\n$$3\\sin\\alpha - \\cos\\alpha = \\sqrt{10}\\left(\\frac{3}{\\sqrt{10}}\\sin\\alpha - \\frac{1}{\\sqrt{10}}\\cos\\alpha\\right) = \\sqrt{10}$$\n两边同除以$\\sqrt{10}$得：$\\frac{3}{\\sqrt{10}}\\sin\\alpha - \\frac{1}{\\sqrt{10}}\\cos\\alpha = 1$，设$\\cos\\varphi=\\frac{3}{\\sqrt{10}},\\sin\\varphi=\\frac{1}{\\sqrt{10}}$，根据两角差的正弦公式，左边可化为$\\sin(\\alpha - \\varphi)=1$，因此$\\alpha - \\varphi = \\frac{\\pi}{2} + 2k\\pi(k\\in\\mathbb{Z})$，则$\\sin\\alpha = \\sin\\left(\\frac{\\pi}{2} + \\varphi + 2k\\pi\\right) = \\cos\\varphi = \\frac{3}{\\sqrt{10}} = \\frac{3\\sqrt{10}}{10}$。\n**解决方法2**：适用条件：已知含$\\sin x$和$\\cos x$的线性等式，结合同角三角函数平方关系，用方程思想联立求解\n推导过程：由$3\\sin\\alpha - \\cos\\alpha = \\sqrt{10}$可得$\\cos\\alpha = 3\\sin\\alpha - \\sqrt{10}$，代入$\\sin^2\\alpha + \\cos^2\\alpha = 1$得：\n$$\\sin^2\\alpha + (3\\sin\\alpha - \\sqrt{10})^2 = 1$$\n展开化简：$\\sin^2\\alpha +9\\sin^2\\alpha -6\\sqrt{10}\\sin\\alpha +10 = 1 \\implies 10\\sin^2\\alpha -6\\sqrt{10}\\sin\\alpha +9=0$，该一元二次方程判别式$\\Delta=(6\\sqrt{10})^2 -4\\times10\\times9=0$，因此唯一解为$\\sin\\alpha = \\frac{6\\sqrt{10}}{2\\times10} = \\frac{3\\sqrt{10}}{10}$。\n**分析**：已经求得$\\sin\\alpha=\\frac{3\\sqrt{10}}{10}$，接下来可通过两种路径求$\\cos2\\beta$：一是通过$\\alpha$和$\\beta$的诱导关系，将$\\cos2\\beta$转化为与$\\alpha$相关的三角函数计算；二是先求$\\sin\\beta$或$\\cos\\beta$的值，直接用二倍角公式计算。\n**目标解决2**：需解决目标：求解$\\cos2\\beta$的值\n**解决方法1**：适用条件：已知两个角的和为$\\frac{\\pi}{2}$，求其中一角的二倍角余弦，利用诱导公式转化为另一角的二倍角计算，复用已求出的$\\sin\\alpha$结果\n推导过程：由$\\alpha+\\beta=\\frac{\\pi}{2}$得$2\\beta=\\pi-2\\alpha$，根据诱导公式$\\cos(\\pi - x)=-\\cos x$，得$\\cos2\\beta=\\cos(\\pi-2\\alpha)=-\\cos2\\alpha$。再由二倍角公式$\\cos2\\alpha=1-2\\sin^2\\alpha$，代入$\\sin\\alpha=\\frac{3\\sqrt{10}}{10}$，得$\\sin^2\\alpha=\\frac{9\\times10}{100}=\\frac{9}{10}$，因此$\\cos2\\alpha=1-2\\times\\frac{9}{10}=-\\frac{4}{5}$，故$\\cos2\\beta= -(-\\frac{4}{5})=\\frac{4}{5}$。\n**解决方法2**：适用条件：已求出$\\sin\\alpha$的值，先求$\\cos\\beta$，直接用二倍角公式的余弦形式计算\n推导过程：由$\\alpha+\\beta=\\frac{\\pi}{2}$得$\\cos\\beta=\\sin\\alpha=\\frac{3\\sqrt{10}}{10}$，根据二倍角公式$\\cos2\\beta=2\\cos^2\\beta -1$，代入得$\\cos2\\beta=2\\times\\left(\\frac{3\\sqrt{10}}{10}\\right)^2 -1 = 2\\times\\frac{9}{10} -1 = \\frac{18}{10}-1=\\frac{4}{5}$。\n**解决方法3**：适用条件：已求出$\\sin\\alpha$的值，先求$\\sin\\beta$，直接用二倍角公式的正弦形式计算\n推导过程：由$\\alpha+\\beta=\\frac{\\pi}{2}$得$\\sin\\beta=\\cos\\alpha=3\\sin\\alpha - \\sqrt{10}=3\\times\\frac{3\\sqrt{10}}{10}-\\sqrt{10}=-\\frac{\\sqrt{10}}{10}$，根据二倍角公式$\\cos2\\beta=1-2\\sin^2\\beta$，代入得$\\cos2\\beta=1-2\\times\\left(-\\frac{\\sqrt{10}}{10}\\right)^2=1-2\\times\\frac{1}{10}=\\frac{4}{5}$。\n**分析**：合理性验证：1. $\\sin\\alpha=\\frac{3\\sqrt{10}}{10}\\in[-1,1]$，$\\cos2\\beta=\\frac{4}{5}\\in[-1,1]$，符合三角函数取值范围；2. 代入题干条件验证：$3\\sin\\alpha - \\sin\\beta=3\\times\\frac{3\\sqrt{10}}{10} - (-\\frac{\\sqrt{10}}{10})=\\frac{10\\sqrt{10}}{10}=\\sqrt{10}$，完全符合题干条件，结果正确。\n最终答案：$\\boldsymbol{\\sin\\alpha=\\frac{3\\sqrt{10}}{10}}$，$\\boldsymbol{\\cos2\\beta=\\frac{4}{5}}$。"
+    }
+  ]
+}

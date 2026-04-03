@@ -5,31 +5,19 @@
     "items": [
       {
         "type": "image",
-        "src": "img/20260321141427_3260c466.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_srvxmhna"
       },
       {
         "type": "image",
-        "src": "img/20260321141433_d0739365.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_t8g61e1a"
       },
       {
         "type": "image",
-        "src": "img/20260321141441_e6b6c594.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_qeqee1y4"
       },
       {
         "type": "image",
-        "src": "img/20260321141449_fddbe695.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_a5dkbhk3"
       }
     ]
   },
@@ -37,17 +25,11 @@
     "items": [
       {
         "type": "image",
-        "src": "img/20260321141517_ea387158.png",
-        "display": "center",
-        "width": 300,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_ifmgitio"
       },
       {
         "type": "image",
-        "src": "img/20260321141524_c7a7e693.png",
-        "display": "center",
-        "width": 300,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_9wa6phdi"
       }
     ]
   },

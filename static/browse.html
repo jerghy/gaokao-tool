@@ -1629,6 +1629,8 @@
                         const newItem = {
                             id: ++itemCounter,
                             type: 'image',
+                            image_id: result.image_id,
+                            config_id: null,
                             src: result.path,
                             display: 'center',
                             width: 300,
@@ -2229,6 +2231,8 @@
                             sq.question_text.items.push({
                                 id: Date.now(),
                                 type: 'image',
+                                image_id: result.image_id,
+                                config_id: null,
                                 src: result.path,
                                 display: 'center',
                                 width: 300,
@@ -2360,7 +2364,8 @@
                         imgClass = 'preview-image-float-right';
                     }
                     const heightStyle = item.height === 'auto' ? 'auto' : `${item.height}px`;
-                    html += `<img src="${item.base64 || API_BASE + '/' + item.src}" class="${imgClass}" style="width: ${item.width}px; height: ${heightStyle};" alt="图片">`;
+                    const imgSrc = item.base64 || (item.src && !item.src.startsWith('http') ? '/' + item.src : item.src);
+                    html += `<img src="${imgSrc}" class="${imgClass}" style="width: ${item.width}px; height: ${heightStyle};" alt="图片">`;
                 }
             });
             
@@ -2669,12 +2674,12 @@
 
             questionItems.forEach(item => {
                 if (item.type === 'image' && item.src && !item.base64) {
-                    item.base64 = API_BASE + '/' + item.src;
+                    item.base64 = item.src.startsWith('http') ? item.src : '/' + item.src;
                 }
             });
             answerItems.forEach(item => {
                 if (item.type === 'image' && item.src && !item.base64) {
-                    item.base64 = API_BASE + '/' + item.src;
+                    item.base64 = item.src.startsWith('http') ? item.src : '/' + item.src;
                 }
             });
 
@@ -2854,6 +2859,12 @@
                                     width: item.width,
                                     height: item.height
                                 };
+                                if (item.image_id) {
+                                    result.image_id = item.image_id;
+                                }
+                                if (item.config_id) {
+                                    result.config_id = item.config_id;
+                                }
                                 if (item.charBox) {
                                     result.charBox = item.charBox;
                                 }
@@ -2964,6 +2975,12 @@
                             width: item.width,
                             height: item.height
                         };
+                        if (item.image_id) {
+                            result.image_id = item.image_id;
+                        }
+                        if (item.config_id) {
+                            result.config_id = item.config_id;
+                        }
                         if (item.charBox) {
                             result.charBox = item.charBox;
                         }

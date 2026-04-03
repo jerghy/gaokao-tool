@@ -1,0 +1,54 @@
+{
+  "id": "20260321130103",
+  "created_at": "2026-03-21 13:01:03",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321125718_fc42c08c.png",
+        "display": "center",
+        "width": 450,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.025256511444356748,
+          "x": 0.41388950276243097,
+          "y": 0.12875444444444445
+        }
+      }
+    ]
+  },
+  "answer": {
+    "items": [
+      {
+        "type": "image",
+        "src": "img/20260321125747_231cad59.png",
+        "display": "center",
+        "width": 400,
+        "height": "auto",
+        "charBox": {
+          "fontSize": "medium",
+          "size": 0.03164556962025317,
+          "x": 0.3088898734177215,
+          "y": 0.24339
+        },
+        "splitLines": [
+          0.219,
+          0.743
+        ]
+      }
+    ]
+  },
+  "tags": [
+    "数学",
+    "思维"
+  ],
+  "sub_questions": [],
+  "math_thinking_chain": [
+    {
+      "target_id": "full",
+      "target_label": "整个题目",
+      "content": "### 第一问\n**分析**：题干已知等式分子为$b^2+c^2-a^2，符合余弦定理的结构特征，我们可以通过余弦定理关联边与角的关系，消去公共项后直接得到$bc$的取值，目前有代入余弦定理变形、替换$\\cos A$为边的表达式两种路径可选择。\n**目标解决1**：需解决目标：化简已知等式$\\frac{b^2 + c^2 - a^2}{\\cos A}=2$，求出$bc$的值\n**解决方法1**：适用条件：已知式同时包含$b^2+c^2-a^2$和$\\cos A$，可直接代入余弦定理变形公式消元\n根据余弦定理，对任意$\\triangle ABC$有$a^2 = b^2 + c^2 - 2bc\\cos A$，移项得$b^2 + c^2 - a^2 = 2bc\\cos A$，代入已知等式左侧：\n$$\\frac{b^2 + c^2 - a^2}{\\cos A}=\\frac{2bc\\cos A}{\\cos A}$$\n因为原式分母为$\\cos A$，所以$\\cos A\\neq0$，约分得左侧$=2bc$，结合已知$2bc=2$，解得$bc=1$。\n**解决方法2**：适用条件：已知式为边角混合式，可将角的余弦统一替换为边的表达式，消元求解\n根据余弦定理，$\\cos A=\\frac{b^2+c^2-a^2}{2bc}$，代入已知等式分母得：\n$$\\frac{b^2 + c^2 - a^2}{\\cos A}=\\frac{b^2 + c^2 - a^2}{\\frac{b^2+c^2-a^2}{2bc}}=2bc$$\n因为$\\cos A\\neq0$，所以$b^2+c^2-a^2\\neq0$，约分得左侧$=2bc=2$，解得$bc=1$。\n**分析**：两种方法均得到$bc=1$，$bc$为边长乘积为正，符合取值要求，第一问结果正确。\n\n---\n\n### 第二问\n**分析**：三角形面积公式为$S=\\frac{1}{2}bc\\sin A$，第一问已经求得$bc=1$，因此核心目标是求出$\\sin A$的取值。给出的等式为边角混合式，可通过正弦定理边角互化统一为角的三角函数化简，也可通过射影定理、余弦定理统一为边的关系化简。\n**目标解决2**：需解决目标：化简等式$\\frac{a\\cos B - b\\cos A}{a\\cos B + b\\cos A} - \\frac{b}{c}=1$，求出$\\cos A$的取值\n**解决方法1**：适用条件：等式为边的齐次式与三角函数混合式，用正弦定理边角互化，统一为角的关系化简\n根据正弦定理，$a=2R\\sin A、b=2R\\sin B、c=2R\\sin C$（$R$为$\\triangle ABC$外接圆半径，$R\\neq0$），边的比值等于对应角正弦的比值。\n首先化简分母$a\\cos B + b\\cos A$：\n$$a\\cos B + b\\cos A=2R(\\sin A\\cos B + \\sin B\\cos A)=2R\\sin(A+B)$$\n因为$A+B+C=\\pi$，所以$\\sin(A+B)=\\sin C$，因此$a\\cos B + b\\cos A=2R\\sin C=c$。\n再化简分子$a\\cos B - b\\cos A$：\n$$a\\cos B - b\\cos A=2R(\\sin A\\cos B - \\sin B\\cos A)=2R\\sin(A-B)$$\n因此第一个分式可化简为$\\frac{\\sin(A-B)}{\\sin(A+B)}$，同时$\\frac{b}{c}=\\frac{\\sin B}{\\sin C}=\\frac{\\sin B}{\\sin(A+B)}$，代入原式得：\n$$\\frac{\\sin(A-B)}{\\sin(A+B)} - \\frac{\\sin B}{\\sin(A+B)}=1$$\n三角形中$\\sin(A+B)=\\sin C>0$，两边同乘$\\sin(A+B)$得：\n$$\\sin(A-B)-\\sin B=\\sin(A+B)$$\n移项后展开和差公式：\n$$\\sin(A-B)-\\sin(A+B)=(\\sin A\\cos B - \\cos A\\sin B)-(\\sin A\\cos B + \\cos A\\sin B)=-2\\cos A\\sin B=\\sin B$$\n因为$0<B<\\pi$，所以$\\sin B>0$，约去$\\sin B$得$-2\\cos A=1$，即$\\cos A=-\\frac{1}{2}$。\n**解决方法2**：适用条件：已知式包含$a\\cos B + b\\cos A$结构，可直接用射影定理简化计算\n根据射影定理，任意三角形中$a\\cos B + b\\cos A = c$，因此原式第一个分式分母为$c$，原式化简为：\n$$\\frac{a\\cos B - b\\cos A}{c} - \\frac{b}{c}=1$$\n两边同乘$c$得$a\\cos B - b\\cos A - b = c$，即$a\\cos B - b\\cos A = b + c$。\n再将$\\cos B、\\cos A$用余弦定理替换为边的表达式：\n$$a\\cdot\\frac{a^2+c^2-b^2}{2ac} - b\\cdot\\frac{b^2+c^2-a^2}{2bc} = b + c$$\n约分化简左边得：\n$$\\frac{(a^2+c^2-b^2)-(b^2+c^2-a^2)}{2c}=\\frac{2a^2-2b^2}{2c}=\\frac{a^2-b^2}{c}=b+c$$\n两边乘$c$得$a^2 - b^2 = bc + c^2$，整理得$b^2 + c^2 - a^2 = -bc$。\n结合余弦定理$b^2 + c^2 - a^2 = 2bc\\cos A$，代入得$2bc\\cos A=-bc$，因为$bc=1\\neq0$，约去得$2\\cos A=-1$，即$\\cos A=-\\frac{1}{2}$。\n**目标解决3**：需解决目标：计算$\\triangle ABC$的面积\n**解决方法1**：适用条件：已知两边乘积与夹角正弦值，用标准三角形面积公式计算\n因为$0<A<\\pi$，$\\cos A=-\\frac{1}{2}$，所以$\\sin A=\\sqrt{1-\\cos^2A}=\\sqrt{1-\\frac{1}{4}}=\\frac{\\sqrt{3}}{2}$，结合$bc=1$得：\n$$S_{\\triangle ABC}=\\frac{1}{2}bc\\sin A=\\frac{1}{2}\\times1\\times\\frac{\\sqrt{3}}{2}=\\frac{\\sqrt{3}}{4}$$\n**合理性验证**：$\\cos A=-\\frac{1}{2}$对应$A=\\frac{2\\pi}{3}$，为三角形有效内角，面积为正数符合实际，两种方法求解结果一致，最终面积为$\\frac{\\sqrt{3}}{4}$。\n\n---\n最终结论：(1) $\\boldsymbol{bc=1}$；(2) $\\triangle ABC$面积为$\\boldsymbol{\\frac{\\sqrt{3}}{4}}$。"
+    }
+  ]
+}

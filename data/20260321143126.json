@@ -5,31 +5,19 @@
     "items": [
       {
         "type": "image",
-        "src": "img/20260321143016_5d52b68f.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_m3tbm4tw"
       },
       {
         "type": "image",
-        "src": "img/20260321143030_bb42d5c7.png",
-        "display": "center",
-        "width": 449,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_n9z0shhp"
       },
       {
         "type": "image",
-        "src": "img/20260321143041_8e6acfa8.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_uqc4bpwl"
       },
       {
         "type": "image",
-        "src": "img/20260321143052_9af203bb.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_pn9bw3vx"
       }
     ]
   },
@@ -37,10 +25,7 @@
     "items": [
       {
         "type": "image",
-        "src": "img/20260321143123_9c3aee8c.png",
-        "display": "center",
-        "width": 300,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_o6oaju63"
       }
     ]
   },

@@ -5,16 +5,7 @@
     "items": [
       {
         "type": "image",
-        "src": "img/20260321131912_ec24e83e.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto",
-        "charBox": {
-          "fontSize": "medium",
-          "size": 0.02445414847161572,
-          "x": 0.3663755458515284,
-          "y": 0.064
-        }
+        "config_id": "cfg_20260403210203_msi3i7nx"
       }
     ]
   },

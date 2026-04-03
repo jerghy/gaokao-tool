@@ -15,10 +15,7 @@
       },
       {
         "type": "image",
-        "src": "img/20260314103729_de11bbf9.png",
-        "display": "center",
-        "width": 300,
-        "height": "auto"
+        "config_id": "cfg_20260403210203_02fq4gnd"
       },
       {
         "type": "richtext",

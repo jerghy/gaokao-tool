@@ -47,10 +47,7 @@
       },
       {
         "type": "image",
-        "src": "img/20260314112436_56e8a8bf.png",
-        "display": "center",
-        "width": 170,
-        "height": "auto"
+        "config_id": "cfg_20260403210203_bnh9irf3"
       },
       {
         "type": "richtext",
@@ -72,10 +69,7 @@
       },
       {
         "type": "image",
-        "src": "img/20260314112450_4535458e.png",
-        "display": "center",
-        "width": 200,
-        "height": "auto"
+        "config_id": "cfg_20260403210203_4yx0dlff"
       }
     ]
   },

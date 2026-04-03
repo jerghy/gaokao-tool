@@ -5,29 +5,11 @@
     "items": [
       {
         "type": "image",
-        "src": "img/20260321135141_3ff81a1f.png",
-        "display": "center",
-        "width": 400,
-        "height": "auto",
-        "charBox": {
-          "fontSize": "medium",
-          "size": 0.03790849673202614,
-          "x": 0.3872549019607843,
-          "y": 0.14556755102040816
-        }
+        "config_id": "cfg_20260403210203_9s15pgl1"
       },
       {
         "type": "image",
-        "src": "img/20260321135152_f5afa7df.png",
-        "display": "center",
-        "width": 400,
-        "height": "auto",
-        "charBox": {
-          "fontSize": "medium",
-          "size": 0.036601307189542485,
-          "x": 0.39248366013071895,
-          "y": 0.12261074380165289
-        }
+        "config_id": "cfg_20260403210203_6iqdkwi0"
       }
     ]
   },
@@ -35,16 +17,7 @@
     "items": [
       {
         "type": "image",
-        "src": "img/20260321135208_ce414dbd.png",
-        "display": "center",
-        "width": 30,
-        "height": "auto",
-        "charBox": {
-          "fontSize": "medium",
-          "size": 0.38144329896907214,
-          "x": 0.3704896907216495,
-          "y": 0.33152173913043476
-        }
+        "config_id": "cfg_20260403210203_nt52jm4m"
       }
     ]
   },

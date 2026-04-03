@@ -5,24 +5,15 @@
     "items": [
       {
         "type": "image",
-        "src": "img/20260321144214_ea2c7833.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_drer8tvb"
       },
       {
         "type": "image",
-        "src": "img/20260321144217_2575456d.png",
-        "display": "center",
-        "width": 200,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_c4ch5ttw"
       },
       {
         "type": "image",
-        "src": "img/20260321144233_03e3e6d2.png",
-        "display": "center",
-        "width": 450,
-        "height": "auto"
+        "config_id": "cfg_20260403210204_8l5xs7hx"
       }
     ]
   },
