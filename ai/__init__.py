@@ -75,6 +75,14 @@ from .image_annotator import (
     save_annotations_to_json,
     batch_annotate_images,
 )
+from .tag_processor import (
+    TagResult,
+    collect_all_tags,
+    generate_tags_for_question,
+    save_tags_to_json,
+    process_tags_for_question,
+    batch_process_tags,
+)
 
 __all__ = [
     "AI",
@@ -153,4 +161,10 @@ __all__ = [
     "scan_unannotated_configs",
     "save_annotations_to_json",
     "batch_annotate_images",
+    "TagResult",
+    "collect_all_tags",
+    "generate_tags_for_question",
+    "save_tags_to_json",
+    "process_tags_for_question",
+    "batch_process_tags",
 ]

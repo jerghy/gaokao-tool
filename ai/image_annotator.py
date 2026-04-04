@@ -1,14 +1,17 @@
 import os
+import re
 import json
 import threading
 from dataclasses import dataclass
 from typing import Optional, Callable
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from PIL import Image
 
 from ai.base import (
     AI,
     Model,
     ReasoningEffort,
+    call_ai,
     call_ai_json,
     build_input_content,
 )
@@ -33,14 +36,16 @@ __all__ = [
 class CharBox:
     x: float
     y: float
-    size: float
+    width: float
+    height: float
     fontSize: str = "medium"
 
     def to_dict(self) -> dict:
         return {
             "x": self.x,
             "y": self.y,
-            "size": self.size,
+            "width": self.width,
+            "height": self.height,
             "fontSize": self.fontSize,
         }
 
@@ -60,80 +65,65 @@ class ImageAnnotation:
 
 
 def get_charbox_prompt() -> str:
-    return """你是一个图片标注助手。请仔细分析图片，识别图片中字体大小约12-14pt的最小单个汉字。
-
-任务要求：
-1. 找到图片中字体大小约12-14pt的最小单个汉字
-2. 用正方形框选该汉字
-3. 返回正方形框的位置和尺寸
-
-返回JSON格式：
-{
-    "x": 0.5,
-    "y": 0.3,
-    "width": 0.04,
-    "height": 0.04
-}
-
-说明：
-- x: 正方形中心点的x坐标，相对于图片宽度，范围0-1
-- y: 正方形中心点的y坐标，相对于图片高度，范围0-1
-- width: 正方形的宽度，相对于图片宽度，范围0-1
-- height: 正方形的高度，相对于图片高度，范围0-1
-
-注意：
-- 只返回JSON，不要返回其他内容
-- 确保坐标和尺寸准确"""
+    return "帮我框选图片中随机一个字的范围（如果没有字就框一个你认为12pt的字框），以<bbox>x1 y1 x2 y2</bbox>的形式表示，仅输出：<bbox>x1 y1 x2 y2</bbox>"
 
 
 def get_splitlines_prompt() -> str:
-    return """你是一个图片标注助手。请仔细分析图片，识别图片中文字段落之间的水平分割线位置。
+    return """你是一个图片标注助手，负责为打印系统标注图片的分割线位置。
 
-任务要求：
+## 任务
 1. 观察图片中的文字布局
 2. 找出不同文字段落之间的水平分割线
-3. 返回所有分割线的y坐标位置
+3. 返回所有分割线的 y 坐标
 
-返回JSON格式：
+## 坐标系统
+- 使用归一化坐标，图片高度等分为 1000 份
+- y 坐标范围 [0, 999]，图片顶部为 0，底部为 999
+
+## 返回JSON格式：
 {
-    "splitLines": [0.35, 0.72]
+    "splitLines": [200, 500, 800]
 }
 
-说明：
-- splitLines: 分割线的y坐标数组，每个值相对于图片高度，范围0-1
-- 从上到下按顺序排列
+## 字段说明：
+- splitLines: 分割线的 y 坐标数组，从上到下按顺序排列
 - 如果没有明显的分割线，返回空数组
 
-注意：
-- 只返回JSON，不要返回其他内容
-- 分割线应该是段落之间明显的空白区域的中线位置"""
+## 重要提示：
+- 分割线应该是段落之间明显的空白区域的中线位置
+- 只返回JSON，不要返回其他内容"""
 
 
-def _parse_charbox_response(response: dict) -> Optional[CharBox]:
-    if not response:
+def _parse_charbox_response(response_text: str, img_width: int, img_height: int) -> Optional[CharBox]:
+    if not response_text:
         return None
 
-    x = response.get("x")
-    y = response.get("y")
-    width = response.get("width")
-    height = response.get("height")
-
-    if x is None or y is None:
+    match = re.search(r'<bbox>\s*(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s*</bbox>', response_text)
+    if not match:
         return None
 
-    if width is not None and height is not None:
-        size = (width + height) / 2
-    elif width is not None:
-        size = width
-    elif height is not None:
-        size = height
-    else:
-        return None
+    # AI 返回的是归一化到 1000x1000 的坐标，范围 [0, 999]
+    x1 = int(match.group(1))
+    y1 = int(match.group(2))
+    x2 = int(match.group(3))
+    y2 = int(match.group(4))
 
-    return CharBox(x=x, y=y, size=size, fontSize="medium")
+    # 确保坐标顺序正确
+    left = min(x1, x2)
+    right = max(x1, x2)
+    top = min(y1, y2)
+    bottom = max(y1, y2)
+
+    # 转换为比例值 [0, 1]
+    rel_x = left / 1000
+    rel_y = top / 1000
+    rel_width = (right - left) / 1000
+    rel_height = (bottom - top) / 1000
+
+    return CharBox(x=rel_x, y=rel_y, width=rel_width, height=rel_height, fontSize="medium")
 
 
-def _parse_splitlines_response(response: dict) -> Optional[list[float]]:
+def _parse_splitlines_response(response: dict, img_height: int) -> Optional[list[float]]:
     if not response:
         return None
 
@@ -144,7 +134,7 @@ def _parse_splitlines_response(response: dict) -> Optional[list[float]]:
     if not isinstance(split_lines, list):
         return None
 
-    return [float(line) for line in split_lines if isinstance(line, (int, float))]
+    return [float(line) / 1000 for line in split_lines if isinstance(line, (int, float))]
 
 
 def annotate_single_image(
@@ -155,23 +145,29 @@ def annotate_single_image(
     annotate_splitlines: bool = True,
 ) -> ImageAnnotation:
     annotation_ai = ai or AI(
-        model=Model.doubao_seed_2_0_lite_260215,
+        model=Model.doubao_seed_2_0_mini_260215,
+        max_output_tokens=4096,
+        temperature=1,
+        top_p=0.7,
         reasoning_effort=ReasoningEffort.minimal,
     )
 
     char_box = None
     split_lines = None
 
+    with Image.open(image_path) as img:
+        img_width, img_height = img.size
+
     user_content = build_input_content("请分析这张图片。", [image_path])
 
     if annotate_charbox:
-        charbox_response = call_ai_json(
+        charbox_response = call_ai(
             ai=annotation_ai,
             system_prompt=get_charbox_prompt(),
             user_content=user_content,
         )
-        if isinstance(charbox_response, dict):
-            char_box = _parse_charbox_response(charbox_response)
+        if isinstance(charbox_response, str):
+            char_box = _parse_charbox_response(charbox_response, img_width, img_height)
 
     if annotate_splitlines:
         splitlines_response = call_ai_json(
@@ -180,7 +176,7 @@ def annotate_single_image(
             user_content=user_content,
         )
         if isinstance(splitlines_response, dict):
-            split_lines = _parse_splitlines_response(splitlines_response)
+            split_lines = _parse_splitlines_response(splitlines_response, img_height)
 
     return ImageAnnotation(
         config_id=config_id,
@@ -272,7 +268,6 @@ def save_annotations_to_json(
 def _process_single_annotation(
     config_id: str,
     image_path: str,
-    ai: Optional[AI],
     annotate_charbox: bool,
     annotate_splitlines: bool,
     index: int,
@@ -286,10 +281,17 @@ def _process_single_annotation(
     }
 
     try:
+        thread_ai = AI(
+            model=Model.doubao_seed_2_0_mini_260215,
+            max_output_tokens=4096,
+            temperature=1,
+            top_p=0.7,
+            reasoning_effort=ReasoningEffort.minimal,
+        )
         annotation = annotate_single_image(
             image_path=image_path,
             config_id=config_id,
-            ai=ai,
+            ai=thread_ai,
             annotate_charbox=annotate_charbox,
             annotate_splitlines=annotate_splitlines,
         )
@@ -371,11 +373,6 @@ def batch_annotate_images(
     if total == 0:
         return results
 
-    ai = AI(
-        model=Model.doubao_seed_2_0_lite_260215,
-        reasoning_effort=ReasoningEffort.minimal,
-    )
-
     successful_annotations = []
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
@@ -384,7 +381,6 @@ def batch_annotate_images(
                 _process_single_annotation,
                 target["config_id"],
                 target["image_path"],
-                ai,
                 annotate_charbox,
                 annotate_splitlines,
                 i,

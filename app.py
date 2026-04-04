@@ -104,9 +104,20 @@ def process_image_items(items, question_id):
                     if existing_image:
                         image_id = existing_image['id']
                     else:
+                        img_width, img_height = None, None
+                        try:
+                            img_path = os.path.join(STATIC_DIR, item['src'].lstrip('/'))
+                            if os.path.exists(img_path):
+                                with Image.open(img_path) as img:
+                                    img_width, img_height = img.size
+                        except Exception:
+                            pass
+                        
                         image_id = image_manager.add_image(
                             filename=filename,
-                            path=item['src']
+                            path=item['src'],
+                            width=img_width,
+                            height=img_height
                         )
                 
                 config_id = image_manager.create_config(
@@ -131,13 +142,29 @@ def expand_image_items(items):
         if item.get('type') == 'image' and 'config_id' in item:
             full_info = image_manager.get_full_image_info(item['config_id'])
             if full_info:
+                image_info = full_info['image']
+                natural_width = image_info.get('width')
+                natural_height = image_info.get('height')
+                
+                if natural_width is None or natural_height is None:
+                    try:
+                        img_path = os.path.join(STATIC_DIR, image_info['path'].lstrip('/'))
+                        if os.path.exists(img_path):
+                            with Image.open(img_path) as img:
+                                natural_width, natural_height = img.size
+                                image_manager.update_image(image_info['id'], width=natural_width, height=natural_height)
+                    except Exception:
+                        pass
+                
                 expanded_item = {
                     'type': 'image',
                     'config_id': item['config_id'],
-                    'src': full_info['image']['path'],
+                    'src': image_info['path'],
                     'display': full_info['config']['display'],
                     'width': full_info['config']['width'],
-                    'height': full_info['config']['height']
+                    'height': full_info['config']['height'],
+                    'naturalWidth': natural_width,
+                    'naturalHeight': natural_height
                 }
                 if 'charBox' in full_info['config']:
                     expanded_item['charBox'] = full_info['config']['charBox']
@@ -624,6 +651,13 @@ def split_image():
     
     img = Image.open(image_path)
     img_width, img_height = img.size
+    
+    if img.mode == 'RGBA':
+        pass
+    elif img.mode == 'P':
+        img = img.convert('RGBA')
+    else:
+        img = img.convert('RGBA')
     
     lines = [0] + sorted(split_lines) + [1]
     parts = []

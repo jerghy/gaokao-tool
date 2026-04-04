@@ -5,6 +5,7 @@ import string
 from datetime import datetime
 from pathlib import Path
 from typing import Optional, Dict, List, Any
+from PIL import Image
 
 
 class ImageManager:
@@ -75,6 +76,17 @@ class ImageManager:
                 if image.get("filename") == filename:
                     return image
             return None
+
+    def update_image(self, image_id: str, **kwargs) -> bool:
+        with self._lock:
+            if image_id not in self._data["images"]:
+                return False
+            image = self._data["images"][image_id]
+            for key, value in kwargs.items():
+                if value is not None:
+                    image[key] = value
+            self._save_data()
+            return True
 
     def create_config(
         self,

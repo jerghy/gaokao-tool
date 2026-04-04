@@ -51,6 +51,7 @@ class Model(Enum):
     doubao_pro_256k = "doubao-pro-256k"
     doubao_pro_32k = "doubao-pro-32k"
     doubao_lite_32k = "doubao-lite-32k"
+    doubao_1_5_vision_pro_32k_250115 = "doubao-1-5-vision-pro-32k-250115"
     
     @property
     def value(self) -> str:
@@ -65,6 +66,9 @@ class AI:
     api_key: Optional[str] = None
     timeout: int = 1800
     base_url: str = "https://ark.cn-beijing.volces.com/api/v3"
+    temperature: Optional[float] = None
+    top_p: Optional[float] = None
+    frequency_penalty: Optional[float] = None
     
     @classmethod
     def fast(cls) -> "AI":
@@ -84,6 +88,9 @@ class AI:
         reasoning_effort: Optional[Union[ReasoningEffort, str]] = None,
         max_output_tokens: Optional[int] = None,
         api_key: Optional[str] = None,
+        temperature: Optional[float] = None,
+        top_p: Optional[float] = None,
+        frequency_penalty: Optional[float] = None,
     ) -> "AI":
         return AI(
             model=model or self.model,
@@ -92,6 +99,9 @@ class AI:
             api_key=api_key or self.api_key,
             timeout=self.timeout,
             base_url=self.base_url,
+            temperature=temperature if temperature is not None else self.temperature,
+            top_p=top_p if top_p is not None else self.top_p,
+            frequency_penalty=frequency_penalty if frequency_penalty is not None else self.frequency_penalty,
         )
 
 
@@ -133,18 +143,37 @@ def call_ai(ai: AI, system_prompt: str, user_content: list) -> str:
         raise ValueError("API KEY未配置")
     
     client = Ark(base_url=ai.base_url, api_key=api_key, timeout=ai.timeout)
-    effort = _get_effort_value(ai.reasoning_effort)
     model = _get_model_value(ai.model)
     
-    response = client.responses.create(
-        model=model,
-        input=[
+    is_seed_model = "seed" in model.lower()
+    
+    kwargs = {
+        "model": model,
+        "input": [
             {"role": "system", "content": [{"type": "input_text", "text": system_prompt}]},
             {"role": "user", "content": user_content}
         ],
-        max_output_tokens=ai.max_output_tokens,
-        reasoning={"effort": effort},
-    )
+    }
+    
+    if is_seed_model:
+        effort = _get_effort_value(ai.reasoning_effort)
+        kwargs["max_output_tokens"] = ai.max_output_tokens
+        kwargs["reasoning"] = {"effort": effort}
+        if ai.temperature is not None:
+            kwargs["temperature"] = ai.temperature
+        if ai.top_p is not None:
+            kwargs["top_p"] = ai.top_p
+    else:
+        if ai.temperature is not None:
+            kwargs["temperature"] = ai.temperature
+        if ai.top_p is not None:
+            kwargs["top_p"] = ai.top_p
+        if ai.frequency_penalty is not None:
+            kwargs["frequency_penalty"] = ai.frequency_penalty
+        if ai.max_output_tokens:
+            kwargs["max_tokens"] = ai.max_output_tokens
+    
+    response = client.responses.create(**kwargs)
     
     for item in response.output:
         if hasattr(item, 'content') and item.content:
@@ -165,19 +194,38 @@ def call_ai_json(
         raise ValueError("API KEY未配置")
     
     client = Ark(base_url=ai.base_url, api_key=api_key, timeout=ai.timeout)
-    effort = _get_effort_value(ai.reasoning_effort)
     model = _get_model_value(ai.model)
     
-    response = client.responses.create(
-        model=model,
-        input=[
+    is_seed_model = "seed" in model.lower()
+    
+    kwargs = {
+        "model": model,
+        "input": [
             {"role": "system", "content": [{"type": "input_text", "text": system_prompt}]},
             {"role": "user", "content": user_content}
         ],
-        max_output_tokens=ai.max_output_tokens,
-        reasoning={"effort": effort},
-        text={"format": {"type": "json_object"}},
-    )
+        "text": {"format": {"type": "json_object"}},
+    }
+    
+    if is_seed_model:
+        effort = _get_effort_value(ai.reasoning_effort)
+        kwargs["max_output_tokens"] = ai.max_output_tokens
+        kwargs["reasoning"] = {"effort": effort}
+        if ai.temperature is not None:
+            kwargs["temperature"] = ai.temperature
+        if ai.top_p is not None:
+            kwargs["top_p"] = ai.top_p
+    else:
+        if ai.temperature is not None:
+            kwargs["temperature"] = ai.temperature
+        if ai.top_p is not None:
+            kwargs["top_p"] = ai.top_p
+        if ai.frequency_penalty is not None:
+            kwargs["frequency_penalty"] = ai.frequency_penalty
+        if ai.max_output_tokens:
+            kwargs["max_tokens"] = ai.max_output_tokens
+    
+    response = client.responses.create(**kwargs)
     
     text_result = ""
     for item in response.output:

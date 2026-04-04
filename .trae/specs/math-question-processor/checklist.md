@@ -1,0 +1,9 @@
+- [x] 提示词加载函数能正确读取 `ai/tsc/` 目录下的txt文件
+- [x] `MathUnit` dataclass 包含 `unit_content`、`classify_result`、`pre_process` 字段
+- [x] 第一阶段处理函数能调用AI并返回合法的JSON数组
+- [x] 第二阶段处理函数能正确区分"套路知识类"和"思维提升类"
+- [x] 思维提升类题目能调用第二个AI提示词进行深度处理
+- [x] `process_math_question()` 能处理单个题目并保存结果到JSON
+- [x] 结果保存到JSON的 `math_processing_result` 字段
+- [x] 批量处理函数支持多线程和进度显示
+- [x] 代码风格与现有处理器（thinking_processor.py）保持一致

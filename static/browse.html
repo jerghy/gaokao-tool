@@ -3113,8 +3113,8 @@
 
             rect.style.left = (box.x * displayWidth) + 'px';
             rect.style.top = (box.y * displayHeight) + 'px';
-            rect.style.width = (box.size * displayWidth) + 'px';
-            rect.style.height = (box.size * displayWidth) + 'px';
+            rect.style.width = (box.width * displayWidth) + 'px';
+            rect.style.height = (box.height * displayHeight) + 'px';
 
             overlay.appendChild(rect);
         }
@@ -3288,7 +3288,8 @@
                     charBoxModalData.currentBox = {
                         x: boxLeft / displayWidth,
                         y: boxTop / displayHeight,
-                        size: boxSize / displayWidth
+                        width: boxSize / displayWidth,
+                        height: boxSize / displayHeight
                     };
                 } else {
                     clearCharBoxOverlay();
