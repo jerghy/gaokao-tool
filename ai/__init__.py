@@ -83,6 +83,23 @@ from .tag_processor import (
     process_tags_for_question,
     batch_process_tags,
 )
+from .chemistry_processor import (
+    ChemistryPreprocessing,
+    get_chemistry_prompt,
+    generate_chemistry_preprocessing,
+    generate_chemistry_preprocessing_by_id,
+    save_chemistry_preprocessing_to_json,
+    process_chemistry_question,
+    batch_process_chemistry,
+)
+from .chemistry_difficulty_processor import (
+    DifficultyTeaching,
+    get_difficulty_prompt,
+    generate_difficulty_teaching,
+    process_difficulty_for_question,
+    get_questions_with_selected_difficulties,
+    batch_process_difficulties,
+)
 
 __all__ = [
     "AI",
@@ -167,4 +184,17 @@ __all__ = [
     "save_tags_to_json",
     "process_tags_for_question",
     "batch_process_tags",
+    "ChemistryPreprocessing",
+    "get_chemistry_prompt",
+    "generate_chemistry_preprocessing",
+    "generate_chemistry_preprocessing_by_id",
+    "save_chemistry_preprocessing_to_json",
+    "process_chemistry_question",
+    "batch_process_chemistry",
+    "DifficultyTeaching",
+    "get_difficulty_prompt",
+    "generate_difficulty_teaching",
+    "process_difficulty_for_question",
+    "get_questions_with_selected_difficulties",
+    "batch_process_difficulties",
 ]

@@ -459,6 +459,94 @@ def delete_question(id):
     
     return jsonify({'success': True, 'id': id})
 
+@app.route('/difficulty')
+def difficulty():
+    return send_from_directory('static', 'difficulty.html')
+
+@app.route('/api/questions-with-difficulties', methods=['GET'])
+def get_questions_with_difficulties():
+    questions = []
+    for filename in sorted(os.listdir(DATA_DIR), reverse=True):
+        if filename.endswith('.json'):
+            filepath = os.path.join(DATA_DIR, filename)
+            try:
+                with open(filepath, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                
+                difficulties = data.get('chemistry_preprocessing', {}).get('Difficulties', [])
+                if not difficulties:
+                    continue
+                
+                preview_text = ''
+                items = data.get('question', {}).get('items', [])
+                for item in items:
+                    if item.get('type') == 'richtext':
+                        content = item.get('content', '')
+                        if content:
+                            preview_text = content[:100]
+                            break
+                    elif item.get('type') == 'text':
+                        text = item.get('text', '')
+                        if text:
+                            preview_text = text[:100]
+                            break
+                
+                questions.append({
+                    'id': data.get('id'),
+                    'created_at': data.get('created_at'),
+                    'preview_text': preview_text,
+                    'tags': data.get('tags', []),
+                    'difficulty_count': len(difficulties),
+                    'selected_difficulty_ids': data.get('selected_difficulty_ids', []),
+                    'chemistry_preprocessing': data.get('chemistry_preprocessing', {})
+                })
+            except Exception as e:
+                logger.warning(f"Error reading {filepath}: {str(e)}")
+                continue
+    
+    questions.sort(key=lambda q: (
+        len(q.get('selected_difficulty_ids', [])) == 0,
+        q.get('created_at', '')
+    ), reverse=True)
+    
+    return jsonify({
+        'success': True,
+        'questions': questions,
+        'total': len(questions)
+    })
+
+@app.route('/api/questions/<id>/selected-difficulties', methods=['PUT'])
+def update_selected_difficulties(id):
+    data = request.json
+    if not data:
+        raise ValidationError("No data provided")
+    
+    selected_difficulty_ids = data.get('selected_difficulty_ids')
+    if selected_difficulty_ids is None:
+        raise ValidationError("selected_difficulty_ids is required")
+    
+    filepath = os.path.join(DATA_DIR, f"{id}.json")
+    if not os.path.exists(filepath):
+        raise NotFoundError("Question", id)
+    
+    try:
+        with open(filepath, 'r', encoding='utf-8') as f:
+            question_data = json.load(f)
+        
+        question_data['selected_difficulty_ids'] = selected_difficulty_ids
+        
+        with open(filepath, 'w', encoding='utf-8') as f:
+            json.dump(question_data, f, ensure_ascii=False, indent=2)
+        
+        return jsonify({
+            'success': True,
+            'id': id,
+            'selected_difficulty_ids': selected_difficulty_ids
+        })
+    except Exception as e:
+        logger.error(f"Error updating selected difficulties for {id}: {str(e)}")
+        raise AppError("UPDATE_ERROR", f"Failed to update selected difficulties: {str(e)}", 500)
+
 @app.route('/api/questions/batch-add-tag', methods=['POST'])
 def batch_add_tag():
     data = request.json

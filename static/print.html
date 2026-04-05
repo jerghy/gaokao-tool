@@ -1015,7 +1015,7 @@
             body {
                 background: white;
                 padding: 0;
-                font-size: 11pt;
+                font-size: 12pt;
             }
 
             .controls {
@@ -1046,13 +1046,24 @@
             }
 
             .print-content.double-column {
-                column-count: 2;
-                column-gap: 8mm;
+                column-count: 1;
+            }
+
+            .questions-grid {
+                display: block;
+            }
+
+            .questions-grid.double-column {
+                display: block;
             }
 
             .question-block {
                 background: white;
-                break-inside: auto;
+                break-inside: avoid-page;
+            }
+
+            .question-content {
+                font-size: 12pt !important;
             }
 
             .question-content,
@@ -1093,6 +1104,16 @@
 
             .katex-display {
                 margin: 0.5em 0 !important;
+            }
+
+            .difficulty-teaching-columns {
+                column-count: 1;
+            }
+
+            .accumulation-content,
+            .accumulation-answer,
+            .difficulty-teaching-content {
+                font-size: 11pt !important;
             }
         }
 
@@ -1221,6 +1242,191 @@
         .thinking-improvement-content blockquote {
             margin: 1mm 0;
             padding-left: 3mm;
+        }
+
+        .chemistry-processing {
+            margin-top: 4mm;
+            padding-top: 2mm;
+            border-top: 1px solid #000;
+        }
+
+        .accumulation-section {
+            margin-bottom: 4mm;
+        }
+
+        .accumulation-title {
+            font-weight: bold;
+            font-size: 11pt;
+            margin-bottom: 2mm;
+            color: #000;
+        }
+
+        .accumulation-item {
+            margin: 2mm 0 3mm 0;
+            padding-top: 2mm;
+            border-top: 1px dashed #666;
+        }
+
+        .accumulation-item:first-child {
+            border-top: none;
+            padding-top: 0;
+        }
+
+        .accumulation-tags {
+            margin-bottom: 1mm;
+        }
+
+        .accumulation-tag {
+            display: inline-block;
+            font-size: 9pt;
+            padding: 1px 4px;
+            margin-right: 2mm;
+            border: 1px solid #333;
+            color: #000;
+        }
+
+        .accumulation-content {
+            font-size: 11pt;
+            margin: 1mm 0;
+            line-height: 1.5;
+            color: #000;
+        }
+
+        .accumulation-answer {
+            font-size: 10pt;
+            margin-top: 1mm;
+            color: #000;
+            line-height: 1.5;
+        }
+
+        .accumulation-answer strong {
+            color: #000;
+        }
+
+        .difficulty-teaching-wrapper {
+            margin-top: 3mm;
+            padding-top: 2mm;
+            border-top: 1px solid #000;
+        }
+
+        .difficulty-teaching-columns {
+            column-count: 2;
+            column-gap: 6mm;
+        }
+
+        .difficulty-teaching-item {
+            margin-bottom: 3mm;
+        }
+
+        .difficulty-teaching-title {
+            font-weight: bold;
+            font-size: 11pt;
+            margin-bottom: 2mm;
+            color: #000;
+            border-bottom: 1px solid #000;
+            padding-bottom: 1mm;
+        }
+
+        .difficulty-teaching-content {
+            font-size: 10pt;
+            line-height: 1.5;
+            color: #000;
+        }
+
+        .difficulty-teaching-content h1 {
+            font-size: 12pt;
+            margin: 2mm 0 1mm;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .difficulty-teaching-content h2 {
+            font-size: 11.5pt;
+            margin: 1.5mm 0 1mm;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .difficulty-teaching-content h3 {
+            font-size: 11pt;
+            margin: 1mm 0 0.5mm;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .difficulty-teaching-content h4 {
+            font-size: 11pt;
+            margin: 1mm 0 0.5mm;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .difficulty-teaching-content p {
+            margin: 1mm 0;
+        }
+
+        .difficulty-teaching-content ul,
+        .difficulty-teaching-content ol {
+            margin: 1mm 0;
+            padding-left: 4mm;
+        }
+
+        .difficulty-teaching-content li {
+            margin: 0.5mm 0;
+            font-size: 10pt;
+        }
+
+        .difficulty-teaching-content strong {
+            font-weight: bold;
+            color: #000;
+        }
+
+        .difficulty-teaching-content em {
+            font-style: italic;
+            color: #000;
+        }
+
+        .difficulty-teaching-content code {
+            padding: 0 2px;
+            font-family: monospace;
+            font-size: 10pt;
+        }
+
+        .difficulty-teaching-content pre {
+            padding: 2mm;
+            overflow-x: auto;
+            font-size: 10pt;
+            border: 1px solid #ccc;
+        }
+
+        .difficulty-teaching-content pre code {
+            padding: 0;
+        }
+
+        .difficulty-teaching-content blockquote {
+            border-left: 2px solid #000;
+            margin: 1mm 0;
+            padding-left: 3mm;
+            color: #000;
+        }
+
+        .difficulty-teaching-content table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1mm 0;
+        }
+
+        .difficulty-teaching-content table,
+        .difficulty-teaching-content th,
+        .difficulty-teaching-content td {
+            border: 1px solid #000;
+            padding: 1mm 2mm;
+        }
+
+        .difficulty-teaching-content hr {
+            border: none;
+            border-top: 1px solid #000;
+            margin: 2mm 0;
         }
     </style>
 </head>
@@ -1971,9 +2177,9 @@
             }
             
             const fontSizeMap = {
-                'large': 17.33,
-                'medium': 16,
-                'small': 14.67
+                'large': 16,
+                'medium': 13,
+                'small': 11
             };
             
             const fontSizePx = fontSizeMap[charBox.fontSize] || 16;
@@ -2386,6 +2592,9 @@
                         if (isMathQuestion(q)) {
                             const mathProcessingHtml = renderMathProcessingResult(q.math_processing_result);
                             questionsHtml.push(`<div class="question-block"><div class="question-content"><span class="question-id">${q.id}</span>${questionHtml}</div>${mathProcessingHtml}</div>`);
+                        } else if (isChemistryQuestion(q)) {
+                            const chemistryProcessingHtml = renderChemistryProcessingResult(q);
+                            questionsHtml.push(`<div class="question-block"><div class="question-content"><span class="question-id">${q.id}</span>${questionHtml}</div>${chemistryProcessingHtml}</div>`);
                         } else {
                             const answerHtml = q.answer?.items?.length > 0 ? await renderItemsInlineAsync(q.answer.items) : '';
                             questionsHtml.push(`<div class="question-block"><div class="question-content"><span class="question-id">${q.id}</span>${questionHtml}</div>${renderNeuralReaction(q.neural_reaction)}${renderQuestionAnalysis(q.question_analysis)}${renderThinkingProcesses(q.thinking_processes)}${renderImmersionThinking(q.immersion_thinking)}${renderMathThinkingChain(q.math_thinking_chain)}${q.answer?.items?.length > 0 ? `<div class="answer-block"><span class="answer-header">答案:</span><span class="answer-content">${answerHtml}</span></div>` : ''}</div>`);
@@ -2406,6 +2615,9 @@ ${questionsHtml.join('')}
                     if (isMathQuestion(q)) {
                         const mathProcessingHtml = renderMathProcessingResult(q.math_processing_result);
                         questionsHtml.push(`<div class="question-block"><div class="question-content"><span class="question-id">${q.id}</span>${questionHtml}</div>${mathProcessingHtml}</div>`);
+                    } else if (isChemistryQuestion(q)) {
+                        const chemistryProcessingHtml = renderChemistryProcessingResult(q);
+                        questionsHtml.push(`<div class="question-block"><div class="question-content"><span class="question-id">${q.id}</span>${questionHtml}</div>${chemistryProcessingHtml}</div>`);
                     } else {
                         const answerHtml = q.answer?.items?.length > 0 ? await renderItemsInlineAsync(q.answer.items) : '';
                         questionsHtml.push(`<div class="question-block"><div class="question-content"><span class="question-id">${q.id}</span>${questionHtml}</div>${renderNeuralReaction(q.neural_reaction)}${renderQuestionAnalysis(q.question_analysis)}${renderThinkingProcesses(q.thinking_processes)}${renderImmersionThinking(q.immersion_thinking)}${renderMathThinkingChain(q.math_thinking_chain)}${q.answer?.items?.length > 0 ? `<div class="answer-block"><span class="answer-header">答案:</span><span class="answer-content">${answerHtml}</span></div>` : ''}</div>`);
@@ -2437,6 +2649,78 @@ ${questionsHtml.join('')}
 
         function isMathQuestion(q) {
             return q.tags && Array.isArray(q.tags) && q.tags.includes('数学');
+        }
+
+        function isChemistryQuestion(q) {
+            return q.tags && Array.isArray(q.tags) && q.tags.includes('化学');
+        }
+
+        function renderAccumulation(accumulations) {
+            if (!accumulations || !Array.isArray(accumulations) || accumulations.length === 0) return '';
+            let html = '<div class="accumulation-section">';
+            html += '<div class="accumulation-title">积累训练</div>';
+            accumulations.forEach((item, index) => {
+                html += '<div class="accumulation-item">';
+                html += '<div class="accumulation-tags">';
+                if (item.ExerciseType) {
+                    html += '<span class="accumulation-tag">' + escapeHtml(item.ExerciseType) + '</span>';
+                }
+                if (item.ExamTag) {
+                    html += '<span class="accumulation-tag">' + escapeHtml(item.ExamTag) + '</span>';
+                }
+                if (item.AdaptScore) {
+                    html += '<span class="accumulation-tag">' + escapeHtml(item.AdaptScore) + '</span>';
+                }
+                html += '</div>';
+                if (item.ExerciseContent) {
+                    html += '<div class="accumulation-content">' + processTextWithLatex(item.ExerciseContent) + '</div>';
+                }
+                if (item.AnswerAnalysis) {
+                    html += '<div class="accumulation-answer">' + processTextWithLatex(item.AnswerAnalysis) + '</div>';
+                }
+                html += '</div>';
+            });
+            html += '</div>';
+            return html;
+        }
+
+        function renderDifficultyTeaching(q) {
+            if (!q.difficulty_teaching || !q.selected_difficulty_ids || !Array.isArray(q.selected_difficulty_ids) || q.selected_difficulty_ids.length === 0) {
+                return '';
+            }
+            const difficulties = q.chemistry_preprocessing?.Difficulties || [];
+            const difficultyMap = {};
+            difficulties.forEach(d => {
+                difficultyMap[d.DifficultyID] = d.DifficultyName;
+            });
+            
+            let html = '<div class="difficulty-teaching-wrapper">';
+            html += '<div class="difficulty-teaching-columns">';
+            q.selected_difficulty_ids.forEach((id) => {
+                const teachingContent = q.difficulty_teaching[String(id)];
+                const difficultyName = difficultyMap[id];
+                if (teachingContent) {
+                    html += '<div class="difficulty-teaching-item">';
+                    if (difficultyName) {
+                        html += '<div class="difficulty-teaching-title">' + escapeHtml(difficultyName) + '</div>';
+                    }
+                    html += '<div class="difficulty-teaching-content">' + renderMarkdownWithLatex(teachingContent) + '</div>';
+                    html += '</div>';
+                }
+            });
+            html += '</div></div>';
+            return html;
+        }
+
+        function renderChemistryProcessingResult(q) {
+            if (!q.chemistry_preprocessing && !q.difficulty_teaching) return '';
+            let html = '<div class="chemistry-processing">';
+            if (q.chemistry_preprocessing?.Accumulation) {
+                html += renderAccumulation(q.chemistry_preprocessing.Accumulation);
+            }
+            html += renderDifficultyTeaching(q);
+            html += '</div>';
+            return html;
         }
 
         function renderMathProcessingResult(mpr) {
