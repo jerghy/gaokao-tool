@@ -25,7 +25,15 @@
   },
   "tags": [
     "数学",
-    "思维"
+    "思维",
+    "知识点::数学::三角函数::三角恒等变换::和差角公式",
+    "能力素养::数学::逻辑推理",
+    "难度::中档::多考点综合::高考真题",
+    "题型::选择题::单项选择题::高考真题",
+    "知识点::数学::三角函数::同角三角函数基本关系::商数关系",
+    "能力素养::数学::运算求解",
+    "知识点::数学::三角函数::三角函数式化简求值",
+    "打印::数学::原三角函数"
   ],
   "sub_questions": [],
   "math_thinking_chain": [
@@ -33,6 +41,47 @@
       "target_id": "full",
       "target_label": "整个题目",
       "content": "**分析**：首先逐句翻译推演题干信息：1. 已知$\\tan\\alpha=2\\tan\\frac{\\pi}{5}$，根据正切定义，等价于$\\frac{\\sin\\alpha}{\\cos\\alpha}=\\frac{2\\sin\\frac{\\pi}{5}}{\\cos\\frac{\\pi}{5}}$，交叉相乘得$\\sin\\alpha\\cos\\frac{\\pi}{5}=2\\cos\\alpha\\sin\\frac{\\pi}{5}$，记为①式。2. 观察目标式分子角度$\\alpha-\\frac{3\\pi}{10}$，发现$\\frac{3\\pi}{10}=\\frac{\\pi}{2}-\\frac{\\pi}{5}$，因此$\\alpha-\\frac{3\\pi}{10}=\\left(\\alpha+\\frac{\\pi}{5}\\right)-\\frac{\\pi}{2}$，根据诱导公式$\\cos\\left(x-\\frac{\\pi}{2}\\right)=\\sin x$，可将分子化简为$\\sin\\left(\\alpha+\\frac{\\pi}{5}\\right)$，目标式简化为$\\frac{\\sin\\left(\\alpha+\\frac{\\pi}{5}\\right)}{\\sin\\left(\\alpha-\\frac{\\pi}{5}\\right)}$。共有三类解题路径：路径1：展开和角公式代入①式化简；路径2：分式同除余弦乘积转化为正切形式代入已知条件；路径3：选择题场景下代入特殊值快速计算。\n**目标解决1**：需解决目标：计算分式$\\frac{\\sin\\left(\\alpha+\\frac{\\pi}{5}\\right)}{\\sin\\left(\\alpha-\\frac{\\pi}{5}\\right)}$的值。\n**解决方法1**：适用条件：已知正弦余弦乘积的等量关系，求角度和差的正弦分式值，通用通法。\n推导过程：首先用正弦和差公式展开分子分母：\n分子$\\sin\\left(\\alpha+\\frac{\\pi}{5}\\right)=\\sin\\alpha\\cos\\frac{\\pi}{5}+\\cos\\alpha\\sin\\frac{\\pi}{5}$，\n分母$\\sin\\left(\\alpha-\\frac{\\pi}{5}\\right)=\\sin\\alpha\\cos\\frac{\\pi}{5}-\\cos\\alpha\\sin\\frac{\\pi}{5}$，\n将①式$\\sin\\alpha\\cos\\frac{\\pi}{5}=2\\cos\\alpha\\sin\\frac{\\pi}{5}$代入：\n分子变为$2\\cos\\alpha\\sin\\frac{\\pi}{5}+\\cos\\alpha\\sin\\frac{\\pi}{5}=3\\cos\\alpha\\sin\\frac{\\pi}{5}$，\n分母变为$2\\cos\\alpha\\sin\\frac{\\pi}{5}-\\cos\\alpha\\sin\\frac{\\pi}{5}=\\cos\\alpha\\sin\\frac{\\pi}{5}$，\n已知$\\tan\\alpha$存在则$\\cos\\alpha\\neq0$，$\\frac{\\pi}{5}$为锐角则$\\sin\\frac{\\pi}{5}\\neq0$，约分得$\\frac{3\\cos\\alpha\\sin\\frac{\\pi}{5}}{\\cos\\alpha\\sin\\frac{\\pi}{5}}=3$。\n**解决方法2**：适用条件：已知正切的比例关系，求正弦和差分式的值，巧法，不用展开乘积直接转化为正切计算。\n推导过程：将分子分母同时除以$\\cos\\alpha\\cos\\frac{\\pi}{5}$（二者均不为0，原式有意义）：\n分子变为$\\frac{\\sin\\alpha\\cos\\frac{\\pi}{5}+\\cos\\alpha\\sin\\frac{\\pi}{5}}{\\cos\\alpha\\cos\\frac{\\pi}{5}}=\\tan\\alpha+\\tan\\frac{\\pi}{5}$，\n分母变为$\\frac{\\sin\\alpha\\cos\\frac{\\pi}{5}-\\cos\\alpha\\sin\\frac{\\pi}{5}}{\\cos\\alpha\\cos\\frac{\\pi}{5}}=\\tan\\alpha-\\tan\\frac{\\pi}{5}$，\n代入$\\tan\\alpha=2\\tan\\frac{\\pi}{5}$得：\n分子=$2\\tan\\frac{\\pi}{5}+\\tan\\frac{\\pi}{5}=3\\tan\\frac{\\pi}{5}$，分母=$2\\tan\\frac{\\pi}{5}-\\tan\\frac{\\pi}{5}=\\tan\\frac{\\pi}{5}$，\n$\\tan\\frac{\\pi}{5}\\neq0$约分得$\\frac{3\\tan\\frac{\\pi}{5}}{\\tan\\frac{\\pi}{5}}=3$。\n**解决方法3**：适用条件：题型为选择题，题干给出的是恒成立关系，结果唯一，特殊值速解法。\n推导过程：计算得$\\tan\\frac{\\pi}{5}=\\tan36^\\circ\\approx0.7265$，取$\\tan\\alpha=2\\times0.7265\\approx1.453$，对应$\\alpha\\approx55.45^\\circ$，代入目标式：\n分子：$\\cos\\left(55.45^\\circ-\\frac{3\\pi}{10}\\right)=\\cos(55.45^\\circ-54^\\circ)=\\cos1.45^\\circ\\approx0.9997$，\n分母：$\\sin\\left(55.45^\\circ-\\frac{\\pi}{5}\\right)=\\sin(55.45^\\circ-36^\\circ)=\\sin19.45^\\circ\\approx0.333$，\n比值约为$\\frac{0.9997}{0.333}\\approx3$，与前两种方法结果一致。\n**分析**：合理性验证：三种方法计算结果均为3，约去的$\\cos\\alpha、\\sin\\frac{\\pi}{5}、\\tan\\frac{\\pi}{5}$均不为0，符合题干条件，结果正确。\n最终答案为$\\boxed{3}$，对应选项C。"
+    }
+  ],
+  "math_processing_result": [
+    {
+      "unit_content": "(2015重庆理,9,5分)若$\\tan \\alpha=2\\tan \\frac{\\pi}{5}$，则$\\frac{\\cos\\left(\\alpha-\\frac{3\\pi}{10}\\right)}{\\sin\\left(\\alpha-\\frac{\\pi}{5}\\right)}=$（  ）",
+      "classify_result": "套路知识类",
+      "pre_process": [
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "判断：$\\frac{3\\pi}{10} = \\frac{\\pi}{2} - \\frac{\\pi}{5}$是否成立？",
+          "answer": "正确。高考易错点提醒：三角恒等变换中，角的等量变形必须100%准确，角度计算错误是该类题的首要失分点，做题时需优先验证角的配凑是否正确。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "判断：两角和的正弦公式为$\\sin(A+B) = \\sin A \\cos B + \\cos A \\sin B$，是否正确？",
+          "answer": "正确。高考易错点提醒：和差角公式的符号、结构必须精准记忆，若将$\\sin(A+B)$误记为$\\sin A \\cos B - \\cos A \\sin B$，会导致后续计算完全错误，属于高考高频易错点。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "三角化简求值题中，已知条件含正切（切函数）、待求式含正余弦（弦函数），首先应确立的核心转化方向是什么？",
+          "standard_answer": "由切弦混合的题型特征得核心转化方向为统一三角函数名，可采用切化弦或弦化切的方式。高考得分点说明：切弦互化是三角恒等变换的核心转化技巧，为高考必考得分点；同类题型拓展：所有切弦混合的化简求值题，优先统一函数名再进行后续运算，可大幅降低解题难度。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "待求式分子的角为$\\alpha - \\frac{3\\pi}{10}$，已知条件中含特殊角$\\frac{\\pi}{5}$，首先应进行的核心操作是什么？",
+          "standard_answer": "由角的配凑原则得首先将待求角用已知角表示，即通过$\\alpha - \\frac{3\\pi}{10} = \\left(\\alpha + \\frac{\\pi}{5}\\right) - \\frac{\\pi}{2}$的变形，结合诱导公式将分子的余弦转化为正弦。高考得分点说明：角的配凑是三角化简的首要步骤，占该题得分的30%左右；同类题型拓展：所有三角化简题，第一步必须优先分析角的差异，用已知角或特殊角表示未知角，避免盲目展开公式。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "待求式化简为$\\frac{\\sin\\left(\\alpha + \\frac{\\pi}{5}\\right)}{\\sin\\left(\\alpha - \\frac{\\pi}{5}\\right)}$后，要代入$\\tan\\alpha=2\\tan\\frac{\\pi}{5}$的条件，应进行什么操作？",
+          "standard_answer": "由齐次式的变形规则得先利用两角和差的正弦公式展开分子分母，再对分子分母同除以$\\cos\\alpha\\cos\\frac{\\pi}{5}$，将弦函数齐次式转化为切函数后代入已知条件。高考得分点说明：和差角展开+齐次式弦化切是该题的核心得分步骤，占该题得分的60%左右；同类题型拓展：分式形式的弦函数齐次式，优先通过同除同角余弦的方式转化为切函数，可直接代入切函数的已知条件，避免复杂的消元计算。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "对$\\frac{\\sin\\alpha\\cos\\frac{\\pi}{5} + \\cos\\alpha\\sin\\frac{\\pi}{5}}{\\sin\\alpha\\cos\\frac{\\pi}{5} - \\cos\\alpha\\sin\\frac{\\pi}{5}}$的分子分母同除以$\\cos\\alpha\\cos\\frac{\\pi}{5}$时，不需要考虑除数是否为0，该说法是否正确？",
+          "answer": "错误。错误原因：分式运算中同除一个数时，必须先确认该数不为0；正确结论：本题中$\\tan\\frac{\\pi}{5}$有意义且不为0，故$\\cos\\frac{\\pi}{5}\\neq0$；$\\tan\\alpha$有意义，故$\\cos\\alpha\\neq0$，因此可以同除；高考易错点提醒：高考大题作答时，若省略除数不为0的说明，会扣除1-2分的步骤分，选择填空题可直接省略该步骤。"
+        }
+      ]
     }
   ]
 }

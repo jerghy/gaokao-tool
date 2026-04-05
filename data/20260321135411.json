@@ -23,7 +23,16 @@
   },
   "tags": [
     "数学",
-    "思维"
+    "思维",
+    "知识点::数学::解三角形::正弦定理",
+    "知识点::数学::三角函数::两角和的正弦公式",
+    "知识点::数学::解三角形::余弦定理",
+    "能力素养::数学::逻辑推理",
+    "难度::中档::双小问综合",
+    "知识点::数学::解三角形::三角形面积计算",
+    "题型::解答题::解三角形::高考真题",
+    "能力素养::数学::数学运算",
+    "打印::数学::原三角函数"
   ],
   "sub_questions": [],
   "math_thinking_chain": [
@@ -31,6 +40,91 @@
       "target_id": "full",
       "target_label": "整个题目",
       "content": "### 第一问\n**分析**：题干已知$\\frac{b^2+c^2-a^2}{\\cos A}=2$，其中分子$b^2+c^2-a^2$恰好是余弦定理中与$\\cos A$关联的结构，根据余弦定理$\\cos A=\\frac{b^2+c^2-a^2}{2bc}$，可将已知等式中的边、角关系互相替换，直接消去同类项求$bc$。逆推来看，要求$bc$，仅需要将已知等式中的$\\cos A$或$b^2+c^2-a^2$用余弦定理变形代入即可，没有额外未知量。\n**目标解决1**：需解决目标：化简已知等式，求出$bc$的取值。\n**解决方法1**：适用条件：已知等式同时包含边长平方差和对应角的余弦，用余弦定理变形替换分子。\n根据余弦定理，$b^2+c^2-a^2=2bc\\cos A$，代入已知等式得：\n$$\\frac{2bc\\cos A}{\\cos A}=2$$\n因为$A$是三角形内角，$A\\in(0,\\pi)$，故$\\cos A\\neq0$，约去$\\cos A$得$2bc=2$，即$bc=1$。\n**解决方法2**：适用条件：已知等式包含单角余弦，用余弦定理替换$\\cos A$为边长表达式。\n根据余弦定理，$\\cos A=\\frac{b^2+c^2-a^2}{2bc}$，代入已知等式左边得：\n$$\\frac{b^2+c^2-a^2}{\\frac{b^2+c^2-a^2}{2bc}}=(b^2+c^2-a^2)\\times\\frac{2bc}{b^2+c^2-a^2}$$\n因为若$b^2+c^2-a^2=0$则左边为0，与题干右边等于2矛盾，故可约去$b^2+c^2-a^2$，得$2bc=2$，即$bc=1$。\n**分析**：两种方法结果一致，代入原式验证：$\\frac{2bc\\cos A}{\\cos A}=2$完全匹配题干条件，$bc=1$正确。\n\n---\n### 第二问\n**分析**：三角形面积公式为$S=\\frac{1}{2}bc\\sin A$，第一问已求出$bc=1$，因此仅需要求出$\\sin A$即可得到面积。已知等式是边与角余弦的混合式，有两条化简路径：一是用正弦定理将边全部替换为角的正弦，利用三角恒等变换化简求$\\cos A$；二是利用射影定理$\\cos B + b\\cos A=c$直接简化分母，再结合余弦定理求$\\cos A$。\n**目标解决2**：需解决目标：化简已知分式等式，求出$\\cos A$的取值。\n**解决方法1**：适用条件：等式为边和角的齐次混合式，用正弦定理实现边角互化。\n根据正弦定理，$a=2R\\sin A,b=2R\\sin B,c=2R\\sin C$（$R$为$\\triangle ABC$外接圆半径），代入等式：\n左边第一项分子：$a\\cos B - b\\cos A=2R(\\sin A\\cos B - \\cos A\\sin B)=2R\\sin(A-B)$\n左边第一项分母：$a\\cos B + b\\cos A=2R(\\sin A\\cos B + \\cos A\\sin B)=2R\\sin(A+B)=2R\\sin C$（因为$A+B=\\pi-C$，故$\\sin(A+B)=\\sin C$）\n左边第二项：$\\frac{b}{c}=\\frac{2R\\sin B}{2R\\sin C}=\\frac{\\sin B}{\\sin C}$\n因此原式化简为：\n$$\\frac{\\sin(A-B)}{\\sin C}-\\frac{\\sin B}{\\sin C}=1$$\n$C\\in(0,\\pi)$，$\\sin C\\neq0$，两边同乘$\\sin C$得：\n$$\\sin(A-B)-\\sin B=\\sin C=\\sin(A+B)$$\n展开左右两侧三角式：\n$$\\sin A\\cos B - \\cos A\\sin B - \\sin B=\\sin A\\cos B + \\cos A\\sin B$$\n消去两侧$\\sin A\\cos B$，整理得：\n$$-\\sin B=2\\cos A\\sin B$$\n$B\\in(0,\\pi)$，$\\sin B\\neq0$，两边同除以$\\sin B$得$\\cos A=-\\frac{1}{2}$。\n**解决方法2**：适用条件：等式中出现$a\\cos B + b\\cos A$结构，直接用射影定理简化。\n根据射影定理，任意三角形中$a\\cos B + b\\cos A=c$，因此原式左边第一项分母直接为$c$，原式化简为：\n$$\\frac{a\\cos B - b\\cos A}{c}-\\frac{b}{c}=1$$\n两边同乘$c$得：$a\\cos B - b\\cos A - b = c$，即$a\\cos B - b\\cos A = b + c$。\n对左侧用余弦定理替换$\\cos B、\\cos A$：\n$$a\\cdot\\frac{a^2+c^2-b^2}{2ac} - b\\cdot\\frac{b^2+c^2-a^2}{2bc}=b+c$$\n约分化简左侧：\n$$\\frac{a^2+c^2-b^2}{2c}-\\frac{b^2+c^2-a^2}{2c}=b+c$$\n$$\\frac{2a^2-2b^2}{2c}=b+c$$\n$$a^2 - b^2 = bc + c^2$$\n整理得$b^2 + c^2 - a^2=-bc$，代入余弦定理：\n$$\\cos A=\\frac{b^2+c^2-a^2}{2bc}=\\frac{-bc}{2bc}=-\\frac{1}{2}$$\n和方法1结果一致。\n**目标解决3**：需解决目标：求三角形面积。\n因为$A\\in(0,\\pi)$，故$\\sin A=\\sqrt{1-\\cos^2A}=\\sqrt{1-(\\frac{1}{2})^2}=\\frac{\\sqrt{3}}{2}$，结合第一问$bc=1$，代入面积公式：\n$$S_{\\triangle ABC}=\\frac{1}{2}bc\\sin A=\\frac{1}{2}\\times1\\times\\frac{\\sqrt{3}}{2}=\\frac{\\sqrt{3}}{4}$$\n**分析**：验证结果：取$b=1,c=1$，则$a^2=b^2+c^2-2bc\\cos A=1+1+1=3,a=\\sqrt{3}$，代入题干第二个等式：$\\frac{\\sqrt{3}\\cos B - 1\\times\\cos A}{\\sqrt{3}\\cos B + 1\\times\\cos A}-\\frac{1}{1}$，计算$\\cos B=\\frac{a^2+c^2-b^2}{2ac}=\\frac{3+1-1}{2\\sqrt{3}}=\\frac{\\sqrt{3}}{2}$，代入得$\\frac{\\sqrt{3}\\times\\frac{\\sqrt{3}}{2} - (-\\frac{1}{2})}{\\sqrt{3}\\times\\frac{\\sqrt{3}}{2} + (-\\frac{1}{2})}-1=\\frac{2}{1}-1=1$，完全符合题干条件，结果正确。\n\n最终结论：(1) $\\boldsymbol{bc=1}$；(2) $\\triangle ABC$面积为$\\boldsymbol{\\frac{\\sqrt{3}}{4}}$。"
+    }
+  ],
+  "math_processing_result": [
+    {
+      "unit_content": "(1) 记$\\triangle ABC$的内角$A,B,C$的对边分别为$a,b,c$，已知$\\frac{b^2 + c^2 - a^2}{\\cos A}=2$，求$bc$；",
+      "classify_result": "套路知识类",
+      "pre_process": [
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "余弦定理的表达式为$\\cos A = \\frac{b^2 + c^2 - a^2}{bc}$，判断是否正确。",
+          "answer": "错误。错误原因：余弦定理中$\\cos A$的分母为$2bc$，正确表达式为$\\cos A = \\frac{b^2 + c^2 - a^2}{2bc}$。高考易错点提醒：使用余弦定理时遗漏系数2是高频失分点，需牢记分子是两边平方和减对边平方，分母是两边乘积的2倍。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "填空题",
+          "train_content": "在$\\triangle ABC$中，内角$A \\in (0,\\pi)$，因此$\\cos A$的取值范围是______。",
+          "answer": "$(-1,1)$。高考易错点提醒：$\\cos A$作为原式的分母，必然不为0，变形等式时无需额外讨论分母为0的情况，但需明确该隐含条件。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "看到题干中出现$b^2 + c^2 - a^2$与$\\cos A$的组合形式，首先应联想到哪个课内公式？",
+          "standard_answer": "由余弦定理得$\\cos A = \\frac{b^2 + c^2 - a^2}{2bc}$，即$b^2 + c^2 - a^2 = 2bc\\cos A$。高考得分点说明：该公式是解三角形中边角互化的核心公式，涉及边的平方和与对应角余弦的组合时优先使用，属于必写步骤；同类题型拓展提示：凡出现三边平方与内角余弦的等式，均可优先尝试余弦定理代入化简；高考高频考法提醒：常结合分式、乘积等形式考察公式的代入变形能力。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知$\\frac{b^2 + c^2 - a^2}{\\cos A}=2$，将余弦定理代入该式后可化简得到什么结论？",
+          "standard_answer": "由$b^2 + c^2 - a^2 = 2bc\\cos A$代入得$\\frac{2bc\\cos A}{\\cos A}=2bc=2$。高考得分点说明：代入化简的过程为关键步骤，需明确说明$\\cos A \\neq 0$（分母不为0）才能约去$\\cos A$，否则会扣步骤分；同类题型拓展提示：含分式的等式变形时，需先确认分母不为0，再进行约分操作；高考高频考法提醒：常隐藏分母不为0的隐含条件，需主动说明。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "由$2bc=2$求解$bc$的最终结果是什么？",
+          "standard_answer": "由$2bc=2$得$bc=1$。高考得分点说明：最终结果需明确写出，为该小问的最终得分点；同类题型拓展提示：若后续小问需要用到$bc$的值，可直接承接该结果进行计算；高考高频考法提醒：大题第一问的结论通常为第二问的铺垫，需确保结果准确。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "在$\\frac{2bc\\cos A}{\\cos A}=2$中，直接约去$\\cos A$得到$2bc=2$的操作无需任何前提条件，判断是否正确。",
+          "answer": "错误。错误原因：约分时必须保证被约去的项$\\cos A \\neq 0$，本题中$\\cos A$是原式的分母，本身不为0，因此可以约去，但若题干未明确分母不为0，需先证明再约分。高考易错点提醒：等式变形时随意约分是高频失分点，必须先确认约分项不为0。"
+        }
+      ]
+    },
+    {
+      "unit_content": "(2) 若$\\frac{a\\cos B - b\\cos A}{a\\cos B + b\\cos A} - \\frac{b}{c} = 1$，求$\\triangle ABC$的面积。",
+      "classify_result": "套路知识类",
+      "pre_process": [
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "正弦定理的内容为$\\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C} = 2R$（$R$为$\\triangle ABC$外接圆半径），因此$a = 2R\\sin A$，$b=2R\\sin B$，$c=2R\\sin C$，该变形适用于所有三角形，判断是否正确。",
+          "answer": "正确。高考易错点提醒：正弦定理的边角互化变形对任意三角形成立，当等式两边边的次数相同时，可直接约去$2R$，实现边到角的正弦的转换，无需写出$R$。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "填空题",
+          "train_content": "在$\\triangle ABC$中，内角$A,B,C$满足$A+B+C=\\pi$，因此$\\sin C =$______（用$A,B$的三角函数表示）。",
+          "answer": "$\\sin(A+B)$。高考易错点提醒：由诱导公式$\\sin(\\pi - x) = \\sin x$得$\\sin C = \\sin(A+B)$，而$\\cos C = -\\cos(A+B)$，注意余弦的符号，避免符号错误。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "看到题干中出现边与角余弦混合的等式$\\frac{a\\cos B - b\\cos A}{a\\cos B + b\\cos A} - \\frac{b}{c} = 1$，优先采用什么方法进行化简？",
+          "standard_answer": "由正弦定理将边化角，将$a=2R\\sin A$，$b=2R\\sin B$，$c=2R\\sin C$代入，约去$2R$得$\\frac{\\sin A\\cos B - \\cos A\\sin B}{\\sin A\\cos B + \\cos A\\sin B} - \\frac{\\sin B}{\\sin C} = 1$。高考得分点说明：正弦定理边角互化是该步骤的核心得分点，需明确说明使用正弦定理进行变形；同类题型拓展提示：当等式两边边的次数一致时，优先选择边化角的化简方式；高考高频考法提醒：解三角形中含边角混合的等式，绝大多数题目优先采用正弦定理边角互化。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "看到$\\sin A\\cos B - \\cos A\\sin B$和$\\sin A\\cos B + \\cos A\\sin B$的形式，应联想到哪个课内公式？",
+          "standard_answer": "由两角和差的正弦公式得$\\sin A\\cos B - \\cos A\\sin B = \\sin(A-B)$，$\\sin A\\cos B + \\cos A\\sin B = \\sin(A+B)$，结合三角形内角和得$\\sin(A+B) = \\sin C$，因此原式可化简为$\\frac{\\sin(A-B)}{\\sin C} - \\frac{\\sin B}{\\sin C} = 1$。高考得分点说明：和差角公式的应用是化简的关键步骤，需准确识别公式的结构特征；同类题型拓展提示：凡出现同角正余弦乘积的和/差形式，优先尝试和差角公式合并；高考高频考法提醒：常结合三角形内角和的诱导公式考察，需主动将$\\sin(A+B)$转换为$\\sin C$。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "将$\\frac{\\sin(A-B) - \\sin B}{\\sin C} = 1$去分母后，结合$\\sin C = \\sin(A+B)$，可化简得到什么结论？",
+          "standard_answer": "由去分母得$\\sin(A-B) - \\sin B = \\sin C = \\sin(A+B)$，展开两边得$\\sin A\\cos B - \\cos A\\sin B - \\sin B = \\sin A\\cos B + \\cos A\\sin B$，消去$\\sin A\\cos B$后得$-\\sin B = 2\\cos A\\sin B$。高考得分点说明：利用三角形内角和转换$\\sin C$是核心得分点，展开和差角公式后消去同类项的过程需清晰；同类题型拓展提示：出现多个角的三角函数时，优先利用内角和减少角的数量，实现消元；高考高频考法提醒：消元是解三角形化简的核心思路，尽量将所有角转换为两个甚至一个角的形式。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知$-\\sin B = 2\\cos A\\sin B$，且承接第一问的$bc=1$，如何计算$\\triangle ABC$的面积？",
+          "standard_answer": "由$B \\in (0,\\pi)$得$\\sin B \\neq 0$，约去$\\sin B$得$\\cos A = -\\frac{1}{2}$，结合$A \\in (0,\\pi)$得$\\sin A = \\frac{\\sqrt{3}}{2}$，再由三角形面积公式得$S = \\frac{1}{2}bc\\sin A = \\frac{1}{2} \\times 1 \\times \\frac{\\sqrt{3}}{2} = \\frac{\\sqrt{3}}{4}$。高考得分点说明：$\\sin B \\neq 0$的前提说明、$\\sin A$的求解、面积公式的应用均为得分点，缺一不可；同类题型拓展提示：三角形面积公式有多种形式，当已知两边乘积及其夹角时，优先使用$S = \\frac{1}{2}ab\\sin C$类公式；高考高频考法提醒：面积公式常与余弦定理、正弦定理结合考察，需根据已知条件选择合适的公式。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "在$\\triangle ABC$中，内角$B$的正弦值$\\sin B$可能为0，因此化简$-\\sin B = 2\\cos A\\sin B$时需讨论$\\sin B = 0$的情况，判断是否正确。",
+          "answer": "错误。错误原因：三角形内角$B \\in (0,\\pi)$，因此$\\sin B > 0$，不可能为0，化简时可直接约去$\\sin B$，无需额外讨论。高考易错点提醒：三角形内角的正弦值恒为正，是化简时的重要隐含条件，遗漏该前提会导致步骤冗余或扣分。"
+        }
+      ]
     }
   ]
 }

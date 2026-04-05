@@ -27,7 +27,15 @@
   },
   "tags": [
     "数学",
-    "思维"
+    "思维",
+    "知识点::数学::解三角形::正弦定理",
+    "知识点::数学::解三角形::余弦定理",
+    "能力素养::数学::逻辑推理",
+    "题型::解答题::解三角形综合题",
+    "难度::中档::高考真题::多小问综合",
+    "知识点::数学::解三角形::三角形面积计算",
+    "能力素养::数学::运算求解",
+    "打印::数学::原三角函数"
   ],
   "sub_questions": [],
   "math_thinking_chain": [
@@ -35,6 +43,86 @@
       "target_id": "full",
       "target_label": "整个题目",
       "content": "### 第一问\n**分析**：首先翻译题干原始信息：1. △ABC中，已知两边AB=2、AC=1，夹角∠BAC=120°，根据三角形内角和性质，剩余两个角均为锐角，三角函数值均为正；2. 目标求$\\sin\\angle ABC$，属于已知两边夹一角求对角正弦值，可通过余弦定理先求第三边，再结合正弦定理/同角三角函数关系求解，也可通过坐标系、向量等方法求解。\n**目标解决1**：需解决目标：求BC边的长度\n**解决方法1**：适用条件：已知三角形两边及夹角求第三边，直接使用余弦定理\n根据余弦定理公式：$BC^2 = AB^2 + AC^2 - 2\\cdot AB\\cdot AC\\cdot \\cos\\angle BAC$，代入数值计算：\n$BC^2=2^2+1^2-2\\times2\\times1\\times\\cos120^\\circ=4+1-4\\times(-\\frac{1}{2})=7$，边长为正，故$BC=\\sqrt{7}$。\n**解决方法2**：适用条件：已知线段长度和夹角，可建立平面直角坐标系用两点距离公式求边长\n以A为原点，AB所在直线为x轴建立坐标系：A(0,0)，B(2,0)，C点由极坐标转换得：横坐标$1\\times\\cos120^\\circ=-\\frac{1}{2}$，纵坐标$1\\times\\sin120^\\circ=\\frac{\\sqrt{3}}{2}$，即$C(-\\frac{1}{2},\\frac{\\sqrt{3}}{2})$，则$BC=\\sqrt{(2+\\frac{1}{2})^2+(0-\\frac{\\sqrt{3}}{2})^2}=\\sqrt{7}$，和方法1结果一致。\n**分析**：BC长度已求，接下来求解$\\sin\\angle ABC$，可通过正弦定理、余弦定理+同角关系、向量夹角公式三种路径实现。\n**目标解决2**：需解决目标：求$\\sin\\angle ABC$的值\n**解决方法1**：适用条件：已知三角形三边和一个内角，求另一内角正弦值，用正弦定理\n根据正弦定理：$\\frac{AC}{\\sin\\angle ABC}=\\frac{BC}{\\sin\\angle BAC}$，代入$AC=1,BC=\\sqrt{7},\\sin120^\\circ=\\frac{\\sqrt{3}}{2}$，得：\n$\\sin\\angle ABC=\\frac{AC\\cdot \\sin\\angle BAC}{BC}=\\frac{1\\times\\frac{\\sqrt{3}}{2}}{\\sqrt{7}}=\\frac{\\sqrt{21}}{14}$。\n**解决方法2**：适用条件：已知三角形三边，先求内角余弦，再用同角三角函数关系求正弦\n根据余弦定理：$\\cos\\angle ABC=\\frac{AB^2+BC^2-AC^2}{2\\cdot AB\\cdot BC}=\\frac{4+7-1}{2\\times2\\times\\sqrt{7}}=\\frac{5\\sqrt{7}}{14}$，因为∠ABC为锐角，故：\n$\\sin\\angle ABC=\\sqrt{1-\\cos^2\\angle ABC}=\\sqrt{1-\\frac{25\\times7}{196}}=\\frac{\\sqrt{21}}{14}$，和方法1结果一致。\n**分析**：第一问验证：$\\frac{\\sqrt{21}}{14}\\approx0.327<\\sin60^\\circ\\approx0.866$，符合∠ABC为锐角且小于60°的特征，结果正确。\n\n---\n\n### 第二问\n**分析**：翻译新增信息：1. ∠BAD=90°，结合∠BAC=120°，可得∠DAC=30°；2. D在BC边上，故B、D、C共线，△ABD与△ADC的面积比等于BD/DC，也可通过共边AD的面积公式求比例。目标求△ADC的面积，可通过求AD边长直接算面积、面积比分配总面积、坐标法求点算面积三种路径实现。\n**目标解决3**：需解决目标：求△ADC的面积\n**解决方法1**：适用条件：已知直角三角形锐角三角函数值，可求直角边长度，再用两边夹一角求面积\n由第一问得$\\sin\\angle ABC=\\frac{\\sqrt{21}}{14},\\cos\\angle ABC=\\frac{5\\sqrt{7}}{14}$，故$\\tan\\angle ABC=\\frac{\\sin B}{\\cos B}=\\frac{\\sqrt{3}}{5}$。在Rt△ABD中，∠BAD=90°，AB=2，故$AD=AB\\cdot \\tan\\angle ABC=2\\times\\frac{\\sqrt{3}}{5}=\\frac{2\\sqrt{3}}{5}$。\n△ADC中，$AD=\\frac{2\\sqrt{3}}{5},AC=1,\\angle DAC=30^\\circ$，面积公式：\n$S_{\\triangle ADC}=\\frac{1}{2}\\cdot AD\\cdot AC\\cdot \\sin30^\\circ=\\frac{1}{2}\\times\\frac{2\\sqrt{3}}{5}\\times1\\times\\frac{1}{2}=\\frac{\\sqrt{3}}{10}$。\n**解决方法2**：适用条件：两个三角形共边，可通过面积比结合总面积快速求解，无需计算边长\n首先计算△ABC总面积：$S_{\\triangle ABC}=\\frac{1}{2}\\cdot AB\\cdot AC\\cdot \\sin120^\\circ=\\frac{1}{2}\\times2\\times1\\times\\frac{\\sqrt{3}}{2}=\\frac{\\sqrt{3}}{2}$。\n△ABD与△ADC共边AD，面积比为：\n$\\frac{S_{\\triangle ADC}}{S_{\\triangle ABD}}=\\frac{\\frac{1}{2}\\cdot AD\\cdot AC\\cdot \\sin30^\\circ}{\\frac{1}{2}\\cdot AD\\cdot AB\\cdot \\sin90^\\circ}=\\frac{1\\times\\frac{1}{2}}{2\\times1}=\\frac{1}{4}$，即$S_{\\triangle ABD}=4S_{\\triangle ADC}$，总面积$S_{\\triangle ABC}=5S_{\\triangle ADC}$，故$S_{\\triangle ADC}=\\frac{1}{5}\\times\\frac{\\sqrt{3}}{2}=\\frac{\\sqrt{3}}{10}$，和方法1结果一致。\n**解决方法3**：适用条件：已知顶点坐标，可求直线方程得交点坐标，再用行列式求面积\n沿用第一问的坐标系，直线BC的斜率$k=\\frac{\\frac{\\sqrt{3}}{2}-0}{-\\frac{1}{2}-2}=-\\frac{\\sqrt{3}}{5}$，方程为$y=-\\frac{\\sqrt{3}}{5}(x-2)$。∠BAD=90°且AB沿x轴，故AD为竖直直线x=0，代入BC方程得$y=\\frac{2\\sqrt{3}}{5}$，即$D(0,\\frac{2\\sqrt{3}}{5})$。\n用行列式面积公式计算△ADC面积：\n$S=\\frac{1}{2}|0\\times(\\frac{2\\sqrt{3}}{5}-\\frac{\\sqrt{3}}{2})+0\\times(\\frac{\\sqrt{3}}{2}-0)+(-\\frac{1}{2})\\times(0-\\frac{2\\sqrt{3}}{5})|=\\frac{\\sqrt{3}}{10}$，结果和前两种方法一致。\n**分析**：第二问验证：$\\frac{\\sqrt{3}}{10}\\approx0.173$，为总面积$\\frac{\\sqrt{3}}{2}$的1/5，符合面积比关系，且D点横坐标0在-1/2和2之间，确实在BC边上，结果正确。\n\n---\n最终结论：\n(1) $\\sin\\angle ABC=\\boldsymbol{\\frac{\\sqrt{21}}{14}}$\n(2) △ADC的面积为$\\boldsymbol{\\frac{\\sqrt{3}}{10}}$"
+    }
+  ],
+  "math_processing_result": [
+    {
+      "unit_content": "(1)求 $\\sin \\angle ABC$；",
+      "classify_result": "套路知识类",
+      "pre_process": [
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "在△ABC中，已知两边AB、AC及其夹角∠BAC，由余弦定理求第三边BC的公式仅适用于锐角三角形，不适用于∠BAC为钝角的情况。",
+          "answer": "错误，错误原因：余弦定理对任意三角形（锐角、直角、钝角）均成立，当夹角为钝角时，其余弦值为负，代入公式后仍可正确计算对边长度；正确结论：$BC^2 = AB^2 + AC^2 - 2 \\cdot AB \\cdot AC \\cdot \\cos \\angle BAC$对任意三角形成立；高考易错点提醒：使用余弦定理时务必注意钝角的余弦值为负，避免符号错误导致计算结果出错。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "填空题",
+          "train_content": "$\\cos 120^\\circ$的取值为______。",
+          "answer": "$-\\frac{1}{2}$，高考易错点提醒：特殊角的三角函数值需结合角所在象限记忆，120°为第二象限角，余弦值为负，切勿误写为$\\frac{1}{2}$。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "在△ABC中，已知AB=2，AC=1，夹角∠BAC=120°，要求第三边BC的长度，应使用什么定理？写出对应的计算式。",
+          "standard_answer": "由余弦定理得$BC^2 = AB^2 + AC^2 - 2 \\cdot AB \\cdot AC \\cdot \\cos \\angle BAC$，代入数值得$BC^2 = 2^2 + 1^2 - 2 \\times 2 \\times 1 \\times \\cos 120^\\circ$；高考得分点说明：余弦定理的正确表述与边角匹配是本步骤核心得分点，若直接写出$BC=\\sqrt{7}$未写定理应用过程，会扣除步骤分；同类题型拓展提示：所有已知两边及夹角求第三边、已知三边求角的解三角形问题，均优先使用余弦定理求解。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已求得$BC=\\sqrt{7}$，要求$\\sin \\angle ABC$，已知AC=1，∠BAC=120°，应使用什么定理？写出对应的边角匹配比例式。",
+          "standard_answer": "由正弦定理得$\\frac{AC}{\\sin \\angle ABC} = \\frac{BC}{\\sin \\angle BAC}$；高考得分点说明：正弦定理的边角对应关系是本步骤核心得分点，必须明确AC是∠ABC的对边，BC是∠BAC的对边，边角不匹配会导致整题计算错误；同类题型拓展提示：已知两边及其中一边的对角、已知两角及一边求边/角的问题，优先使用正弦定理求解。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "由上述正弦定理的比例式，推导$\\sin \\angle ABC$的最终结果。",
+          "standard_answer": "由比例式变形得$\\sin \\angle ABC = \\frac{AC \\cdot \\sin \\angle BAC}{BC}$，代入数值得$\\sin \\angle ABC = \\frac{1 \\times \\sin 120^\\circ}{\\sqrt{7}} = \\frac{\\sqrt{21}}{14}$；高考得分点说明：特殊角三角函数值的正确代入、根式的化简是本步骤得分点，结果必须化为最简根式；同类题型拓展提示：若题目要求求∠ABC的度数，需结合角的范围进一步判断，本题仅求正弦值无需额外判断。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "在△ABC中，已知∠BAC=120°为钝角，求得$\\sin \\angle ABC = \\frac{\\sqrt{21}}{14}$，此时需要考虑∠ABC为钝角的情况，存在两个解。",
+          "answer": "错误，错误原因：三角形内角和为180°，若已有一个内角为120°钝角，其余两个内角之和仅为60°，因此∠ABC必为锐角，不存在钝角的可能；正确结论：该情况下$\\sin \\angle ABC$仅有唯一解$\\frac{\\sqrt{21}}{14}$；高考易错点提醒：求解三角形内角的三角函数值时，需结合已知角的范围判断解的个数，避免多解错误。"
+        }
+      ]
+    },
+    {
+      "unit_content": "(2)若$D$为$BC$上一点，且$\\angle BAD=90^\\circ$，求$\\triangle ADC$的面积。",
+      "classify_result": "套路知识类",
+      "pre_process": [
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "在△ABC中，∠BAC=120°，D为BC上一点且∠BAD=90°，因此$\\angle DAC=\\angle BAC + \\angle BAD=210^\\circ$。",
+          "answer": "错误，错误原因：D在BC边上，因此AD位于∠BAC的内部，∠DAC应为∠BAC减去∠BAD；正确结论：$\\angle DAC = 120^\\circ - 90^\\circ = 30^\\circ$；高考易错点提醒：涉及角的拆分与合并时，必须先确认点的位置关系，明确角的包含关系，避免加减方向错误。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "填空题",
+          "train_content": "已知α为锐角，$\\sin \\alpha = \\frac{\\sqrt{21}}{14}$，则$\\cos \\alpha$的取值为______。",
+          "answer": "$\\frac{5\\sqrt{7}}{14}$，高考易错点提醒：由正弦值求余弦值时，必须先明确角的范围，确定余弦值的符号，锐角的余弦值为正，钝角的余弦值为负，切勿遗漏符号判断。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "在Rt△ABD中，∠BAD=90°，AB=2，已知$\\sin \\angle ABD = \\frac{\\sqrt{21}}{14}$且∠ABD为锐角，要求AD的长度，优先使用什么方法？写出推导过程。",
+          "standard_answer": "优先使用锐角三角函数的定义，先由同角三角函数基本关系求$\\tan \\angle ABD$，再由正切定义求AD，即$\\cos \\angle ABD = \\sqrt{1 - \\sin^2 \\angle ABD} = \\frac{5\\sqrt{7}}{14}$，$\\tan \\angle ABD = \\frac{\\sin \\angle ABD}{\\cos \\angle ABD} = \\frac{\\sqrt{3}}{5}$，因此$AD = AB \\cdot \\tan \\angle ABD$；高考得分点说明：同角三角函数的平方关系、直角三角形中锐角正切的定义是本步骤得分点，必须明确标注∠ABD为锐角，因此余弦值为正，直接写$\\tan \\angle ABD$的值会扣除步骤分；同类题型拓展提示：直角三角形中的边角计算优先使用锐角三角函数定义，比正弦定理更简洁高效。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已求得$AD = \\frac{2\\sqrt{3}}{5}$，AC=1，∠DAC=30°，求△ADC的面积，写出对应的计算式。",
+          "standard_answer": "由两边及夹角的三角形面积公式得$S_{\\triangle ADC} = \\frac{1}{2} \\cdot AD \\cdot AC \\cdot \\sin \\angle DAC$，代入数值得$S_{\\triangle ADC} = \\frac{1}{2} \\times \\frac{2\\sqrt{3}}{5} \\times 1 \\times \\sin 30^\\circ$；高考得分点说明：面积公式的正确应用是本步骤核心得分点，切勿遗漏系数$\\frac{1}{2}$；同类题型拓展提示：已知三角形两边及夹角时，优先使用该面积公式，比求底和高的方法更快捷。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "若采用面积比法求解△ADC的面积，已知△ABC的总面积为$\\frac{\\sqrt{3}}{2}$，写出$\\frac{S_{\\triangle ADC}}{S_{\\triangle ABD}}$的推导过程及最终结果。",
+          "standard_answer": "由三角形面积公式得$\\frac{S_{\\triangle ADC}}{S_{\\triangle ABD}} = \\frac{\\frac{1}{2} \\cdot AD \\cdot AC \\cdot \\sin 30^\\circ}{\\frac{1}{2} \\cdot AD \\cdot AB \\cdot \\sin 90^\\circ} = \\frac{AC \\cdot \\sin 30^\\circ}{AB \\cdot \\sin 90^\\circ} = \\frac{1}{4}$，因此$S_{\\triangle ADC} = \\frac{1}{1+4} S_{\\triangle ABC} = \\frac{1}{5} \\times \\frac{\\sqrt{3}}{2} = \\frac{\\sqrt{3}}{10}$；高考得分点说明：面积比的推导过程是本步骤得分点，高考大题作答时必须完整写出面积比的推导过程，禁止直接使用比例关系；高考使用规范：本面积比方法仅可在选择/填空题中直接使用，高考大题作答时必须先完成推导，否则会扣除步骤分。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "计算△ADC的面积时，已知AD、AC的长度和∠DAC的度数，使用面积公式$S = \\frac{1}{2} \\cdot AD \\cdot AC \\cdot \\sin \\angle DAC$，其中的角可以是任意内角，无需为两边的夹角。",
+          "answer": "错误，错误原因：该面积公式中的角必须是已知两边的夹角，否则无法直接使用；正确结论：本题中∠DAC是AD和AC的夹角，因此可以直接使用该公式；高考易错点提醒：使用两边及夹角的面积公式时，务必确认角为两边的夹角，避免误用公式导致结果错误。"
+        }
+      ]
     }
   ]
 }

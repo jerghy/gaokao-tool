@@ -1,0 +1,61 @@
+{
+  "id": "20260405152034",
+  "created_at": "2026-04-05 15:20:34",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "config_id": "cfg_20260405152034_gntu548j"
+      }
+    ]
+  },
+  "answer": {
+    "items": []
+  },
+  "tags": [
+    "数学",
+    "打印::数学::一4/5"
+  ],
+  "sub_questions": [],
+  "math_processing_result": [
+    {
+      "unit_content": "已知长方形 ABCD 中，AB=4，AD=2，点 M 是 CD 的中点，则$\\overrightarrow{AC} \\cdot \\overrightarrow{AM}=$\nA. 12\nB. 14\nC. 20\nD. 24",
+      "classify_result": "套路知识类",
+      "pre_process": [
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "长方形ABCD中，邻边向量$\\overrightarrow{AB}$与$\\overrightarrow{AD}$的数量积等于$|\\overrightarrow{AB}| \\cdot |\\overrightarrow{AD}| = 8$。",
+          "answer": "错误，错误原因：长方形邻边互相垂直，向量夹角为$90^\\circ$，根据数量积定义，垂直向量的数量积为0，而非模长的乘积；高考易错点提醒：计算向量数量积时需先明确向量夹角，避免忽略垂直、反向等特殊夹角的数量积特点，直接套用模长相乘公式。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "平面向量的数量积运算满足结合律，即$(\\vec{a} \\cdot \\vec{b}) \\cdot \\vec{c} = \\vec{a} \\cdot (\\vec{b} \\cdot \\vec{c})$恒成立。",
+          "answer": "错误，错误原因：数量积的运算结果是实数，$(\\vec{a} \\cdot \\vec{b}) \\cdot \\vec{c}$是与$\\vec{c}$共线的向量，$\\vec{a} \\cdot (\\vec{b} \\cdot \\vec{c})$是与$\\vec{a}$共线的向量，二者不一定相等，因此数量积不满足结合律；高考易错点提醒：数量积仅满足交换律与分配律，运算时禁止误用结合律，避免出现逻辑错误。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "本题给出长方形（存在垂直邻边），要求计算两个共起点向量的数量积，首先应想到的两种标准解题范式是什么？",
+          "standard_answer": "由题目存在垂直的向量条件，得两种标准解法：① 坐标法：建立平面直角坐标系，将向量转化为坐标形式，代入坐标公式计算；② 基底法：选取垂直的邻边向量作为基底，将目标向量用基底线性表示，利用数量积运算律展开化简。高考得分点说明：两种方法均为高考认可的标准解法，坐标法思路直观、出错率低，为优先选择的通用通法；同类题型拓展提示：所有包含垂直几何要素（如正方形、直角梯形、直角三角形、菱形的对角线等）的向量数量积问题，均可优先尝试坐标法；高考高频考法提醒：常结合中点、比例分点、动点等几何条件，考察向量表示的准确性。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "若采用坐标法，以A为坐标原点，AB所在直线为x轴、AD所在直线为y轴建立平面直角坐标系，分别写出向量$\\overrightarrow{AC}$与$\\overrightarrow{AM}$的坐标。",
+          "standard_answer": "由各点的几何位置得A(0,0)、C(4,2)、M(2,2)，因此$\\overrightarrow{AC}=(4,2)$，$\\overrightarrow{AM}=(2,2)$。高考得分点说明：向量坐标的正确书写是坐标法的核心得分点，共起点于原点的向量坐标等于其终点坐标；同类题型拓展提示：若选择其他点为坐标原点，向量坐标为终点坐标减去起点坐标，需严格遵循坐标运算规则；高考高频考法提醒：常设置隐含的位置条件（如对称点、投影点等），需准确推导点的坐标后再计算向量。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知两个平面向量的坐标为$(x_1,y_1)$和$(x_2,y_2)$，写出数量积的坐标计算公式并计算本题的结果。",
+          "standard_answer": "由平面向量数量积的坐标运算公式得$\\vec{a} \\cdot \\vec{b} = x_1x_2 + y_1y_2$，代入本题向量坐标得$\\overrightarrow{AC} \\cdot \\overrightarrow{AM} = 4 \\times 2 + 2 \\times 2 = 12$。高考得分点说明：数量积公式的正确运用是最终得分的核心，需注意与向量共线、向量模长的坐标公式进行区分，避免混淆；同类题型拓展提示：若采用基底法，将$\\overrightarrow{AC}=\\overrightarrow{AB}+\\overrightarrow{AD}$、$\\overrightarrow{AM}=\\frac{1}{2}\\overrightarrow{AB}+\\overrightarrow{AD}$展开后，利用$\\overrightarrow{AB} \\cdot \\overrightarrow{AD}=0$化简，结果与坐标法完全一致；高考高频考法提醒：常结合向量夹角、模长最值等问题，考察数量积公式的灵活应用。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "本题计算得到$\\overrightarrow{AC} \\cdot \\overrightarrow{AM}$的结果为12，对应选项为C。",
+          "answer": "错误，错误原因：本题选项A对应数值为12，选项C对应数值为20，属于计算结果与选项对应错误；高考易错点提醒：完成计算后需仔细核对选项序号与结果的对应关系，避免因粗心选错答案造成非知识性失分。"
+        }
+      ]
+    }
+  ]
+}

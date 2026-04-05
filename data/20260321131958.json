@@ -25,7 +25,15 @@
   },
   "tags": [
     "数学",
-    "思维"
+    "思维",
+    "能力素养::数学::逻辑推理",
+    "难度::中档::多公式综合化简",
+    "题型::选择题::单项选择题::高考真题",
+    "知识点::数学::三角函数::三角恒等变换::辅助角公式",
+    "知识点::数学::三角函数::同角三角函数基本关系",
+    "知识点::数学::三角函数::三角恒等变换::两角和与差公式",
+    "能力素养::数学::运算求解",
+    "打印::数学::原三角函数"
   ],
   "sub_questions": [],
   "math_thinking_chain": [
@@ -33,6 +41,47 @@
       "target_id": "full",
       "target_label": "整个题目",
       "content": "**分析**：本题为三角恒等变换类选择题，题干给出含α、β的三角恒等式，要求推导tan(α±β)的值，首先逐句翻译已知信息：1. 根据辅助角公式，同角正弦加余弦$\\sin x+\\cos x$可合并为$\\sqrt{2}\\sin(x+\\frac{\\pi}{4})$或$\\sqrt{2}\\cos(x-\\frac{\\pi}{4})$；2. 右侧$\\cos(\\alpha+\\frac{\\pi}{4})$可通过余弦和角公式展开为$\\frac{\\sqrt{2}}{2}(\\cos\\alpha-\\sin\\alpha)$。解题可选路径包括：辅助角+角拼凑法、全展开合并同类项法、特殊值代入验证法，三类方法分别对应通用通法、基础运算通法、选择题巧法。\n**目标解决1**：需解决目标：通过辅助角+角拼凑的方法推导α与β的关系。\n**解决方法1**：适用条件：等式中存在同角正弦、余弦的线性组合，且角可拆分为已知结构的和差形式时，优先用辅助角合并后凑和差角公式。\n对等式左边用辅助角公式化简：$\\sin(\\alpha+\\beta)+\\cos(\\alpha+\\beta) = \\sqrt{2}\\sin\\left[(\\alpha+\\beta) + \\frac{\\pi}{4}\\right]$，将角拆分为$(\\alpha+\\frac{\\pi}{4}) + \\beta$，原等式变为：\n$$\\sqrt{2}\\sin\\left[(\\alpha+\\frac{\\pi}{4})+\\beta\\right] = 2\\sqrt{2}\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta$$\n两边约去$\\sqrt{2}$得：\n$$\\sin\\left[(\\alpha+\\frac{\\pi}{4})+\\beta\\right] = 2\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta$$\n用正弦和角公式展开左边：$\\sin(\\alpha+\\frac{\\pi}{4})\\cos\\beta + \\cos(\\alpha+\\frac{\\pi}{4})\\sin\\beta = 2\\cos(\\alpha+\\frac{\\pi}{4})\\sin\\beta$\n移项合并同类项：$\\sin(\\alpha+\\frac{\\pi}{4})\\cos\\beta - \\cos(\\alpha+\\frac{\\pi}{4})\\sin\\beta = 0$\n左边符合正弦差角公式，即$\\sin\\left[(\\alpha+\\frac{\\pi}{4}) - \\beta\\right] = \\sin\\left(\\alpha - \\beta + \\frac{\\pi}{4}\\right) = 0$\n因此$\\alpha - \\beta + \\frac{\\pi}{4} = k\\pi, k\\in\\mathbb{Z}$，两边取正切得$\\tan(\\alpha - \\beta) = \\tan(k\\pi - \\frac{\\pi}{4}) = -1$。\n**解决方法2**：适用条件：三角恒等式中所有角均为和角形式，无明显凑角结构时，直接展开所有和差角公式整理。\n分别展开等式左右两侧所有和角：\n左侧：$\\sin(\\alpha+\\beta)+\\cos(\\alpha+\\beta) = \\sin\\alpha\\cos\\beta + \\cos\\alpha\\sin\\beta + \\cos\\alpha\\cos\\beta - \\sin\\alpha\\sin\\beta$\n右侧：先展开$\\cos(\\alpha+\\frac{\\pi}{4})=\\frac{\\sqrt{2}}{2}(\\cos\\alpha - \\sin\\alpha)$，代入得$2\\sqrt{2} \\times \\frac{\\sqrt{2}}{2}(\\cos\\alpha - \\sin\\alpha)\\sin\\beta = 2(\\cos\\alpha - \\sin\\alpha)\\sin\\beta = 2\\cos\\alpha\\sin\\beta - 2\\sin\\alpha\\sin\\beta$\n左右相等，移项合并所有项到左侧：\n$$\\sin\\alpha\\cos\\beta + \\cos\\alpha\\sin\\beta + \\cos\\alpha\\cos\\beta - \\sin\\alpha\\sin\\beta - 2\\cos\\alpha\\sin\\beta + 2\\sin\\alpha\\sin\\beta = 0$$\n化简得：$(\\sin\\alpha\\cos\\beta - \\cos\\alpha\\sin\\beta) + (\\cos\\alpha\\cos\\beta + \\sin\\alpha\\sin\\beta) = 0$\n前项为$\\sin(\\alpha-\\beta)$，后项为$\\cos(\\alpha-\\beta)$，即$\\sin(\\alpha-\\beta) + \\cos(\\alpha-\\beta) = 0$，移项得$\\sin(\\alpha-\\beta) = -\\cos(\\alpha-\\beta)$，两边同除以$\\cos(\\alpha-\\beta)$（显然$\\cos(\\alpha-\\beta)\\neq0$，否则$\\sin(\\alpha-\\beta)=0$矛盾），得$\\tan(\\alpha-\\beta) = -1$。\n**解决方法3**：适用条件：选择题，题干为对任意变量成立的恒等式时，可通过赋值特殊角快速排除错误选项。\n第一次赋值：令$\\beta=0$，代入原等式得$\\sin\\alpha + \\cos\\alpha = 0$，即$\\tan\\alpha=-1$，取$\\alpha=-\\frac{\\pi}{4}$，此时$\\alpha-\\beta=-\\frac{\\pi}{4}$，$\\tan(\\alpha-\\beta)=-1$，$\\alpha+\\beta=-\\frac{\\pi}{4}$，$\\tan(\\alpha+\\beta)=-1$，排除选项A、B；\n第二次赋值：令$\\beta=\\frac{\\pi}{4}$，代入原等式得$\\sin(\\alpha+\\frac{\\pi}{4})+\\cos(\\alpha+\\frac{\\pi}{4})=2\\sqrt{2}\\cos(\\alpha+\\frac{\\pi}{4})\\cdot\\sin\\frac{\\pi}{4}$，化简左侧为$\\sqrt{2}\\sin(\\alpha+\\frac{\\pi}{2})=\\sqrt{2}\\cos\\alpha$，右侧为$2\\sqrt{2}\\cos(\\alpha+\\frac{\\pi}{4})\\cdot\\frac{\\sqrt{2}}{2}=2\\cos(\\alpha+\\frac{\\pi}{4})=\\sqrt{2}\\cos\\alpha - \\sqrt{2}\\sin\\alpha$，等式化简得$\\sin\\alpha=0$，取$\\alpha=0$，此时$\\alpha-\\beta=-\\frac{\\pi}{4}$，$\\tan(\\alpha-\\beta)=-1$，$\\alpha+\\beta=\\frac{\\pi}{4}$，$\\tan(\\alpha+\\beta)=1$，排除选项D，最终选C。\n**分析**：对结果进行合理性验证：将$\\tan(\\alpha-\\beta)=-1$即$\\alpha=\\beta - \\frac{\\pi}{4} +k\\pi$代入原等式，左侧$\\sin(2\\beta - \\frac{\\pi}{4} +k\\pi)+\\cos(2\\beta - \\frac{\\pi}{4} +k\\pi)=(-1)^k (\\sin(2\\beta - \\frac{\\pi}{4})+\\cos(2\\beta - \\frac{\\pi}{4}))=(-1)^k \\sqrt{2}\\sin2\\beta$，右侧$2\\sqrt{2}\\cos(\\beta - \\frac{\\pi}{4} +k\\pi + \\frac{\\pi}{4})\\sin\\beta=2\\sqrt{2}\\cos(\\beta+k\\pi)\\sin\\beta=(-1)^k \\sqrt{2}\\sin2\\beta$，左右完全相等，结果正确。\n最终答案：$\\boldsymbol{C}$"
+    }
+  ],
+  "math_processing_result": [
+    {
+      "unit_content": "6. (2022 新高考$II$, 6, 5 分) 若 $\\sin(\\alpha+\\beta)+\\cos(\\alpha+\\beta)=2\\sqrt{2}\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta$，则\nA.$\\tan(\\alpha-\\beta)=1$\nB.$\\tan(\\alpha+\\beta)=1$\nC.$\\tan(\\alpha-\\beta)=-1$\nD.$\\tan(\\alpha+\\beta)=-1$",
+      "classify_result": "套路知识类",
+      "pre_process": [
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "两角和的余弦公式为 $\\cos(A+B) = \\cos A \\cos B + \\sin A \\sin B$",
+          "answer": "错误，错误原因：两角和的余弦公式的交叉项符号为负，正确结论为 $\\cos(A+B) = \\cos A \\cos B - \\sin A \\sin B$，高考易错点提醒：三角恒等变换中，和差角的余弦公式符号与正弦公式相反，是高频失分点，展开复合角时需优先核对符号。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "填空题",
+          "train_content": "将 $\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)$ 展开为单角$\\alpha$的三角函数形式，其中$\\sin\\alpha$的系数为______",
+          "answer": "$-\\frac{\\sqrt{2}}{2}$"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "看到等式左侧形如 $\\sin(\\alpha+\\beta) + \\cos(\\alpha+\\beta)$ 的同角正余弦线性组合结构，优先采用什么公式进行化简？",
+          "standard_answer": "由同角正余弦线性组合的特征得，优先采用辅助角公式化简，可将其变形为 $\\sqrt{2}\\sin\\left(\\alpha+\\beta+\\frac{\\pi}{4}\\right)$ 或 $\\sqrt{2}\\cos\\left(\\alpha+\\beta-\\frac{\\pi}{4}\\right)$，高考得分点说明：辅助角变换是三角恒等变换的核心第一步化简手段，可有效减少复合角的数量，同类题型拓展提示：所有同角正余弦的和差结构都可优先尝试辅助角化简，高考高频考法：结合和差角、二倍角公式进行复合化简。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "化简等式 $\\sqrt{2}\\cos\\left(\\alpha+\\beta-\\frac{\\pi}{4}\\right) = 2\\sqrt{2}\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta$ 时，第一步的标准简化操作是什么？",
+          "standard_answer": "由等式两边存在非零公因子的特征得，优先约去两边非零公因子$\\sqrt{2}$，得到 $\\cos\\left(\\alpha+\\beta-\\frac{\\pi}{4}\\right) = 2\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta$，高考得分点说明：约去非零公因子是化简三角等式的常见简化操作，需注意确认公因子不为零（本题中$\\sqrt{2} \\neq 0$，可直接约去），同类题型拓展提示：若公因子含三角函数，需先讨论公因子为0的情况再约去，避免漏解，高考高频考法：结合角的拆分构造进行后续化简。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "当三角等式中含有多个复合角，且辅助角化简后仍无法直接得到正切相关结论时，优先采用什么操作？",
+          "standard_answer": "由复合角的结构特征得，优先将所有复合角用和差角公式展开为单角$\\alpha$、$\\beta$的三角函数形式，再合并同类项，高考得分点说明：复合角展开为单角是三角恒等变换的核心化简思路，可将复杂的复合角关系转化为单角的线性组合，同类题型拓展提示：若展开后出现正余弦的齐次式，可优先考虑同除以$\\cos\\alpha\\cos\\beta$（需确认不为零）构造正切，高考高频考法：结合两角和差的正切公式进行最终结论推导。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "在正余弦齐次式两边同时除以$\\cos\\alpha\\cos\\beta$构造正切时，无需考虑$\\cos\\alpha$或$\\cos\\beta$为零的情况，可直接相除。",
+          "answer": "错误，错误原因：若$\\cos\\alpha=0$或$\\cos\\beta=0$，则除法无意义，需先验证该情况是否符合原等式，正确结论：本题中若$\\cos\\alpha=0$，代入原等式化简后矛盾，故$\\cos\\alpha \\neq 0$，同理$\\cos\\beta \\neq 0$，可直接相除，高考易错点提醒：齐次式同除三角函数构造正切时，必须确认分母不为零，高考大题作答时需补充该验证步骤，否则会扣除步骤分。"
+        }
+      ]
     }
   ]
 }

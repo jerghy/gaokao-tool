@@ -1,0 +1,198 @@
+{
+  "id": "20260405153128",
+  "created_at": "2026-04-05 15:31:28",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "config_id": "cfg_20260405153128_stjda4op"
+      }
+    ]
+  },
+  "answer": {
+    "items": []
+  },
+  "tags": [
+    "数学",
+    "打印::数学::一4/5"
+  ],
+  "sub_questions": [],
+  "math_processing_result": [
+    {
+      "unit_content": "A. 当$\\omega=1$,$x\\in\\left[0,\\frac{\\pi}{6}\\right]$时,$F(x)$值域为$\\left[\\frac{1}{4},\\frac{1}{2}\\right]$",
+      "classify_result": "套路知识类",
+      "pre_process": [
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "将函数$f(x)=\\sin(\\omega x+\\varphi)$的图象向右平移$a$个单位长度，得到的函数解析式为$\\sin(\\omega(x - a) + \\varphi)$。",
+          "answer": "正确。高考易错点提醒：平移变换是针对自变量$x$的“左加右减”，若$x$前有系数，必须先提系数再进行平移操作，否则会出现平移量错误。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "$\\sin(\\alpha - \\frac{3\\pi}{2}) = -\\cos\\alpha$。",
+          "answer": "错误。错误原因：诱导公式应用错误，$\\sin(\\alpha - \\frac{3\\pi}{2})=\\sin(\\alpha + \\frac{\\pi}{2} - 2\\pi)=\\sin(\\alpha + \\frac{\\pi}{2})=\\cos\\alpha$。正确结论：$\\sin(\\alpha - \\frac{3\\pi}{2})=\\cos\\alpha$。高考易错点提醒：应用诱导公式时，可通过“奇变偶不变，符号看象限”的规则验证，避免符号错误。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知$f(x)=\\sin(\\omega x+\\frac{\\pi}{6})$，向右平移$\\frac{3\\pi}{2\\omega}$个单位得到$g(x)$，请写出$g(x)$的最简表达式。",
+          "standard_answer": "由平移规则“左加右减（针对$x$）”得$g(x)=\\sin[\\omega(x - \\frac{3\\pi}{2\\omega}) + \\frac{\\pi}{6}] = \\sin[(\\omega x + \\frac{\\pi}{6}) - \\frac{3\\pi}{2}]$，再由诱导公式得$g(x)=\\cos(\\omega x + \\frac{\\pi}{6})$。高考得分点：平移变换的操作规则、诱导公式的正确应用是该步骤的核心得分点，同类题型中三角函数平移均需先提$x$的系数再操作，高频考法为结合平移后函数的性质求参数。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知$F(x)=f(x)g(x)$，其中$f(x)=\\sin(\\omega x+\\frac{\\pi}{6})$，$g(x)=\\cos(\\omega x+\\frac{\\pi}{6})$，请写出$F(x)$的最简形式。",
+          "standard_answer": "由二倍角正弦公式$\\sin2\\alpha=2\\sin\\alpha\\cos\\alpha$得$F(x)=\\frac{1}{2}\\sin(2\\omega x + \\frac{\\pi}{3})$。高考得分点：二倍角公式的正确应用，注意系数$\\frac{1}{2}$不可遗漏，同类题型中正弦余弦乘积形式优先考虑二倍角公式化简，高频考法为结合化简后的三角函数性质命题。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "当$\\omega=1$，$x\\in[0,\\frac{\\pi}{6}]$时，求$F(x)=\\frac{1}{2}\\sin(2x + \\frac{\\pi}{3})$的内层函数$t=2x + \\frac{\\pi}{3}$的取值范围。",
+          "standard_answer": "由$x\\in[0,\\frac{\\pi}{6}]$得$2x\\in[0,\\frac{\\pi}{3}]$，因此$t=2x+\\frac{\\pi}{3}\\in[\\frac{\\pi}{3}, \\frac{2\\pi}{3}]$。高考得分点：由自变量范围推导内层三角函数的角的范围是求值域的核心前提，同类题型中需注意端点值的开闭，高频考法为结合正弦/余弦函数的单调性求值域。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知$t\\in[\\frac{\\pi}{3}, \\frac{2\\pi}{3}]$，求$\\sin t$的取值范围。",
+          "standard_answer": "由正弦函数在$[\\frac{\\pi}{3}, \\frac{\\pi}{2}]$单调递增，$[\\frac{\\pi}{2}, \\frac{2\\pi}{3}]$单调递减，得$\\sin t$的最大值为$\\sin(\\frac{\\pi}{2})=1$，最小值为$\\sin(\\frac{\\pi}{3})=\\sin(\\frac{2\\pi}{3})=\\frac{\\sqrt{3}}{2}$，因此$\\sin t\\in[\\frac{\\sqrt{3}}{2}, 1]$。高考得分点：结合三角函数的单调性求给定区间内的值域是核心得分点，避免直接代入端点计算的错误，同类题型中需先判断三角函数在区间内的单调性再求值域。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "当$\\omega=1$，$x\\in[0,\\frac{\\pi}{6}]$时，$F(x)=\\frac{1}{2}\\sin(2x + \\frac{\\pi}{3})$的值域为$[\\frac{1}{4}, \\frac{1}{2}]$。",
+          "answer": "错误。错误原因：$\\sin t$在$t\\in[\\frac{\\pi}{3}, \\frac{2\\pi}{3}]$的最小值为$\\frac{\\sqrt{3}}{2}$，乘以$\\frac{1}{2}$后为$\\frac{\\sqrt{3}}{4}\\approx0.433$，不是$\\frac{1}{4}$。正确结论：$F(x)$的值域为$[\\frac{\\sqrt{3}}{4}, \\frac{1}{2}]$。高考易错点提醒：数值计算时需准确记忆特殊角的三角函数值，避免混淆导致结果错误，本题选项A错误。"
+        }
+      ]
+    },
+    {
+      "unit_content": "B. 若$H(x)$图象关于点$\\left(\\frac{\\pi}{3},0\\right)$对称,则$\\omega$的最小值为$1$",
+      "classify_result": "套路知识类",
+      "pre_process": [
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "函数$y=\\tan x$的对称中心是$(k\\pi, 0)$，$k\\in\\mathbb{Z}$。",
+          "answer": "错误。错误原因：正切函数的对称中心包括渐近线与$x$轴的交点、以及函数与$x$轴的交点，即$(\\frac{k\\pi}{2}, 0)$，$k\\in\\mathbb{Z}$。正确结论：$y=\\tan x$的对称中心为$(\\frac{k\\pi}{2}, 0)$，$k\\in\\mathbb{Z}$。高考易错点提醒：易漏记$k$为奇数时的对称中心（即渐近线与$x$轴的交点），导致参数求解错误。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "分式函数$H(x)=\\frac{f(x)}{g(x)}$的定义域为全体实数，只要$f(x)$和$g(x)$都有定义即可。",
+          "answer": "错误。错误原因：分式函数的定义域要求分母不为0，因此$H(x)$的定义域还需满足$g(x)\\neq0$。正确结论：$H(x)$的定义域为$\\{x \\mid g(x)\\neq0, 且f(x)有定义\\}$。高考易错点提醒：涉及分式函数时，需优先考虑定义域限制，避免后续性质应用出错。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知$f(x)=\\sin(\\omega x+\\frac{\\pi}{6})$，$g(x)=\\cos(\\omega x+\\frac{\\pi}{6})$，请写出$H(x)=\\frac{f(x)}{g(x)}$的最简表达式及定义域。",
+          "standard_answer": "由同角三角函数基本关系得$H(x)=\\tan(\\omega x + \\frac{\\pi}{6})$，定义域为$\\{x \\mid \\omega x + \\frac{\\pi}{6} \\neq \\frac{\\pi}{2} + k\\pi, k\\in\\mathbb{Z}\\}$，即$\\{x \\mid x \\neq \\frac{\\frac{\\pi}{3} + k\\pi}{\\omega}, k\\in\\mathbb{Z}\\}$。高考得分点：同角三角函数商数关系的应用、分式函数定义域的求解是核心得分点，同类题型中涉及三角函数分式优先化为$\\tan/\\cot$形式，高频考法为结合正切函数的性质求参数。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "正切函数$y=\\tan(\\omega x + \\varphi)$的对称中心横坐标满足什么条件？",
+          "standard_answer": "令$\\omega x + \\varphi = \\frac{k\\pi}{2}$，$k\\in\\mathbb{Z}$，解得对称中心横坐标为$x=\\frac{\\frac{k\\pi}{2} - \\varphi}{\\omega}$，$k\\in\\mathbb{Z}$，对应对称中心为$(\\frac{\\frac{k\\pi}{2} - \\varphi}{\\omega}, 0)$。高考得分点：正切函数对称中心的性质是核心考点，需注意$k$的取值为全体整数，同类题型中对称中心、对称轴问题均需结合对应三角函数的性质列方程，高频考法为已知对称点/轴求参数。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知$H(x)=\\tan(\\omega x + \\frac{\\pi}{6})$的一个对称中心为$(\\frac{\\pi}{3}, 0)$，请列出关于$\\omega$的方程。",
+          "standard_answer": "由对称中心性质得$\\omega \\cdot \\frac{\\pi}{3} + \\frac{\\pi}{6} = \\frac{k\\pi}{2}$，$k\\in\\mathbb{Z}$。高考得分点：将已知对称点的横坐标代入对称中心的角的条件是核心步骤，同类题型中需注意代入的是横坐标而非整个点的坐标，高频考法为结合参数范围求参数的最值。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知$\\omega \\cdot \\frac{\\pi}{3} + \\frac{\\pi}{6} = \\frac{k\\pi}{2}$，$k\\in\\mathbb{Z}$且$\\omega>0$，求$\\omega$的最小正值。",
+          "standard_answer": "整理方程得$\\omega = \\frac{3k}{2} - \\frac{1}{2}$，$k\\in\\mathbb{Z}$，由$\\omega>0$得$\\frac{3k}{2} - \\frac{1}{2} > 0$，即$k>\\frac{1}{3}$，$k\\in\\mathbb{Z}$，因此$k$的最小正整数值为1，此时$\\omega=\\frac{3\\times1}{2} - \\frac{1}{2}=1$。高考得分点：结合参数范围求解整数$k$的最值是核心得分点，同类题型中需注意$k$的取值为全体整数，需验证最小$k$对应的$\\omega$是否符合要求，本题选项B正确。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "若正切函数的对称中心横坐标对应的角为$\\frac{\\pi}{2} +k\\pi$（即分母为0的点），则该点不是函数的对称中心。",
+          "answer": "错误。错误原因：正切函数的对称中心包括渐近线与$x$轴的交点，即使该点不在函数定义域内，只要满足图象关于该点中心对称即可。正确结论：$y=\\tan(\\omega x+\\varphi)$的对称中心为$(\\frac{\\frac{k\\pi}{2} - \\varphi}{\\omega}, 0)$，$k\\in\\mathbb{Z}$，包含分母为0的点。高考易错点提醒：易因忽略定义域外的对称中心导致参数求解错误，本题中$k=1$时对应的对称中心符合要求，$\\omega$的最小值为1，选项B正确。"
+        }
+      ]
+    },
+    {
+      "unit_content": "C. 若$F(x)\\leqslant F\\left(\\frac{\\pi}{4}\\right)$对于任意实数$x$都成立,则$\\omega$的最小值为$\\frac{1}{3}$",
+      "classify_result": "套路知识类",
+      "pre_process": [
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "若对于任意实数$x$，都有$f(x)\\leq f(a)$成立，则$f(a)$是函数$f(x)$的最大值，且$f(x)$在$x=a$处取得最大值。",
+          "answer": "正确。高考易错点提醒：该条件是函数最大值的定义，对应三角函数中即该点处函数值为振幅对应的最大值，需注意正弦/余弦函数取最大值时的角的条件。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "正弦函数$y=\\sin t$取最大值时，$t=\\frac{\\pi}{2} +k\\pi$，$k\\in\\mathbb{Z}$。",
+          "answer": "错误。错误原因：正弦函数的周期为$2\\pi$，取最大值时角需为$\\frac{\\pi}{2} + 2k\\pi$，$k\\in\\mathbb{Z}$，$k\\pi$的话包含了最小值的情况（$k$为奇数时$t=\\frac{3\\pi}{2} + 2n\\pi$，对应最小值$-1$）。正确结论：$y=\\sin t$取最大值时$t=\\frac{\\pi}{2} + 2k\\pi$，$k\\in\\mathbb{Z}$。高考易错点提醒：易混淆正弦/余弦函数取最值时的周期倍数，导致参数求解错误。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知$F(x)=\\frac{1}{2}\\sin(2\\omega x + \\frac{\\pi}{3})$，若$F(x)\\leq F(\\frac{\\pi}{4})$对任意$x$成立，说明$x=\\frac{\\pi}{4}$处满足什么条件？",
+          "standard_answer": "说明$F(\\frac{\\pi}{4})$是$F(x)$的最大值，因此$x=\\frac{\\pi}{4}$时，内层角$2\\omega x + \\frac{\\pi}{3}$需满足正弦函数取最大值的条件。高考得分点：理解函数最大值的定义，将恒成立条件转化为三角函数的最值条件是核心得分点，同类题型中“恒大于等于/小于等于某点函数值”均对应该点为最值点，高频考法为结合最值条件求参数。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "正弦函数$y=\\sin t$取最大值时，$t$的取值是什么？",
+          "standard_answer": "由正弦函数的性质，当$t=\\frac{\\pi}{2} + 2k\\pi$，$k\\in\\mathbb{Z}$时，$\\sin t$取得最大值$1$。高考得分点：正弦函数取最大值的角的条件是核心考点，需注意周期为$2k\\pi$而非$k\\pi$，同类题型中需区分最大值和最小值的条件，高频考法为代入最值点的横坐标列方程求解参数。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知$x=\\frac{\\pi}{4}$是$F(x)=\\frac{1}{2}\\sin(2\\omega x + \\frac{\\pi}{3})$的最大值点，请列出关于$\\omega$的方程。",
+          "standard_answer": "将$x=\\frac{\\pi}{4}$代入内层角，得$2\\omega \\cdot \\frac{\\pi}{4} + \\frac{\\pi}{3} = \\frac{\\pi}{2} + 2k\\pi$，$k\\in\\mathbb{Z}$。高考得分点：准确代入最值点的横坐标到内层角的表达式中是核心步骤，同类题型中需注意内层角的系数（本题中为$2\\omega$），避免漏乘，高频考法为结合参数范围求参数的最值。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知$2\\omega \\cdot \\frac{\\pi}{4} + \\frac{\\pi}{3} = \\frac{\\pi}{2} + 2k\\pi$，$k\\in\\mathbb{Z}$且$\\omega>0$，求$\\omega$的最小正值。",
+          "standard_answer": "整理方程得$\\frac{\\omega\\pi}{2} = \\frac{\\pi}{6} + 2k\\pi$，即$\\omega=\\frac{1}{3} + 4k$，$k\\in\\mathbb{Z}$，由$\\omega>0$得$k\\geq0$，$k\\in\\mathbb{Z}$，因此$k=0$时$\\omega$取得最小值$\\frac{1}{3}$。高考得分点：结合参数范围求解整数$k$的最值是核心得分点，同类题型中需注意$k$的最小非负整数值对应的$\\omega$是否符合要求，本题选项C正确。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "若$F(x)\\leq F(\\frac{\\pi}{4})$对于任意实数$x$都成立，则$\\omega$的最小值为$\\frac{1}{3}$。",
+          "answer": "正确。高考易错点提醒：求解时需注意内层角的系数为$2\\omega$，避免误将系数写成$\\omega$导致结果错误，本题选项C正确。"
+        }
+      ]
+    },
+    {
+      "unit_content": "D. 若$H(x)$在$\\left(-\\frac{\\pi}{4},\\frac{\\pi}{4}\\right)$上单调递增,则$\\omega$的取值范围为$\\left(0,\\frac{4}{3}\\right]$",
+      "classify_result": "套路知识类",
+      "pre_process": [
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "正切函数$y=\\tan x$在全体实数上单调递增。",
+          "answer": "错误。错误原因：正切函数在每个连续的单调区间$(-\\frac{\\pi}{2} +k\\pi, \\frac{\\pi}{2} +k\\pi)$，$k\\in\\mathbb{Z}$上单调递增，但在全体实数上不单调，存在间断点。正确结论：正切函数仅在每个独立的单调开区间内单调递增。高考易错点提醒：易忽略正切函数的间断性，认为在全体实数上单调，导致区间包含关系判断错误。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "若复合函数$y=\\tan(\\omega x + \\varphi)$（$\\omega>0$）在区间$(a,b)$上单调递增，则内层函数$t=\\omega x+\\varphi$在$x\\in(a,b)$时的取值范围必须完全包含在正切函数的某一个单调递增区间内。",
+          "answer": "正确。高考易错点提醒：复合三角函数的单调性需满足内层函数的值域是外层函数单调区间的子集，避免跨间断点导致单调性不成立。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知$H(x)=\\tan(\\omega x + \\frac{\\pi}{6})$（$\\omega>0$），求其单调递增区间的通式。",
+          "standard_answer": "令$-\\frac{\\pi}{2} +k\\pi < \\omega x + \\frac{\\pi}{6} < \\frac{\\pi}{2} +k\\pi$，$k\\in\\mathbb{Z}$，解得$x\\in(\\frac{-\\frac{2\\pi}{3} +k\\pi}{\\omega}, \\frac{\\frac{\\pi}{3} +k\\pi}{\\omega})$，$k\\in\\mathbb{Z}$，即为$H(x)$的单调递增区间。高考得分点：正切函数单调区间的求解是核心考点，需注意区间为开区间，且$k$为全体整数，同类题型中复合三角函数的单调区间需结合外层函数的单调区间和内层函数的单调性求解，高频考法为已知单调区间求参数范围。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "若$H(x)$在$(-\\frac{\\pi}{4}, \\frac{\\pi}{4})$上单调递增，说明区间$(-\\frac{\\pi}{4}, \\frac{\\pi}{4})$与$H(x)$的单调递增区间满足什么关系？",
+          "standard_answer": "说明区间$(-\\frac{\\pi}{4}, \\frac{\\pi}{4})$是$H(x)$的某一个单调递增区间的子集。高考得分点：将函数在某区间上单调的条件转化为区间包含关系是核心步骤，同类题型中所有“在某区间上单调”的问题均需转化为区间包含于对应单调区间的条件，高频考法为结合包含关系列不等式求解参数。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "当$x\\in(-\\frac{\\pi}{4}, \\frac{\\pi}{4})$时，求内层函数$t=\\omega x + \\frac{\\pi}{6}$（$\\omega>0$）的取值范围。",
+          "standard_answer": "由$\\omega>0$，$t$随$x$增大而增大，因此当$x=-\\frac{\\pi}{4}$时$t$取最小值$-\\frac{\\omega\\pi}{4} + \\frac{\\pi}{6}$，$x=\\frac{\\pi}{4}$时$t$取最大值$\\frac{\\omega\\pi}{4} + \\frac{\\pi}{6}$，即$t\\in(-\\frac{\\omega\\pi}{4} + \\frac{\\pi}{6}, \\frac{\\omega\\pi}{4} + \\frac{\\pi}{6})$。高考得分点：结合内层函数的单调性求其在给定区间内的值域是核心步骤，同类题型中需注意内层函数的单调性由$x$的系数符号决定，高频考法为将值域与外层函数的单调区间对比列不等式。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知$t\\in(-\\frac{\\omega\\pi}{4} + \\frac{\\pi}{6}, \\frac{\\omega\\pi}{4} + \\frac{\\pi}{6})$必须包含在$(-\\frac{\\pi}{2}, \\frac{\\pi}{2})$内，请列出关于$\\omega$的不等式组。",
+          "standard_answer": "需满足左端点$\\geq-\\frac{\\pi}{2}$且右端点$\\leq\\frac{\\pi}{2}$，即$\\begin{cases} -\\frac{\\omega\\pi}{4} + \\frac{\\pi}{6} \\geq -\\frac{\\pi}{2} \\\\ \\frac{\\omega\\pi}{4} + \\frac{\\pi}{6} \\leq \\frac{\\pi}{2} \\end{cases}$，且$\\omega>0$。高考得分点：准确列出区间包含的不等式是核心得分点，需注意端点处的等号是否可取（本题中$t$的区间是开区间，外层单调区间也是开区间，因此端点可取等），同类题型中需注意区间的开闭性，高频考法为解不等式组求参数范围。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "解不等式组$\\begin{cases} -\\frac{\\omega\\pi}{4} + \\frac{\\pi}{6} \\geq -\\frac{\\pi}{2} \\\\ \\frac{\\omega\\pi}{4} + \\frac{\\pi}{6} \\leq \\frac{\\pi}{2} \\end{cases}$（$\\omega>0$），得到$\\omega$的取值范围是$(0, \\frac{4}{3}]$。",
+          "answer": "正确。求解过程：解第一个不等式得$-\\frac{\\omega\\pi}{4} \\geq -\\frac{2\\pi}{3}$，即$\\omega \\leq \\frac{8}{3}$；解第二个不等式得$\\frac{\\omega\\pi}{4} \\leq \\frac{\\pi}{3}$，即$\\omega \\leq \\frac{4}{3}$；取交集结合$\\omega>0$得$0<\\omega\\leq\\frac{4}{3}$。高考易错点提醒：解不等式时注意不等号方向的变化，同时需取两个不等式的交集作为最终范围，本题选项D正确。"
+        }
+      ]
+    }
+  ]
+}

@@ -25,6 +25,10 @@ class ImageManager:
         else:
             self._data = {"images": {}, "configs": {}}
 
+    def reload(self):
+        with self._lock:
+            self._load_data()
+
     def _save_data(self):
         self.data_path.parent.mkdir(parents=True, exist_ok=True)
         with open(self.data_path, 'w', encoding='utf-8') as f:

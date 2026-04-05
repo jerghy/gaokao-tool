@@ -25,7 +25,14 @@
   },
   "tags": [
     "数学",
-    "思维"
+    "思维",
+    "知识点::数学::三角函数::三角恒等变换::二倍角公式",
+    "能力素养::数学::逻辑推理",
+    "题型::选择题::单项选择题::高考真题",
+    "难度::中档::多公式综合运算",
+    "知识点::数学::三角函数::同角三角函数基本关系",
+    "能力素养::数学::运算求解",
+    "打印::数学::原三角函数"
   ],
   "sub_questions": [],
   "math_thinking_chain": [
@@ -33,6 +40,52 @@
       "target_id": "full",
       "target_label": "整个题目",
       "content": "**分析**：首先翻译题干信息：1. 由$\\alpha\\in(0, \\frac{\\pi}{2})$，可得$\\sin\\alpha>0$，$\\cos\\alpha>0$，$\\tan\\alpha>0$，$2\\alpha\\in(0, \\pi)$且$2\\alpha\\neq\\frac{\\pi}{2}$（否则$\\tan2\\alpha$无意义），故$2-\\sin\\alpha>0$，$\\cos\\alpha\\neq0$，$\\cos2\\alpha\\neq0$，等式两边可直接交叉相乘或除以非零三角函数。2. 已知等式左边为正切二倍角，右边为单角正余弦，故核心解题路径有两个：一是切化弦统一为单角正余弦化简，二是直接设$t=\\tan\\alpha$，将所有项用$t$表示换元求解。最终目标是求$\\tan\\alpha$，只需先求得$\\sin\\alpha$和$\\cos\\alpha$的关系或者直接解出$t$即可。\n**目标解决1**：需解决目标：化简已知等式，得到$\\sin\\alpha$的取值或者关于$\\tan\\alpha$的一元方程。\n**解决方法1**：适用条件：遇到正切与正余弦混合的等式时，优先用切化弦统一函数类型，再用二倍角公式降角，是三角函数化简的通用通法。\n由正切定义得：$\\tan2\\alpha=\\frac{\\sin2\\alpha}{\\cos2\\alpha}$，代入原式得：\n$$\\frac{\\sin2\\alpha}{\\cos2\\alpha}=\\frac{\\cos\\alpha}{2-\\sin\\alpha}$$\n交叉相乘（分母均不为0，等式成立）：$\\sin2\\alpha\\cdot(2-\\sin\\alpha)=\\cos\\alpha\\cdot\\cos2\\alpha$\n由正弦二倍角公式$\\sin2\\alpha=2\\sin\\alpha\\cos\\alpha$，代入左边得：\n$$2\\sin\\alpha\\cos\\alpha\\cdot(2-\\sin\\alpha)=\\cos\\alpha\\cos2\\alpha$$\n由于$\\cos\\alpha>0$，两边同时除以$\\cos\\alpha$消去非零项：\n$$2\\sin\\alpha(2-\\sin\\alpha)=\\cos2\\alpha$$\n由余弦二倍角公式$\\cos2\\alpha=1-2\\sin^2\\alpha$，代入右边展开：\n$$4\\sin\\alpha-2\\sin^2\\alpha=1-2\\sin^2\\alpha$$\n两边$-2\\sin^2\\alpha$抵消，得$4\\sin\\alpha=1$，即$\\sin\\alpha=\\frac{1}{4}$。\n由$\\alpha\\in(0,\\frac{\\pi}{2})$，得$\\cos\\alpha=\\sqrt{1-\\sin^2\\alpha}=\\sqrt{1-\\frac{1}{16}}=\\frac{\\sqrt{15}}{4}$，因此$\\tan\\alpha=\\frac{\\sin\\alpha}{\\cos\\alpha}=\\frac{\\frac{1}{4}}{\\frac{\\sqrt{15}}{4}}=\\frac{\\sqrt{15}}{15}$。\n**解决方法2**：适用条件：目标为求$\\tan\\alpha$时，直接设$t=\\tan\\alpha$换元，将所有三角函数用$t$表示，转化为关于$t$的方程求解，适合所有同角三角函数求正切的题型。\n设$t=\\tan\\alpha>0$，由正切二倍角公式得$\\tan2\\alpha=\\frac{2t}{1-t^2}$。\n将原式右边分子分母同除以$\\cos\\alpha$（$\\cos\\alpha\\neq0$）：\n$$\\frac{\\cos\\alpha}{2-\\sin\\alpha}=\\frac{1}{2\\cdot\\frac{1}{\\cos\\alpha}-\\tan\\alpha}=\\frac{1}{2\\sqrt{1+t^2}-t}$$\n（注：$\\frac{1}{\\cos\\alpha}=\\sec\\alpha=\\sqrt{1+\\tan^2\\alpha}=\\sqrt{1+t^2}$，第一象限取正）\n因此等式变为：\n$$\\frac{2t}{1-t^2}=\\frac{1}{2\\sqrt{1+t^2}-t}$$\n交叉相乘得：$2t(2\\sqrt{1+t^2}-t)=1-t^2$，展开左边：\n$$4t\\sqrt{1+t^2}-2t^2=1-t^2$$\n移项整理得：$4t\\sqrt{1+t^2}=1+t^2$，由于$t>0,1+t^2>0$，两边同时除以$\\sqrt{1+t^2}$得：\n$$4t=\\sqrt{1+t^2}$$\n两边平方消去根号：$16t^2=1+t^2$，即$15t^2=1$，解得$t^2=\\frac{1}{15}$，由于$t>0$，故$t=\\frac{\\sqrt{15}}{15}$，即$\\tan\\alpha=\\frac{\\sqrt{15}}{15}$。\n**分析**：接下来做合理性验证，确保结果正确：将$\\tan\\alpha=\\frac{\\sqrt{15}}{15}$代入原式，左边$\\tan2\\alpha=\\frac{2\\times\\frac{\\sqrt{15}}{15}}{1-(\\frac{\\sqrt{15}}{15})^2}=\\frac{\\frac{2\\sqrt{15}}{15}}{\\frac{14}{15}}=\\frac{\\sqrt{15}}{7}$；右边$\\frac{\\cos\\alpha}{2-\\sin\\alpha}=\\frac{\\frac{\\sqrt{15}}{4}}{2-\\frac{1}{4}}=\\frac{\\frac{\\sqrt{15}}{4}}{\\frac{7}{4}}=\\frac{\\sqrt{15}}{7}$，左右两边相等，符合题意。同时结果为正，符合$\\alpha$在第一象限的取值范围，无增根。\n最终答案对应选项$\\boxed{A}$。"
+    }
+  ],
+  "math_processing_result": [
+    {
+      "unit_content": "4. (2021 全国甲理, 9, 5 分) 若$\\alpha \\in \\left(0,\\frac{\\pi}{2}\\right)$，$\\tan 2\\alpha=\\frac{\\cos\\alpha}{2-\\sin\\alpha}$，则$\\tan\\alpha=$（ ）\nA.$\\frac{\\sqrt{15}}{15}$\nB.$\\frac{\\sqrt{5}}{5}$\nC.$\\frac{\\sqrt{5}}{3}$\nD.$\\frac{\\sqrt{15}}{3}$",
+      "classify_result": "套路知识类",
+      "pre_process": [
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "判断：二倍角的正切公式为$\\tan2\\alpha=\\frac{2\\tan\\alpha}{1+\\tan^2\\alpha}$，对任意实数$\\alpha$都成立。",
+          "answer": "错误。错误原因：二倍角正切公式的正确形式为$\\tan2\\alpha=\\frac{2\\tan\\alpha}{1-\\tan^2\\alpha}$，且成立条件为$\\alpha\\neq\\frac{k\\pi}{2}+\\frac{\\pi}{4}$且$\\alpha\\neq k\\pi+\\frac{\\pi}{2}(k\\in\\mathbf{Z})$，并非对任意$\\alpha$都成立。高考易错点提醒：使用二倍角正切公式前必须先确认定义域，避免忽略隐含限制导致增根。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "判断：若$\\alpha\\in\\left(0,\\frac{\\pi}{2}\\right)$，对含有$\\cos\\alpha$的等式变形时，可以直接约去等式两边的$\\cos\\alpha$，无需额外说明。",
+          "answer": "错误。错误原因：虽然$\\alpha\\in\\left(0,\\frac{\\pi}{2}\\right)$时$\\cos\\alpha>0$且不为0，但高考大题作答时，约分前必须明确说明约分项不为0，否则会扣除步骤分；若未确认约分项非零直接约分，可能会丢失根或产生增根。高考易错点提醒：等式变形时的约分操作必须先确认约分项不为零，该说明是高考的隐性得分点。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "看到等式中同时存在正切函数（$\\tan2\\alpha$）和正弦、余弦函数（$\\cos\\alpha$、$\\sin\\alpha$），优先执行什么标准化操作统一三角函数类型？",
+          "standard_answer": "由三角恒等变换的统一函数名规则得，优先执行切化弦操作，即利用同角三角函数基本关系$\\tan x=\\frac{\\sin x}{\\cos x}$将正切转化为正弦与余弦的比值。高考得分点说明：切化弦是三角恒等变换中统一函数名的核心标准化操作，属于高考高频必考得分点；同类题型拓展提示：只要等式中同时出现切函数和弦函数，优先考虑切化弦或弦化切统一函数名，再进行后续变形。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "切化弦后等式左边出现$\\sin2\\alpha$（2倍角），而等式右侧是单角$\\alpha$的三角函数，此时应使用哪个公式进行变形统一角的次数？",
+          "standard_answer": "由正弦二倍角公式得，$\\sin2\\alpha=2\\sin\\alpha\\cos\\alpha$，代入后即可将2倍角转化为单角$\\alpha$的三角函数，实现角的次数统一。高考得分点说明：三角恒等变换中，角的次数统一是优先考虑的变形方向，是后续化简的基础；同类题型拓展提示：当等式两边角的次数不一致时，优先利用二倍角或半角公式统一角的次数，再进行后续操作。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "切化弦并展开二倍角后得到等式$\\frac{2\\sin\\alpha\\cos\\alpha}{\\cos2\\alpha}=\\frac{\\cos\\alpha}{2-\\sin\\alpha}$，此时优先执行什么标准化变形简化等式？",
+          "standard_answer": "由等式变形规则得，首先根据$\\alpha\\in\\left(0,\\frac{\\pi}{2}\\right)$确认$\\cos\\alpha\\neq0$，因此两边同时约去$\\cos\\alpha$，再交叉相乘消去分母，得到整式形式的等式。高考得分点说明：约去公共项前必须明确说明约分项非零，这是步骤得分的关键，遗漏该说明会被扣步骤分；同类题型拓展提示：等式变形时若存在公共因式，优先确认非零后约分，可大幅简化计算，避免后续出现高次方程。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "约去$\\cos\\alpha$并交叉相乘后得到$2\\sin\\alpha(2-\\sin\\alpha)=\\cos2\\alpha$，为了将等式转化为仅含$\\sin\\alpha$的方程，应选择哪种形式的余弦二倍角公式？",
+          "standard_answer": "由余弦二倍角的变形公式得，选择$\\cos2\\alpha=1-2\\sin^2\\alpha$，代入后即可消去余弦项，得到仅含$\\sin\\alpha$的一元二次方程。高考得分点说明：余弦二倍角有三种不同形式，需根据待统一的三角函数类型灵活选择，本题要消去余弦，因此选择用正弦表示的形式；同类题型拓展提示：余弦二倍角的多形式选择是三角变换的核心技巧，需根据变形目标（统一为正弦/余弦/降次）选择对应形式。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "判断：解出$\\sin\\alpha=\\frac{1}{4}$后，直接计算$\\tan\\alpha=\\frac{\\sin\\alpha}{\\sqrt{1-\\sin^2\\alpha}}$即可，无需验证根是否符合原等式的限制条件。",
+          "answer": "错误。错误原因：原等式中存在$\\tan2\\alpha$，因此需满足$2\\alpha\\neq\\frac{\\pi}{2}$即$\\alpha\\neq\\frac{\\pi}{4}$，且解出的根需代入原方程验证是否成立；本题中$\\sin\\alpha=\\frac{1}{4}$符合所有限制，因此有效，代入计算得$\\tan\\alpha=\\frac{\\sqrt{15}}{15}$。高考易错点提醒：涉及正切函数的三角方程，解后必须验证定义域，避免出现增根，验证步骤是高考大题的必要得分点。"
+        }
+      ]
     }
   ]
 }

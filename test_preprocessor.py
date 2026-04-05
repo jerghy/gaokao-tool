@@ -88,35 +88,35 @@ from ai import search_questions_via_api
 # result = process_math_question(data_dir="data", question_id="20260321135310")
 
 # 批量处理带"数学"标签的题目
-# math_ids = search_questions_via_api(search_query="tag:数学", api_base_url="http://localhost:5000")
-# print(f"找到 {len(math_ids)} 个数学题目")
+math_ids = search_questions_via_api(search_query="tag:数学", api_base_url="http://localhost:5000")
+print(f"找到 {len(math_ids)} 个数学题目")
 
-# results = batch_process_math_questions(
-#     data_dir="data",
-#     question_ids=math_ids,
-#     skip_if_exists=True,
-#     max_workers=10
+results = batch_process_math_questions(
+    data_dir="data",
+    question_ids=math_ids,
+    skip_if_exists=True,
+    max_workers=10
+)
+print(results)
+
+# from ai.tag_processor import batch_process_tags
+# from ai.base import AI, ReasoningEffort
+
+# ai = AI(
+#     model="doubao-seed-2-0-pro-260215",
+#     reasoning_effort=ReasoningEffort.medium,
 # )
-# print(results)
 
-from ai.tag_processor import batch_process_tags
-from ai.base import AI, ReasoningEffort
+# # 批量处理所有题目
+# results = batch_process_tags(
+#     data_dir="./data",
+#     prompt_path="./ai/tsc/题目标签.txt",
+#     ai=ai,
+#     replace=False,                        # 增量合并
+#     skip_if_has_valid_tags=False,          # 跳过已有规范标签
+#     max_workers=20,                        # 并发数
+# )
 
-ai = AI(
-    model="doubao-seed-2-0-pro-260215",
-    reasoning_effort=ReasoningEffort.medium,
-)
-
-# 批量处理所有题目
-results = batch_process_tags(
-    data_dir="./data",
-    prompt_path="./ai/tsc/题目标签.txt",
-    ai=ai,
-    replace=False,                        # 增量合并
-    skip_if_has_valid_tags=False,          # 跳过已有规范标签
-    max_workers=20,                        # 并发数
-)
-
-print(f"成功: {len(results['success'])} 个")
-print(f"失败: {len(results['failed'])} 个")
-print(f"跳过: {len(results['skipped'])} 个")
+# print(f"成功: {len(results['success'])} 个")
+# print(f"失败: {len(results['failed'])} 个")
+# print(f"跳过: {len(results['skipped'])} 个")

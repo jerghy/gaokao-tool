@@ -19,7 +19,15 @@
   },
   "tags": [
     "数学",
-    "思维"
+    "思维",
+    "题型::填空题::高考真题",
+    "知识点::数学::三角函数::三角恒等变换::诱导公式应用",
+    "能力素养::数学::逻辑推理",
+    "能力素养::数学::运算求解能力",
+    "难度::中档::多知识点综合",
+    "知识点::数学::三角函数::象限角的三角函数符号判断",
+    "知识点::数学::三角函数::同角三角函数基本关系",
+    "打印::数学::原三角函数"
   ],
   "sub_questions": [],
   "math_thinking_chain": [
@@ -27,6 +35,52 @@
       "target_id": "full",
       "target_label": "整个题目",
       "content": "**分析**：首先逐句翻译题干信息：1. 依据第四象限角定义，θ的范围为$\\theta \\in (2k\\pi-\\frac{\\pi}{2},2k\\pi),k\\in Z$，推演可得$\\theta+\\frac{\\pi}{4}\\in(2k\\pi-\\frac{\\pi}{4},2k\\pi+\\frac{\\pi}{4})$；2. 依据正弦函数在各象限的符号规律，已知$\\sin(\\theta+\\frac{\\pi}{4})=\\frac{3}{5}>0$，因此$\\theta+\\frac{\\pi}{4}$只能落在$(2k\\pi,2k\\pi+\\frac{\\pi}{4})$，即第一象限，故$\\cos(\\theta+\\frac{\\pi}{4})>0$。观察所求$\\tan(\\theta-\\frac{\\pi}{4})$，可通过两种路径求解：一是找所求角与已知角$\\theta+\\frac{\\pi}{4}$的变换关系，用诱导公式直接转化；二是展开和角正弦公式，结合同角三角函数关系求$\\tan\\theta$，再用差角正切公式计算。\n**目标解决1**：需解决目标：求$\\cos(\\theta+\\frac{\\pi}{4})$的取值\n**解决方法1**：适用条件：已知某角的正弦值，且明确该角所在象限，可通过同角三角函数平方关系求余弦值\n根据同角三角函数基本关系$\\sin^2x+\\cos^2x=1$，代入$x=\\theta+\\frac{\\pi}{4}$、$\\sin x=\\frac{3}{5}$，得$\\cos^2x=1-(\\frac{3}{5})^2=\\frac{16}{25}$，结合已推导的$\\cos(\\theta+\\frac{\\pi}{4})>0$，得$\\cos(\\theta+\\frac{\\pi}{4})=\\frac{4}{5}$。\n**分析**：已得到$\\sin(\\theta+\\frac{\\pi}{4})$和$\\cos(\\theta+\\frac{\\pi}{4})$的取值，接下来可通过角的变换直接求解目标，无需单独求$\\sin\\theta$和$\\cos\\theta$，减少计算量。\n**目标解决2**：需解决目标：求$\\tan(\\theta-\\frac{\\pi}{4})$的取值\n**解决方法1**：适用条件：所求角与已知角存在固定差值为特殊角时，优先用诱导公式转化为已知角的三角函数，计算最快\n观察角的关系：$\\theta-\\frac{\\pi}{4}=(\\theta+\\frac{\\pi}{4})-\\frac{\\pi}{2}$，令$\\alpha=\\theta+\\frac{\\pi}{4}$，则所求为$\\tan(\\alpha-\\frac{\\pi}{2})$，根据诱导公式：\n$$\\tan(\\alpha-\\frac{\\pi}{2})=\\frac{\\sin(\\alpha-\\frac{\\pi}{2})}{\\cos(\\alpha-\\frac{\\pi}{2})}=\\frac{-\\cos\\alpha}{\\sin\\alpha}=-\\cot\\alpha$$\n代入$\\sin\\alpha=\\frac{3}{5}$、$\\cos\\alpha=\\frac{4}{5}$，得$\\cot\\alpha=\\frac{\\cos\\alpha}{\\sin\\alpha}=\\frac{4}{3}$，因此$\\tan(\\theta-\\frac{\\pi}{4})=-\\frac{4}{3}$。\n**解决方法2**：适用条件：已知角和所求角的余角存在互余关系时，可利用互余角三角函数关系简化计算\n观察到$(\\theta+\\frac{\\pi}{4})+(\\frac{\\pi}{4}-\\theta)=\\frac{\\pi}{2}$，即两角互余，根据互余角三角函数关系：\n$$\\sin(\\frac{\\pi}{4}-\\theta)=\\cos(\\theta+\\frac{\\pi}{4})=\\frac{4}{5}, \\cos(\\frac{\\pi}{4}-\\theta)=\\sin(\\theta+\\frac{\\pi}{4})=\\frac{3}{5}$$\n因此$\\tan(\\frac{\\pi}{4}-\\theta)=\\frac{\\sin(\\frac{\\pi}{4}-\\theta)}{\\cos(\\frac{\\pi}{4}-\\theta)}=\\frac{4}{3}$，又因为正切是奇函数，$\\tan(\\theta-\\frac{\\pi}{4})=-\\tan(\\frac{\\pi}{4}-\\theta)$，代入得$\\tan(\\theta-\\frac{\\pi}{4})=-\\frac{4}{3}$。\n**解决方法3**：适用条件：无明显角变换关系时，采用通用通法，展开和角公式求单角三角函数，再代入差角公式计算\n首先展开已知的和角正弦：$\\sin(\\theta+\\frac{\\pi}{4})=\\frac{\\sqrt{2}}{2}(\\sin\\theta+\\cos\\theta)=\\frac{3}{5}$，得$\\sin\\theta+\\cos\\theta=\\frac{3\\sqrt{2}}{5}$ ①。\n结合同角三角函数关系$\\sin^2\\theta+\\cos^2\\theta=1$ ②，将①两边平方得$1+2\\sin\\theta\\cos\\theta=\\frac{18}{25}$，因此$2\\sin\\theta\\cos\\theta=-\\frac{7}{25}$。\n进而$(\\sin\\theta-\\cos\\theta)^2=1-2\\sin\\theta\\cos\\theta=\\frac{32}{25}$，因为θ是第四象限角，$\\sin\\theta<0,\\cos\\theta>0$，故$\\sin\\theta-\\cos\\theta<0$，得$\\sin\\theta-\\cos\\theta=-\\frac{4\\sqrt{2}}{5}$ ③。\n联立①③解得：$\\sin\\theta=-\\frac{\\sqrt{2}}{10}$，$\\cos\\theta=\\frac{7\\sqrt{2}}{10}$，因此$\\tan\\theta=\\frac{\\sin\\theta}{\\cos\\theta}=-\\frac{1}{7}$。\n代入差角正切公式$\\tan(\\theta-\\frac{\\pi}{4})=\\frac{\\tan\\theta-\\tan\\frac{\\pi}{4}}{1+\\tan\\theta\\tan\\frac{\\pi}{4}}=\\frac{-\\frac{1}{7}-1}{1+(-\\frac{1}{7})\\times1}=\\frac{-\\frac{8}{7}}{\\frac{6}{7}}=-\\frac{4}{3}$。\n**分析**：现在对结果做合理性验证：首先由$\\theta+\\frac{\\pi}{4}\\in(2k\\pi,2k\\pi+\\frac{\\pi}{4})$得$\\theta\\in(2k\\pi-\\frac{\\pi}{4},2k\\pi)$，因此$\\theta-\\frac{\\pi}{4}\\in(2k\\pi-\\frac{\\pi}{2},2k\\pi-\\frac{\\pi}{4})$，该区间属于第四象限，正切值为负，与结果$-\\frac{4}{3}$符号一致；再将结果代入反推：若$\\tan(\\theta-\\frac{\\pi}{4})=-\\frac{4}{3}$，则$\\sin(\\theta+\\frac{\\pi}{4})=\\sin((\\theta-\\frac{\\pi}{4})+\\frac{\\pi}{2})=\\cos(\\theta-\\frac{\\pi}{4})=\\frac{3}{5}$，完全符合题干已知条件，结果正确。\n最终答案：$\\boxed{-\\dfrac{4}{3}}$"
+    }
+  ],
+  "math_processing_result": [
+    {
+      "unit_content": "20. (2016课标I文,14,5分)已知θ是第四象限角,且$\\sin\\left(\\theta+\\frac{\\pi}{4}\\right)=\\frac{3}{5}$,则$\\tan\\left(\\theta-\\frac{\\pi}{4}\\right)=$______.",
+      "classify_result": "套路知识类",
+      "pre_process": [
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "若θ是第四象限角，则θ+$\\frac{\\pi}{4}$一定也是第四象限角。",
+          "answer": "错误。错误原因：第四象限角θ的范围是$2k\\pi - \\frac{\\pi}{2} < \\theta < 2k\\pi$（$k\\in\\mathbf{Z}$），因此$\\theta+\\frac{\\pi}{4}$的范围是$2k\\pi - \\frac{\\pi}{4} < \\theta+\\frac{\\pi}{4} < 2k\\pi + \\frac{\\pi}{4}$（$k\\in\\mathbf{Z}$），可能是第四象限角或第一象限角，需结合三角函数值的符号进一步判定。高考易错点提醒：判断复合角的象限时，必须结合原角的范围和对应三角函数值的符号共同确定，不能直接由原角的象限推导复合角的象限。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "已知$\\sin\\alpha=\\frac{3}{5}$，利用同角三角函数平方关系求$\\cos\\alpha$时，$\\cos\\alpha$的值只能是$\\frac{4}{5}$。",
+          "answer": "错误。错误原因：$\\cos\\alpha$的符号由$\\alpha$所在的象限决定，当$\\alpha$是第一、四象限角时$\\cos\\alpha=\\frac{4}{5}$，当$\\alpha$是第二、三象限角时$\\cos\\alpha=-\\frac{4}{5}$，必须先确定$\\alpha$的象限再确定$\\cos\\alpha$的符号。高考易错点提醒：利用同角三角函数平方关系求值时，符号判定是高频失分点，必须优先确定角的范围再计算。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知θ是第四象限角，且$\\sin\\left(\\theta+\\frac{\\pi}{4}\\right)=\\frac{3}{5}>0$，如何确定$\\theta+\\frac{\\pi}{4}$的具体象限？",
+          "standard_answer": "由θ是第四象限角得$2k\\pi - \\frac{\\pi}{2} < \\theta < 2k\\pi$（$k\\in\\mathbf{Z}$），不等式三边同时加$\\frac{\\pi}{4}$得$2k\\pi - \\frac{\\pi}{4} < \\theta+\\frac{\\pi}{4} < 2k\\pi + \\frac{\\pi}{4}$（$k\\in\\mathbf{Z}$），结合$\\sin\\left(\\theta+\\frac{\\pi}{4}\\right)=\\frac{3}{5}>0$，可得$\\theta+\\frac{\\pi}{4}\\in\\left(2k\\pi, 2k\\pi + \\frac{\\pi}{4}\\right)$（$k\\in\\mathbf{Z}$），即第一象限角。高考得分点：角的范围推导是三角函数符号判定的核心依据，是该类题的第一步得分点；同类题型拓展：若已知三角函数值为负，则可进一步缩小复合角的范围；高考高频考法：常与同角三角函数基本关系、诱导公式联合考查。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知$\\theta+\\frac{\\pi}{4}$是第一象限角，且$\\sin\\left(\\theta+\\frac{\\pi}{4}\\right)=\\frac{3}{5}$，求$\\cos\\left(\\theta+\\frac{\\pi}{4}\\right)$的核心步骤是什么？",
+          "standard_answer": "由同角三角函数基本关系$\\sin^2\\left(\\theta+\\frac{\\pi}{4}\\right) + \\cos^2\\left(\\theta+\\frac{\\pi}{4}\\right) = 1$，结合第一象限角余弦值为正，得$\\cos\\left(\\theta+\\frac{\\pi}{4}\\right)=\\sqrt{1 - \\left(\\frac{3}{5}\\right)^2}=\\frac{4}{5}$。高考得分点：同角三角函数基本关系的应用及符号判定是基础得分点，必须明确标注符号判定的依据；同类题型拓展：若角的范围包含两种可能的符号，则需分情况讨论。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "要将目标角$\\theta - \\frac{\\pi}{4}$用已知角$\\theta + \\frac{\\pi}{4}$表示，核心配凑思路是什么？",
+          "standard_answer": "观察两角的差为$\\left(\\theta+\\frac{\\pi}{4}\\right) - \\left(\\theta - \\frac{\\pi}{4}\\right) = \\frac{\\pi}{2}$，因此$\\theta - \\frac{\\pi}{4} = \\left(\\theta + \\frac{\\pi}{4}\\right) - \\frac{\\pi}{2}$。高考得分点：角的配凑是三角恒等变换的核心套路，优先验证两角的和、差是否为特殊角（如$\\frac{\\pi}{2}$、$\\pi$、$\\frac{\\pi}{4}$等）；同类题型拓展：也可通过换元法，令$t=\\theta+\\frac{\\pi}{4}$，则$\\theta=t - \\frac{\\pi}{4}$，代入目标角得$t - \\frac{\\pi}{2}$，本质与配凑法一致；高考高频考法：常结合诱导公式、和差角公式考查配凑技巧。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知$\\theta - \\frac{\\pi}{4} = \\left(\\theta + \\frac{\\pi}{4}\\right) - \\frac{\\pi}{2}$，求$\\tan\\left(\\theta - \\frac{\\pi}{4}\\right)$的核心思路是什么？",
+          "standard_answer": "由诱导公式$\\tan\\left(\\alpha - \\frac{\\pi}{2}\\right) = -\\cot\\alpha$，得$\\tan\\left(\\theta - \\frac{\\pi}{4}\\right) = \\tan\\left[\\left(\\theta+\\frac{\\pi}{4}\\right) - \\frac{\\pi}{2}\\right] = -\\cot\\left(\\theta+\\frac{\\pi}{4}\\right) = -\\frac{\\cos\\left(\\theta+\\frac{\\pi}{4}\\right)}{\\sin\\left(\\theta+\\frac{\\pi}{4}\\right)}$，代入数值计算即可。高考得分点：诱导公式的正确应用是该步骤的核心得分点，必须准确记忆诱导公式的“奇变偶不变，符号看象限”规则；同类题型拓展：也可先求$\\tan\\left(\\theta+\\frac{\\pi}{4}\\right)=\\frac{\\sin\\left(\\theta+\\frac{\\pi}{4}\\right)}{\\cos\\left(\\theta+\\frac{\\pi}{4}\\right)}=\\frac{3}{4}$，再利用$\\tan\\left(\\alpha - \\frac{\\pi}{2}\\right) = -\\frac{1}{\\tan\\alpha}$得到结果；高考高频考法：诱导公式的符号判定和函数名变化是核心考查点。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "计算得到$\\tan\\left(\\theta - \\frac{\\pi}{4}\\right)=-\\frac{4}{3}$后，不需要验证符号是否符合θ的象限要求。",
+          "answer": "错误。错误原因：θ是第四象限角，因此$\\theta - \\frac{\\pi}{4}$的范围是$2k\\pi - \\frac{3\\pi}{4} < \\theta - \\frac{\\pi}{4} < 2k\\pi - \\frac{\\pi}{4}$（$k\\in\\mathbf{Z}$），结合本题中$\\theta+\\frac{\\pi}{4}$是第一象限角，可得$\\theta > 2k\\pi - \\frac{\\pi}{4}$，因此$\\theta - \\frac{\\pi}{4} > 2k\\pi - \\frac{\\pi}{2}$，即$\\theta - \\frac{\\pi}{4}\\in\\left(2k\\pi - \\frac{\\pi}{2}, 2k\\pi - \\frac{\\pi}{4}\\right)$，属于第四象限角，正切值为负，结果$-\\frac{4}{3}$符合要求。高考易错点提醒：计算完成后需结合角的范围验证结果的符号是否合理，避免因诱导公式用错导致符号错误。"
+        }
+      ]
     }
   ]
 }

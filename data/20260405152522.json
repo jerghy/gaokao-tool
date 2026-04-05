@@ -1,0 +1,61 @@
+{
+  "id": "20260405152522",
+  "created_at": "2026-04-05 15:25:22",
+  "question": {
+    "items": [
+      {
+        "type": "image",
+        "config_id": "cfg_20260405152522_elgu6ugm"
+      }
+    ]
+  },
+  "answer": {
+    "items": []
+  },
+  "tags": [
+    "数学",
+    "打印::数学::一4/5"
+  ],
+  "sub_questions": [],
+  "math_processing_result": [
+    {
+      "unit_content": "已知角$\\alpha$终边上一点$P(3,4)$，则$\\sin\\left(\\dfrac{\\pi}{2}+\\alpha\\right)=$（ ）\nA. $\\dfrac{3}{5}$\nB. $\\dfrac{4}{5}$\nC. $-\\dfrac{3}{5}$\nD. $-\\dfrac{4}{5}$",
+      "classify_result": "套路知识类",
+      "pre_process": [
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "诱导公式$\\sin\\left(\\dfrac{\\pi}{2}+\\alpha\\right) = \\sin\\alpha$是否正确？",
+          "answer": "错误。错误原因：违反诱导公式「奇变偶不变，符号看象限」的规则，$\\dfrac{\\pi}{2}$是$\\dfrac{\\pi}{2}$的1倍（奇数倍），函数名需变为余弦；将$\\alpha$视为锐角时$\\dfrac{\\pi}{2}+\\alpha$在第二象限，正弦值为正，因此正确结论为$\\sin\\left(\\dfrac{\\pi}{2}+\\alpha\\right)=\\cos\\alpha$。高考易错点提醒：诱导公式的函数名变换和符号判断是高频失分点，需严格按照规则推导，禁止凭记忆乱写。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "已知角$\\alpha$终边上一点$P(x,y)$（非原点），则$\\cos\\alpha = \\dfrac{x}{y}$是否正确？",
+          "answer": "错误。错误原因：混淆了余弦函数与正切函数的定义，余弦函数的定义是终边上点的横坐标与该点到原点的距离$r$的比值，其中$r=\\sqrt{x^2+y^2}>0$，正切函数才是$\\dfrac{y}{x}(x\\neq0)$；正确结论为$\\cos\\alpha = \\dfrac{x}{\\sqrt{x^2+y^2}}$。高考易错点提醒：三角函数定义的对应关系是基础得分点，需牢记正弦对应$\\dfrac{y}{r}$、余弦对应$\\dfrac{x}{r}$、正切对应$\\dfrac{y}{x}$，避免混淆。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "看到待求式为$\\sin\\left(k\\cdot\\dfrac{\\pi}{2}\\pm\\alpha\\right)$的形式，优先采用什么方法处理？",
+          "standard_answer": "由诱导公式「奇变偶不变，符号看象限」化简。高考得分点：诱导公式的正确应用是三角函数化简的核心步骤，同类题型常考察不同倍数的$\\dfrac{\\pi}{2}$加/减角的变换，需先判断$k$的奇偶性确定是否变函数名，再将$\\alpha$视为锐角判断原函数值的符号。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知角$\\alpha$终边上一点的坐标为$(3,4)$，要计算该角的三角函数值，首先需要计算什么量？",
+          "standard_answer": "由点的坐标计算该点到原点的距离$r=\\sqrt{3^2+4^2}=5$。高考得分点：$r$是点到原点的距离，恒为正数，是三角函数定义中必不可少的分母，同类题型常给出含参数的坐标，需注意$r$的非负性。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知角$\\alpha$终边上点的横坐标为3，到原点的距离为5，求$\\cos\\alpha$的标准动作是什么？",
+          "standard_answer": "由余弦函数的定义得$\\cos\\alpha = \\dfrac{x}{r} = \\dfrac{3}{5}$。高考得分点：余弦函数的定义是横坐标与$r$的比值，需注意坐标的符号对结果的影响，同类题型常结合第二、三、四象限的点考察符号判断。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "本题的最终结果为$\\dfrac{4}{5}$，是否正确？",
+          "answer": "错误。错误原因：混淆了$\\sin\\alpha$和$\\cos\\alpha$的定义，$\\sin\\alpha = \\dfrac{y}{r}=\\dfrac{4}{5}$，而本题化简后需求的是$\\cos\\alpha=\\dfrac{3}{5}$。高考易错点提醒：审题时需明确待求的三角函数类型，避免因看错函数名或化简错误导致失分。"
+        }
+      ]
+    }
+  ]
+}

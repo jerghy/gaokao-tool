@@ -25,7 +25,15 @@
   },
   "tags": [
     "数学",
-    "思维"
+    "思维",
+    "知识点::数学::三角函数::三角恒等变换::二倍角公式",
+    "能力素养::数学::逻辑推理",
+    "题型::选择题::单项选择题::高考真题",
+    "知识点::数学::三角函数::同角三角函数基本关系",
+    "难度::基础::多公式综合应用",
+    "能力素养::数学::运算求解",
+    "知识点::数学::三角函数::弦切互化",
+    "打印::数学::原三角函数"
   ],
   "sub_questions": [],
   "math_thinking_chain": [
@@ -33,6 +41,52 @@
       "target_id": "full",
       "target_label": "整个题目",
       "content": "**分析**：首先逐句翻译题干信息：1. 根据正切函数定义，$\\tan\\theta=-2$等价于$\\frac{\\sin\\theta}{\\cos\\theta}=-2$，即$\\sin\\theta=-2\\cos\\theta$，且$\\cos\\theta\\neq0$；2. 待求式为$\\frac{\\sin\\theta(1+\\sin2\\theta)}{\\sin\\theta+\\cos\\theta}$，根据二倍角公式与同角三角函数平方和关系，$1+\\sin2\\theta=\\sin^2\\theta+\\cos^2\\theta+2\\sin\\theta\\cos\\theta$，可合并为完全平方式。顺推路径可先化简待求式再计算，逆推路径可直接代入弦值计算，两种路径均可行。\n**目标解决1**：需解决目标：化简待求式，消去可约分项。\n**解决方法1**：适用条件：待求式分子含$1+\\sin2\\theta$结构，且分母为$\\sin\\theta+\\cos\\theta$，优先用完全平方公式合并降次。\n推导过程：由二倍角正弦公式$\\sin2\\theta=2\\sin\\theta\\cos\\theta$、同角基本关系$\\sin^2\\theta+\\cos^2\\theta=1$，得$1+\\sin2\\theta=(\\sin\\theta+\\cos\\theta)^2$，代入原式：\n$$\\text{原式}=\\frac{\\sin\\theta\\cdot(\\sin\\theta+\\cos\\theta)^2}{\\sin\\theta+\\cos\\theta}$$\n由$\\tan\\theta=-2\\neq-1$，可知$\\sin\\theta+\\cos\\theta\\neq0$，可约去该分项，得化简后式子：$\\text{原式}=\\sin\\theta(\\sin\\theta+\\cos\\theta)=\\sin^2\\theta+\\sin\\theta\\cos\\theta$。\n**分析**：化简后得到二次齐次式$\\sin^2\\theta+\\sin\\theta\\cos\\theta$，已知$\\tan\\theta$的值，可通过齐次化切、直接代入弦值、象限分类计算三种方法求解。\n**目标解决2**：需解决目标：计算$\\sin^2\\theta+\\sin\\theta\\cos\\theta$的值。\n**解决方法1**：适用条件：已知$\\tan\\theta$，求正弦余弦的二次齐次式的值，优先用同除$\\cos^2\\theta$化切的通用通法。\n推导过程：将式子除以$\\sin^2\\theta+\\cos^2\\theta=1$构造齐次分式：\n$$\\sin^2\\theta+\\sin\\theta\\cos\\theta=\\frac{\\sin^2\\theta+\\sin\\theta\\cos\\theta}{\\sin^2\\theta+\\cos^2\\theta}$$\n分子分母同时除以$\\cos^2\\theta$（$\\cos\\theta\\neq0$），得：\n$$\\frac{\\tan^2\\theta+\\tan\\theta}{\\tan^2\\theta+1}$$\n代入$\\tan\\theta=-2$，计算得：$\\frac{(-2)^2+(-2)}{(-2)^2+1}=\\frac{4-2}{4+1}=\\frac{2}{5}$。\n**解决方法2**：适用条件：已知$\\tan\\theta$的具体数值，可直接用切弦关系替换正弦为余弦代入计算，适合不熟悉齐次化方法的场景。\n推导过程：由$\\sin\\theta=-2\\cos\\theta$，代入同角基本关系得$(-2\\cos\\theta)^2+\\cos^2\\theta=1$，即$5\\cos^2\\theta=1$，$\\cos^2\\theta=\\frac{1}{5}$。\n代入化简后式子：$\\sin^2\\theta+\\sin\\theta\\cos\\theta=4\\cos^2\\theta+(-2\\cos\\theta)\\cdot\\cos\\theta=2\\cos^2\\theta=2\\times\\frac{1}{5}=\\frac{2}{5}$。\n**解决方法3**：适用条件：已知$\\tan\\theta$的正负，可结合象限分类计算具体弦值代入，适合数形结合思路的场景。\n推导过程：$\\tan\\theta=-2$说明$\\theta$在第二或第四象限，构造直角三角形得斜边长为$\\sqrt{1^2+2^2}=\\sqrt{5}$：\n- 若$\\theta$在第二象限：$\\sin\\theta=\\frac{2}{\\sqrt{5}},\\cos\\theta=-\\frac{1}{\\sqrt{5}}$，代入得$\\frac{4}{5}+\\frac{2}{\\sqrt{5}}\\times(-\\frac{1}{\\sqrt{5}})=\\frac{4}{5}-\\frac{2}{5}=\\frac{2}{5}$\n- 若$\\theta$在第四象限：$\\sin\\theta=-\\frac{2}{\\sqrt{5}},\\cos\\theta=\\frac{1}{\\sqrt{5}}$，代入得$\\frac{4}{5}+(-\\frac{2}{\\sqrt{5}})\\times\\frac{1}{\\sqrt{5}}=\\frac{4}{5}-\\frac{2}{5}=\\frac{2}{5}$\n两种情况结果一致，均为$\\frac{2}{5}$。\n**分析**：也可选择不先化简原式，直接代入弦值计算，验证结果一致性。\n**目标解决3**：需解决目标：不化简原式，直接代入切弦关系计算待求式的值。\n**解决方法1**：适用条件：不想做结构变形，直接替换所有正弦为余弦计算，适合结构识别不敏感的场景。\n推导过程：将$\\sin\\theta=-2\\cos\\theta$、$\\sin2\\theta=2\\sin\\theta\\cos\\theta=-4\\cos^2\\theta$代入原式：\n$$\\text{原式}=\\frac{(-2\\cos\\theta)\\cdot(1-4\\cos^2\\theta)}{-2\\cos\\theta+\\cos\\theta}=\\frac{-2\\cos\\theta(1-4\\cos^2\\theta)}{-\\cos\\theta}=2(1-4\\cos^2\\theta)$$\n代入$\\cos^2\\theta=\\frac{1}{5}$，得$2\\times(1-\\frac{4}{5})=2\\times\\frac{1}{5}=\\frac{2}{5}$，和之前结果一致。\n**分析**：合理性验证：首先约分项$\\sin\\theta+\\cos\\theta=-\\cos\\theta\\neq0$，约去合理；其次不管$\\theta$在第二还是第四象限，结果均为正，排除A、B选项，数值为$\\frac{2}{5}$排除D选项，结果唯一正确。\n最终答案：$\\boxed{C}$"
+    }
+  ],
+  "math_processing_result": [
+    {
+      "unit_content": "5. (2021 新高考I, 6, 5 分) 若 $\\tan\\theta=-2$，则 $\\frac{\\sin\\theta(1+\\sin2\\theta)}{\\sin\\theta+\\cos\\theta}=$（ ）\nA.$-\\frac{6}{5}$\nB.$-\\frac{2}{5}$\nC.$\\frac{2}{5}$\nD.$\\frac{6}{5}$",
+      "classify_result": "套路知识类",
+      "pre_process": [
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "判断正误：二倍角正弦公式为 $\\sin2\\theta=\\sin^2\\theta-\\cos^2\\theta$",
+          "answer": "错误。错误原因：混淆了正弦与余弦的二倍角公式，正弦二倍角公式为 $\\sin2\\theta=2\\sin\\theta\\cos\\theta$，$\\sin^2\\theta-\\cos^2\\theta=-\\cos2\\theta$ 是余弦二倍角的形式之一。高考易错点提醒：二倍角公式是三角函数化简的核心基础，需准确区分正弦、余弦的不同形式，避免记忆混淆导致整题失分。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "判断正误：对分式 $\\frac{A\\cdot B}{B}$，可直接约去B得到A，无需考虑B是否为0。",
+          "answer": "错误。错误原因：约分时必须保证被约去的因式B不为0，否则会出现定义域扩大的错误。高考易错点提醒：三角函数化简约分时，需结合题干条件验证被约因式是否为0，避免无意义运算，本题中 $\\tan\\theta=-2$ 说明 $\\cos\\theta\\neq0$，故 $\\sin\\theta+\\cos\\theta=-2\\cos\\theta+\\cos\\theta=-\\cos\\theta\\neq0$，可正常约分。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "判断正误：已知 $\\tan\\theta=-2<0$，则 $\\sin\\theta$ 一定为负数。",
+          "answer": "错误。错误原因：$\\tan\\theta<0$ 仅说明 $\\theta$ 在第二或第四象限，第二象限 $\\sin\\theta>0$，第四象限 $\\sin\\theta<0$，无法直接确定 $\\sin\\theta$ 的符号。高考易错点提醒：已知正切求三角函数值时，若没有限定角的范围，不要盲目判断单个三角函数的符号，优先使用齐次式转化的方法，避免符号判断错误。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知三角函数式中出现 $1+\\sin2\\theta$，优先使用什么公式进行化简？",
+          "standard_answer": "由同角三角函数平方关系 $1=\\sin^2\\theta+\\cos^2\\theta$ 和二倍角正弦公式 $\\sin2\\theta=2\\sin\\theta\\cos\\theta$，得 $1+\\sin2\\theta=(\\sin\\theta+\\cos\\theta)^2$。高考得分点说明：该变形是本题的核心化简步骤，占该题得分的40%；同类题型拓展提示：出现 $1\\pm\\sin2\\theta$、$1\\pm\\cos2\\theta$ 时，优先考虑化为完全平方或升幂公式；高考高频考法提醒：该变形常结合分式约分、齐次式求值考察，是三角函数基础题的高频考点。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "原式 $\\frac{\\sin\\theta\\cdot(\\sin\\theta+\\cos\\theta)^2}{\\sin\\theta+\\cos\\theta}$ 约分化简后（已验证 $\\sin\\theta+\\cos\\theta\\neq0$）得到的最简表达式是什么？",
+          "standard_answer": "约去公因式 $\\sin\\theta+\\cos\\theta$，得 $\\sin\\theta(\\sin\\theta+\\cos\\theta)=\\sin^2\\theta+\\sin\\theta\\cos\\theta$。高考得分点说明：正确约分化简是核心中间步骤，占该题得分的30%；同类题型拓展提示：分式化简时优先观察分子分母是否有公因式，可大幅降低运算量；高考高频考法提醒：约分时的定义域验证是隐含得分点，大题中需注明约去的因式不为零，否则会扣步骤分。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知 $\\tan\\theta$ 的值，如何将二次齐次式 $\\sin^2\\theta+\\sin\\theta\\cos\\theta$ 转化为仅含 $\\tan\\theta$ 的表达式？",
+          "standard_answer": "由同角三角函数平方关系 $\\sin^2\\theta+\\cos^2\\theta=1$，将式子除以 $1=\\sin^2\\theta+\\cos^2\\theta$ 构造齐次分式，再分子分母同除以 $\\cos^2\\theta$，得 $\\frac{\\sin^2\\theta+\\sin\\theta\\cos\\theta}{\\sin^2\\theta+\\cos^2\\theta}=\\frac{\\tan^2\\theta+\\tan\\theta}{\\tan^2\\theta+1}$。高考得分点说明：齐次式转化是已知正切求三角函数值的核心技巧，占该题得分的20%；同类题型拓展提示：对于n次齐次式，均可通过除以 $\\cos^n\\theta$（或 $\\sin^n\\theta$）转化为仅含正切（或余切）的表达式；高考高频考法提醒：该技巧是三角函数求值题的通用套路，选择、填空、大题均会考察。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "将 $\\tan\\theta=-2$ 代入 $\\frac{\\tan^2\\theta+\\tan\\theta}{\\tan^2\\theta+1}$，计算最终结果是多少？",
+          "standard_answer": "代入得 $\\frac{(-2)^2+(-2)}{(-2)^2+1}=\\frac{4-2}{4+1}=\\frac{2}{5}$。高考得分点说明：准确代入计算是最终得分的关键，占该题得分的10%；同类题型拓展提示：代入含负数的参数时，需注意平方、乘除的符号变化；高考高频考法提醒：符号错误是该类题的高频失分点，计算后需二次核对符号。"
+        }
+      ]
     }
   ]
 }

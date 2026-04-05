@@ -137,6 +137,7 @@ def process_image_items(items, question_id):
     return processed_items
 
 def expand_image_items(items):
+    image_manager.reload()
     expanded_items = []
     for item in items:
         if item.get('type') == 'image' and 'config_id' in item:

@@ -19,7 +19,15 @@
   },
   "tags": [
     "数学",
-    "思维"
+    "思维",
+    "知识点::数学::三角函数::诱导公式",
+    "能力素养::数学::逻辑推理",
+    "知识点::数学::三角恒等变换::化简求值",
+    "难度::中档::多考点综合",
+    "能力素养::数学::数学运算",
+    "题型::填空题::三角函数计算",
+    "知识点::数学::三角函数::二倍角公式",
+    "打印::数学::原三角函数"
   ],
   "sub_questions": [],
   "math_thinking_chain": [
@@ -27,6 +35,74 @@
       "target_id": "full",
       "target_label": "整个题目",
       "content": "**分析**：首先对题干信息做翻译和推演：1. 由条件$\\alpha+\\beta=\\frac{\\pi}{2}$，根据诱导公式$\\sin(\\frac{\\pi}{2}-x)=\\cos x$、$\\cos(\\frac{\\pi}{2}-x)=\\sin x$，可得$\\sin\\beta=\\cos\\alpha$，$\\cos\\beta=\\sin\\alpha$，同时$2\\beta=\\pi-2\\alpha$，进一步推导得$\\cos2\\beta=\\cos(\\pi-2\\alpha)=-\\cos2\\alpha$；2. 把$\\sin\\beta=\\cos\\alpha$代入第一个已知条件$3\\sin\\alpha - \\sin\\beta=\\sqrt{10}$，可得到仅含$\\alpha$的三角方程：$3\\sin\\alpha - \\cos\\alpha=\\sqrt{10}$。顺推路径：解该方程求出$\\sin\\alpha$，再通过诱导公式或二倍角公式求$\\cos2\\beta$；逆推路径：要求$\\sin\\alpha$需先消去$\\beta$，要求$\\cos2\\beta$可先求$\\sin\\beta$或$\\cos\\beta$，也可通过$\\alpha$的二倍角间接求解。\n**目标解决1**：需解决目标：求解$\\sin\\alpha$的值\n**解决方法1**：适用条件：遇到形如$A\\sin x + B\\cos x = C$的线性三角方程，优先用辅助角公式化简求解\n推导过程：对$3\\sin\\alpha - \\cos\\alpha$提取$\\sqrt{3^2 + (-1)^2}=\\sqrt{10}$，可得：\n$$3\\sin\\alpha - \\cos\\alpha = \\sqrt{10}\\left(\\frac{3}{\\sqrt{10}}\\sin\\alpha - \\frac{1}{\\sqrt{10}}\\cos\\alpha\\right) = \\sqrt{10}$$\n两边同除以$\\sqrt{10}$得：$\\frac{3}{\\sqrt{10}}\\sin\\alpha - \\frac{1}{\\sqrt{10}}\\cos\\alpha = 1$，设$\\cos\\varphi=\\frac{3}{\\sqrt{10}},\\sin\\varphi=\\frac{1}{\\sqrt{10}}$，根据两角差的正弦公式，左边可化为$\\sin(\\alpha - \\varphi)=1$，因此$\\alpha - \\varphi = \\frac{\\pi}{2} + 2k\\pi(k\\in\\mathbb{Z})$，则$\\sin\\alpha = \\sin\\left(\\frac{\\pi}{2} + \\varphi + 2k\\pi\\right) = \\cos\\varphi = \\frac{3}{\\sqrt{10}} = \\frac{3\\sqrt{10}}{10}$。\n**解决方法2**：适用条件：已知含$\\sin x$和$\\cos x$的线性等式，结合同角三角函数平方关系，用方程思想联立求解\n推导过程：由$3\\sin\\alpha - \\cos\\alpha = \\sqrt{10}$可得$\\cos\\alpha = 3\\sin\\alpha - \\sqrt{10}$，代入$\\sin^2\\alpha + \\cos^2\\alpha = 1$得：\n$$\\sin^2\\alpha + (3\\sin\\alpha - \\sqrt{10})^2 = 1$$\n展开化简：$\\sin^2\\alpha +9\\sin^2\\alpha -6\\sqrt{10}\\sin\\alpha +10 = 1 \\implies 10\\sin^2\\alpha -6\\sqrt{10}\\sin\\alpha +9=0$，该一元二次方程判别式$\\Delta=(6\\sqrt{10})^2 -4\\times10\\times9=0$，因此唯一解为$\\sin\\alpha = \\frac{6\\sqrt{10}}{2\\times10} = \\frac{3\\sqrt{10}}{10}$。\n**分析**：已经求得$\\sin\\alpha=\\frac{3\\sqrt{10}}{10}$，接下来可通过两种路径求$\\cos2\\beta$：一是通过$\\alpha$和$\\beta$的诱导关系，将$\\cos2\\beta$转化为与$\\alpha$相关的三角函数计算；二是先求$\\sin\\beta$或$\\cos\\beta$的值，直接用二倍角公式计算。\n**目标解决2**：需解决目标：求解$\\cos2\\beta$的值\n**解决方法1**：适用条件：已知两个角的和为$\\frac{\\pi}{2}$，求其中一角的二倍角余弦，利用诱导公式转化为另一角的二倍角计算，复用已求出的$\\sin\\alpha$结果\n推导过程：由$\\alpha+\\beta=\\frac{\\pi}{2}$得$2\\beta=\\pi-2\\alpha$，根据诱导公式$\\cos(\\pi - x)=-\\cos x$，得$\\cos2\\beta=\\cos(\\pi-2\\alpha)=-\\cos2\\alpha$。再由二倍角公式$\\cos2\\alpha=1-2\\sin^2\\alpha$，代入$\\sin\\alpha=\\frac{3\\sqrt{10}}{10}$，得$\\sin^2\\alpha=\\frac{9\\times10}{100}=\\frac{9}{10}$，因此$\\cos2\\alpha=1-2\\times\\frac{9}{10}=-\\frac{4}{5}$，故$\\cos2\\beta= -(-\\frac{4}{5})=\\frac{4}{5}$。\n**解决方法2**：适用条件：已求出$\\sin\\alpha$的值，先求$\\cos\\beta$，直接用二倍角公式的余弦形式计算\n推导过程：由$\\alpha+\\beta=\\frac{\\pi}{2}$得$\\cos\\beta=\\sin\\alpha=\\frac{3\\sqrt{10}}{10}$，根据二倍角公式$\\cos2\\beta=2\\cos^2\\beta -1$，代入得$\\cos2\\beta=2\\times\\left(\\frac{3\\sqrt{10}}{10}\\right)^2 -1 = 2\\times\\frac{9}{10} -1 = \\frac{18}{10}-1=\\frac{4}{5}$。\n**解决方法3**：适用条件：已求出$\\sin\\alpha$的值，先求$\\sin\\beta$，直接用二倍角公式的正弦形式计算\n推导过程：由$\\alpha+\\beta=\\frac{\\pi}{2}$得$\\sin\\beta=\\cos\\alpha=3\\sin\\alpha - \\sqrt{10}=3\\times\\frac{3\\sqrt{10}}{10}-\\sqrt{10}=-\\frac{\\sqrt{10}}{10}$，根据二倍角公式$\\cos2\\beta=1-2\\sin^2\\beta$，代入得$\\cos2\\beta=1-2\\times\\left(-\\frac{\\sqrt{10}}{10}\\right)^2=1-2\\times\\frac{1}{10}=\\frac{4}{5}$。\n**分析**：合理性验证：1. $\\sin\\alpha=\\frac{3\\sqrt{10}}{10}\\in[-1,1]$，$\\cos2\\beta=\\frac{4}{5}\\in[-1,1]$，符合三角函数取值范围；2. 代入题干条件验证：$3\\sin\\alpha - \\sin\\beta=3\\times\\frac{3\\sqrt{10}}{10} - (-\\frac{\\sqrt{10}}{10})=\\frac{10\\sqrt{10}}{10}=\\sqrt{10}$，完全符合题干条件，结果正确。\n最终答案：$\\boldsymbol{\\sin\\alpha=\\frac{3\\sqrt{10}}{10}}$，$\\boldsymbol{\\cos2\\beta=\\frac{4}{5}}$。"
+    }
+  ],
+  "math_processing_result": [
+    {
+      "unit_content": "若$3\\sin \\alpha - \\sin \\beta = \\sqrt{10}$，$\\alpha+\\beta=\\frac{\\pi}{2}$，则$\\sin \\alpha =$______",
+      "classify_result": "套路知识类",
+      "pre_process": [
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "已知$\\alpha+\\beta=\\frac{\\pi}{2}$，则$\\sin\\beta = \\sin\\alpha$，这个结论是否正确？",
+          "answer": "错误。错误原因：诱导公式记忆错误，由$\\alpha+\\beta=\\frac{\\pi}{2}$得$\\beta=\\frac{\\pi}{2}-\\alpha$，根据诱导公式“奇变偶不变，符号看象限”，$\\sin(\\frac{\\pi}{2}-\\alpha)=\\cos\\alpha$，即$\\sin\\beta=\\cos\\alpha$。高考易错点提醒：应用$\\frac{\\pi}{2}$相关的诱导公式时，必须注意函数名要发生变化（sin与cos互变），避免函数名不变的低级错误。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "对$3\\sin\\alpha - \\cos\\alpha$使用辅助角公式变形，可得到$\\sqrt{10}\\sin(\\alpha - \\varphi)$（其中$\\varphi$为锐角），这个变形是否正确？",
+          "answer": "正确。正确推导：提取系数平方和的算术平方根$\\sqrt{3^2+(-1)^2}=\\sqrt{10}$，可得$3\\sin\\alpha - \\cos\\alpha = \\sqrt{10}\\left(\\frac{3}{\\sqrt{10}}\\sin\\alpha - \\frac{1}{\\sqrt{10}}\\cos\\alpha\\right)$，令$\\cos\\varphi=\\frac{3}{\\sqrt{10}}$，$\\sin\\varphi=\\frac{1}{\\sqrt{10}}$（$\\varphi$为锐角），即可化为$\\sqrt{10}\\sin(\\alpha - \\varphi)$。高考易错点提醒：辅助角公式中，当cos的系数为负时，要注意相位的符号，避免符号错误导致整体结果偏差。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "看到题目中给出$\\alpha+\\beta=\\frac{\\pi}{2}$的条件，首先应该进行什么转化操作？",
+          "standard_answer": "由$\\alpha+\\beta=\\frac{\\pi}{2}$得$\\beta=\\frac{\\pi}{2}-\\alpha$，利用诱导公式将$\\sin\\beta$转化为$\\cos\\alpha$，将双变量问题转化为仅含$\\alpha$的单变量问题。高考得分点：诱导公式的正确应用是本题的入门核心步骤，占1-2分；同类题型拓展：当已知两个角的和为$\\frac{\\pi}{2}$、$\\pi$等特殊角时，优先使用诱导公式统一变量，是三角恒等变换模块的高频考法。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "将$\\sin\\beta=\\cos\\alpha$代入$3\\sin\\alpha - \\sin\\beta = \\sqrt{10}$后，得到的式子是什么？下一步应使用什么方法求解？",
+          "standard_answer": "由代入得$3\\sin\\alpha - \\cos\\alpha = \\sqrt{10}$，下一步使用辅助角公式将左边合并为单一三角函数形式。高考得分点：变量统一后的正确化简是核心中间步骤，占2分；同类题型拓展：形如$a\\sin x + b\\cos x = c$的三角方程，优先使用辅助角公式合并为单一三角函数求解，是高考三角方程的标准解法。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知$3\\sin\\alpha - \\cos\\alpha = \\sqrt{10}$，如何求出$\\sin\\alpha$的值？",
+          "standard_answer": "由辅助角公式合并得$\\sqrt{10}\\sin(\\alpha - \\varphi)=\\sqrt{10}$（其中$\\varphi$为锐角，$\\tan\\varphi=\\frac{1}{3}$），化简得$\\sin(\\alpha - \\varphi)=1$，即$\\alpha - \\varphi = \\frac{\\pi}{2} + 2k\\pi$（$k\\in\\mathbb{Z}$），因此$\\alpha = \\frac{\\pi}{2} + \\varphi + 2k\\pi$，故$\\sin\\alpha = \\sin(\\frac{\\pi}{2} + \\varphi) = \\cos\\varphi = \\frac{3}{\\sqrt{10}} = \\frac{3\\sqrt{10}}{10}$。高考得分点：辅助角公式的正确变形与三角函数值的求解是最终得分点，占2分；同类题型拓展：当三角方程右边等于左边合并后的振幅时，说明三角函数取最值，可直接得到角度关系，是高考高频考法。"
+        }
+      ]
+    },
+    {
+      "unit_content": "若$3\\sin \\alpha - \\sin \\beta = \\sqrt{10}$，$\\alpha+\\beta=\\frac{\\pi}{2}$，已求得$\\sin \\alpha = \\frac{3\\sqrt{10}}{10}$，则$\\cos 2\\beta =$______",
+      "classify_result": "套路知识类",
+      "pre_process": [
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "二倍角余弦公式有三种形式：$\\cos2\\beta = 2\\cos^2\\beta - 1 = 1 - 2\\sin^2\\beta = \\cos^2\\beta - \\sin^2\\beta$，这三个公式是否都正确？",
+          "answer": "正确。高考易错点提醒：二倍角余弦的三种形式要记牢，需根据已知条件选择最简便的形式计算，避免记错公式导致计算错误。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "已知$\\alpha+\\beta=\\frac{\\pi}{2}$，则$2\\beta = \\pi - 2\\alpha$，因此$\\cos2\\beta = \\cos2\\alpha$，这个结论是否正确？",
+          "answer": "错误。错误原因：诱导公式应用错误，$\\cos(\\pi - 2\\alpha) = -\\cos2\\alpha$（$\\pi$是$\\frac{\\pi}{2}$的偶数倍，函数名不变，$\\pi-2\\alpha$终边在第二象限，余弦值为负），因此$\\cos2\\beta = \\cos(\\pi - 2\\alpha) = -\\cos2\\alpha$。高考易错点提醒：应用$\\pi$相关的诱导公式时，必须注意符号的判断，避免符号错误。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知$\\sin\\alpha=\\frac{3\\sqrt{10}}{10}$，且$\\alpha+\\beta=\\frac{\\pi}{2}$，求$\\cos2\\beta$的第一种通用思路是什么？",
+          "standard_answer": "由$\\alpha+\\beta=\\frac{\\pi}{2}$得$\\beta=\\frac{\\pi}{2}-\\alpha$，故$2\\beta = \\pi - 2\\alpha$，因此$\\cos2\\beta = \\cos(\\pi - 2\\alpha) = -\\cos2\\alpha$，再代入二倍角公式$\\cos2\\alpha = 1 - 2\\sin^2\\alpha$计算即可。高考得分点：利用角度关系将$2\\beta$转化为与$\\alpha$相关的角，减少计算量，占2分；同类题型拓展：求与已知角相关的倍角、半角的三角函数值时，优先进行角度转化，是三角恒等变换的常用技巧。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "求$\\cos2\\beta$的第二种基础思路是什么？",
+          "standard_answer": "先由$\\alpha+\\beta=\\frac{\\pi}{2}$得$\\sin\\beta = \\cos\\alpha$，再由$\\sin\\alpha=\\frac{3\\sqrt{10}}{10}$计算得$\\cos\\alpha = \\sqrt{1 - \\sin^2\\alpha} = \\frac{\\sqrt{10}}{10}$（由$3\\sin\\alpha - \\cos\\alpha = \\sqrt{10}>0$可判断$\\cos\\alpha$为正），即$\\sin\\beta = \\frac{\\sqrt{10}}{10}$，再代入二倍角公式$\\cos2\\beta = 1 - 2\\sin^2\\beta$计算。高考得分点：直接利用$\\sin\\beta$的值计算二倍角，是通用基础解法，占2分；同类题型拓展：当已知单角的正弦值时，优先使用$1-2\\sin^2\\beta$计算$\\cos2\\beta$，避免开方带来的符号判断麻烦。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "计算$\\cos2\\beta$时，如何避免符号错误？",
+          "standard_answer": "先判断三角函数值的符号：由$3\\sin\\alpha - \\cos\\alpha = \\sqrt{10}>0$，结合辅助角公式可知$\\sin\\alpha$、$\\cos\\alpha$均为正，因此$\\sin\\beta = \\cos\\alpha>0$，代入$\\cos2\\beta = 1 - 2\\sin^2\\beta$计算得结果为正，即$\\frac{4}{5}$。高考得分点：符号判断是三角题的高频易错失分点，必须明确验证，占1分；同类题型拓展：所有三角函数求值问题，都要先判断角度范围或函数值符号，是高考必查的细节要求。"
+        }
+      ]
     }
   ]
 }

@@ -149,37 +149,98 @@
         }
 
         .tag-filter {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
             margin-bottom: 15px;
-            align-items: center;
         }
 
         .tag-filter-label {
             font-size: 10pt;
             color: #555;
-            margin-right: 5px;
+            margin-bottom: 8px;
+            display: block;
         }
 
-        .tag-item {
-            padding: 4px 10px;
-            background: #fff;
-            border: 1px solid #aaa;
-            border-radius: 15px;
+        .tag-tree {
+            user-select: none;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            padding: 8px;
+        }
+
+        .tag-tree-item {
+            margin: 2px 0;
+        }
+
+        .tag-tree-content {
+            display: flex;
+            align-items: center;
+            padding: 4px 6px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .tag-tree-content:hover {
+            background-color: #f0f7ff;
+        }
+
+        .tag-tree-content.selected {
+            background-color: #e3f2fd;
+        }
+
+        .tag-tree-toggle {
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 4px;
+            font-size: 10px;
+            color: #666;
+            flex-shrink: 0;
+        }
+
+        .tag-tree-toggle.hidden {
+            visibility: hidden;
+        }
+
+        .tag-tree-label {
+            font-size: 9pt;
+            color: #333;
+        }
+
+        .tag-tree-count {
+            font-size: 8pt;
+            color: #888;
+            margin-left: 4px;
+        }
+
+        .tag-tree-children {
+            margin-left: 16px;
+            display: none;
+        }
+
+        .tag-tree-children.expanded {
+            display: block;
+        }
+
+        .tag-tree-all {
+            padding: 4px 6px;
+            margin-bottom: 4px;
+            background: #f5f5f5;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 9pt;
-            transition: all 0.2s;
+            font-weight: bold;
         }
 
-        .tag-item:hover {
-            background: #f0f0f0;
+        .tag-tree-all:hover {
+            background: #e8e8e8;
         }
 
-        .tag-item.active {
-            background: #9b59b6;
+        .tag-tree-all.active {
+            background: #3498db;
             color: white;
-            border-color: #9b59b6;
         }
 
         .btn-group {
@@ -1065,6 +1126,13 @@
 
         .train-item {
             margin: 2mm 0 3mm 0;
+            padding-top: 2mm;
+            border-top: 1px dashed #666;
+        }
+
+        .train-item:first-child {
+            border-top: none;
+            padding-top: 0;
         }
 
         .train-form-tag {
@@ -1090,8 +1158,6 @@
         .train-answer {
             font-size: 10pt;
             margin-top: 1mm;
-            padding-top: 1mm;
-            border-top: 1px dashed #666;
         }
 
         .thinking-improvement {
@@ -1211,15 +1277,17 @@
             </div>
         </div>
         <div class="btn-group">
-            <button class="btn btn-primary" onclick="printSelected()">打印选中</button>
+            <button class="btn btn-primary" onclick="generatePreview()">生成预览</button>
+            <button class="btn btn-secondary" onclick="printSelected()">打印</button>
             <button class="btn btn-secondary" onclick="selectAll()">全选</button>
             <button class="btn btn-secondary" onclick="deselectAll()">取消全选</button>
+            <button class="btn btn-secondary" onclick="invertSelection()">反向选择</button>
         </div>
     </div>
 
     <div class="print-container" id="printContainer">
         <div class="a4-page">
-            <div class="no-data">请选择要打印的题目</div>
+            <div class="no-data">请选择题目后点击"生成预览"按钮</div>
         </div>
     </div>
 
@@ -1287,6 +1355,8 @@
             allTags = Array.from(tagSet).sort();
         }
 
+        let expandedTags = new Set();
+
         function renderTagFilter() {
             const container = document.getElementById('tagFilter');
             if (allTags.length === 0) {
@@ -1294,26 +1364,117 @@
                 return;
             }
 
+            const tagTree = buildTagTree(allTags);
+            
             let html = '<span class="tag-filter-label">标签筛选:</span>';
-            html += '<span class="tag-item' + (activeTag === null ? ' active' : '') + '" onclick="filterByTag(null)">全部</span>';
-            allTags.forEach(tag => {
-                html += '<span class="tag-item' + (activeTag === tag ? ' active' : '') + '" onclick="filterByTag(\'' + escapeHtml(tag) + '\')">' + escapeHtml(tag) + '</span>';
-            });
+            html += '<div class="tag-tree">';
+            
+            html += '<div class="tag-tree-all' + (activeTag === null ? ' active' : '') + '" onclick="filterByTag(null)">全部 (' + questions.length + ')</div>';
+            
+            html += renderTreeNode(tagTree, '');
+            
+            html += '</div>';
             container.innerHTML = html;
+        }
+
+        function buildTagTree(tags) {
+            const tree = {};
+            
+            tags.forEach(tag => {
+                if (tag.includes('::')) {
+                    const parts = tag.split('::');
+                    let current = tree;
+                    
+                    for (let i = 0; i < parts.length; i++) {
+                        const part = parts[i];
+                        if (!current[part]) {
+                            current[part] = { __children__: {} };
+                        }
+                        if (i < parts.length - 1) {
+                            current = current[part].__children__;
+                        }
+                    }
+                } else {
+                    if (!tree[tag]) {
+                        tree[tag] = { __children__: {} };
+                    }
+                }
+            });
+            
+            return tree;
+        }
+
+        function renderTreeNode(tree, prefix) {
+            let html = '';
+            
+            const sortedKeys = Object.keys(tree).sort();
+            
+            for (const tag of sortedKeys) {
+                const value = tree[tag];
+                const fullTag = prefix ? `${prefix}::${tag}` : tag;
+                const children = value.__children__ || {};
+                const hasChildren = Object.keys(children).length > 0;
+                const isExpanded = expandedTags.has(fullTag);
+                const isSelected = activeTag === fullTag;
+                const count = countQuestionsWithTag(fullTag);
+                
+                if (count === 0) continue;
+                
+                html += '<div class="tag-tree-item">';
+                html += '<div class="tag-tree-content' + (isSelected ? ' selected' : '') + '" onclick="filterByTag(\'' + escapeHtml(fullTag) + '\')">';
+                
+                if (hasChildren) {
+                    html += '<span class="tag-tree-toggle" onclick="event.stopPropagation(); toggleTagExpand(\'' + escapeHtml(fullTag) + '\')">' + (isExpanded ? '▼' : '▶') + '</span>';
+                } else {
+                    html += '<span class="tag-tree-toggle hidden"></span>';
+                }
+                
+                html += '<span class="tag-tree-label">' + escapeHtml(tag) + '</span>';
+                html += '<span class="tag-tree-count">(' + count + ')</span>';
+                html += '</div>';
+                
+                if (hasChildren) {
+                    html += '<div class="tag-tree-children' + (isExpanded ? ' expanded' : '') + '">';
+                    html += renderTreeNode(children, fullTag);
+                    html += '</div>';
+                }
+                
+                html += '</div>';
+            }
+            
+            return html;
+        }
+
+        function toggleTagExpand(tag) {
+            if (expandedTags.has(tag)) {
+                expandedTags.delete(tag);
+            } else {
+                expandedTags.add(tag);
+            }
+            renderTagFilter();
+        }
+
+        function countQuestionsWithTag(tag) {
+            return questions.filter(q => {
+                if (!q.tags) return false;
+                return q.tags.some(t => t === tag || t.startsWith(tag + '::'));
+            }).length;
         }
 
         function filterByTag(tag) {
             activeTag = tag;
             renderTagFilter();
             renderFileList();
-            renderPreview();
         }
 
         function getFilteredQuestions() {
             let filtered = questions;
 
             if (activeTag !== null) {
-                filtered = filtered.filter(q => q.tags && q.tags.includes(activeTag));
+                filtered = filtered.filter(q => {
+                    if (!q.tags) return false;
+                    return q.tags.some(t => t === activeTag || t.startsWith(activeTag + '::'));
+                });
             }
 
             return filtered;
@@ -1376,21 +1537,30 @@
                 selectedIds.add(id);
             }
             renderFileList();
-            renderPreview();
         }
 
         function selectAll() {
             const filtered = getFilteredQuestions();
             filtered.forEach(q => selectedIds.add(q.id));
             renderFileList();
-            renderPreview();
         }
 
         function deselectAll() {
             const filtered = getFilteredQuestions();
             filtered.forEach(q => selectedIds.delete(q.id));
             renderFileList();
-            renderPreview();
+        }
+
+        function invertSelection() {
+            const filtered = getFilteredQuestions();
+            filtered.forEach(q => {
+                if (selectedIds.has(q.id)) {
+                    selectedIds.delete(q.id);
+                } else {
+                    selectedIds.add(q.id);
+                }
+            });
+            renderFileList();
         }
 
         function toggleAnnotation() {
@@ -1459,6 +1629,8 @@
 
         function protectLatexInMarkdown(text) {
             const placeholders = [];
+            
+            text = text.replace(/\\\\/g, '\\');
             
             text = text.replace(/\$\$([\s\S]*?)\$\$/g, (match, formula) => {
                 const index = placeholders.length;
@@ -1556,6 +1728,8 @@
         function processTextWithLatex(text) {
             if (!text) return '';
             const placeholders = [];
+            
+            text = text.replace(/\\\\/g, '\\');
             
             text = text.replace(/\$\$([\s\S]*?)\$\$/g, (match, formula) => {
                 const index = placeholders.length;
@@ -2243,6 +2417,14 @@ ${questionsHtml.join('')}
 </div>
 `;
             }
+        }
+
+        async function generatePreview() {
+            if (selectedIds.size === 0) {
+                alert('请先选择要打印的题目');
+                return;
+            }
+            await renderPreview();
         }
 
         function printSelected() {
