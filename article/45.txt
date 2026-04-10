@@ -1,0 +1,13 @@
+You run into the grocery store to pick up one bottle of water. You get what you need, head to the front, and choose the line that looks fastest.
+
+You chose wrong. People who you swear got in other lines long after you are already checked out and off to the parking lot. A. Why does this always seem to happen to you?
+
+It turns out, it's just math working against you; chances are, the other line really is faster.
+
+Grocery stores try to have enough employees at checkout to get all their customers through with minimum delay. G. But sometimes, as on a Sunday afternoon, the system gets particularly busy. Any small interruption—a price check, a chatty customer—can have downstream effects, holding up an entire line.
+
+If there are three lines in the store, delays will happen randomly at different registers. Think about the probability: D. The chances of your line being the fastest are only one in three. So it's not just in your mind: Another line probably is moving faster.
+
+Researchers have a good way to deal with this problem. Make all customers stand in one long, snaking line—called a serpentine line—and serve each person at the front with the next available register. F. With three registers, this method is much faster than the traditional approach. This is what they do at most banks and fast-food restaurants. With a serpentine line, a long delay at one register won't unfairly punish the people who lined up behind it. Instead, it will slow down everyone a little bit but speed up checkout overall.
+
+B. So why don't most places encourage serpentine lines? It takes many registers to keep one line moving quickly, and some stores can't afford the space or manpower. So wherever your next wait may be: Good luck.

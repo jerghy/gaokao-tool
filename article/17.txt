@@ -1,0 +1,9 @@
+Secret codes(密码)keep messages private. Banks, companies, and government agencies use secret codes in doing business, especially when information is sent by computer.
+
+People have used secret codes for thousands of years. D. As long as there have been codes, people have tried to break them. Code breaking never lags(落后)far behind code making. The science of creating and reading coded messages is called cryptography.
+
+There are three main types of cryptography. E. You can hide a message by having the first letters of each word spell it out. For example, the first letters of "My elephant eats too many eels"spell out the hidden message"Meet me."
+
+G. Another way to hide a message is to use symbols to stand for specific letters of the alphabet. You might represent each letter with a number, for example. Let's number the letters of the alphabet, in order, from 1 to 26. If we substitute a number for each letter,the message "Meet me"would read"13 5 5 20 13 5."
+
+A code uses symbols to replace words, phrases, or sentences. To read the message of a real code, you must have a code book. F. With a code book,you might write down words that would stand for other words. For example, "bridge"might stand for "meet"and"out"might stand for "me".The message"Bridge out"would actually mean"Meet me." A. It is very hard to break a code without the code book. However, it is also hard to keep a code book secret for long. So codes must be changed frequently.

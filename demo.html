@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英语学习段落卡片</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #f5f7fa;
+            padding: 20px;
+            font-family: "Times New Roman", "SimSun", serif;
+        }
+        .card-container {
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 24px;
+            background: #ffffff;
+            border: 1px solid #e4e7ed;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+        /* 段落标题 */
+        .section-header {
+            color: #2385bb;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .section-header::before {
+            content: "✏️";
+            margin-right: 6px;
+        }
+        /* 英文段落 */
+        .english-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #303133;
+            margin-bottom: 22px;
+        }
+        .english-content sup {
+            color: #2385bb;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        /* 译文标题 */
+        .translation-title {
+            color: #2385bb;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 24px 0 12px;
+            display: flex;
+            align-items: center;
+        }
+        .translation-title::before {
+            content: "🔄";
+            margin-right: 6px;
+        }
+        /* 中文译文 */
+        .chinese-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #303133;
+            margin-bottom: 24px;
+        }
+        /* 词汇标题 */
+        .vocab-title {
+            color: #2385bb;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 24px 0 12px;
+            display: flex;
+            align-items: center;
+        }
+        .vocab-title::before {
+            content: "📚";
+            margin-right: 6px;
+        }
+        /* 词汇两列布局 */
+        .vocab-container {
+            display: flex;
+            gap: 45px;
+        }
+        .vocab-column {
+            flex: 1;
+        }
+        /* 词汇项样式 */
+        .vocab-item {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .vocab-num {
+            color: #2385bb;
+            font-weight: bold;
+            margin-right: 6px;
+        }
+        .vocab-word {
+            color: #2385bb;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .vocab-phonetic {
+            color: #606266;
+            font-style: italic;
+            margin-right: 8px;
+        }
+        .vocab-pos {
+            color: #303133;
+            font-weight: bold;
+            margin-right: 4px;
+        }
+        .vocab-meaning {
+            color: #303133;
+        }
+        /* 同根词缩进 */
+        .root-word {
+            padding-left: 22px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card-container">
+        <!-- 段落标题 -->
+        <div class="section-header">第2段</div>
+
+        <!-- 英文内容 -->
+        <div class="english-content">
+            While running regularly<sup>⑪</sup> can’t make you live forever, the review says it is more effective<sup>⑪</sup> at lengthening<sup>⑫</sup> life than walking, cycling<sup>⑬</sup> or swimming. Two of the authors<sup>⑭</sup> of the review also made a study published<sup>⑮</sup> in 2014 that showed a mere five to 10 minutes a day of running reduced the risk of heart disease and early deaths from all causes<sup>⑯</sup>.
+        </div>
+
+        <!-- 译文标题 -->
+        <div class="translation-title">段落译文>>></div>
+        <!-- 中文译文 -->
+        <div class="chinese-content">
+            虽然定期跑步无法令你长生不老，但报告称它在延长寿命方面比散步、骑自行车或游泳更有效。<br>
+            该报告的两位作者还做了一项发表于2014年的研究，这项研究表明了每天跑步仅五到十分钟降低了各种原因导致的心脏病和早逝的风险。
+        </div>
+
+        <!-- 词汇标题 -->
+        <div class="vocab-title">必背词汇汇>>></div>
+        <!-- 词汇列表（两列） -->
+        <div class="vocab-container">
+            <div class="vocab-column">
+                <!-- regularly 组 -->
+                <div class="vocab-item">
+                    <span class="vocab-num">&#9318;</span>
+                    <span class="vocab-word">regularly</span>
+                    <span class="vocab-phonetic">/'regjələli/</span>
+                    <span class="vocab-pos">adv.</span>
+                    <span class="vocab-meaning">定期地,有规律地</span>
+                </div>
+                <div class="vocab-item root-word">
+                    <span class="vocab-num">&#9319;</span>
+                    <span class="vocab-word">regulate</span>
+                    <span class="vocab-phonetic">/'regjuleɪt/</span>
+                    <span class="vocab-pos">v.</span>
+                    <span class="vocab-meaning">控制</span>
+                </div>
+                <div class="vocab-item root-word">
+                    <span class="vocab-num">&#9320;</span>
+                    <span class="vocab-word">regulation</span>
+                    <span class="vocab-phonetic">/ˌregju'leɪʃn/</span>
+                    <span class="vocab-pos">n.</span>
+                    <span class="vocab-meaning">法规</span>
+                </div>
+
+                <!-- effective 组 -->
+                <div class="vocab-item">
+                    <span class="vocab-num">&#9318;</span>
+                    <span class="vocab-word">effective</span>
+                    <span class="vocab-phonetic">/ɪ'fektɪv/</span>
+                    <span class="vocab-pos">adj.</span>
+                    <span class="vocab-meaning">有效的</span>
+                </div>
+                <div class="vocab-item root-word">
+                    <span class="vocab-num">&#9319;</span>
+                    <span class="vocab-word">effect</span>
+                    <span class="vocab-phonetic">/ɪ'fekt/</span>
+                    <span class="vocab-pos">n.</span>
+                    <span class="vocab-meaning">影响;效果</span>
+                </div>
+                <div class="vocab-item root-word">
+                    <span class="vocab-num">&#9320;</span>
+                    <span class="vocab-word">affect</span>
+                    <span class="vocab-phonetic">/ə'fekt/</span>
+                    <span class="vocab-pos">v.</span>
+                    <span class="vocab-meaning">影响</span>
+                </div>
+                <div class="vocab-item root-word">
+                    <span class="vocab-num">&#9321;</span>
+                    <span class="vocab-word">affection</span>
+                    <span class="vocab-phonetic">/ə'fekʃn/</span>
+                    <span class="vocab-pos">n.</span>
+                    <span class="vocab-meaning">喜爱</span>
+                </div>
+                <div class="vocab-item root-word">
+                    <span class="vocab-num">&#9322;</span>
+                    <span class="vocab-word">defect</span>
+                    <span class="vocab-phonetic">/'di:fekt/</span>
+                    <span class="vocab-pos">n.</span>
+                    <span class="vocab-meaning">缺点</span>
+                </div>
+
+                <!-- lengthen 组 -->
+                <div class="vocab-item">
+                    <span class="vocab-num">&#9319;</span>
+                    <span class="vocab-word">lengthen</span>
+                    <span class="vocab-phonetic">/'leŋθən/</span>
+                    <span class="vocab-pos">v.</span>
+                    <span class="vocab-meaning">(使)延长,(使)变长</span>
+                </div>
+                <div class="vocab-item root-word">
+                    <span class="vocab-num">&#9320;</span>
+                    <span class="vocab-word">long</span>
+                    <span class="vocab-phonetic">/lɒŋ/</span>
+                    <span class="vocab-pos">adj.</span>
+                    <span class="vocab-meaning">长的</span>
+                    <span class="vocab-pos">adv.</span>
+                    <span class="vocab-meaning">长久地</span>
+                </div>
+                <div class="vocab-item root-word">
+                    <span class="vocab-num">&#9321;</span>
+                    <span class="vocab-word">length</span>
+                    <span class="vocab-phonetic">/leŋθ/</span>
+                    <span class="vocab-pos">n.</span>
+                    <span class="vocab-meaning">长度;篇幅</span>
+                </div>
+                <div class="vocab-item root-word">
+                    <span class="vocab-num">&#9322;</span>
+                    <span class="vocab-word">strong</span>
+                    <span class="vocab-phonetic">/strɒŋ/</span>
+                    <span class="vocab-pos">adj.</span>
+                    <span class="vocab-meaning">强壮的;强烈的</span>
+                </div>
+                <div class="vocab-item root-word">
+                    <span class="vocab-num">&#9323;</span>
+                    <span class="vocab-word">strength</span>
+                    <span class="vocab-phonetic">/streŋθ/</span>
+                    <span class="vocab-pos">n.</span>
+                    <span class="vocab-meaning">力量;强度</span>
+                </div>
+                <div class="vocab-item root-word">
+                    <span class="vocab-num">&#9324;</span>
+                    <span class="vocab-word">strengthen</span>
+                    <span class="vocab-phonetic">/'streŋθn/</span>
+                    <span class="vocab-pos">v.</span>
+                    <span class="vocab-meaning">加强</span>
+                </div>
+            </div>
+
+            <div class="vocab-column">
+                <!-- cycle 组 -->
+                <div class="vocab-item">
+                    <span class="vocab-num">&#9320;</span>
+                    <span class="vocab-word">cycle</span>
+                    <span class="vocab-phonetic">/'saɪkl/</span>
+                    <span class="vocab-pos">v.</span>
+                    <span class="vocab-meaning">骑自行车</span>
+                    <span class="vocab-pos">n.</span>
+                    <span class="vocab-meaning">自行车;循环</span>
+                </div>
+                <div class="vocab-item root-word">
+                    <span class="vocab-num">&#9321;</span>
+                    <span class="vocab-word">bicycle</span>
+                    <span class="vocab-phonetic">/'baɪsɪkl/</span>
+                    <span class="vocab-pos">n.</span>
+                    <span class="vocab-meaning">自行车</span>
+                </div>
+                <div class="vocab-item root-word">
+                    <span class="vocab-num">&#9322;</span>
+                    <span class="vocab-word">tricycle</span>
+                    <span class="vocab-phonetic">/'traɪsɪkl/</span>
+                    <span class="vocab-pos">n.</span>
+                    <span class="vocab-meaning">三轮脚踏车</span>
+                </div>
+
+                <!-- author 组 -->
+                <div class="vocab-item">
+                    <span class="vocab-num">&#9321;</span>
+                    <span class="vocab-word">author</span>
+                    <span class="vocab-phonetic">/'ɔ:θə(r)/</span>
+                    <span class="vocab-pos">n.</span>
+                    <span class="vocab-meaning">作者</span>
+                </div>
+                <div class="vocab-item root-word">
+                    <span class="vocab-num">&#9322;</span>
+                    <span class="vocab-word">authority</span>
+                    <span class="vocab-phonetic">/ɔ:'θɒrəti/</span>
+                    <span class="vocab-pos">n.</span>
+                    <span class="vocab-meaning">官方,当权者;权力</span>
+                </div>
+                <div class="vocab-item root-word">
+                    <span class="vocab-num">&#9323;</span>
+                    <span class="vocab-word">authentic</span>
+                    <span class="vocab-phonetic">/ɔ:'θentɪk/</span>
+                    <span class="vocab-pos">adj.</span>
+                    <span class="vocab-meaning">真正的</span>
+                </div>
+
+                <!-- publish 组 -->
+                <div class="vocab-item">
+                    <span class="vocab-num">&#9322;</span>
+                    <span class="vocab-word">publish</span>
+                    <span class="vocab-phonetic">/'pʌblɪʃ/</span>
+                    <span class="vocab-pos">v.</span>
+                    <span class="vocab-meaning">发表;出版</span>
+                </div>
+                <div class="vocab-item root-word">
+                    <span class="vocab-num">&#9323;</span>
+                    <span class="vocab-word">punish</span>
+                    <span class="vocab-phonetic">/'pʌnɪʃ/</span>
+                    <span class="vocab-pos">v.</span>
+                    <span class="vocab-meaning">处罚</span>
+                </div>
+                <div class="vocab-item root-word">
+                    <span class="vocab-num">&#9324;</span>
+                    <span class="vocab-word">public</span>
+                    <span class="vocab-phonetic">/'pʌblɪk/</span>
+                    <span class="vocab-pos">adj.</span>
+                    <span class="vocab-meaning">公开的</span>
+                </div>
+
+                <!-- cause 组 -->
+                <div class="vocab-item">
+                    <span class="vocab-num">&#9323;</span>
+                    <span class="vocab-word">cause</span>
+                    <span class="vocab-phonetic">/kɔ:z/</span>
+                    <span class="vocab-pos">n.</span>
+                    <span class="vocab-meaning">原因</span>
+                    <span class="vocab-pos">v.</span>
+                    <span class="vocab-meaning">导致</span>
+                </div>
+                <div class="vocab-item root-word">
+                    <span class="vocab-num">&#9324;</span>
+                    <span class="vocab-word">reason</span>
+                    <span class="vocab-phonetic">/'ri:zn/</span>
+                    <span class="vocab-pos">n.</span>
+                    <span class="vocab-meaning">原因,理由</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+[
+  {
+    "原文": "Secret codes①(密码)keep messages private②. Banks, companies, and government agencies③ use secret codes in doing business, especially when information is sent by computer.",
+    "翻译": "密码用于保持信息的私密性。银行、公司和政府机构在开展业务时使用密码，尤其是在通过计算机发送信息时。",
+    "必背词汇": "① code /kəʊd/ n. 密码；代码；准则\nⓇ encode /ɪnˈkəʊd/ v. 编码\nⓇ decode /ˌdiːˈkəʊd/ v. 解码\nⓇ coder /ˈkəʊdə(r)/ n. 编码员\nⓇ coding /ˈkəʊdɪŋ/ n. 编码\n② private /ˈpraɪvət/ adj. 私人的；私密的\nⓇ privacy /ˈprɪvəsi/ n. 隐私\nⓇ privately /ˈpraɪvətli/ adv. 私下地\nⓇ public /ˈpʌblɪk/ adj. 公开的\nⓇ personal /ˈpɜːsənl/ adj. 个人的\n③ agency /ˈeɪdʒənsi/ n. 机构；代理\nⓇ agent /ˈeɪdʒənt/ n. 代理人；特工\nⓇ agenda /əˈdʒendə/ n. 议程\nⓇ urgent /ˈɜːdʒənt/ adj. 紧急的"
+  },
+  {
+    "原文": "People have used secret codes for thousands of years. D. As long as there have been codes, people have tried to break④ them. Code breaking never lags⑤(落后)far behind code making. The science of creating and reading coded messages is called cryptography⑥.",
+    "翻译": "人们使用密码已有数千年历史。D. 只要有密码存在，人们就试图破解它们。密码破解从未远远落后于密码制作。创建和读取编码信息的科学被称为密码学。",
+    "必背词汇": "④ break /breɪk/ v. 打破；破解\nⓇ broken /ˈbrəʊkən/ adj. 破碎的\nⓇ breakthrough /ˈbreɪkθruː/ n. 突破\nⓇ breakable /ˈbreɪkəbl/ adj. 易碎的\nⓇ breakage /ˈbreɪkɪdʒ/ n. 破损\n⑤ lag /læɡ/ v. 落后；滞后\nⓇ lagging /ˈlæɡɪŋ/ adj. 落后的\nⓇ laggard /ˈlæɡəd/ n. 落后者\nⓇ delay /dɪˈleɪ/ v./n. 延迟\nⓇ behind /bɪˈhaɪnd/ prep. 在...后面\n⑥ cryptography /krɪpˈtɒɡrəfi/ n. 密码学\nⓇ crypt /krɪpt/ n. 地窖；教堂地下室\nⓇ cryptic /ˈkrɪptɪk/ adj. 神秘的；隐晦的\nⓇ encrypt /ɪnˈkrɪpt/ v. 加密\nⓇ decrypt /ˌdiːˈkrɪpt/ v. 解密"
+  },
+  {
+    "原文": "There are three main types of cryptography. E. You can hide a message by having the first letters of each word spell it out. For example, the first letters of \"My elephant eats too many eels\"spell out the hidden message\"Meet me.\"",
+    "翻译": "密码学主要有三种类型。E. 你可以通过让每个单词的首字母拼出信息来隐藏信息。例如，“My elephant eats too many eels”的首字母拼出了隐藏信息“Meet me.”。",
+    "必背词汇": ""
+  },
+  {
+    "原文": "G. Another way to hide a message is to use symbols⑦ to stand for specific letters of the alphabet. You might represent each letter with a number, for example. Let's number the letters of the alphabet, in order, from 1 to 26. If we substitute⑧ a number for each letter,the message \"Meet me\"would read\"13 5 5 20 13 5.\"",
+    "翻译": "G. 另一种隐藏信息的方法是使用符号来代表字母表中的特定字母。例如，你可以用数字代表每个字母。让我们按顺序将字母表中的字母编号为1到26。如果我们用数字替换每个字母，信息“Meet me”就会变成“13 5 5 20 13 5.”。",
+    "必背词汇": "⑦ symbol /ˈsɪmbl/ n. 符号；象征\nⓇ symbolic /sɪmˈbɒlɪk/ adj. 象征性的\nⓇ symbolize /ˈsɪmbəlaɪz/ v. 象征\nⓇ sign /saɪn/ n. 标志；符号\nⓇ signal /ˈsɪɡnəl/ n. 信号\n⑧ substitute /ˈsʌbstɪtjuːt/ v. 代替；替换 n. 替代品\nⓇ substitution /ˌsʌbstɪˈtjuːʃn/ n. 替换\nⓇ replace /rɪˈpleɪs/ v. 替换\nⓇ alternative /ɔːlˈtɜːnətɪv/ n. 替代选择 adj. 可替代的\nⓇ instead /ɪnˈsted/ adv. 代替"
+  },
+  {
+    "原文": "A code uses symbols to replace words, phrases, or sentences. To read the message of a real code, you must have a code book. F. With a code book,you might write down words that would stand for other words. For example, \"bridge\"might stand for \"meet\"and\"out\"might stand for \"me\".The message\"Bridge out\"would actually mean\"Meet me.\" A. It is very hard to break a code without the code book. However, it is also hard to keep a code book secret for long. So codes must be changed frequently⑨.",
+    "翻译": "密码使用符号来替换单词、短语或句子。要读取真实密码的信息，你必须有一本密码本。F. 有了密码本，你可以写下代表其他单词的单词。例如，“bridge”可能代表“meet”，而“out”可能代表“me”。信息“Bridge out”实际上意味着“Meet me.”。A. 没有密码本很难破解密码。然而，长期保持密码本的秘密也很困难。因此，密码必须频繁更换。",
+    "必背词汇": "⑨ frequently /ˈfriːkwəntli/ adv. 频繁地；经常地\nⓇ frequent /ˈfriːkwənt/ adj. 频繁的\nⓇ frequency /ˈfriːkwənsi/ n. 频率\nⓇ often /ˈɒfn/ adv. 经常\nⓇ occasionally /əˈkeɪʒnəli/ adv. 偶尔地"
+  }
+]

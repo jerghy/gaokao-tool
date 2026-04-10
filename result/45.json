@@ -1,0 +1,37 @@
+[
+  {
+    "原文": "You run into the grocery store to pick up one bottle of water. You get what you need, head to the front, and choose the line that looks fastest.",
+    "翻译": "你跑进杂货店去买一瓶水。你拿到需要的东西，走向收银台，并选择了看起来最快的那一队。",
+    "必背词汇": "① grocery /ˈɡrəʊsəri/ n. 杂货店；食品杂货\nⓇ grocer /ˈɡrəʊsə(r)/ n. 杂货商\nⓇ groceries /ˈɡrəʊsəriz/ n. 食品杂货\n② choose /tʃuːz/ v. 选择；挑选\nⓇ choice /tʃɔɪs/ n. 选择；选择权\nⓇ choose from 从...中选择\nⓇ make a choice 做出选择"
+  },
+  {
+    "原文": "You chose wrong. People who you swear got in other lines long after you are already checked out and off to the parking lot. A. Why does this always seem to happen to you?",
+    "翻译": "你选错了。你发誓在你之后很久才排到其他队伍的人，却已经结完账并走向停车场了。A. 为什么这似乎总是发生在你身上？",
+    "必背词汇": "③ swear /sweə(r)/ v. 发誓；郑重承诺\nⓇ swear by 非常信赖\nⓇ swear word 脏话\n④ check out /tʃek aʊt/ v. 结账离开；检查\nⓇ check in 登记入住；报到\nⓇ checkout /ˈtʃekaʊt/ n. 结账处\n⑤ parking lot /ˈpɑːkɪŋ lɒt/ n. 停车场\nⓇ park /pɑːk/ v. 停放（车辆） n. 公园\nⓇ parking /ˈpɑːkɪŋ/ n. 停车"
+  },
+  {
+    "原文": "It turns out, it's just math working against you; chances are, the other line really is faster.",
+    "翻译": "事实证明，这只是数学在跟你作对；很可能，其他队伍确实更快。",
+    "必背词汇": "⑥ turn out /tɜːn aʊt/ v. 结果是；证明是\nⓇ turn up 出现；调高\nⓇ turn down 拒绝；调低\n⑦ chance /tʃɑːns/ n. 可能性；机会\nⓇ by chance 偶然地\nⓇ take a chance 冒险一试"
+  },
+  {
+    "原文": "Grocery stores try to have enough employees at checkout to get all their customers through with minimum delay. G. But sometimes, as on a Sunday afternoon, the system gets particularly busy. Any small interruption—a price check, a chatty customer—can have downstream effects, holding up an entire line.",
+    "翻译": "杂货店试图在收银台安排足够的员工，以最小的延误让所有顾客通过。G. 但有时，比如在周日下午，系统会变得特别繁忙。任何小的中断——价格查询、健谈的顾客——都可能产生连锁效应，拖慢整个队伍。",
+    "必背词汇": "⑧ employee /ɪmˈplɔɪiː/ n. 雇员；员工\nⓇ employ /ɪmˈplɔɪ/ v. 雇用；使用\nⓇ employer /ɪmˈplɔɪə(r)/ n. 雇主\nⓇ employment /ɪmˈplɔɪmənt/ n. 就业；雇用\n⑨ minimum /ˈmɪnɪməm/ adj. 最小的；最低的 n. 最小值\nⓇ minimal /ˈmɪnɪməl/ adj. 极小的；最低限度的\nⓇ minimize /ˈmɪnɪmaɪz/ v. 使最小化\n⑩ delay /dɪˈleɪ/ n. 延误；耽搁 v. 延迟\nⓇ without delay 立即；毫不拖延地\nⓇ delayed /dɪˈleɪd/ adj. 延迟的\n⑪ interruption /ˌɪntəˈrʌpʃn/ n. 中断；打扰\nⓇ interrupt /ˌɪntəˈrʌpt/ v. 打断；中断\nⓇ uninterrupted /ˌʌnɪntəˈrʌptɪd/ adj. 不间断的\n⑫ downstream /ˌdaʊnˈstriːm/ adj. 下游的；后续的\nⓇ upstream /ˌʌpˈstriːm/ adj. 上游的\nⓇ stream /striːm/ n. 溪流；一连串"
+  },
+  {
+    "原文": "If there are three lines in the store, delays will happen randomly at different registers. Think about the probability: D. The chances of your line being the fastest are only one in three. So it's not just in your mind: Another line probably is moving faster.",
+    "翻译": "如果店里有三个队伍，延误会随机发生在不同的收银台。想想概率：D. 你的队伍最快的可能性只有三分之一。所以这不仅仅是你的想象：另一队很可能移动得更快。",
+    "必背词汇": "⑬ randomly /ˈrændəmli/ adv. 随机地；任意地\nⓇ random /ˈrændəm/ adj. 随机的；任意的\nⓇ at random 随机地\n⑭ register /ˈredʒɪstə(r)/ n. 收银台；登记处 v. 登记；注册\nⓇ registration /ˌredʒɪˈstreɪʃn/ n. 登记；注册\nⓇ registered /ˈredʒɪstəd/ adj. 已注册的\n⑮ probability /ˌprɒbəˈbɪləti/ n. 可能性；概率\nⓇ probable /ˈprɒbəbl/ adj. 很可能的\nⓇ probably /ˈprɒbəbli/ adv. 很可能"
+  },
+  {
+    "原文": "Researchers have a good way to deal with this problem. Make all customers stand in one long, snaking line—called a serpentine line—and serve each person at the front with the next available register. F. With three registers, this method is much faster than the traditional approach. This is what they do at most banks and fast-food restaurants. With a serpentine line, a long delay at one register won't unfairly punish the people who lined up behind it. Instead, it will slow down everyone a little bit but speed up checkout overall.",
+    "翻译": "研究人员有一个好方法来处理这个问题。让所有顾客排成一条长长的蛇形队伍——称为蛇形队列——并用下一个可用的收银台为队伍最前面的人服务。F. 有三个收银台时，这种方法比传统方式快得多。这是大多数银行和快餐店的做法。有了蛇形队列，一个收银台的长时间延误不会不公平地惩罚排在其后面的人。相反，它会稍微减慢每个人的速度，但总体上加快了结账速度。",
+    "必背词汇": "⑯ researcher /rɪˈsɜːtʃə(r)/ n. 研究人员\nⓇ research /rɪˈsɜːtʃ/ n. 研究 v. 研究\nⓇ search /sɜːtʃ/ v. 搜索；搜寻\n⑰ deal with /diːl wɪð/ v. 处理；应对\nⓇ deal /diːl/ n. 交易 v. 处理\nⓇ dealer /ˈdiːlə(r)/ n. 经销商\n⑱ serpentine /ˈsɜːpəntaɪn/ adj. 蛇形的；蜿蜒的\nⓇ serpent /ˈsɜːpənt/ n. 蛇\nⓇ snake /sneɪk/ n. 蛇 v. 蜿蜒行进\n⑲ available /əˈveɪləbl/ adj. 可用的；可获得的\nⓇ availability /əˌveɪləˈbɪləti/ n. 可用性；可获得性\nⓇ unavailable /ˌʌnəˈveɪləbl/ adj. 不可用的\n⑳ approach /əˈprəʊtʃ/ n. 方法；途径 v. 接近\nⓇ approachable /əˈprəʊtʃəbl/ adj. 可接近的；平易近人的\nⓇ approaching /əˈprəʊtʃɪŋ/ adj. 接近的\n㉑ unfairly /ʌnˈfeəli/ adv. 不公平地\nⓇ fair /feə(r)/ adj. 公平的；合理的\nⓇ unfair /ˌʌnˈfeə(r)/ adj. 不公平的\n㉒ punish /ˈpʌnɪʃ/ v. 惩罚；处罚\nⓇ punishment /ˈpʌnɪʃmənt/ n. 惩罚\nⓇ punishable /ˈpʌnɪʃəbl/ adj. 可处罚的\n㉓ overall /ˌəʊvərˈɔːl/ adv. 总体上；总的来说 adj. 总的\nⓇ over /ˈəʊvə(r)/ prep. 在...上方；超过\nⓇ all /ɔːl/ adj. 所有的 pron. 全部"
+  },
+  {
+    "原文": "B. So why don't most places encourage serpentine lines? It takes many registers to keep one line moving quickly, and some stores can't afford the space or manpower. So wherever your next wait may be: Good luck.",
+    "翻译": "B. 那么为什么大多数地方不鼓励蛇形队列呢？这需要许多收银台来保持一条队伍快速移动，而一些商店负担不起所需的空间或人力。所以无论你下次在哪里等待：祝你好运。",
+    "必背词汇": "㉔ encourage /ɪnˈkʌrɪdʒ/ v. 鼓励；促进\nⓇ courage /ˈkʌrɪdʒ/ n. 勇气\nⓇ discourage /dɪsˈkʌrɪdʒ/ v. 使泄气；阻止\n㉕ afford /əˈfɔːd/ v. 负担得起；提供\nⓇ affordable /əˈfɔːdəbl/ adj. 负担得起的\nⓇ unaffordable /ˌʌnəˈfɔːdəbl/ adj. 负担不起的\n㉖ manpower /ˈmænpaʊə(r)/ n. 人力；劳动力\nⓇ man /mæn/ n. 男人；人类\nⓇ power /ˈpaʊə(r)/ n. 力量；权力"
+  }
+]
