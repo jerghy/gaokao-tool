@@ -1,15 +1,14 @@
 import os
 import json
-import threading
+import logging
 from typing import Optional, Union
 from dataclasses import dataclass
-from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from ai.base import AI, ReasoningEffort, call_ai, build_input_content, parse_items_text, extract_image_paths_from_items
-from ai.thinking_processor import search_questions
 from ai.immersion_thinking_prompt import get_immersion_thinking_prompt
+from ai.batch import run_batch
 
-print_lock = threading.Lock()
+logger = logging.getLogger(__name__)
 
 
 __all__ = [
@@ -140,78 +139,33 @@ def save_immersion_to_json(
 
 def batch_process_immersion_with_search(
     data_dir: str,
-    search_query: str,
+    question_ids: list[str],
     ai: Optional[AI] = None,
     api_key: Optional[str] = None,
     model: Optional[str] = None,
     max_workers: int = 3,
 ) -> dict:
-    matched_ids = search_questions(data_dir, search_query)
-
-    results = {
-        "total": len(matched_ids),
-        "success": [],
-        "failed": [],
-        "skipped": []
-    }
-
-    total = len(matched_ids)
-    print(f"发现 {total} 个题目需要处理")
-    print(f"并发数: {max_workers}")
-    print("=" * 60)
-
-    if total == 0:
-        return results
-
-    def _process_one(qid: str, index: int) -> dict:
+    def _process_one(qid):
         result = {"id": qid, "success": False, "message": ""}
-
         try:
             immersion = generate_immersion_for_question(
-                data_dir=data_dir,
-                question_id=qid,
-                ai=ai,
-                api_key=api_key,
-                model=model,
+                data_dir=data_dir, question_id=qid, ai=ai, api_key=api_key, model=model,
             )
-
             if immersion is None:
                 result["message"] = "无现有思考过程"
             else:
                 save_immersion_to_json(data_dir, qid, immersion)
                 result["success"] = True
                 result["message"] = "处理完成"
-
         except Exception as e:
             result["message"] = str(e)[:100]
-
-        with print_lock:
-            status = "✓" if result["success"] else "✗"
-            print(f"[{index}/{total}] {status} {qid}: {result['message'][:50]}")
-
         return result
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = {
-            executor.submit(_process_one, qid, i): qid
-            for i, qid in enumerate(matched_ids, 1)
-        }
+    progress = run_batch(_process_one, question_ids, max_workers=max_workers, desc="沉浸式思考")
 
-        for future in as_completed(futures):
-            result = future.result()
-            if result["success"]:
-                results["success"].append(result["id"])
-            elif result["message"] == "无现有思考过程":
-                results["skipped"].append(result["id"])
-            else:
-                results["failed"].append({"id": result["id"], "reason": result["message"]})
-
-    print("\n" + "=" * 60)
-    print(f"处理完成: 成功 {len(results['success'])} 个, 失败 {len(results['failed'])} 个, 跳过 {len(results['skipped'])} 个")
-
-    if results["failed"]:
-        print("\n失败列表:")
-        for item in results["failed"]:
-            print(f"  - {item['id']}: {item['reason']}")
-
-    return results
+    return {
+        "total": progress.total,
+        "success": progress.success,
+        "failed": progress.failed,
+        "skipped": progress.skipped,
+    }

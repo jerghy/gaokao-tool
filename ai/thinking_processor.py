@@ -1,15 +1,14 @@
 import os
-import re
 import json
-import threading
+import logging
 from typing import Optional, Union
 from dataclasses import dataclass
-from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from ai.base import AI, ReasoningEffort, call_ai, build_input_content, parse_items_text, extract_image_paths_from_items
 from ai.thinking_process_prompt import get_thinking_process_prompt
+from ai.batch import run_batch
 
-print_lock = threading.Lock()
+logger = logging.getLogger(__name__)
 
 __all__ = [
     "ThinkingProcess",
@@ -17,7 +16,6 @@ __all__ = [
     "generate_thinking_process",
     "generate_thinking_process_for_targets",
     "save_thinking_process_to_json",
-    "search_questions",
     "batch_process_with_search",
 ]
 
@@ -44,117 +42,6 @@ class ThinkingProcess:
             "target_label": self.target_label,
             "thinking_content": self.thinking_content,
         }
-
-
-def get_effective_tags(data: dict) -> list[str]:
-    own_tags = data.get("tags", [])
-    sub_question_tags = []
-    for sq in data.get("sub_questions", []):
-        sub_question_tags.extend(sq.get("tags", []))
-    return list(set(own_tags + sub_question_tags))
-
-
-def match_tag(tag_pattern: str, question_tags: list[str]) -> bool:
-    tag_pattern_lower = tag_pattern.lower()
-    for qt in question_tags:
-        if tag_pattern_lower == qt.lower():
-            return True
-    return False
-
-
-def match_text(text_pattern: str, question_str: str, answer_str: str) -> bool:
-    pattern_lower = text_pattern.lower()
-    return pattern_lower in question_str.lower() or pattern_lower in answer_str.lower()
-
-
-def tokenize_search_query(query: str) -> list:
-    tokens = []
-    i = 0
-    while i < len(query):
-        if query[i] == '(':
-            tokens.append(('LPAREN', '('))
-            i += 1
-        elif query[i] == ')':
-            tokens.append(('RPAREN', ')'))
-            i += 1
-        elif query[i:i+3].upper() == 'AND' and (i + 3 >= len(query) or not query[i+3].isalnum()):
-            tokens.append(('AND', 'AND'))
-            i += 3
-        elif query[i] == '|':
-            tokens.append(('OR', '|'))
-            i += 1
-        elif query[i:i+2].upper() == 'OR' and (i + 2 >= len(query) or not query[i+2].isalnum()):
-            tokens.append(('OR', 'OR'))
-            i += 2
-        elif query[i] == '-' and (not tokens or tokens[-1][0] in ('AND', 'OR', 'LPAREN', 'NOT', 'TEXT')):
-            tokens.append(('NOT', '-'))
-            i += 1
-        elif query[i:i+3].upper() == 'NOT' and (i + 3 >= len(query) or not query[i+3].isalnum()):
-            tokens.append(('NOT', 'NOT'))
-            i += 3
-        elif query[i] == ' ':
-            i += 1
-        elif query[i:i+4].upper() == 'TAG:':
-            tag_name = query[i+4:]
-            end = i + 4
-            while end < len(query) and query[end] not in ' ()|-':
-                end += 1
-            tokens.append(('TAG', query[i+4:end]))
-            i = end
-        else:
-            match = re.match(r'([^\s()\-:|]+)', query[i:])
-            if match:
-                tokens.append(('TEXT', match.group(1)))
-                i += len(match.group(1))
-            else:
-                i += 1
-    return tokens
-
-
-def search_questions(data_dir: str, query: str) -> list[str]:
-    if not query.strip():
-        question_ids = []
-        for filename in os.listdir(data_dir):
-            if filename.endswith('.json'):
-                question_ids.append(filename[:-5])
-        return question_ids
-
-    tokens = tokenize_search_query(query)
-
-    all_question_ids = []
-    for filename in os.listdir(data_dir):
-        if filename.endswith('.json'):
-            all_question_ids.append(filename[:-5])
-
-    matching_ids = []
-
-    for qid in all_question_ids:
-        filepath = os.path.join(data_dir, f"{qid}.json")
-        with open(filepath, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-
-        question_str = json.dumps(data.get('question', {}), ensure_ascii=False)
-        answer_str = json.dumps(data.get('answer', {}), ensure_ascii=False)
-        tags = get_effective_tags(data)
-
-        matched = True
-        i = 0
-        while i < len(tokens):
-            token_type, token_val = tokens[i]
-            if token_type == 'TAG':
-                if not match_tag(token_val, tags):
-                    matched = False
-                    break
-            elif token_type == 'TEXT':
-                if not match_text(token_val, question_str, answer_str):
-                    matched = False
-                    break
-            i += 1
-
-        if matched:
-            matching_ids.append(qid)
-
-    return matching_ids
 
 
 def build_thinking_prompt(
@@ -224,7 +111,11 @@ def extract_thinking_targets(
         with open(file_path, "r", encoding="utf-8") as f:
             data = json.load(f)
 
-    tags = get_effective_tags(data)
+    own_tags = data.get("tags", [])
+    sub_question_tags = []
+    for sq in data.get("sub_questions", []):
+        sub_question_tags.extend(sq.get("tags", []))
+    tags = list(set(own_tags + sub_question_tags))
 
     if "思维" not in tags:
         return []
@@ -344,104 +235,53 @@ def process_question_with_thinking_tag(
     return processes
 
 
-def process_single_thinking(
-    data_dir: str,
-    qid: str,
-    api_key: Optional[str],
-    model: str,
-    index: int,
-    total: int
-) -> dict:
+def _process_single_thinking_core(data_dir, qid, api_key, model):
     result = {"id": qid, "success": False, "message": ""}
-
     try:
         file_path = os.path.join(data_dir, f"{qid}.json")
         with open(file_path, "r", encoding="utf-8") as f:
             data = json.load(f)
-
         existing_processes = data.get("thinking_processes", [])
         if existing_processes:
             result["message"] = "already_exists"
             return result
-
         targets = extract_thinking_targets(data_dir, qid, data)
-
         if not targets:
             result["message"] = "no_thinking_tag"
             return result
-
-        processes = generate_thinking_process_for_targets(
-            data_dir, qid, api_key, model
-        )
-
+        processes = generate_thinking_process_for_targets(data_dir, qid, api_key, model)
         if processes:
             save_thinking_process_to_json(data_dir, qid, processes)
             result["success"] = True
             result["message"] = "success"
         else:
             result["message"] = "no_targets"
-
     except Exception as e:
         result["message"] = str(e)[:100]
-
-    with print_lock:
-        status = "✓" if result["success"] else "✗"
-        msg_display = result["message"] if not result["success"] else ""
-        print(f"[{index}/{total}] {status} {qid}: {msg_display}")
-
     return result
 
 
 def batch_process_with_search(
     data_dir: str,
-    search_query: str,
+    question_ids: list[str],
     api_key: Optional[str] = None,
     model: str = "doubao-seed-2-0-pro-260215",
     max_workers: int = 3
 ) -> dict:
-    matched_ids = search_questions(data_dir, search_query)
+    def _process_one(qid):
+        return _process_single_thinking_core(data_dir, qid, api_key, model)
+
+    progress = run_batch(_process_one, question_ids, max_workers=max_workers, desc="思维过程生成")
 
     results = {
-        "total_searched": len(matched_ids),
-        "success": [],
-        "failed": [],
+        "total_searched": progress.total,
+        "success": progress.success,
+        "failed": progress.failed,
         "skipped_no_thinking_tag": [],
         "skipped_already_exists": []
     }
 
-    total = len(matched_ids)
-    print(f"发现 {total} 个题目需要生成思维过程")
-    print(f"并发数: {max_workers}")
-    print("=" * 60)
-
-    if total == 0:
-        return results
-
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = {
-            executor.submit(process_single_thinking, data_dir, qid, api_key, model, i, total): qid
-            for i, qid in enumerate(matched_ids, 1)
-        }
-
-        for future in as_completed(futures):
-            result = future.result()
-            if result["success"]:
-                results["success"].append(result["id"])
-            elif result["message"] == "already_exists":
-                results["skipped_already_exists"].append(result["id"])
-            elif result["message"] == "no_thinking_tag":
-                results["skipped_no_thinking_tag"].append(result["id"])
-            else:
-                results["failed"].append({"id": result["id"], "reason": result["message"]})
-
-    print("\n" + "=" * 60)
-    print(f"处理完成: 成功 {len(results['success'])} 个, 失败 {len(results['failed'])} 个, "
-          f"跳过(已存在) {len(results['skipped_already_exists'])} 个, "
-          f"跳过(无思维标签) {len(results['skipped_no_thinking_tag'])} 个")
-
-    if results["failed"]:
-        print("\n失败列表:")
-        for item in results["failed"]:
-            print(f"  - {item['id']}: {item['reason']}")
+    for item in progress.skipped:
+        results["skipped_no_thinking_tag"].append(item)
 
     return results

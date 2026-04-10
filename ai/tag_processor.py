@@ -1,9 +1,8 @@
 import os
 import json
-import threading
+import logging
 from typing import Optional, Union
 from dataclasses import dataclass
-from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from ai.base import (
     AI,
@@ -13,8 +12,9 @@ from ai.base import (
     parse_items_text,
     extract_image_paths_from_items,
 )
+from ai.batch import run_batch
 
-print_lock = threading.Lock()
+logger = logging.getLogger(__name__)
 
 __all__ = [
     "TagResult",
@@ -94,7 +94,7 @@ def generate_tags_for_question(
 ) -> Optional[TagResult]:
     file_path = os.path.join(data_dir, f"{question_id}.json")
     if not os.path.exists(file_path):
-        print(f"题目文件不存在: {file_path}")
+        logger.warning(f"题目文件不存在: {file_path}")
         return None
 
     with open(file_path, "r", encoding="utf-8") as f:
@@ -137,14 +137,14 @@ def generate_tags_for_question(
             json_str = json_str.strip()
             result = json.loads(json_str)
         except json.JSONDecodeError:
-            print(f"AI返回内容不是有效的JSON格式:\n{raw_response}")
+            logger.warning(f"AI返回内容不是有效的JSON格式:\n{raw_response}")
             return None
     else:
         result = raw_response
 
     tags = result.get("tags", [])
     if not isinstance(tags, list):
-        print(f"AI返回的tags不是列表格式: {tags}")
+        logger.warning(f"AI返回的tags不是列表格式: {tags}")
         return None
 
     valid_tags = []
@@ -207,7 +207,7 @@ def process_tags_for_question(
             valid_prefixes = ("知识点::", "难度::", "题型::", "能力素养::")
             has_valid = any(t.startswith(valid_prefixes) for t in existing_tags if isinstance(t, str))
             if has_valid:
-                print(f"[跳过] {question_id}: 已有规范标签")
+                logger.info(f"[跳过] {question_id}: 已有规范标签")
                 return None
 
     result = generate_tags_for_question(
@@ -249,25 +249,8 @@ def batch_process_tags(
 
     existing_tags = collect_all_tags(data_dir)
 
-    results = {
-        "total": len(question_ids),
-        "success": [],
-        "failed": [],
-        "skipped": [],
-    }
-
-    total = len(question_ids)
-    print(f"共 {total} 个题目需要处理")
-    print(f"并发数: {max_workers}")
-    print(f"已有标签库: {len(existing_tags)} 个标签")
-    print("=" * 60)
-
-    if total == 0:
-        return results
-
-    def _process_one(qid: str, index: int) -> dict:
+    def _process_one(qid):
         result = {"id": qid, "success": False, "message": ""}
-
         try:
             if skip_if_has_valid_tags:
                 file_path = os.path.join(data_dir, f"{qid}.json")
@@ -278,59 +261,29 @@ def batch_process_tags(
                 has_valid = any(t.startswith(valid_prefixes) for t in existing if isinstance(t, str))
                 if has_valid:
                     result["message"] = "已有规范标签"
-                    with print_lock:
-                        print(f"[{index}/{total}] ~ {qid}: 已有规范标签，跳过")
                     return result
 
             tag_result = generate_tags_for_question(
-                data_dir=data_dir,
-                question_id=qid,
-                prompt_path=prompt_path,
-                ai=ai,
-                api_key=api_key,
-                model=model,
-                reasoning_effort=reasoning_effort,
-                max_output_tokens=max_output_tokens,
+                data_dir=data_dir, question_id=qid, prompt_path=prompt_path,
+                ai=ai, api_key=api_key, model=model,
+                reasoning_effort=reasoning_effort, max_output_tokens=max_output_tokens,
                 existing_tags=existing_tags,
             )
-
             if tag_result:
                 save_tags_to_json(data_dir, qid, tag_result, replace=replace)
                 result["success"] = True
                 result["message"] = f"生成 {len(tag_result.tags)} 个标签"
-                with print_lock:
-                    print(f"[{index}/{total}] ✓ {qid}: 生成 {len(tag_result.tags)} 个标签")
             else:
                 result["message"] = "生成失败"
-
         except Exception as e:
             result["message"] = str(e)[:100]
-            with print_lock:
-                print(f"[{index}/{total}] ✗ {qid}: {result['message']}")
-
         return result
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = {
-            executor.submit(_process_one, qid, i): qid
-            for i, qid in enumerate(question_ids, 1)
-        }
+    progress = run_batch(_process_one, question_ids, max_workers=max_workers, desc="标签生成")
 
-        for future in as_completed(futures):
-            result = future.result()
-            if result["success"]:
-                results["success"].append(result["id"])
-            elif result["message"] == "已有规范标签":
-                results["skipped"].append(result["id"])
-            else:
-                results["failed"].append({"id": result["id"], "reason": result["message"]})
-
-    print("\n" + "=" * 60)
-    print(f"处理完成: 成功 {len(results['success'])} 个, 失败 {len(results['failed'])} 个, 跳过 {len(results['skipped'])} 个")
-
-    if results["failed"]:
-        print("\n失败列表:")
-        for item in results["failed"]:
-            print(f"  - {item['id']}: {item['reason']}")
-
-    return results
+    return {
+        "total": progress.total,
+        "success": progress.success,
+        "failed": progress.failed,
+        "skipped": progress.skipped,
+    }

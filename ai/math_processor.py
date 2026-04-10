@@ -1,9 +1,8 @@
 import os
 import json
-import threading
+import logging
 from typing import Optional, Union
 from dataclasses import dataclass
-from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from ai.base import (
     AI,
@@ -14,8 +13,9 @@ from ai.base import (
     parse_items_text,
     extract_image_paths_from_items,
 )
+from ai.batch import run_batch
 
-print_lock = threading.Lock()
+logger = logging.getLogger(__name__)
 
 __all__ = [
     "MathUnit",
@@ -233,7 +233,7 @@ def process_math_question(
                         pre_process=deep_content,
                     ))
                 except Exception as e:
-                    print(f"思维提升类深度处理失败: {e}")
+                    logger.warning(f"思维提升类深度处理失败: {e}")
                     final_units.append(unit)
             else:
                 final_units.append(unit)
@@ -288,34 +288,13 @@ def batch_process_math_questions(
     output_field: str = "math_processing_result",
     max_workers: int = 3,
 ) -> dict:
-    results = {
-        "total": len(question_ids),
-        "success": [],
-        "failed": [],
-        "skipped": [],
-    }
-
-    total = len(question_ids)
-    print(f"共 {total} 个题目需要处理")
-    print(f"输出字段: {output_field}")
-    print(f"并发数: {max_workers}")
-    print("=" * 60)
-
-    if total == 0:
-        return results
-
-    def _process_one(qid: str, index: int) -> dict:
+    def _process_one(qid):
         result = {"id": qid, "success": False, "message": ""}
-
         try:
             process_result = process_math_question(
-                data_dir=data_dir,
-                question_id=qid,
-                ai=ai,
-                skip_if_exists=skip_if_exists,
-                output_field=output_field,
+                data_dir=data_dir, question_id=qid, ai=ai,
+                skip_if_exists=skip_if_exists, output_field=output_field,
             )
-
             if process_result.success:
                 if process_result.error == "已存在处理结果":
                     result["message"] = "已存在"
@@ -324,37 +303,15 @@ def batch_process_math_questions(
                     result["message"] = f"处理了 {len(process_result.units)} 个单元"
             else:
                 result["message"] = process_result.error or "处理失败"
-
         except Exception as e:
             result["message"] = str(e)[:100]
-
-        with print_lock:
-            status = "✓" if result["success"] else ("~" if result["message"] == "已存在" else "✗")
-            print(f"[{index}/{total}] {status} {qid}: {result['message'][:50]}")
-
         return result
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = {
-            executor.submit(_process_one, qid, i): qid
-            for i, qid in enumerate(question_ids, 1)
-        }
+    progress = run_batch(_process_one, question_ids, max_workers=max_workers, desc="数学处理")
 
-        for future in as_completed(futures):
-            result = future.result()
-            if result["success"]:
-                results["success"].append(result["id"])
-            elif result["message"] == "已存在":
-                results["skipped"].append(result["id"])
-            else:
-                results["failed"].append({"id": result["id"], "reason": result["message"]})
-
-    print("\n" + "=" * 60)
-    print(f"处理完成: 成功 {len(results['success'])} 个, 失败 {len(results['failed'])} 个, 跳过 {len(results['skipped'])} 个")
-
-    if results["failed"]:
-        print("\n失败列表:")
-        for item in results["failed"]:
-            print(f"  - {item['id']}: {item['reason']}")
-
-    return results
+    return {
+        "total": progress.total,
+        "success": progress.success,
+        "failed": progress.failed,
+        "skipped": progress.skipped,
+    }

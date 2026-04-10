@@ -11,6 +11,7 @@ from ai.base import (
     parse_items_text,
     extract_image_paths_from_items,
 )
+from ai.batch import run_batch
 from ai.generic_processor import (
     search_questions_via_api as _search_questions_via_api,
     process_with_generic_ai,
@@ -55,8 +56,35 @@ class AIContext:
         return Question.load(question_id, ctx=self)
 
     def search(self, query: str) -> list["Question"]:
+        if self.api_base_url is None:
+            return self.search_local(query)
         ids = _search_questions_via_api(query, api_base_url=self.api_base_url)
         return [Question.load(qid, ctx=self) for qid in ids]
+
+    def search_local(self, query: str = "") -> list["Question"]:
+        import os
+        import json
+        from ai.base import parse_items_text, extract_image_paths_from_items
+
+        all_ids = []
+        for filename in os.listdir(self.data_dir):
+            if filename.endswith('.json'):
+                qid = filename[:-5]
+                if not query.strip():
+                    all_ids.append(qid)
+                    continue
+                filepath = os.path.join(self.data_dir, filename)
+                with open(filepath, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                question_str = json.dumps(data.get('question', {}), ensure_ascii=False)
+                answer_str = json.dumps(data.get('answer', {}), ensure_ascii=False)
+                tags = data.get('tags', [])
+                for sq in data.get('sub_questions', []):
+                    tags.extend(sq.get('tags', []))
+                query_lower = query.lower()
+                if query_lower in question_str.lower() or query_lower in answer_str.lower() or any(query_lower in t.lower() for t in tags):
+                    all_ids.append(qid)
+        return [Question.load(qid, ctx=self) for qid in all_ids]
 
     def search_questions(self, query: str) -> list["Question"]:
         return self.search(query)
@@ -228,6 +256,18 @@ class Question:
                     filtered.append(subq)
         return filtered
 
+    @property
+    def tags(self) -> list[str]:
+        own_tags = self.raw_data.get("tags", [])
+        sub_question_tags = []
+        for sq in self.raw_data.get("sub_questions", []):
+            sub_question_tags.extend(sq.get("tags", []))
+        return list(set(own_tags + sub_question_tags))
+
+    @property
+    def sub_question_texts(self) -> list[str]:
+        return [sq.question_text for sq in self.sub_questions]
+
 
 def batch_ai(
     questions: list[Question],
@@ -237,20 +277,7 @@ def batch_ai(
     max_workers: int = 3,
     **kwargs
 ) -> dict:
-    import threading
-    from concurrent.futures import ThreadPoolExecutor, as_completed
-
-    print_lock = threading.Lock()
-    results = {"success": [], "failed": [], "skipped": []}
-    total = len(questions)
-
-    print(f"共 {total} 个题目需要处理")
-    if output_field:
-        print(f"输出字段: {output_field}")
-    print(f"并发数: {max_workers}")
-    print("=" * 60)
-
-    def _process_one(q: Question, index: int) -> dict:
+    def _process_one(q):
         entry = {"id": q.id, "success": False, "message": ""}
         try:
             if output_field and q._ctx:
@@ -260,8 +287,6 @@ def batch_ai(
                         existing = json.load(f)
                     if output_field in existing and existing.get(output_field):
                         entry["message"] = "已存在"
-                        with print_lock:
-                            print(f"[{index}/{total}] ~ {q.id}: 已存在，跳过")
                         return entry
 
             call_kwargs = {"output_field": output_field, **kwargs}
@@ -270,37 +295,14 @@ def batch_ai(
             r = q.ai(system_prompt, **call_kwargs)
             entry["success"] = True
             entry["message"] = "处理完成"
-            with print_lock:
-                print(f"[{index}/{total}] ✓ {q.id}: 处理完成")
         except Exception as e:
             entry["message"] = str(e)[:100]
-            with print_lock:
-                print(f"[{index}/{total}] ✗ {q.id}: {entry['message']}")
         return entry
 
-    if total == 0:
-        return results
+    progress = run_batch(_process_one, questions, max_workers=max_workers, desc="AI处理", item_id_fn=lambda q: q.id)
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = {
-            executor.submit(_process_one, q, i): q.id
-            for i, q in enumerate(questions, 1)
-        }
-        for future in as_completed(futures):
-            entry = future.result()
-            if entry["success"]:
-                results["success"].append(entry["id"])
-            elif entry["message"] == "已存在":
-                results["skipped"].append(entry["id"])
-            else:
-                results["failed"].append({"id": entry["id"], "reason": entry["message"]})
-
-    print("\n" + "=" * 60)
-    print(f"处理完成: 成功 {len(results['success'])} 个, 失败 {len(results['failed'])} 个, 跳过 {len(results['skipped'])} 个")
-
-    if results["failed"]:
-        print("\n失败列表:")
-        for item in results["failed"]:
-            print(f"  - {item['id']}: {item['reason']}")
-
-    return results
+    return {
+        "success": progress.success,
+        "failed": progress.failed,
+        "skipped": progress.skipped,
+    }

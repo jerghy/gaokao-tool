@@ -1,15 +1,15 @@
 import os
 import json
-import threading
+import logging
 from typing import Optional, Union
 from dataclasses import dataclass
-from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from ai.base import AI, ReasoningEffort, call_ai, build_input_content
 from ai.loader import ProcessedQuestion, load_question_by_id
 from ai.advanced import parse_json_result
+from ai.batch import run_batch
 
-print_lock = threading.Lock()
+logger = logging.getLogger(__name__)
 
 __all__ = [
     "ChemistryPreprocessing",
@@ -176,43 +176,6 @@ def get_chemistry_questions_without_preprocessing(
     return questions
 
 
-def _process_single_question(
-    data_dir: str,
-    question_id: str,
-    ai: Optional[AI],
-    api_key: Optional[str],
-    model: Optional[str],
-    index: int,
-    total: int
-) -> dict:
-    result = {"id": question_id, "success": False, "message": ""}
-
-    try:
-        preprocessing = process_chemistry_question(
-            data_dir=data_dir,
-            question_id=question_id,
-            ai=ai,
-            api_key=api_key,
-            model=model,
-            skip_if_exists=True,
-        )
-
-        if preprocessing:
-            result["success"] = True
-            result["message"] = f"Accumulation: {len(preprocessing.Accumulation)}条, Difficulties: {len(preprocessing.Difficulties)}条"
-        else:
-            result["message"] = "已存在或题目不存在"
-
-    except Exception as e:
-        result["message"] = str(e)[:100]
-
-    with print_lock:
-        status = "✓" if result["success"] else "✗"
-        print(f"[{index}/{total}] {status} {question_id}: {result['message'][:50]}")
-
-    return result
-
-
 def batch_process_chemistry(
     data_dir: str,
     ai: Optional[AI] = None,
@@ -222,46 +185,27 @@ def batch_process_chemistry(
     skip_if_exists: bool = True,
 ) -> dict:
     questions = get_chemistry_questions_without_preprocessing(data_dir, skip_if_exists)
-    total = len(questions)
 
-    results = {
-        "total": total,
-        "success": [],
-        "failed": [],
-        "skipped": []
-    }
-
-    print(f"发现 {total} 个化学题目需要预处理")
-    print(f"并发数: {max_workers}")
-    print("=" * 60)
-
-    if total == 0:
-        return results
-
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = {
-            executor.submit(
-                _process_single_question,
-                data_dir, qid, ai, api_key, model, i, total
-            ): qid
-            for i, qid in enumerate(questions, 1)
-        }
-
-        for future in as_completed(futures):
-            result = future.result()
-            if result["success"]:
-                results["success"].append(result["id"])
-            elif "已存在" in result["message"]:
-                results["skipped"].append(result["id"])
+    def _process_one(qid):
+        result = {"id": qid, "success": False, "message": ""}
+        try:
+            preprocessing = process_chemistry_question(
+                data_dir=data_dir, question_id=qid, ai=ai, api_key=api_key, model=model, skip_if_exists=True,
+            )
+            if preprocessing:
+                result["success"] = True
+                result["message"] = f"Accumulation: {len(preprocessing.Accumulation)}条, Difficulties: {len(preprocessing.Difficulties)}条"
             else:
-                results["failed"].append({"id": result["id"], "reason": result["message"]})
+                result["message"] = "已存在或题目不存在"
+        except Exception as e:
+            result["message"] = str(e)[:100]
+        return result
 
-    print("\n" + "=" * 60)
-    print(f"处理完成: 成功 {len(results['success'])} 个, 失败 {len(results['failed'])} 个")
+    progress = run_batch(_process_one, questions, max_workers=max_workers, desc="化学预处理")
 
-    if results["failed"]:
-        print("\n失败列表:")
-        for item in results["failed"]:
-            print(f"  - {item['id']}: {item['reason']}")
-
-    return results
+    return {
+        "total": progress.total,
+        "success": progress.success,
+        "failed": progress.failed,
+        "skipped": progress.skipped,
+    }

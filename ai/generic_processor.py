@@ -1,10 +1,9 @@
 import os
 import json
-import threading
+import logging
 import requests
 from typing import Optional, Union
 from dataclasses import dataclass
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from urllib.parse import urlencode
 
 from ai.base import (
@@ -15,8 +14,9 @@ from ai.base import (
     parse_items_text,
     extract_image_paths_from_items,
 )
+from ai.batch import run_batch
 
-print_lock = threading.Lock()
+logger = logging.getLogger(__name__)
 
 DEFAULT_API_BASE_URL = "http://localhost:5000"
 
@@ -91,7 +91,7 @@ def search_questions_via_api(
             page += 1
 
         except requests.RequestException as e:
-            print(f"API 请求失败: {e}")
+            logger.warning(f"API 请求失败: {e}")
             break
 
     return all_ids
@@ -119,7 +119,7 @@ def get_question_via_api(
             return questions[0]
 
     except requests.RequestException as e:
-        print(f"API 请求失败: {e}")
+        logger.warning(f"API 请求失败: {e}")
 
     return None
 
@@ -368,60 +368,6 @@ def save_generic_results(
     return True
 
 
-def process_single_question_generic(
-    data_dir: str,
-    qid: str,
-    system_prompt: str,
-    output_field: str,
-    ai: Optional[AI],
-    extra_context: Optional[str],
-    sub_question_tags: Optional[list[str]],
-    require_all_sub_tags: bool,
-    enable_sub_question_filter: bool,
-    skip_if_exists: bool,
-    api_key: Optional[str],
-    model: Optional[str],
-    max_output_tokens: Optional[int],
-    reasoning_effort: Optional[Union[ReasoningEffort, str]],
-    index: int,
-    total: int
-) -> dict:
-    result = {"id": qid, "success": False, "message": ""}
-
-    try:
-        results = process_with_generic_ai(
-            data_dir=data_dir,
-            question_id=qid,
-            system_prompt=system_prompt,
-            output_field=output_field,
-            ai=ai,
-            extra_context=extra_context,
-            sub_question_tags=sub_question_tags,
-            require_all_sub_tags=require_all_sub_tags,
-            enable_sub_question_filter=enable_sub_question_filter,
-            skip_if_exists=skip_if_exists,
-            api_key=api_key,
-            model=model,
-            max_output_tokens=max_output_tokens,
-            reasoning_effort=reasoning_effort,
-        )
-
-        if results:
-            result["success"] = True
-            result["message"] = f"处理了 {len(results)} 个目标"
-        else:
-            result["message"] = "无目标或已存在"
-
-    except Exception as e:
-        result["message"] = str(e)[:100]
-
-    with print_lock:
-        status = "✓" if result["success"] else "✗"
-        print(f"[{index}/{total}] {status} {qid}: {result['message'][:50]}")
-
-    return result
-
-
 def batch_process_generic_by_ids(
     data_dir: str,
     question_ids: list[str],
@@ -439,52 +385,34 @@ def batch_process_generic_by_ids(
     reasoning_effort: Optional[Union[ReasoningEffort, str]] = None,
     max_workers: int = 3,
 ) -> dict:
-    results = {
-        "total": len(question_ids),
-        "success": [],
-        "failed": [],
-        "skipped": []
-    }
-
-    total = len(question_ids)
-    print(f"共 {total} 个题目需要处理")
-    print(f"输出字段: {output_field}")
-    print(f"并发数: {max_workers}")
-    print("=" * 60)
-
-    if total == 0:
-        return results
-
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = {
-            executor.submit(
-                process_single_question_generic,
-                data_dir, qid, system_prompt, output_field,
-                ai, extra_context, sub_question_tags, require_all_sub_tags,
-                enable_sub_question_filter, skip_if_exists,
-                api_key, model, max_output_tokens, reasoning_effort, i, total
-            ): qid
-            for i, qid in enumerate(question_ids, 1)
-        }
-
-        for future in as_completed(futures):
-            result = future.result()
-            if result["success"]:
-                results["success"].append(result["id"])
-            elif result["message"] == "无目标或已存在":
-                results["skipped"].append(result["id"])
+    def _process_one(qid):
+        result = {"id": qid, "success": False, "message": ""}
+        try:
+            results = process_with_generic_ai(
+                data_dir=data_dir, question_id=qid, system_prompt=system_prompt,
+                output_field=output_field, ai=ai, extra_context=extra_context,
+                sub_question_tags=sub_question_tags, require_all_sub_tags=require_all_sub_tags,
+                enable_sub_question_filter=enable_sub_question_filter, skip_if_exists=skip_if_exists,
+                api_key=api_key, model=model, max_output_tokens=max_output_tokens,
+                reasoning_effort=reasoning_effort,
+            )
+            if results:
+                result["success"] = True
+                result["message"] = f"处理了 {len(results)} 个目标"
             else:
-                results["failed"].append({"id": result["id"], "reason": result["message"]})
+                result["message"] = "无目标或已存在"
+        except Exception as e:
+            result["message"] = str(e)[:100]
+        return result
 
-    print("\n" + "=" * 60)
-    print(f"处理完成: 成功 {len(results['success'])} 个, 失败 {len(results['failed'])} 个, 跳过 {len(results['skipped'])} 个")
+    progress = run_batch(_process_one, question_ids, max_workers=max_workers, desc="通用处理")
 
-    if results["failed"]:
-        print("\n失败列表:")
-        for item in results["failed"]:
-            print(f"  - {item['id']}: {item['reason']}")
-
-    return results
+    return {
+        "total": progress.total,
+        "success": progress.success,
+        "failed": progress.failed,
+        "skipped": progress.skipped,
+    }
 
 
 def batch_process_generic(
@@ -506,50 +434,13 @@ def batch_process_generic(
     api_base_url: str = DEFAULT_API_BASE_URL,
 ) -> dict:
     matched_ids = search_questions_via_api(search_query, api_base_url)
-
-    results = {
-        "total_searched": len(matched_ids),
-        "success": [],
-        "failed": [],
-        "skipped": []
-    }
-
-    total = len(matched_ids)
-    print(f"发现 {total} 个题目需要处理")
-    print(f"输出字段: {output_field}")
-    print(f"并发数: {max_workers}")
-    print("=" * 60)
-
-    if total == 0:
-        return results
-
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = {
-            executor.submit(
-                process_single_question_generic,
-                data_dir, qid, system_prompt, output_field,
-                ai, extra_context, sub_question_tags, require_all_sub_tags,
-                enable_sub_question_filter, skip_if_exists,
-                api_key, model, max_output_tokens, reasoning_effort, i, total
-            ): qid
-            for i, qid in enumerate(matched_ids, 1)
-        }
-
-        for future in as_completed(futures):
-            result = future.result()
-            if result["success"]:
-                results["success"].append(result["id"])
-            elif result["message"] == "无目标或已存在":
-                results["skipped"].append(result["id"])
-            else:
-                results["failed"].append({"id": result["id"], "reason": result["message"]})
-
-    print("\n" + "=" * 60)
-    print(f"处理完成: 成功 {len(results['success'])} 个, 失败 {len(results['failed'])} 个, 跳过 {len(results['skipped'])} 个")
-
-    if results["failed"]:
-        print("\n失败列表:")
-        for item in results["failed"]:
-            print(f"  - {item['id']}: {item['reason']}")
-
-    return results
+    result = batch_process_generic_by_ids(
+        data_dir=data_dir, question_ids=matched_ids, system_prompt=system_prompt,
+        output_field=output_field, ai=ai, extra_context=extra_context,
+        sub_question_tags=sub_question_tags, require_all_sub_tags=require_all_sub_tags,
+        enable_sub_question_filter=enable_sub_question_filter, skip_if_exists=skip_if_exists,
+        api_key=api_key, model=model, max_output_tokens=max_output_tokens,
+        reasoning_effort=reasoning_effort, max_workers=max_workers,
+    )
+    result["total_searched"] = len(matched_ids)
+    return result

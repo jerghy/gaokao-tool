@@ -1,6 +1,6 @@
 import os
 import json
-import threading
+import logging
 from typing import List
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -8,6 +8,8 @@ import numpy as np
 from volcenginesdkarkruntime import Ark
 
 from ai.base import AI, call_ai_json, build_input_content
+
+logger = logging.getLogger(__name__)
 
 
 def get_embedding(text: str) -> List[float]:
@@ -38,13 +40,12 @@ def vectorize_questions(json_file: str, max_workers: int = 5, batch_save: int = 
                 to_vectorize.append((i, question_text))
     
     if not to_vectorize:
-        print("所有题目已向量化，无需处理")
+        logger.info("所有题目已向量化，无需处理")
         return questions
     
     total = len(to_vectorize)
-    print(f"需要向量化的题目: {total} 道")
+    logger.info(f"需要向量化的题目: {total} 道")
     
-    print_lock = threading.Lock()
     completed = [0]
     batch_count = [0]
     
@@ -56,14 +57,13 @@ def vectorize_questions(json_file: str, max_workers: int = 5, batch_save: int = 
         except Exception as e:
             result = (idx, None, str(e))
         
-        with print_lock:
-            completed[0] += 1
-            batch_count[0] += 1
-            print(f"\r向量化进度: {completed[0]}/{total}", end="", flush=True)
-            
-            if batch_count[0] >= batch_save:
-                batch_count[0] = 0
-                _save_batch(questions, json_file)
+        completed[0] += 1
+        batch_count[0] += 1
+        logger.info(f"向量化进度: {completed[0]}/{total}")
+        
+        if batch_count[0] >= batch_save:
+            batch_count[0] = 0
+            _save_batch(questions, json_file)
         
         return result
     
@@ -82,12 +82,12 @@ def vectorize_questions(json_file: str, max_workers: int = 5, batch_save: int = 
             if embedding:
                 questions[idx]["embedding"] = embedding
             elif error:
-                print(f"\n题目 {idx} 向量化失败: {error}")
+                logger.warning(f"题目 {idx} 向量化失败: {error}")
     
     with open(json_file, "w", encoding="utf-8") as f:
         json.dump(questions, f, ensure_ascii=False, indent=2)
     
-    print(f"\n向量化完成，共处理 {completed[0]} 道题目")
+    logger.info(f"向量化完成，共处理 {completed[0]} 道题目")
     
     return questions
 
@@ -162,9 +162,8 @@ def merge_similar_questions(similar_pairs: List[dict], ai: AI = None, max_worker
     if total == 0:
         return []
     
-    print(f"需要处理 {total} 对相似题目")
+    logger.info(f"需要处理 {total} 对相似题目")
     
-    print_lock = threading.Lock()
     completed = [0]
     merge_results = [None] * total
     
@@ -197,9 +196,8 @@ def merge_similar_questions(similar_pairs: List[dict], ai: AI = None, max_worker
                 "merge_decision": {"should_merge": False, "reason": str(e)}
             }
         
-        with print_lock:
-            completed[0] += 1
-            print(f"\rAI合并进度: {completed[0]}/{total}", end="", flush=True)
+        completed[0] += 1
+        logger.info(f"AI合并进度: {completed[0]}/{total}")
         
         return index, merge_result
     
@@ -210,7 +208,7 @@ def merge_similar_questions(similar_pairs: List[dict], ai: AI = None, max_worker
             idx, result = future.result()
             merge_results[idx] = result
     
-    print(f"\nAI合并完成，共处理 {completed[0]} 对题目")
+    logger.info(f"AI合并完成，共处理 {completed[0]} 对题目")
     
     return merge_results
 

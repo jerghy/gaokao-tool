@@ -1,5 +1,6 @@
 import json
 import os
+import warnings
 from typing import Optional
 from dataclasses import dataclass
 
@@ -18,6 +19,9 @@ class ProcessedQuestion:
     question_text: str
     answer_text: str
     image_paths: list[str]
+
+    def __post_init__(self):
+        warnings.warn("ProcessedQuestion is deprecated, use ai.workflow.Question instead", DeprecationWarning, stacklevel=2)
 
 
 def parse_items(items: list[dict], base_path: str) -> tuple[str, list[str]]:

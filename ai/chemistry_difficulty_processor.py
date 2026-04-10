@@ -1,14 +1,14 @@
 import os
 import json
-import threading
+import logging
 from typing import Optional, Union
 from dataclasses import dataclass
-from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from ai.base import AI, ReasoningEffort, call_ai, build_input_content
 from ai.loader import ProcessedQuestion, load_question_by_id
+from ai.batch import run_batch
 
-print_lock = threading.Lock()
+logger = logging.getLogger(__name__)
 
 __all__ = [
     "DifficultyTeaching",
@@ -178,50 +178,6 @@ def get_questions_with_selected_difficulties(
     return questions
 
 
-def _process_single_task(
-    data_dir: str,
-    question_id: str,
-    difficulty_id: int,
-    ai: Optional[AI],
-    api_key: Optional[str],
-    model: Optional[str],
-    index: int,
-    total: int,
-) -> dict:
-    result = {
-        "question_id": question_id,
-        "difficulty_id": difficulty_id,
-        "success": False,
-        "message": "",
-    }
-
-    try:
-        teaching = process_difficulty_for_question(
-            data_dir=data_dir,
-            question_id=question_id,
-            difficulty_id=difficulty_id,
-            ai=ai,
-            api_key=api_key,
-            model=model,
-            skip_if_exists=True,
-        )
-
-        if teaching:
-            result["success"] = True
-            result["message"] = f"生成成功，内容长度: {len(teaching.content)} 字符"
-        else:
-            result["message"] = "已存在或难点不存在"
-
-    except Exception as e:
-        result["message"] = str(e)[:100]
-
-    with print_lock:
-        status = "✓" if result["success"] else "✗"
-        print(f"[{index}/{total}] {status} {question_id} - 难点{difficulty_id}: {result['message'][:30]}")
-
-    return result
-
-
 def batch_process_difficulties(
     data_dir: str,
     ai: Optional[AI] = None,
@@ -235,51 +191,33 @@ def batch_process_difficulties(
     tasks = []
     for q in questions:
         for diff_id in q["pending_difficulty_ids"]:
-            tasks.append({
-                "question_id": q["id"],
-                "difficulty_id": diff_id,
-            })
+            tasks.append({"question_id": q["id"], "difficulty_id": diff_id})
 
-    total = len(tasks)
-    results = {
-        "total": total,
-        "success": [],
-        "failed": [],
-        "skipped": [],
-    }
-
-    print(f"发现 {len(questions)} 个题目，共 {total} 个难点需要生成教学内容")
-    print(f"并发数: {max_workers}")
-    print("=" * 60)
-
-    if total == 0:
-        return results
-
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = {
-            executor.submit(
-                _process_single_task,
-                data_dir, t["question_id"], t["difficulty_id"],
-                ai, api_key, model, i, total
-            ): t
-            for i, t in enumerate(tasks, 1)
-        }
-
-        for future in as_completed(futures):
-            result = future.result()
-            if result["success"]:
-                results["success"].append(result)
-            elif "已存在" in result["message"]:
-                results["skipped"].append(result)
+    def _process_one(task):
+        qid = task["question_id"]
+        diff_id = task["difficulty_id"]
+        result = {"id": f"{qid}_d{diff_id}", "question_id": qid, "difficulty_id": diff_id, "success": False, "message": ""}
+        try:
+            teaching = process_difficulty_for_question(
+                data_dir=data_dir, question_id=qid, difficulty_id=diff_id, ai=ai, api_key=api_key, model=model, skip_if_exists=True,
+            )
+            if teaching:
+                result["success"] = True
+                result["message"] = f"生成成功，内容长度: {len(teaching.content)} 字符"
             else:
-                results["failed"].append(result)
+                result["message"] = "已存在或难点不存在"
+        except Exception as e:
+            result["message"] = str(e)[:100]
+        return result
 
-    print("\n" + "=" * 60)
-    print(f"处理完成: 成功 {len(results['success'])} 个, 失败 {len(results['failed'])} 个")
+    progress = run_batch(
+        _process_one, tasks, max_workers=max_workers, desc="难点攻克教学",
+        item_id_fn=lambda t: f"{t['question_id']}_d{t['difficulty_id']}",
+    )
 
-    if results["failed"]:
-        print("\n失败列表:")
-        for item in results["failed"]:
-            print(f"  - {item['question_id']} 难点{item['difficulty_id']}: {item['message']}")
-
-    return results
+    return {
+        "total": progress.total,
+        "success": progress.success,
+        "failed": progress.failed,
+        "skipped": progress.skipped,
+    }

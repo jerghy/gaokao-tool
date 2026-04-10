@@ -1,0 +1,16 @@
+- [x] `ai/batch.py` 中 `run_batch()` 函数存在且可正常执行批量处理，返回 BatchProgress 结果
+- [x] `ai/ai_client.py` 包含所有AI调用相关函数和类（AI, Model, call_ai, call_ai_text 等）
+- [x] `ai/content.py` 包含内容构建函数（build_input_content, parse_items_text）
+- [x] `ai/images.py` 包含图片处理函数（encode_image_to_base64, load_images_data 等）
+- [x] `ai/base.py` 通过重导出保持向后兼容，`from ai.base import AI` 仍可正常工作
+- [x] `Question` 类具有 `tags` 和 `sub_question_texts` 属性
+- [x] `ProcessedQuestion` 在 `loader.py` 中标记为 deprecated
+- [x] `thinking_processor.py` 中不再包含 `search_questions()`, `tokenize_search_query()`, `match_tag()`, `match_text()`, `get_effective_tags()` 函数
+- [x] `AIContext` 具有 `search_local(query)` 方法，可在无 Flask 服务时从文件系统搜索
+- [x] 所有处理器（generic, thinking, immersion, chemistry, chemistry_difficulty, tag, math, image_annotator）的批量处理逻辑使用 `run_batch()` 替代
+- [x] AI 模块中不再有 `print()` 调用，全部使用 `logging`
+- [x] AI 模块中不再有 `print_lock = threading.Lock()` 全局变量（ai_client.py 中的局部 print_lock 用于回调同步，保留合理）
+- [x] `__init__.py` 导出列表精简为核心公共API（26个符号）
+- [x] 各处理器的公共API（函数签名和返回类型）保持不变
+- [x] `from ai.base import ...` 的所有现有导入路径仍可正常工作
+- [x] 所有处理器模块导入正常，无 ImportError

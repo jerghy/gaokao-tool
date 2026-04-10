@@ -2,9 +2,9 @@ import os
 import re
 import json
 import threading
+import logging
 from dataclasses import dataclass
 from typing import Optional, Callable
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from PIL import Image
 
 from ai.base import (
@@ -15,9 +15,9 @@ from ai.base import (
     call_ai_json,
     build_input_content,
 )
+from ai.batch import run_batch
 
-
-print_lock = threading.Lock()
+logger = logging.getLogger(__name__)
 
 
 __all__ = [
@@ -265,50 +265,6 @@ def save_annotations_to_json(
     return updated
 
 
-def _process_single_annotation(
-    config_id: str,
-    image_path: str,
-    annotate_charbox: bool,
-    annotate_splitlines: bool,
-    index: int,
-    total: int,
-) -> dict:
-    result = {
-        "config_id": config_id,
-        "success": False,
-        "annotation": None,
-        "message": "",
-    }
-
-    try:
-        thread_ai = AI(
-            model=Model.doubao_seed_2_0_mini_260215,
-            max_output_tokens=4096,
-            temperature=1,
-            top_p=0.7,
-            reasoning_effort=ReasoningEffort.minimal,
-        )
-        annotation = annotate_single_image(
-            image_path=image_path,
-            config_id=config_id,
-            ai=thread_ai,
-            annotate_charbox=annotate_charbox,
-            annotate_splitlines=annotate_splitlines,
-        )
-        result["success"] = True
-        result["annotation"] = annotation
-        result["message"] = "标注成功"
-
-    except Exception as e:
-        result["message"] = str(e)[:100]
-
-    with print_lock:
-        status = "✓" if result["success"] else "✗"
-        print(f"[{index}/{total}] {status} {config_id}: {result['message'][:50]}")
-
-    return result
-
-
 def batch_annotate_images(
     images_json_path: str,
     max_workers: int = 3,
@@ -317,10 +273,6 @@ def batch_annotate_images(
     annotate_splitlines: bool = True,
     on_progress: Optional[Callable[[int, int, str], None]] = None,
 ) -> dict:
-    """
-    批量标注图片
-    返回: {"total": 10, "success": 8, "failed": 1, "skipped": 1, "results": [...]}
-    """
     results = {
         "total": 0,
         "success": 0,
@@ -330,19 +282,16 @@ def batch_annotate_images(
     }
 
     if not os.path.exists(images_json_path):
-        print(f"文件不存在: {images_json_path}")
+        logger.warning(f"文件不存在: {images_json_path}")
         return results
 
     targets = scan_unannotated_configs(images_json_path)
-    if skip_existing:
-        pass
-    else:
+    if not skip_existing:
         with open(images_json_path, "r", encoding="utf-8") as f:
             data = json.load(f)
         configs = data.get("configs", {})
         images = data.get("images", {})
         base_dir = os.path.dirname(images_json_path)
-
         all_targets = []
         for config_id, config in configs.items():
             image_id = config.get("image_id")
@@ -355,68 +304,50 @@ def batch_annotate_images(
             if not image_path:
                 continue
             full_image_path = os.path.join(base_dir, image_path)
-            all_targets.append({
-                "config_id": config_id,
-                "image_path": full_image_path,
-            })
+            all_targets.append({"config_id": config_id, "image_path": full_image_path})
         targets = all_targets
 
     total = len(targets)
     results["total"] = total
 
-    print(f"共 {total} 个配置需要标注")
-    print(f"并发数: {max_workers}")
-    print(f"标注 charBox: {annotate_charbox}")
-    print(f"标注 splitLines: {annotate_splitlines}")
-    print("=" * 60)
+    _annotations_lock = threading.Lock()
+    _successful_annotations = []
 
-    if total == 0:
-        return results
+    def _process_one(target):
+        config_id = target["config_id"]
+        image_path = target["image_path"]
+        result = {"id": config_id, "config_id": config_id, "success": False, "annotation": None, "message": ""}
+        try:
+            thread_ai = AI(
+                model=Model.doubao_seed_2_0_mini_260215,
+                max_output_tokens=4096,
+                temperature=1,
+                top_p=0.7,
+                reasoning_effort=ReasoningEffort.minimal,
+            )
+            annotation = annotate_single_image(
+                image_path=image_path, config_id=config_id, ai=thread_ai,
+                annotate_charbox=annotate_charbox, annotate_splitlines=annotate_splitlines,
+            )
+            result["success"] = True
+            result["annotation"] = annotation
+            result["message"] = "标注成功"
+            with _annotations_lock:
+                _successful_annotations.append(annotation)
+        except Exception as e:
+            result["message"] = str(e)[:100]
+        return result
 
-    successful_annotations = []
+    progress = run_batch(
+        _process_one, targets, max_workers=max_workers, desc="图片标注",
+        item_id_fn=lambda t: t["config_id"],
+    )
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = {
-            executor.submit(
-                _process_single_annotation,
-                target["config_id"],
-                target["image_path"],
-                annotate_charbox,
-                annotate_splitlines,
-                i,
-                total,
-            ): target["config_id"]
-            for i, target in enumerate(targets, 1)
-        }
+    results["success"] = len(progress.success)
+    results["failed"] = len(progress.failed)
+    results["skipped"] = len(progress.skipped)
 
-        for future in as_completed(futures):
-            result = future.result()
-            results["results"].append(result)
-
-            if result["success"]:
-                results["success"] += 1
-                if result["annotation"]:
-                    successful_annotations.append(result["annotation"])
-            else:
-                results["failed"] += 1
-
-            if on_progress:
-                on_progress(
-                    results["success"] + results["failed"],
-                    total,
-                    result["config_id"],
-                )
-
-    if successful_annotations:
-        save_annotations_to_json(images_json_path, successful_annotations)
-
-    print("\n" + "=" * 60)
-    print(f"处理完成: 成功 {results['success']} 个, 失败 {results['failed']} 个")
-
-    if results["failed"] > 0:
-        print("\n失败列表:")
-        for r in results["results"]:
-            if not r["success"]:
-                print(f"  - {r['config_id']}: {r['message']}")
+    if _successful_annotations:
+        save_annotations_to_json(images_json_path, _successful_annotations)
 
     return results

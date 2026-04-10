@@ -1,4 +1,4 @@
-from .base import (
+from ai.ai_client import (
     AI,
     Model,
     ReasoningEffort,
@@ -8,20 +8,21 @@ from .base import (
     call_ai_json,
     call_ai_with_images,
     call_ai_with_retry,
-    call_ai_batch,
-    call_ai_batch_texts,
-    call_ai_batch_texts_safe,
     parallel_map,
     parallel_map_safe,
-    encode_image_to_base64,
-    get_image_media_type,
+)
+from ai.content import (
     build_input_content,
     parse_items_text,
-    load_images_data,
-    get_image_path_by_config_id,
-    extract_image_paths_from_items,
 )
-from .advanced import (
+from ai.images import (
+    encode_image_to_base64,
+)
+from ai.batch import (
+    BatchProgress,
+    run_batch,
+)
+from ai.advanced import (
     call_ai_stream,
     CachedAI,
     ProgressTracker,
@@ -29,172 +30,34 @@ from .advanced import (
     validate_result,
     parse_json_result,
     extract_markdown_code,
-    extract_first_markdown_code,
 )
-from .loader import ProcessedQuestion, load_question_by_id, load_question_from_file, load_all_questions
-from .preprocessor import QuestionAnalysis, generate_question_analysis, preprocess_and_save as preprocess_and_save_v2
-from .evaluator import QualityEvaluation, evaluate_question_quality, evaluate_and_save
-from .neural_reaction import NeuralReaction, preprocess_and_save, generate_neural_reaction
-from .neural_reaction_prompt import get_neural_reaction_prompt
-from .preprocessing_prompt_v2 import get_preprocessing_prompt_v2
-from .evaluation_prompt import get_evaluation_prompt
-from .thinking_process_prompt import get_thinking_process_prompt
-from .thinking_processor import (
-    ThinkingProcess,
-    ThinkingTarget,
-    process_question_with_thinking_tag,
-    generate_thinking_process,
-    generate_thinking_process_for_targets,
-    search_questions,
-    batch_process_with_search,
-)
-from .immersion_thinking_prompt import get_immersion_thinking_prompt
-from .immersion_processor import (
-    ImmersionThinkingProcess,
-    generate_immersion_thinking,
-    generate_immersion_for_question,
-    batch_process_immersion_with_search,
-)
-from .generic_processor import (
-    GenericAIResult,
-    GenericTarget,
-    search_questions_via_api,
-    get_question_via_api,
-    process_with_generic_ai,
-    batch_process_generic,
-    batch_process_generic_by_ids,
-)
-from .workflow import AIContext, Question, batch_ai
-from .image_annotator import (
-    CharBox,
-    ImageAnnotation,
-    get_charbox_prompt,
-    get_splitlines_prompt,
-    annotate_single_image,
-    scan_unannotated_configs,
-    save_annotations_to_json,
-    batch_annotate_images,
-)
-from .tag_processor import (
-    TagResult,
-    collect_all_tags,
-    generate_tags_for_question,
-    save_tags_to_json,
-    process_tags_for_question,
-    batch_process_tags,
-)
-from .chemistry_processor import (
-    ChemistryPreprocessing,
-    get_chemistry_prompt,
-    generate_chemistry_preprocessing,
-    generate_chemistry_preprocessing_by_id,
-    save_chemistry_preprocessing_to_json,
-    process_chemistry_question,
-    batch_process_chemistry,
-)
-from .chemistry_difficulty_processor import (
-    DifficultyTeaching,
-    get_difficulty_prompt,
-    generate_difficulty_teaching,
-    process_difficulty_for_question,
-    get_questions_with_selected_difficulties,
-    batch_process_difficulties,
-)
+from ai.workflow import AIContext, Question, batch_ai
 
 __all__ = [
     "AI",
     "Model",
     "ReasoningEffort",
     "BatchResult",
+    "BatchProgress",
+    "AIContext",
+    "Question",
+    "batch_ai",
     "call_ai",
     "call_ai_text",
     "call_ai_json",
     "call_ai_with_images",
     "call_ai_with_retry",
-    "call_ai_batch",
-    "call_ai_batch_texts",
-    "call_ai_batch_texts_safe",
     "call_ai_stream",
     "CachedAI",
     "ProgressTracker",
     "RateLimiter",
+    "build_input_content",
+    "parse_items_text",
+    "encode_image_to_base64",
     "validate_result",
     "parse_json_result",
     "extract_markdown_code",
-    "extract_first_markdown_code",
     "parallel_map",
     "parallel_map_safe",
-    "encode_image_to_base64",
-    "get_image_media_type",
-    "build_input_content",
-    "parse_items_text",
-    "load_images_data",
-    "get_image_path_by_config_id",
-    "extract_image_paths_from_items",
-    "ProcessedQuestion",
-    "load_question_by_id",
-    "load_question_from_file",
-    "load_all_questions",
-    "QuestionAnalysis",
-    "generate_question_analysis",
-    "preprocess_and_save_v2",
-    "QualityEvaluation",
-    "evaluate_question_quality",
-    "evaluate_and_save",
-    "NeuralReaction",
-    "preprocess_and_save",
-    "generate_neural_reaction",
-    "get_neural_reaction_prompt",
-    "get_preprocessing_prompt_v2",
-    "get_evaluation_prompt",
-    "get_thinking_process_prompt",
-    "ThinkingProcess",
-    "ThinkingTarget",
-    "process_question_with_thinking_tag",
-    "generate_thinking_process",
-    "generate_thinking_process_for_targets",
-    "search_questions",
-    "batch_process_with_search",
-    "get_immersion_thinking_prompt",
-    "ImmersionThinkingProcess",
-    "generate_immersion_thinking",
-    "generate_immersion_for_question",
-    "batch_process_immersion_with_search",
-    "GenericAIResult",
-    "GenericTarget",
-    "search_questions_via_api",
-    "get_question_via_api",
-    "process_with_generic_ai",
-    "batch_process_generic",
-    "batch_process_generic_by_ids",
-    "AIContext",
-    "Question",
-    "batch_ai",
-    "CharBox",
-    "ImageAnnotation",
-    "get_charbox_prompt",
-    "get_splitlines_prompt",
-    "annotate_single_image",
-    "scan_unannotated_configs",
-    "save_annotations_to_json",
-    "batch_annotate_images",
-    "TagResult",
-    "collect_all_tags",
-    "generate_tags_for_question",
-    "save_tags_to_json",
-    "process_tags_for_question",
-    "batch_process_tags",
-    "ChemistryPreprocessing",
-    "get_chemistry_prompt",
-    "generate_chemistry_preprocessing",
-    "generate_chemistry_preprocessing_by_id",
-    "save_chemistry_preprocessing_to_json",
-    "process_chemistry_question",
-    "batch_process_chemistry",
-    "DifficultyTeaching",
-    "get_difficulty_prompt",
-    "generate_difficulty_teaching",
-    "process_difficulty_for_question",
-    "get_questions_with_selected_difficulties",
-    "batch_process_difficulties",
+    "run_batch",
 ]
