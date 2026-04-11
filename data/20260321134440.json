@@ -46,41 +46,41 @@
   ],
   "math_processing_result": [
     {
-      "unit_content": "若 $\\cos\\left(\\frac{\\pi}{4} - \\alpha\\right)=\\frac{3}{5}$，则 $\\sin2\\alpha=$( )\nA. $\\frac{7}{25}$\nB. $\\frac{1}{5}$\nC. $-\\frac{1}{5}$\nD. $-\\frac{7}{25}$",
+      "unit_content": "若$\\cos(\\frac{\\pi}{4} - \\alpha)=\\frac{3}{5}$, 则$\\sin 2\\alpha =$（ ）\nA. $\\frac{7}{25}$\nB. $\\frac{1}{5}$\nC. $-\\frac{1}{5}$\nD. $-\\frac{7}{25}$",
       "classify_result": "套路知识类",
       "pre_process": [
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "对于任意实数$x$，诱导公式$\\cos\\left(\\frac{\\pi}{2} - x\\right) = \\sin x$均成立。",
-          "answer": "正确。高考易错点提醒：诱导公式是恒等式，对所有定义域内的角都适用，无需限定角的范围，避免因额外假设角的范围导致符号判断错误。"
-        },
-        {
-          "train_type": "知识易错训练",
-          "train_form": "填空题",
-          "train_content": "若$\\theta = \\frac{\\pi}{4} - \\alpha$，则$2\\theta$用含$\\alpha$的表达式可写为______。",
-          "answer": "$\\frac{\\pi}{2} - 2\\alpha$"
-        },
-        {
-          "train_type": "套路反射训练",
-          "question": "已知$\\cos\\left(\\frac{\\pi}{4} - \\alpha\\right)$的值，目标求$\\sin2\\alpha$，解题第一步的核心动作是什么？",
-          "standard_answer": "由已知角与目标角的结构特征，优先配凑两角的倍差关系：$2\\times\\left(\\frac{\\pi}{4} - \\alpha\\right) = \\frac{\\pi}{2} - 2\\alpha$，建立已知与未知的关联。高考得分点：角的配凑是三角恒等变换类题目的核心第一步得分点，同类题型均需先分析已知角和目标角的和、差、倍、分关系，高频考法为已知单角三角函数值求关联角的三角函数值。"
-        },
-        {
-          "train_type": "套路反射训练",
-          "question": "确定角的配凑关系后，计算$\\cos\\left[2\\left(\\frac{\\pi}{4} - \\alpha\\right)\\right]$的值应选择哪个二倍角公式？",
-          "standard_answer": "由已知条件给出的是$\\cos\\left(\\frac{\\pi}{4} - \\alpha\\right)$的值，优先选择二倍角余弦公式$\\cos2\\theta = 2\\cos^2\\theta - 1$，代入得$\\cos\\left[2\\left(\\frac{\\pi}{4} - \\alpha\\right)\\right] = 2\\times\\left(\\frac{3}{5}\\right)^2 - 1 = -\\frac{7}{25}$。高考得分点：二倍角公式的选择直接影响计算效率，已知余弦值求二倍角余弦时，选择$2\\cos^2\\theta - 1$无需额外讨论符号，可减少计算失误，同类题型可直接套用该思路。"
-        },
-        {
-          "train_type": "套路反射训练",
-          "question": "得到$\\cos\\left(\\frac{\\pi}{2} - 2\\alpha\\right) = -\\frac{7}{25}$后，如何得到$\\sin2\\alpha$的最终结果？",
-          "standard_answer": "由诱导公式$\\cos\\left(\\frac{\\pi}{2} - x\\right) = \\sin x$，令$x=2\\alpha$，得$\\cos\\left(\\frac{\\pi}{2} - 2\\alpha\\right) = \\sin2\\alpha$，因此$\\sin2\\alpha = -\\frac{7}{25}$。高考得分点：诱导公式的正确应用是最终得分的关键，需牢记‘奇变偶不变，符号看象限’的判断规则，本题中$\\frac{\\pi}{2}$是$\\frac{\\pi}{2}$的1倍（奇数倍），函数名变为正弦，符号与原余弦在对应象限的符号一致，同类题型需注意诱导后的符号判定。"
+          "train_content": "两角差的余弦公式为$\\cos(A - B) = \\cos A\\cos B - \\sin A\\sin B$，判断该表述是否正确。",
+          "answer": "错误。错误原因：混淆了两角差与两角和的余弦公式符号；正确结论：$\\cos(A - B) = \\cos A\\cos B + \\sin A\\sin B$，$\\cos(A + B) = \\cos A\\cos B - \\sin A\\sin B$；高考易错点提醒：三角恒等变换中余弦的和差公式符号是高频失分点，记忆时可结合特殊值验证，如令$A=\\frac{\\pi}{2}, B=0$，$\\cos(\\frac{\\pi}{2} - 0)=0$，代入错误公式得$0 - 1 = -1$，显然不成立，可快速排查符号错误。"
         },
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "利用二倍角公式计算$\\cos2\\theta$时，必须先确定$\\theta$的象限才能得到正确结果。",
-          "answer": "错误。错误原因：本题中使用的是$\\cos2\\theta=2\\cos^2\\theta - 1$，仅需要$\\cos\\theta$的值即可计算，无需知道$\\theta$的象限；若使用其他形式的二倍角公式（如$1-2\\sin^2\\theta$、$\\cos^2\\theta - \\sin^2\\theta$）才可能需要符号信息。高考易错点提醒：根据已知条件选择合适的二倍角公式，可避免不必要的符号讨论，减少失分。"
+          "train_content": "二倍角的余弦公式仅可表示为$\\cos2\\theta = 1 - 2\\sin^2\\theta$，判断该表述是否正确。",
+          "answer": "错误。错误原因：对二倍角余弦公式的三种等价形式记忆不完整；正确结论：$\\cos2\\theta$有三种常用等价形式：$\\cos^2\\theta - \\sin^2\\theta$、$2\\cos^2\\theta - 1$、$1 - 2\\sin^2\\theta$；高考易错点提醒：解题时需根据已知条件灵活选择形式，当已知某角的余弦值时，优先选择含$\\cos^2\\theta$的形式$2\\cos^2\\theta - 1$，可减少计算量，避免额外的符号判断。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知含角$\\frac{\\pi}{4} - \\alpha$的三角函数值，要求角$2\\alpha$的三角函数值，第一步应优先分析什么内容？",
+          "standard_answer": "由两个角的代数关系得$2(\\frac{\\pi}{4} - \\alpha) = \\frac{\\pi}{2} - 2\\alpha$，即已知角的二倍与目标角存在互余关联；高考得分点说明：准确找到已知角与目标角的和、差、倍、半、互余、互补关系是三角给值求值题的核心第一步，占该题步骤分的30%；同类题型拓展提示：所有三角给值求值题的通用第一步都是分析角的数量关系，无需优先展开三角公式；高考高频考法提醒：常考的角关联形式包括$\\alpha = (\\alpha + \\beta) - \\beta$、$2\\alpha = (\\alpha + \\beta) + (\\alpha - \\beta)$、$2(\\frac{\\pi}{4} \\pm \\alpha) = \\frac{\\pi}{2} \\pm 2\\alpha$等。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知$\\cos(\\frac{\\pi}{4} - \\alpha) = \\frac{3}{5}$，且已得出$2(\\frac{\\pi}{4} - \\alpha) = \\frac{\\pi}{2} - 2\\alpha$，下一步应选择哪个公式计算$\\cos[2(\\frac{\\pi}{4} - \\alpha)]$？",
+          "standard_answer": "由二倍角余弦公式的变形得$\\cos[2(\\frac{\\pi}{4} - \\alpha)] = 2\\cos^2(\\frac{\\pi}{4} - \\alpha) - 1$，代入已知值得该式结果为$-\\frac{7}{25}$；高考得分点说明：选择匹配已知条件的二倍角公式是该题的核心得分点，占步骤分的40%；同类题型拓展提示：已知某角的余弦值求其二倍角的余弦时，优先选择$2\\cos^2\\theta - 1$，已知正弦值则优先选择$1 - 2\\sin^2\\theta$，可避免判断角的范围；高考高频考法提醒：二倍角公式的灵活选择是三角恒等变换的高频考点，尤其适用于无需确定角范围的给值求值题。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已求得$\\cos(\\frac{\\pi}{2} - 2\\alpha) = -\\frac{7}{25}$，下一步应如何转换得到$\\sin2\\alpha$的值？",
+          "standard_answer": "由诱导公式$\\cos(\\frac{\\pi}{2} - x) = \\sin x$得$\\cos(\\frac{\\pi}{2} - 2\\alpha) = \\sin2\\alpha$，因此$\\sin2\\alpha = -\\frac{7}{25}$；高考得分点说明：准确应用诱导公式完成目标函数的转换是该题的收尾得分点，占步骤分的30%；同类题型拓展提示：互余角的诱导公式（$\\frac{\\pi}{2} \\pm x$、$\\frac{3\\pi}{2} \\pm x$）是连接正弦与余弦的核心工具，遇到角含$\\frac{\\pi}{2}$的奇数倍时优先使用；高考高频考法提醒：诱导公式的符号判断可通过“奇变偶不变，符号看象限”快速验证，避免符号错误。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "应用诱导公式$\\cos(\\frac{\\pi}{2} - 2\\alpha) = \\sin2\\alpha$时，需要先判断$\\frac{\\pi}{2} - 2\\alpha$所在象限来确定最终符号，判断该表述是否正确。",
+          "answer": "错误。错误原因：混淆了诱导公式的符号规则与任意角三角函数的符号判断；正确结论：诱导公式$\\cos(\\frac{\\pi}{2} - x) = \\sin x$对任意角$x$均成立，无需判断象限，符号由公式本身固定；高考易错点提醒：“奇变偶不变，符号看象限”中的符号是将$x$视为锐角时，原三角函数在对应象限的符号，该规则已将公式符号固定，无需额外判断目标角的范围。"
         }
       ]
     }

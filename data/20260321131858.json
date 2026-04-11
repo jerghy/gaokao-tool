@@ -44,46 +44,46 @@
   ],
   "math_processing_result": [
     {
-      "unit_content": "4. (2021 全国甲理, 9, 5 分) 若$\\alpha \\in \\left(0,\\frac{\\pi}{2}\\right)$，$\\tan 2\\alpha=\\frac{\\cos\\alpha}{2-\\sin\\alpha}$，则$\\tan\\alpha=$（ ）\nA.$\\frac{\\sqrt{15}}{15}$\nB.$\\frac{\\sqrt{5}}{5}$\nC.$\\frac{\\sqrt{5}}{3}$\nD.$\\frac{\\sqrt{15}}{3}$",
+      "unit_content": "若$\\alpha \\in \\left(0,\\frac{\\pi}{2}\\right)$，$\\tan 2\\alpha=\\frac{\\cos\\alpha}{2-\\sin\\alpha}$，则$\\tan \\alpha=$（ ）\nA.$\\frac{\\sqrt{15}}{15}$\nB.$\\frac{\\sqrt{5}}{5}$\nC.$\\frac{\\sqrt{5}}{3}$\nD.$\\frac{\\sqrt{15}}{3}$",
       "classify_result": "套路知识类",
       "pre_process": [
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "判断：二倍角的正切公式为$\\tan2\\alpha=\\frac{2\\tan\\alpha}{1+\\tan^2\\alpha}$，对任意实数$\\alpha$都成立。",
-          "answer": "错误。错误原因：二倍角正切公式的正确形式为$\\tan2\\alpha=\\frac{2\\tan\\alpha}{1-\\tan^2\\alpha}$，且成立条件为$\\alpha\\neq\\frac{k\\pi}{2}+\\frac{\\pi}{4}$且$\\alpha\\neq k\\pi+\\frac{\\pi}{2}(k\\in\\mathbf{Z})$，并非对任意$\\alpha$都成立。高考易错点提醒：使用二倍角正切公式前必须先确认定义域，避免忽略隐含限制导致增根。"
+          "train_content": "对于任意角$\\alpha$，正切二倍角公式$\\tan2\\alpha=\\frac{2\\tan\\alpha}{1-\\tan^2\\alpha}$都成立。",
+          "answer": "错误，错误原因：当$\\alpha=\\frac{k\\pi}{2}+\\frac{\\pi}{4}(k\\in\\mathbb{Z})$时，$\\tan2\\alpha$无意义，当$\\alpha=\\frac{k\\pi}{2}+\\frac{\\pi}{2}(k\\in\\mathbb{Z})$时$\\tan\\alpha$无意义，公式仅在正切有意义的区间成立；高考易错点提醒：切弦混合问题优先选择切化弦处理，避免因正切定义域遗漏导致失分。"
         },
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "判断：若$\\alpha\\in\\left(0,\\frac{\\pi}{2}\\right)$，对含有$\\cos\\alpha$的等式变形时，可以直接约去等式两边的$\\cos\\alpha$，无需额外说明。",
-          "answer": "错误。错误原因：虽然$\\alpha\\in\\left(0,\\frac{\\pi}{2}\\right)$时$\\cos\\alpha>0$且不为0，但高考大题作答时，约分前必须明确说明约分项不为0，否则会扣除步骤分；若未确认约分项非零直接约分，可能会丢失根或产生增根。高考易错点提醒：等式变形时的约分操作必须先确认约分项不为零，该说明是高考的隐性得分点。"
+          "train_content": "若$\\alpha\\in\\left(0,\\frac{\\pi}{2}\\right)$，则等式$\\sin2\\alpha(2 - \\sin\\alpha) = \\cos\\alpha \\cos2\\alpha$两边可以同时除以$\\cos\\alpha$。",
+          "answer": "正确，原因：$\\alpha\\in\\left(0,\\frac{\\pi}{2}\\right)$时$\\cos\\alpha\\in(0,1)$，不为0，等式变形合法；高考易错点提醒：等式两边除以含参数的三角函数式时，必须先验证该式不为0，否则会出现漏解错误。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "看到等式中同时存在正切函数（$\\tan2\\alpha$）和正弦、余弦函数（$\\cos\\alpha$、$\\sin\\alpha$），优先执行什么标准化操作统一三角函数类型？",
-          "standard_answer": "由三角恒等变换的统一函数名规则得，优先执行切化弦操作，即利用同角三角函数基本关系$\\tan x=\\frac{\\sin x}{\\cos x}$将正切转化为正弦与余弦的比值。高考得分点说明：切化弦是三角恒等变换中统一函数名的核心标准化操作，属于高考高频必考得分点；同类题型拓展提示：只要等式中同时出现切函数和弦函数，优先考虑切化弦或弦化切统一函数名，再进行后续变形。"
+          "question": "已知三角等式中同时包含正切、正弦、余弦，且存在二倍角结构，第一步优先选择什么操作统一函数类型？",
+          "standard_answer": "由切弦混合结构得优先选择切化弦，将正切转化为正弦和余弦的比值，统一为同类型三角函数处理；高考得分点：切化弦是三角恒等变换的核心基础操作，属于必考得分点；同类题型拓展：所有切弦共存的等式化简问题优先采用该思路；高考高频考法：结合二倍角、同角三角函数关系考察等式化简能力。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "切化弦后等式左边出现$\\sin2\\alpha$（2倍角），而等式右侧是单角$\\alpha$的三角函数，此时应使用哪个公式进行变形统一角的次数？",
-          "standard_answer": "由正弦二倍角公式得，$\\sin2\\alpha=2\\sin\\alpha\\cos\\alpha$，代入后即可将2倍角转化为单角$\\alpha$的三角函数，实现角的次数统一。高考得分点说明：三角恒等变换中，角的次数统一是优先考虑的变形方向，是后续化简的基础；同类题型拓展提示：当等式两边角的次数不一致时，优先利用二倍角或半角公式统一角的次数，再进行后续操作。"
+          "question": "切化弦后得到等式$\\frac{\\sin2\\alpha}{\\cos2\\alpha} = \\frac{\\cos\\alpha}{2 - \\sin\\alpha}$，下一步应该执行什么标准操作消去分式？",
+          "standard_answer": "由分式等式结构得优先交叉相乘消去分母，转化为整式等式处理；高考得分点：交叉相乘前需验证分母不为0，本题中$\\alpha\\in\\left(0,\\frac{\\pi}{2}\\right)$，$2-\\sin\\alpha>0$，变形逻辑合法；同类题型拓展：所有三角分式等式化简均优先采用交叉相乘/移项通分消去分母；高考高频考法：结合角的范围考察分母正负性判断、等式变形合法性。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "切化弦并展开二倍角后得到等式$\\frac{2\\sin\\alpha\\cos\\alpha}{\\cos2\\alpha}=\\frac{\\cos\\alpha}{2-\\sin\\alpha}$，此时优先执行什么标准化变形简化等式？",
-          "standard_answer": "由等式变形规则得，首先根据$\\alpha\\in\\left(0,\\frac{\\pi}{2}\\right)$确认$\\cos\\alpha\\neq0$，因此两边同时约去$\\cos\\alpha$，再交叉相乘消去分母，得到整式形式的等式。高考得分点说明：约去公共项前必须明确说明约分项非零，这是步骤得分的关键，遗漏该说明会被扣步骤分；同类题型拓展提示：等式变形时若存在公共因式，优先确认非零后约分，可大幅简化计算，避免后续出现高次方程。"
+          "question": "交叉相乘后得到$\\sin2\\alpha(2 - \\sin\\alpha) = \\cos\\alpha \\cos2\\alpha$，其中二倍角$\\sin2\\alpha$应该用什么公式展开匹配右侧结构？",
+          "standard_answer": "由右侧存在$\\cos\\alpha$因子得优先选择正弦二倍角公式$\\sin2\\alpha=2\\sin\\alpha\\cos\\alpha$展开，便于后续提取公因子消元；高考得分点：二倍角公式的选择必须匹配等式两边的结构，优先选择能产生公因子、便于消元的展开形式；同类题型拓展：二倍角展开需根据等式结构灵活选择正弦/余弦的不同展开形式；高考高频考法：余弦二倍角的三种形式的灵活选择是考察重点。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "约去$\\cos\\alpha$并交叉相乘后得到$2\\sin\\alpha(2-\\sin\\alpha)=\\cos2\\alpha$，为了将等式转化为仅含$\\sin\\alpha$的方程，应选择哪种形式的余弦二倍角公式？",
-          "standard_answer": "由余弦二倍角的变形公式得，选择$\\cos2\\alpha=1-2\\sin^2\\alpha$，代入后即可消去余弦项，得到仅含$\\sin\\alpha$的一元二次方程。高考得分点说明：余弦二倍角有三种不同形式，需根据待统一的三角函数类型灵活选择，本题要消去余弦，因此选择用正弦表示的形式；同类题型拓展提示：余弦二倍角的多形式选择是三角变换的核心技巧，需根据变形目标（统一为正弦/余弦/降次）选择对应形式。"
+          "question": "消去公因子$\\cos\\alpha$后得到$2\\sin\\alpha(2 - \\sin\\alpha) = \\cos2\\alpha$，此时$\\cos2\\alpha$应该选择哪种展开形式简化计算？",
+          "standard_answer": "由左侧为仅含$\\sin\\alpha$的多项式得优先选择余弦二倍角的正弦平方形式$\\cos2\\alpha=1-2\\sin^2\\alpha$展开，统一变量为$\\sin\\alpha$；高考得分点：变量统一是三角方程求解的核心步骤，本题展开后二次项抵消，直接得到$\\sin\\alpha$的一次方程，大幅简化计算；同类题型拓展：当等式中仅含$\\sin\\alpha$或仅含$\\cos\\alpha$时，优先选择对应形式的二倍角公式统一变量；高考高频考法：结合同角三角函数关系求解单角的三角函数值。"
         },
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "判断：解出$\\sin\\alpha=\\frac{1}{4}$后，直接计算$\\tan\\alpha=\\frac{\\sin\\alpha}{\\sqrt{1-\\sin^2\\alpha}}$即可，无需验证根是否符合原等式的限制条件。",
-          "answer": "错误。错误原因：原等式中存在$\\tan2\\alpha$，因此需满足$2\\alpha\\neq\\frac{\\pi}{2}$即$\\alpha\\neq\\frac{\\pi}{4}$，且解出的根需代入原方程验证是否成立；本题中$\\sin\\alpha=\\frac{1}{4}$符合所有限制，因此有效，代入计算得$\\tan\\alpha=\\frac{\\sqrt{15}}{15}$。高考易错点提醒：涉及正切函数的三角方程，解后必须验证定义域，避免出现增根，验证步骤是高考大题的必要得分点。"
+          "train_content": "若$\\alpha\\in\\left(0,\\frac{\\pi}{2}\\right)$，$\\sin\\alpha=\\frac{1}{4}$，则$\\cos\\alpha=-\\frac{\\sqrt{15}}{4}$。",
+          "answer": "错误，错误原因：$\\alpha\\in\\left(0,\\frac{\\pi}{2}\\right)$时$\\cos\\alpha$为正值，正确结论为$\\cos\\alpha=\\frac{\\sqrt{15}}{4}$；高考易错点提醒：求解三角函数值时必须结合角的范围判断三角函数的符号，避免符号错误导致最终结果失分。"
         }
       ]
     }

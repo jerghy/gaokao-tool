@@ -45,46 +45,41 @@
   ],
   "math_processing_result": [
     {
-      "unit_content": "5. (2021 新高考I, 6, 5 分) 若 $\\tan\\theta=-2$，则 $\\frac{\\sin\\theta(1+\\sin2\\theta)}{\\sin\\theta+\\cos\\theta}=$（ ）\nA.$-\\frac{6}{5}$\nB.$-\\frac{2}{5}$\nC.$\\frac{2}{5}$\nD.$\\frac{6}{5}$",
+      "unit_content": "若$\\tan\\theta=-2$，则$\\frac{\\sin\\theta(1+\\sin2\\theta)}{\\sin\\theta+\\cos\\theta}=$（ ）\nA.$-\\frac{6}{5}$\nB.$-\\frac{2}{5}$\nC.$\\frac{2}{5}$\nD.$\\frac{6}{5}$",
       "classify_result": "套路知识类",
       "pre_process": [
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "判断正误：二倍角正弦公式为 $\\sin2\\theta=\\sin^2\\theta-\\cos^2\\theta$",
-          "answer": "错误。错误原因：混淆了正弦与余弦的二倍角公式，正弦二倍角公式为 $\\sin2\\theta=2\\sin\\theta\\cos\\theta$，$\\sin^2\\theta-\\cos^2\\theta=-\\cos2\\theta$ 是余弦二倍角的形式之一。高考易错点提醒：二倍角公式是三角函数化简的核心基础，需准确区分正弦、余弦的不同形式，避免记忆混淆导致整题失分。"
+          "train_content": "三角恒等变换中，$1+\\sin2\\theta$可通过$1=\\sin^2\\theta+\\cos^2\\theta$和二倍角正弦公式变形为$(\\sin\\theta+\\cos\\theta)^2$，对吗？",
+          "answer": "正确。高考易错点提醒：该变形是三角函数化简的高频常用组合变形，由1的代换和二倍角公式结合得到，需熟练记忆，避免记错为$1+\\sin2\\theta=\\sin^2\\theta+\\cos^2\\theta$或其他错误形式。"
         },
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "判断正误：对分式 $\\frac{A\\cdot B}{B}$，可直接约去B得到A，无需考虑B是否为0。",
-          "answer": "错误。错误原因：约分时必须保证被约去的因式B不为0，否则会出现定义域扩大的错误。高考易错点提醒：三角函数化简约分时，需结合题干条件验证被约因式是否为0，避免无意义运算，本题中 $\\tan\\theta=-2$ 说明 $\\cos\\theta\\neq0$，故 $\\sin\\theta+\\cos\\theta=-2\\cos\\theta+\\cos\\theta=-\\cos\\theta\\neq0$，可正常约分。"
+          "train_content": "已知$\\tan\\theta=-2$，化简$\\frac{\\sin\\theta(1+\\sin2\\theta)}{\\sin\\theta+\\cos\\theta}$时，因为分母是$\\sin\\theta+\\cos\\theta$，所以不能直接约去分子分母的公因式，必须先分类讨论，对吗？",
+          "answer": "错误。错误原因：由$\\tan\\theta=-2$可知$\\sin\\theta=-2\\cos\\theta$，代入分母得$\\sin\\theta+\\cos\\theta=-\\cos\\theta$，而$\\tan\\theta$存在说明$\\cos\\theta\\neq0$，因此$\\sin\\theta+\\cos\\theta\\neq0$，无需分类讨论可直接约分。正确结论：当$\\tan\\theta\\neq-1$时，$\\sin\\theta+\\cos\\theta\\neq0$，本题满足该条件，可直接约分。高考易错点提醒：分式化简约分时必须先验证分母不为零，否则会出现推导错误，属于高考高频失分点。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "看到三角函数式中出现$1+\\sin2\\theta$的结构，首先应执行什么标准解题动作？",
+          "standard_answer": "由1的代换$1=\\sin^2\\theta+\\cos^2\\theta$结合二倍角正弦公式$\\sin2\\theta=2\\sin\\theta\\cos\\theta$，得$1+\\sin2\\theta=(\\sin\\theta+\\cos\\theta)^2$。高考得分点说明：该变形是本题的核心化简第一步，占该题步骤分的20%；同类题型拓展提示：凡出现$1\\pm\\sin2\\theta$、$1\\pm\\cos2\\theta$的结构，优先考虑用二倍角公式+1的代换进行因式分解或降幂；高考高频考法提醒：该变形常结合弦化切、齐次式化简考察，是三角函数基础题的核心套路。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "将$1+\\sin2\\theta$变形为$(\\sin\\theta+\\cos\\theta)^2$后，原式变为$\\frac{\\sin\\theta\\cdot(\\sin\\theta+\\cos\\theta)^2}{\\sin\\theta+\\cos\\theta}$，接下来应执行什么标准解题动作？",
+          "standard_answer": "由$\\tan\\theta=-2\\neq-1$得$\\sin\\theta+\\cos\\theta\\neq0$，因此可约去分子分母的公因式$\\sin\\theta+\\cos\\theta$，得原式化简为$\\sin\\theta(\\sin\\theta+\\cos\\theta)$。高考得分点说明：验证分母不为零是约分的必要前提，是高考阅卷的必查得分点，遗漏会扣除步骤分；同类题型拓展提示：所有分式化简约分时必须先验证公因式不为零，该规则跨模块通用（如代数分式、三角函数分式）；高考高频考法提醒：该前提验证常作为隐含陷阱出现在选择、填空题中，容易被忽略导致失分。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知$\\tan\\theta=-2$，需要求二次齐次式$\\sin^2\\theta+\\sin\\theta\\cos\\theta$的值，应执行什么标准解题动作？",
+          "standard_answer": "由$\\sin^2\\theta+\\cos^2\\theta=1$，将式子转化为$\\frac{\\sin^2\\theta+\\sin\\theta\\cos\\theta}{\\sin^2\\theta+\\cos^2\\theta}$，再分子分母同除以$\\cos^2\\theta$（$\\cos\\theta\\neq0$），得关于$\\tan\\theta$的表达式$\\frac{\\tan^2\\theta+\\tan\\theta}{\\tan^2\\theta+1}$。高考得分点说明：齐次式弦化切是三角函数求值的核心套路，占该题步骤分的50%；同类题型拓展提示：凡已知正切值求正弦、余弦的齐次多项式值的题型，均可通过除以$\\sin^n\\theta+\\cos^n\\theta$（n为齐次次数）后弦化切求解；高考高频考法提醒：齐次式弦化切是高考三角函数选择、填空题的高频考点，属于必须掌握的基础套路。"
         },
         {
           "train_type": "知识易错训练",
-          "train_form": "判断题",
-          "train_content": "判断正误：已知 $\\tan\\theta=-2<0$，则 $\\sin\\theta$ 一定为负数。",
-          "answer": "错误。错误原因：$\\tan\\theta<0$ 仅说明 $\\theta$ 在第二或第四象限，第二象限 $\\sin\\theta>0$，第四象限 $\\sin\\theta<0$，无法直接确定 $\\sin\\theta$ 的符号。高考易错点提醒：已知正切求三角函数值时，若没有限定角的范围，不要盲目判断单个三角函数的符号，优先使用齐次式转化的方法，避免符号判断错误。"
-        },
-        {
-          "train_type": "套路反射训练",
-          "question": "已知三角函数式中出现 $1+\\sin2\\theta$，优先使用什么公式进行化简？",
-          "standard_answer": "由同角三角函数平方关系 $1=\\sin^2\\theta+\\cos^2\\theta$ 和二倍角正弦公式 $\\sin2\\theta=2\\sin\\theta\\cos\\theta$，得 $1+\\sin2\\theta=(\\sin\\theta+\\cos\\theta)^2$。高考得分点说明：该变形是本题的核心化简步骤，占该题得分的40%；同类题型拓展提示：出现 $1\\pm\\sin2\\theta$、$1\\pm\\cos2\\theta$ 时，优先考虑化为完全平方或升幂公式；高考高频考法提醒：该变形常结合分式约分、齐次式求值考察，是三角函数基础题的高频考点。"
-        },
-        {
-          "train_type": "套路反射训练",
-          "question": "原式 $\\frac{\\sin\\theta\\cdot(\\sin\\theta+\\cos\\theta)^2}{\\sin\\theta+\\cos\\theta}$ 约分化简后（已验证 $\\sin\\theta+\\cos\\theta\\neq0$）得到的最简表达式是什么？",
-          "standard_answer": "约去公因式 $\\sin\\theta+\\cos\\theta$，得 $\\sin\\theta(\\sin\\theta+\\cos\\theta)=\\sin^2\\theta+\\sin\\theta\\cos\\theta$。高考得分点说明：正确约分化简是核心中间步骤，占该题得分的30%；同类题型拓展提示：分式化简时优先观察分子分母是否有公因式，可大幅降低运算量；高考高频考法提醒：约分时的定义域验证是隐含得分点，大题中需注明约去的因式不为零，否则会扣步骤分。"
-        },
-        {
-          "train_type": "套路反射训练",
-          "question": "已知 $\\tan\\theta$ 的值，如何将二次齐次式 $\\sin^2\\theta+\\sin\\theta\\cos\\theta$ 转化为仅含 $\\tan\\theta$ 的表达式？",
-          "standard_answer": "由同角三角函数平方关系 $\\sin^2\\theta+\\cos^2\\theta=1$，将式子除以 $1=\\sin^2\\theta+\\cos^2\\theta$ 构造齐次分式，再分子分母同除以 $\\cos^2\\theta$，得 $\\frac{\\sin^2\\theta+\\sin\\theta\\cos\\theta}{\\sin^2\\theta+\\cos^2\\theta}=\\frac{\\tan^2\\theta+\\tan\\theta}{\\tan^2\\theta+1}$。高考得分点说明：齐次式转化是已知正切求三角函数值的核心技巧，占该题得分的20%；同类题型拓展提示：对于n次齐次式，均可通过除以 $\\cos^n\\theta$（或 $\\sin^n\\theta$）转化为仅含正切（或余切）的表达式；高考高频考法提醒：该技巧是三角函数求值题的通用套路，选择、填空、大题均会考察。"
-        },
-        {
-          "train_type": "套路反射训练",
-          "question": "将 $\\tan\\theta=-2$ 代入 $\\frac{\\tan^2\\theta+\\tan\\theta}{\\tan^2\\theta+1}$，计算最终结果是多少？",
-          "standard_answer": "代入得 $\\frac{(-2)^2+(-2)}{(-2)^2+1}=\\frac{4-2}{4+1}=\\frac{2}{5}$。高考得分点说明：准确代入计算是最终得分的关键，占该题得分的10%；同类题型拓展提示：代入含负数的参数时，需注意平方、乘除的符号变化；高考高频考法提醒：符号错误是该类题的高频失分点，计算后需二次核对符号。"
+          "train_form": "填空题",
+          "train_content": "代入$\\tan\\theta=-2$到$\\frac{\\tan^2\\theta+\\tan\\theta}{\\tan^2\\theta+1}$中，计算得到的结果为______。",
+          "answer": "$\\frac{2}{5}$。高考易错点提醒：代入负数计算时要注意平方的非负性，避免出现$\\tan^2\\theta=-4$这类低级错误，计算完成后需核对符号与数值，避免粗心失分。"
         }
       ]
     }

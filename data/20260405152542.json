@@ -23,41 +23,35 @@
   "sub_questions": [],
   "math_processing_result": [
     {
-      "unit_content": "4. 如图，点$O$为正六边形$ABCDEF$的中心，则$\\overrightarrow{OA}+\\overrightarrow{BO}=$（ ）\nA. $\\overrightarrow{OC}$\nB. $\\overrightarrow{OD}$\nC. $\\overrightarrow{OE}$\nD. $\\overrightarrow{OF}$",
+      "unit_content": "如图，点$O$为正六边形$ABCDEF$的中心，则$\\overrightarrow{OA}+\\overrightarrow{BO}=$（ ）\nA. $\\overrightarrow{OC}$\nB. $\\overrightarrow{OD}$\nC. $\\overrightarrow{OE}$\nD. $\\overrightarrow{OF}$",
       "classify_result": "套路知识类",
       "pre_process": [
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "在中心为$O$的正六边形$ABCDEF$中，判断$\\overrightarrow{BO}$与$\\overrightarrow{OA}$是否为相等向量。",
-          "answer": "错误。错误原因：相等向量需要同时满足长度相等、方向相同两个条件，$\\overrightarrow{BO}$与$\\overrightarrow{OA}$长度相等，但方向不同，因此不是相等向量。高考易错点提醒：判断向量相等必须同时校验长度和方向，二者缺一不可，避免仅根据长度相等就判定为相等向量。"
+          "train_content": "判断：进行向量加法运算时，只需考虑向量的长度，无需考虑方向。",
+          "answer": "错误。错误原因：向量是既有大小又有方向的量，加法运算需同时遵循长度与方向的运算法则。高考易错点提醒：忽略向量方向是向量线性运算的高频失分点，处理向量运算前需先明确各向量的起点与终点。"
         },
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "判断：运用向量加法的三角形法则时，只需两个向量长度相等即可直接相加得到和向量。",
-          "answer": "错误。错误原因：三角形法则的使用前提是两个向量首尾相接，和向量的方向是从第一个向量的起点指向第二个向量的终点，与向量长度无关。高考易错点提醒：使用向量加法法则前，必须先确认向量的位置关系是否符合法则要求，不符合的需先通过运算律或相等向量转化。"
-        },
-        {
-          "train_type": "知识易错训练",
-          "train_form": "判断题",
-          "train_content": "在中心为$O$的正六边形$ABCDEF$中，判断$\\overrightarrow{BA}$与$\\overrightarrow{OF}$是否为相反向量。",
-          "answer": "错误。错误原因：$\\overrightarrow{BA}$的方向是从$B$指向$A$，$\\overrightarrow{OF}$的方向是从$O$指向$F$，二者长度相等、方向相同，是相等向量，而非相反向量。高考易错点提醒：结合特殊图形判断向量关系时，要准确对应顶点顺序，避免混淆向量的起点和终点导致方向判断错误。"
+          "train_content": "判断：向量加法的三角形法则要求两个向量的起点必须重合。",
+          "answer": "错误。错误原因：向量加法的三角形法则要求前一个向量的终点与后一个向量的起点重合，起点重合是平行四边形法则的要求。高考易错点提醒：混淆三角形法则与平行四边形法则的适用条件，是此类题的常见失分原因。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "题目要求计算$\\overrightarrow{OA}+\\overrightarrow{BO}$，两个向量不是首尾相接的状态，第一步优先进行什么操作？",
-          "standard_answer": "由向量加法交换律得$\\overrightarrow{OA}+\\overrightarrow{BO}=\\overrightarrow{BO}+\\overrightarrow{OA}$，调整向量顺序使两个向量满足首尾相接的特征。高考得分点说明：正确使用向量加法运算律调整向量顺序是该类题型的第一步得分点，同类题型拓展提示：所有非首尾相接的向量加法运算，都可先通过交换律、结合律调整顺序，为后续使用运算法则做准备；高考高频考法提醒：常结合平面几何图形（如正多边形、平行四边形）的向量运算考察运算律的应用。"
+          "question": "计算$\\overrightarrow{OA}+\\overrightarrow{BO}$时，两个向量不符合三角形法则的首尾相接要求，优先采用什么操作调整？",
+          "standard_answer": "由向量加法交换律得$\\overrightarrow{OA}+\\overrightarrow{BO}=\\overrightarrow{BO}+\\overrightarrow{OA}$，此时$\\overrightarrow{BO}$的终点$O$与$\\overrightarrow{OA}$的起点$O$重合，满足三角形法则的适用条件。高考得分点：向量加法交换律的应用是基础得分点，调整向量顺序是处理非首尾相接向量加法的第一优先级操作。同类题型拓展：多个向量相加时，可通过交换律批量调整顺序，使所有向量首尾相接，简化运算。高考高频考法：常结合特殊几何图形的向量性质考察向量线性运算。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "调整顺序后得到$\\overrightarrow{BO}+\\overrightarrow{OA}$，接下来应使用什么向量运算法则计算，得到什么结果？",
-          "standard_answer": "由向量加法的三角形法则得$\\overrightarrow{BO}+\\overrightarrow{OA}=\\overrightarrow{BA}$，和向量从第一个向量的起点$B$指向第二个向量的终点$A$。高考得分点说明：正确运用三角形法则得到和向量是核心得分点，同类题型拓展提示：三角形法则可推广为多个向量相加的多边形法则，均满足\"首尾相接、和向量从首到尾\"的规律；高考高频考法提醒：当向量数量较多时，优先使用多边形法则可大幅简化计算。"
+          "question": "对调整后的$\\overrightarrow{BO}+\\overrightarrow{OA}$应用向量加法三角形法则，得到的和向量是什么？",
+          "standard_answer": "由三角形法则得$\\overrightarrow{BO}+\\overrightarrow{OA}=\\overrightarrow{BA}$，和向量的起点为第一个向量$\\overrightarrow{BO}$的起点$B$，终点为最后一个向量$\\overrightarrow{OA}$的终点$A$。高考得分点：三角形法则的“首尾相接、指向终点”规则是核心得分点，需准确记忆和向量的起点与终点对应关系。同类题型拓展：多个连续向量相加时，和向量为第一个向量起点指向最后一个向量终点的向量，无需分步计算。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "得到$\\overrightarrow{BA}$后，需要将其转化为从中心$O$出发的向量，结合正六边形的性质可得到什么结论？",
-          "standard_answer": "由正六边形对边平行且相等的性质得$\\overrightarrow{BA}=\\overrightarrow{OF}$，因此$\\overrightarrow{OA}+\\overrightarrow{BO}=\\overrightarrow{OF}$。高考得分点说明：正确利用正六边形的几何性质进行相等向量转化是收尾得分点，同类题型拓展提示：正多边形中从中心出发的向量、边向量之间存在大量相等或相反的关系，可优先利用图形的对称性快速转化；高考高频考法提醒：正六边形、平行四边形、菱形等特殊图形的向量运算，核心是利用图形的平行、相等、对称关系简化向量转化。"
+          "question": "结合正六边形$ABCDEF$的几何性质，$\\overrightarrow{BA}$与从中心$O$出发的哪个向量是相等向量？",
+          "standard_answer": "由正六边形的对边平行且相等、半径长度等于边长的性质，得$\\overrightarrow{BA}=\\overrightarrow{OF}$。高考得分点：正六边形的向量相等关系是此类题的关键得分点，需熟练掌握正六边形各边、各半径的向量对应关系。高考高频考法：常将正六边形、平行四边形、菱形等特殊图形的几何性质与向量线性运算结合考察。"
         }
       ]
     }

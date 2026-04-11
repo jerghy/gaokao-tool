@@ -19,41 +19,40 @@
   "sub_questions": [],
   "math_processing_result": [
     {
-      "unit_content": "已知角$\\alpha$终边上一点$P(3,4)$，则$\\sin\\left(\\dfrac{\\pi}{2}+\\alpha\\right)=$（ ）\nA. $\\dfrac{3}{5}$\nB. $\\dfrac{4}{5}$\nC. $-\\dfrac{3}{5}$\nD. $-\\dfrac{4}{5}$",
+      "unit_content": "已知角$\\alpha$终边上一点$P(3,4)$，则$\\sin\\left(\\frac{\\pi}{2}+\\alpha\\right)=$（ ）\nA. $\\frac{3}{5}$\nB. $\\frac{4}{5}$\nC. $-\\frac{3}{5}$\nD. $-\\frac{4}{5}$",
       "classify_result": "套路知识类",
       "pre_process": [
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "诱导公式$\\sin\\left(\\dfrac{\\pi}{2}+\\alpha\\right) = \\sin\\alpha$是否正确？",
-          "answer": "错误。错误原因：违反诱导公式「奇变偶不变，符号看象限」的规则，$\\dfrac{\\pi}{2}$是$\\dfrac{\\pi}{2}$的1倍（奇数倍），函数名需变为余弦；将$\\alpha$视为锐角时$\\dfrac{\\pi}{2}+\\alpha$在第二象限，正弦值为正，因此正确结论为$\\sin\\left(\\dfrac{\\pi}{2}+\\alpha\\right)=\\cos\\alpha$。高考易错点提醒：诱导公式的函数名变换和符号判断是高频失分点，需严格按照规则推导，禁止凭记忆乱写。"
+          "train_content": "已知角$\\alpha$终边上异于原点的点$P(x,y)$，$r=\\sqrt{x^2+y^2}$，则$\\cos\\alpha = \\frac{y}{r}$，对吗？",
+          "answer": "错误。错误原因：混淆了$\\cos\\alpha$与$\\sin\\alpha$的定义，$\\cos\\alpha$的定义是终边上点的横坐标除以$r$，即$\\cos\\alpha=\\frac{x}{r}$，$\\sin\\alpha=\\frac{y}{r}$；高考易错点提醒：三角函数定义的对应关系是高频失分点，需牢记“余弦对横，正弦对纵，正切纵比横”，避免记错对应关系导致整题失分。"
         },
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "已知角$\\alpha$终边上一点$P(x,y)$（非原点），则$\\cos\\alpha = \\dfrac{x}{y}$是否正确？",
-          "answer": "错误。错误原因：混淆了余弦函数与正切函数的定义，余弦函数的定义是终边上点的横坐标与该点到原点的距离$r$的比值，其中$r=\\sqrt{x^2+y^2}>0$，正切函数才是$\\dfrac{y}{x}(x\\neq0)$；正确结论为$\\cos\\alpha = \\dfrac{x}{\\sqrt{x^2+y^2}}$。高考易错点提醒：三角函数定义的对应关系是基础得分点，需牢记正弦对应$\\dfrac{y}{r}$、余弦对应$\\dfrac{x}{r}$、正切对应$\\dfrac{y}{x}$，避免混淆。"
+          "train_content": "应用诱导公式化简$\\sin\\left(\\frac{\\pi}{2}+\\alpha\\right)$时，需要先判断$\\alpha$的实际象限才能确定化简结果的符号，对吗？",
+          "answer": "错误。错误原因：诱导公式“符号看象限”的规则是将$\\alpha$看作锐角，判断$\\frac{k\\pi}{2}\\pm\\alpha$所在象限的原三角函数值的符号，与$\\alpha$的实际象限无关，因此$\\sin\\left(\\frac{\\pi}{2}+\\alpha\\right)=\\cos\\alpha$对任意角$\\alpha$都成立；高考易错点提醒：诱导公式的符号判断无需考虑$\\alpha$的实际范围，一律将$\\alpha$视为锐角判断，避免额外分析$\\alpha$象限浪费时间或判断错误。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "看到待求式为$\\sin\\left(k\\cdot\\dfrac{\\pi}{2}\\pm\\alpha\\right)$的形式，优先采用什么方法处理？",
-          "standard_answer": "由诱导公式「奇变偶不变，符号看象限」化简。高考得分点：诱导公式的正确应用是三角函数化简的核心步骤，同类题型常考察不同倍数的$\\dfrac{\\pi}{2}$加/减角的变换，需先判断$k$的奇偶性确定是否变函数名，再将$\\alpha$视为锐角判断原函数值的符号。"
+          "question": "题目给出角$\\alpha$终边上一点$P(3,4)$，要计算$\\alpha$的三角函数值，第一步应执行什么操作？",
+          "standard_answer": "由任意角三角函数的定义，先计算点$P$到原点的距离$r=\\sqrt{3^2+4^2}=5$。高考得分点：正确写出$r$的计算公式并计算出结果，该步骤是该类题型的前置核心步骤，占1-2分；同类题型拓展：所有给出终边上点坐标求三角函数值的题目，都需要先计算$r$的值；高考高频考法：常设置点坐标含参数、点在坐标轴上等特殊场景，核心流程不变。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "已知角$\\alpha$终边上一点的坐标为$(3,4)$，要计算该角的三角函数值，首先需要计算什么量？",
-          "standard_answer": "由点的坐标计算该点到原点的距离$r=\\sqrt{3^2+4^2}=5$。高考得分点：$r$是点到原点的距离，恒为正数，是三角函数定义中必不可少的分母，同类题型常给出含参数的坐标，需注意$r$的非负性。"
+          "question": "已知$r=5$，$P$点坐标为$(3,4)$，如何得到$\\cos\\alpha$的值？",
+          "standard_answer": "由$\\cos\\alpha$的定义得$\\cos\\alpha = \\frac{\\text{横坐标}}{r} = \\frac{3}{5}$。高考得分点：正确匹配$\\cos\\alpha$的定义，代入坐标和$r$得到$\\cos\\alpha$的正确值，该步骤为核心得分点，占1分；同类题型拓展：求$\\sin\\alpha$、$\\tan\\alpha$的流程一致，只需更换为对应定义即可；高考高频考法：常结合诱导公式、同角三角函数关系进行后续考察。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "已知角$\\alpha$终边上点的横坐标为3，到原点的距离为5，求$\\cos\\alpha$的标准动作是什么？",
-          "standard_answer": "由余弦函数的定义得$\\cos\\alpha = \\dfrac{x}{r} = \\dfrac{3}{5}$。高考得分点：余弦函数的定义是横坐标与$r$的比值，需注意坐标的符号对结果的影响，同类题型常结合第二、三、四象限的点考察符号判断。"
+          "question": "要计算$\\sin\\left(\\frac{\\pi}{2}+\\alpha\\right)$，应如何化简该式？",
+          "standard_answer": "由诱导公式“奇变偶不变，符号看象限”得$\\sin\\left(\\frac{\\pi}{2}+\\alpha\\right)=\\cos\\alpha$。高考得分点：正确应用诱导公式完成化简，确保函数名变化和符号判断均正确，该步骤占1-2分；同类题型拓展：所有$k$为整数的$\\sin\\left(k\\cdot\\frac{\\pi}{2}\\pm\\alpha\\right)$、$\\cos\\left(k\\cdot\\frac{\\pi}{2}\\pm\\alpha\\right)$的化简都遵循该规则；高考高频考法：诱导公式的应用是三角函数基础题的必考点，需熟练掌握。"
         },
         {
-          "train_type": "知识易错训练",
-          "train_form": "判断题",
-          "train_content": "本题的最终结果为$\\dfrac{4}{5}$，是否正确？",
-          "answer": "错误。错误原因：混淆了$\\sin\\alpha$和$\\cos\\alpha$的定义，$\\sin\\alpha = \\dfrac{y}{r}=\\dfrac{4}{5}$，而本题化简后需求的是$\\cos\\alpha=\\dfrac{3}{5}$。高考易错点提醒：审题时需明确待求的三角函数类型，避免因看错函数名或化简错误导致失分。"
+          "train_type": "套路反射训练",
+          "question": "已知$\\cos\\alpha=\\frac{3}{5}$，$\\sin\\left(\\frac{\\pi}{2}+\\alpha\\right)=\\cos\\alpha$，最终结果是多少？",
+          "standard_answer": "代入得最终结果为$\\frac{3}{5}$。高考得分点：正确代入化简结果得到最终答案，确保无代入错误；同类题型拓展：化简后代入是该类题的固定收尾步骤，需注意核对化简结果与所求三角函数的对应关系；高考高频考法：常设置诱导公式化简后与所求值符号相反的陷阱，需仔细核对。"
         }
       ]
     }

@@ -44,46 +44,46 @@
   ],
   "math_processing_result": [
     {
-      "unit_content": "2. (2023课标I，8) 已知$\\sin(\\alpha-\\beta)=\\frac{1}{3}$,$\\cos\\alpha\\sin\\beta=\\frac{1}{6}$，则$\\cos(2\\alpha+2\\beta)=$（ ）。A. $\\frac{7}{9}$ B. $\\frac{1}{9}$ C. $-\\frac{1}{9}$ D. $-\\frac{7}{9}$",
+      "unit_content": "2. (2023课标I，8) 已知$\\sin(\\alpha-\\beta)=\\frac{1}{3}$,$\\cos\\alpha\\sin\\beta=\\frac{1}{6}$, 则$\\cos(2\\alpha+2\\beta)=$（ ）. A. $\\frac{7}{9}$ B. $\\frac{1}{9}$ C. $-\\frac{1}{9}$ D. $-\\frac{7}{9}$",
       "classify_result": "套路知识类",
       "pre_process": [
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "两角差的正弦公式为$\\sin(\\alpha-\\beta)=\\sin\\alpha\\cos\\beta - \\cos\\alpha\\sin\\beta$",
-          "answer": "正确。高考易错点提醒：需注意与两角差的余弦公式$\\cos(\\alpha-\\beta)=\\cos\\alpha\\cos\\beta + \\sin\\alpha\\sin\\beta$的符号区分，避免记混公式导致解题错误。"
+          "train_content": "正弦差角公式的展开形式为$\\sin(\\alpha-\\beta)=\\sin\\alpha\\cos\\beta - \\cos\\alpha\\sin\\beta$。",
+          "answer": "正确。高考易错点提醒：三角和差角公式的符号是高考高频失分点，正弦的和/差角展开式中，符号与括号内的运算符号一致（和角为加，差角为减），余弦的和/差角展开式符号与括号内相反，需牢记口诀避免符号错误。"
         },
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "两角和的正弦公式为$\\sin(\\alpha+\\beta)=\\sin\\alpha\\cos\\beta - \\cos\\alpha\\sin\\beta$",
-          "answer": "错误。错误原因：两角和的正弦公式应为$\\sin(\\alpha+\\beta)=\\sin\\alpha\\cos\\beta + \\cos\\alpha\\sin\\beta$。高考易错点提醒：两角和/差的正弦公式的符号与括号内的运算符号一致，和为加、差为减，是高频失分的记忆误区。"
+          "train_content": "二倍角余弦公式仅有$\\cos2\\theta=\\cos^2\\theta - \\sin^2\\theta$这一种形式，使用其余变形属于超纲内容。",
+          "answer": "错误。错误原因：二倍角余弦共有三种课标内允许的等价变形：$\\cos2\\theta=\\cos^2\\theta - \\sin^2\\theta=2\\cos^2\\theta - 1=1-2\\sin^2\\theta$，高考中直接使用任意一种变形均得分，无需额外推导。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "已知$\\sin(\\alpha-\\beta)=\\frac{1}{3}$，首先应执行什么标准化操作？",
-          "standard_answer": "由两角差的正弦公式展开得$\\sin\\alpha\\cos\\beta - \\cos\\alpha\\sin\\beta=\\frac{1}{3}$。高考得分点说明：该步骤为解题的核心切入步骤，准确展开公式是后续计算的前提，占该题得分的30%；同类题型拓展提示：当题干给出两角和/差的正弦、余弦值时，优先展开对应三角恒等变换公式，匹配已知的单个三角函数项。"
+          "question": "题目给出$\\sin(\\alpha-\\beta)$与$\\cos\\alpha\\sin\\beta$的已知条件，第一步的标准解题动作是什么？",
+          "standard_answer": "由正弦差角公式得$\\sin(\\alpha-\\beta)=\\sin\\alpha\\cos\\beta - \\cos\\alpha\\sin\\beta=\\frac{1}{3}$。高考得分点：正确展开差角正弦公式是本题首要得分点，同类题型中出现两个角的和/差的三角函数值时，优先展开和差角公式拆分已知条件，匹配题干给出的乘积项形式。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "已知展开式$\\sin\\alpha\\cos\\beta - \\cos\\alpha\\sin\\beta=\\frac{1}{3}$，且$\\cos\\alpha\\sin\\beta=\\frac{1}{6}$，下一步应如何计算？",
-          "standard_answer": "由代入已知项移项得$\\sin\\alpha\\cos\\beta=\\frac{1}{3}+\\frac{1}{6}=\\frac{1}{2}$。高考得分点说明：该步骤为中间核心推导步骤，准确代入计算是连接已知和目标的关键，占该题得分的20%；同类题型拓展提示：当展开式中仅含两个交叉项，且其中一个已知时，直接移项求解另一个交叉项即可。"
+          "question": "展开$\\sin(\\alpha-\\beta)$后代入$\\cos\\alpha\\sin\\beta=\\frac{1}{6}$，可以直接得到什么核心中间结论？",
+          "standard_answer": "由$\\sin\\alpha\\cos\\beta - \\frac{1}{6}=\\frac{1}{3}$得$\\sin\\alpha\\cos\\beta=\\frac{1}{2}$。高考得分点：求解得到$\\sin\\alpha\\cos\\beta$是本题核心中间步骤，同类题型中已知和差角展开式与其中一个交叉乘积项时，直接求解另一交叉乘积项即可，无需额外引入未知量。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "已求得$\\sin\\alpha\\cos\\beta=\\frac{1}{2}$，且$\\cos\\alpha\\sin\\beta=\\frac{1}{6}$，要推导和$\\alpha+\\beta$相关的三角函数值，下一步应执行什么操作？",
-          "standard_answer": "由两角和的正弦公式得$\\sin(\\alpha+\\beta)=\\sin\\alpha\\cos\\beta + \\cos\\alpha\\sin\\beta=\\frac{2}{3}$。高考得分点说明：该步骤为核心转化步骤，将两个交叉项合并为目标角的正弦值，占该题得分的30%；同类题型拓展提示：当同时得到$\\sin\\alpha\\cos\\beta$和$\\cos\\alpha\\sin\\beta$时，可直接合并为两角和/差的正弦值，匹配目标角的结构。"
+          "question": "已知$\\sin\\alpha\\cos\\beta$与$\\cos\\alpha\\sin\\beta$的值，目标式为$\\cos(2\\alpha+2\\beta)$，下一步的标准配凑动作是什么？",
+          "standard_answer": "首先将目标角拆分为$2(\\alpha+\\beta)$，再由正弦和角公式构造$\\sin(\\alpha+\\beta)=\\sin\\alpha\\cos\\beta + \\cos\\alpha\\sin\\beta$，代入得$\\sin(\\alpha+\\beta)=\\frac{2}{3}$。高考得分点：角的配凑是三角恒等变换的核心套路，当目标角为已知角的线性组合时，优先通过和差角公式构造中间角，建立已知与未知的关联。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "已求得$\\sin(\\alpha+\\beta)=\\frac{2}{3}$，目标为求$\\cos(2\\alpha+2\\beta)$，下一步应执行什么操作？",
-          "standard_answer": "由二倍角余弦公式$\\cos2\\theta=1-2\\sin^2\\theta$，令$\\theta=\\alpha+\\beta$，代入得$\\cos(2\\alpha+2\\beta)=1-2\\sin^2(\\alpha+\\beta)=\\frac{1}{9}$。高考得分点说明：该步骤为最终求解步骤，准确选择二倍角公式是得出正确结果的核心，占该题得分的20%；同类题型拓展提示：当目标角为已知角的2倍时，优先选用二倍角公式，优先选择与已知三角函数类型匹配的二倍角形式（如已知正弦值则选含$\\sin^2\\theta$的二倍角余弦公式，减少计算量）。"
+          "question": "已知$\\sin(\\alpha+\\beta)$的值，求解$\\cos(2\\alpha+2\\beta)$的最优公式选择是什么？",
+          "standard_answer": "选择二倍角余弦的变形$\\cos2\\theta=1-2\\sin^2\\theta$，令$\\theta=\\alpha+\\beta$，代入得$\\cos(2\\alpha+2\\beta)=1-2\\times(\\frac{2}{3})^2=\\frac{1}{9}$。高考得分点：选择与已知条件匹配的二倍角变形是最终得分的关键，已知正弦值时优先选择含$\\sin^2\\theta$的变形，无需判断余弦符号，减少计算失误。"
         },
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "计算$\\cos(2\\alpha+2\\beta)$时，若选用公式$\\cos2\\theta=2\\cos^2\\theta-1$，会因不知道$\\cos(\\alpha+\\beta)$的符号得到错误结果",
-          "answer": "错误。错误原因：二倍角余弦公式的三种形式是等价的，若选用$\\cos2\\theta=2\\cos^2\\theta-1$，可先由$\\sin(\\alpha+\\beta)=\\frac{2}{3}$得$\\cos^2(\\alpha+\\beta)=1-(\\frac{2}{3})^2=\\frac{5}{9}$，代入后结果仍为$\\frac{1}{9}$，与$\\cos(\\alpha+\\beta)$的符号无关。高考易错点提醒：根据已知条件选择最简便的二倍角公式即可，不存在因公式选择导致的结果差异，避免无意义的符号讨论浪费时间。"
+          "train_content": "本题中若选择二倍角变形$\\cos2\\theta=2\\cos^2\\theta - 1$计算，由于$\\cos(\\alpha+\\beta)$的符号不确定，会得到两个不同的结果。",
+          "answer": "错误。错误原因：$\\cos^2\\theta$的值与$\\cos\\theta$的符号无关，无论$\\cos(\\alpha+\\beta)$取$\\frac{\\sqrt{5}}{3}$还是$-\\frac{\\sqrt{5}}{3}$，平方后代入计算结果均为$\\frac{1}{9}$，但该方法需要额外计算余弦值，增加了计算步骤，高考中优先选择无需判断符号、步骤更少的变形提升解题效率。"
         }
       ]
     }

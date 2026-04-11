@@ -19,85 +19,79 @@
   "sub_questions": [],
   "math_processing_result": [
     {
-      "unit_content": "（1）求$A$的值；",
+      "unit_content": "已知$\\Delta ABC$中，角$A$，$B$，$C$所对的边分别为$a$，$b$，$c$，且$(\\sin B - \\sin C)^2 = \\sin^2 A - \\sin B \\sin C$。（1）求$A$的值；",
       "classify_result": "套路知识类",
       "pre_process": [
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "在$\\Delta ABC$中，将$(\\sin B - \\sin C)^2 = \\sin^2 A - \\sin B \\sin C$展开移项后，可得到$\\sin^2 B + \\sin^2 C - \\sin^2 A = 3\\sin B \\sin C$。",
-          "answer": "错误。错误原因：展开左边得$\\sin^2 B + \\sin^2 C - 2\\sin B \\sin C$，移项后应为$\\sin^2 B + \\sin^2 C - \\sin^2 A = \\sin B \\sin C$。高考易错点提醒：展开含平方的等式时需注意移项的符号变化，避免符号错误导致后续全题失分。"
+          "train_content": "判断：在$\\Delta ABC$中，若等式两边的正弦项均为二次齐次式，则可通过正弦定理将$\\sin A, \\sin B, \\sin C$分别替换为$a,b,c$（约去公共的$(2R)^2$）。（ ）",
+          "answer": "正确。高考易错点提醒：正弦定理角化边的前提是等式两边所有项的正弦次数相同，若次数不同则不能直接约去，需保留$2R$参与运算，这是解三角形的高频失分点。"
         },
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "正弦定理$\\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C} = 2R$中，$R$为$\\Delta ABC$的内切圆半径。",
-          "answer": "错误。错误原因：$R$是$\\Delta ABC$的外接圆半径。高考易错点提醒：混淆外接圆与内切圆半径会导致正弦定理边角互化错误，基础概念需准确记忆。"
+          "train_content": "判断：在$\\Delta ABC$中，若$\\cos A = \\frac{1}{2}$，则$A = \\frac{\\pi}{3}$或$\\frac{5\\pi}{3}$。（ ）",
+          "answer": "错误。错误原因：三角形内角的取值范围是$(0, \\pi)$，$\\frac{5\\pi}{3}$不在该范围内。正确结论：$A = \\frac{\\pi}{3}$。高考易错点提醒：求解三角形内角时，必须先明确内角范围为$(0, \\pi)$，避免出现多余解导致失分。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "看到题干中给出关于$\\sin A, \\sin B, \\sin C$的齐次等式，第一步应选择什么定理进行边角互化？",
-          "standard_answer": "由正弦定理得，可将正弦值直接替换为对应边的长度（齐次式中$2R$可直接约去），得到边的齐次等式。高考得分点说明：边角互化是解三角形类题目的核心起始步骤，准确使用正弦定理是该步骤的得分要点；同类题型拓展提示：只要是关于正弦的齐次等式，无论次数，均可直接替换为对应边的同次齐次式；高考高频考法提醒：常结合余弦定理、三角恒等变换考察求角、求边、判断三角形形状等问题。"
+          "question": "看到题干给出的含$\\sin A, \\sin B, \\sin C$的二次齐次等式，第一步应该执行什么标准解题动作？",
+          "standard_answer": "由正弦定理将角化边，得到边的等量关系。高考得分点：正弦定理的应用，属于解三角形基础必拿分点；同类题型：所有给出正弦齐次等式的解三角形题目；高频考法：角化边后结合余弦定理求角、边或面积。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "得到边的关系$b^2 + c^2 - a^2 = bc$后，为了求角$A$，应使用什么定理？",
-          "standard_answer": "由余弦定理$\\cos A = \\frac{b^2 + c^2 - a^2}{2bc}$得，代入已知边的关系可直接求得$\\cos A$的值。高考得分点说明：根据已知的三边平方关系选择对应角的余弦公式是该步骤的核心得分点；同类题型拓展提示：若已知$a^2 = b^2 + c^2 + kbc$，同理可代入公式求得$\\cos A$，需注意符号变化；高考高频考法提醒：$b^2 + c^2 - a^2 = kbc$的形式是余弦定理的高频考察形式，通常对应特殊角的三角函数值。"
+          "question": "展开题干等式$(\\sin B - \\sin C)^2 = \\sin^2 A - \\sin B \\sin C$，并完成角化边后可得到什么边的关系？",
+          "standard_answer": "展开等式得$\\sin^2 B + \\sin^2 C - 2\\sin B\\sin C = \\sin^2 A - \\sin B\\sin C$，角化边后整理得$b^2 + c^2 - a^2 = bc$。高考得分点：代数变形与正弦定理的正确应用；拓展提示：若得到边的平方和与边乘积的组合，立刻联想到余弦定理的结构，形成条件反射。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "求得$\\cos A = \\frac{1}{2}$后，确定角$A$的最终值需要结合什么限定条件？",
-          "standard_answer": "由$A$是三角形内角，即$A \\in (0, \\pi)$得，$A = \\frac{\\pi}{3}$。高考得分点说明：必须明确写出角的取值范围，否则会被扣步骤分；同类题型拓展提示：若$\\cos A = -\\frac{1}{2}$，结合范围可得$A = \\frac{2\\pi}{3}$，需注意钝角的情况；高考高频考法提醒：忽略角的取值范围是该类题目的高频失分点，需养成标注范围的习惯。"
-        },
-        {
-          "train_type": "知识易错训练",
-          "train_form": "填空题",
-          "train_content": "在$\\Delta ABC$中，若$\\cos A = \\frac{1}{2}$，则$A =$______（用弧度制表示）。",
-          "answer": "$\\frac{\\pi}{3}$"
+          "question": "得到$b^2 + c^2 - a^2 = bc$后，如何规范求解角$A$？",
+          "standard_answer": "由余弦定理$\\cos A = \\frac{b^2 + c^2 - a^2}{2bc}$，代入得$\\cos A = \\frac{bc}{2bc} = \\frac{1}{2}$，结合$A \\in (0, \\pi)$得$A = \\frac{\\pi}{3}$。高考得分点：余弦定理的应用与内角范围的限定；高频考法：求角后结合基本不等式求面积、周长的最值。"
         }
       ]
     },
     {
-      "unit_content": "（2）点$D$是$BC$边上一点，且$\\overrightarrow{BD}=2\\overrightarrow{DC}$，若$AD=4$，求$\\Delta ABC$面积$S$的最大值。",
+      "unit_content": "已知$\\Delta ABC$中，角$A$，$B$，$C$所对的边分别为$a$，$b$，$c$，且$(\\sin B - \\sin C)^2 = \\sin^2 A - \\sin B \\sin C$。（2）点$D$是$BC$边上一点，且$\\overrightarrow{BD} = 2\\overrightarrow{DC}$，若$AD = 4$，求$\\Delta ABC$面积$S$的最大值。",
       "classify_result": "套路知识类",
       "pre_process": [
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "在$\\Delta ABC$中，若$\\overrightarrow{BD}=2\\overrightarrow{DC}$，则$\\overrightarrow{AD} = \\frac{2}{3}\\overrightarrow{AB} + \\frac{1}{3}\\overrightarrow{AC}$。",
-          "answer": "错误。错误原因：根据向量定比分点公式，$\\overrightarrow{AD} = \\overrightarrow{AB} + \\overrightarrow{BD} = \\overrightarrow{AB} + \\frac{2}{3}\\overrightarrow{BC} = \\overrightarrow{AB} + \\frac{2}{3}(\\overrightarrow{AC} - \\overrightarrow{AB}) = \\frac{1}{3}\\overrightarrow{AB} + \\frac{2}{3}\\overrightarrow{AC}$，系数与分点比例对应，不可颠倒。高考易错点提醒：定比分点的向量系数错误是该类题目的高频前置错误，会导致后续所有计算失分，推导后可验证系数和为1进行自查。"
+          "train_content": "判断：在$\\Delta ABC$中，若$D$在$BC$上且$\\overrightarrow{BD} = 2\\overrightarrow{DC}$，则$\\overrightarrow{AD} = \\frac{2}{3}\\overrightarrow{AB} + \\frac{1}{3}\\overrightarrow{AC}$。（ ）",
+          "answer": "错误。错误原因：分点向量分解的系数与分点比例相反，靠近哪个顶点，对应顶点的向量系数更大。正确推导：$\\overrightarrow{AD} = \\overrightarrow{AB} + \\overrightarrow{BD} = \\overrightarrow{AB} + \\frac{2}{3}\\overrightarrow{BC} = \\overrightarrow{AB} + \\frac{2}{3}(\\overrightarrow{AC} - \\overrightarrow{AB}) = \\frac{1}{3}\\overrightarrow{AB} + \\frac{2}{3}\\overrightarrow{AC}$。高考易错点提醒：分点向量分解的系数是高频失分点，可通过“靠近谁谁的系数大”的口诀快速验证。"
         },
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "对于向量$\\overrightarrow{AB}, \\overrightarrow{AC}$，有$(\\frac{1}{3}\\overrightarrow{AB} + \\frac{2}{3}\\overrightarrow{AC})^2 = \\frac{1}{9}|\\overrightarrow{AB}|^2 + \\frac{4}{9}|\\overrightarrow{AC}|^2$。",
-          "answer": "错误。错误原因：向量平方展开需包含交叉项的数量积，正确展开应为$\\frac{1}{9}|\\overrightarrow{AB}|^2 + \\frac{4}{9}|\\overrightarrow{AC}|^2 + 2 \\times \\frac{1}{3} \\times \\frac{2}{3} \\overrightarrow{AB} \\cdot \\overrightarrow{AC}$。高考易错点提醒：忽略向量平方的交叉项会导致等式建立错误，是向量运算的高频失分点。"
+          "train_content": "判断：向量数量积$\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = |\\overrightarrow{AB}| \\cdot |\\overrightarrow{AC}| \\cos B$。（ ）",
+          "answer": "错误。错误原因：向量数量积的夹角是两个向量起点重合时的夹角，$\\overrightarrow{AB}$与$\\overrightarrow{AC}$的起点均为$A$，夹角为角$A$而非角$B$。正确结论：$\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = bc\\cos A$。高考易错点提醒：计算向量数量积时必须先确认两个向量的夹角，避免夹角选错导致后续全部计算错误。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "看到三角形边上的分点条件$\\overrightarrow{BD}=2\\overrightarrow{DC}$，以及$AD$的长度，要建立$AD$与$AB, AC$的联系，首选什么方法？",
-          "standard_answer": "由向量定比分点公式得，将$\\overrightarrow{AD}$用$\\overrightarrow{AB}, \\overrightarrow{AC}$线性表示，再对等式两边同时平方，利用向量数量积将向量关系转化为边长与夹角的数量关系。高考得分点说明：正确的向量线性表示是该步骤的核心得分点；同类题型拓展提示：边上的分点问题均可通过向量线性表示、坐标法、分点邻角互补的余弦定理三种方法建立关系，向量法是最简便的通用方法；高考高频考法提醒：该类问题常结合基本不等式考察最值，是解三角形中档题的高频考法。"
+          "question": "看到三角形边上给出分点的向量比例，且已知分点到对角顶点的长度，第一步应该执行什么标准解题动作？",
+          "standard_answer": "将分点与对角顶点的连线向量用三角形的两条邻边向量线性表示。高考得分点：向量的线性运算（分点公式），属于解三角形与平面向量结合题的固定得分点；同类题型：所有三角形边上有分点，涉及分点与顶点连线长度的问题；高频考法：结合向量数量积、余弦定理求边、面积或周长的最值。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "已知$A = \\frac{\\pi}{3}$，$AD=4$，将$\\overrightarrow{AD} = \\frac{1}{3}\\overrightarrow{AB} + \\frac{2}{3}\\overrightarrow{AC}$两边平方后，可得到什么关于$b,c$的等式？",
-          "standard_answer": "由$|\\overrightarrow{AD}|^2 = 16$，展开代入$\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = bc\\cos A = \\frac{1}{2}bc$得，$c^2 + 4b^2 + 2bc = 144$。高考得分点说明：准确代入向量数量积公式以及第一问的角$A$的结果是该步骤的得分要点；同类题型拓展提示：若角$A$为钝角，需注意$\\cos A$的符号变化；高考高频考法提醒：该步骤的化简结果通常为关于两边的二次等式，适配基本不等式求最值的考法。"
+          "question": "得到$\\overrightarrow{AD} = \\frac{1}{3}\\overrightarrow{AB} + \\frac{2}{3}\\overrightarrow{AC}$后，如何结合$AD=4$的条件得到$b,c$的等量关系？",
+          "standard_answer": "将等式两边同时平方，利用$|\\overrightarrow{AD}|^2 = (\\frac{1}{3}\\overrightarrow{AB} + \\frac{2}{3}\\overrightarrow{AC})^2$，展开后结合向量数量积公式代入已知条件。高考得分点：向量模长的平方等于向量自身的平方，这是处理向量模长问题的通用固定套路；拓展提示：该方法无需额外构造辅助线，是高考阅卷认可的标准解法。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "得到$4b^2 + c^2 + 2bc = 144$的等式后，要计算$bc$的最大值，应使用什么方法？",
-          "standard_answer": "由基本不等式$4b^2 + c^2 \\geq 2 \\cdot 2b \\cdot c = 4bc$得，代入等式可得$4bc + 2bc \\leq 144$，即$bc \\leq 24$，当且仅当$2b = c$时取等号。高考得分点说明：基本不等式的配凑以及等号成立条件的说明是该步骤的核心得分点，缺少等号成立条件会被扣步骤分；同类题型拓展提示：若等式为$b^2 + kc^2 + mbc = M$，均可配凑基本不等式求$bc$的最值；高考高频考法提醒：基本不等式求最值是解三角形最值问题的核心考察方法，需注意“一正二定三相等”的验证。"
+          "question": "已知$A = \\frac{\\pi}{3}$，展开$|\\overrightarrow{AD}|^2 = (\\frac{1}{3}\\overrightarrow{AB} + \\frac{2}{3}\\overrightarrow{AC})^2$后可整理得到什么$b,c$的等量关系？",
+          "standard_answer": "展开得$|\\overrightarrow{AD}|^2 = \\frac{1}{9}|\\overrightarrow{AB}|^2 + \\frac{4}{9}\\overrightarrow{AB} \\cdot \\overrightarrow{AC} + \\frac{4}{9}|\\overrightarrow{AC}|^2$，代入$|\\overrightarrow{AD}|=4$、$|\\overrightarrow{AB}|=c$、$|\\overrightarrow{AC}|=b$、$\\overrightarrow{AB} \\cdot \\overrightarrow{AC} = bc\\cos\\frac{\\pi}{3} = \\frac{1}{2}bc$，两边乘9整理得$144 = c^2 + 2bc + 4b^2$。高考得分点：向量数量积的代入计算，属于步骤核心得分点；同类题型：所有向量平方后转化为边关系的题目。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "得到$bc$的最大值后，如何计算$\\Delta ABC$面积的最大值？",
-          "standard_answer": "由三角形面积公式$S = \\frac{1}{2}bc\\sin A$得，代入$bc$的最大值以及$\\sin A = \\frac{\\sqrt{3}}{2}$，可得$S_{\\text{max}} = 6\\sqrt{3}$。高考得分点说明：准确使用三角形两边及夹角的面积公式是该步骤的得分要点；同类题型拓展提示：若已知其他角，代入对应角的正弦值即可；高考高频考法提醒：面积公式的选择需结合已知的角，避免选错公式导致计算错误。"
+          "question": "得到$4b^2 + c^2 + 2bc = 144$后，如何规范求解$bc$的最大值？",
+          "standard_answer": "由基本不等式$4b^2 + c^2 \\geq 2\\cdot 2b \\cdot c = 4bc$，代入等式得$144 = 4b^2 + c^2 + 2bc \\geq 4bc + 2bc = 6bc$，因此$bc \\leq 24$，当且仅当$2b = c$时取等号（可验证符合三角形边长要求）。高考得分点：基本不等式的正确应用与取等条件的验证，这是最值类题目的必写得分点；高频考法：结合面积公式、周长公式求最值。"
         },
         {
           "train_type": "知识易错训练",
-          "train_form": "判断题",
-          "train_content": "用基本不等式求得$bc \\leq 24$时，无需说明等号成立条件即可直接作为最大值使用。",
-          "answer": "错误。错误原因：基本不等式求最值必须满足“一正二定三相等”，需验证等号成立的条件$2b = c$是否符合三角形的边长要求（显然符合），否则不能确定能取到该最大值。高考易错点提醒：缺少等号成立条件的说明会被扣步骤分，是基本不等式应用的高频失分点。"
+          "train_form": "填空题",
+          "train_content": "已知$\\Delta ABC$中$A = \\frac{\\pi}{3}$，$b,c$为角$B,C$的对边，则$\\Delta ABC$的面积$S = \\_\\_\\_\\_$（用$b,c$表示）。",
+          "answer": "$\\frac{\\sqrt{3}}{4}bc$。高考易错点提醒：面积公式中角必须是对应两边的夹角，且$\\sin\\frac{\\pi}{3} = \\frac{\\sqrt{3}}{2}$，避免记错三角函数值导致失分。"
         }
       ]
     }

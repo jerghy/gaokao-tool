@@ -41,80 +41,78 @@
   ],
   "math_processing_result": [
     {
-      "unit_content": "已知 $\\tan \\alpha=2$，求 $\\tan\\left(\\alpha + \\dfrac{\\pi}{4}\\right)$ 的值",
+      "unit_content": "已知$\\tan\\alpha=2$，(1) 求 $\\tan\\left(\\alpha + \\dfrac{\\pi}{4}\\right)$ 的值；",
       "classify_result": "套路知识类",
       "pre_process": [
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "两角和的正切公式为 $\\tan(\\alpha+\\beta)=\\dfrac{\\tan\\alpha + \\tan\\beta}{1 - \\tan\\alpha\\tan\\beta}$，对任意角$\\alpha,\\beta$都成立。",
-          "answer": "错误，错误原因：该公式成立的条件是$\\alpha,\\beta,\\alpha+\\beta$的终边都不在$y$轴上（即$\\alpha\\neq k\\pi+\\dfrac{\\pi}{2},\\beta\\neq k\\pi+\\dfrac{\\pi}{2},\\alpha+\\beta\\neq k\\pi+\\dfrac{\\pi}{2},k\\in\\mathbb{Z}$），且分母$1-\\tan\\alpha\\tan\\beta\\neq0$。高考易错点提醒：使用三角恒等变换公式时，必须先确认公式的适用条件，避免出现无意义的计算。"
+          "train_content": "两角和的正切公式为 $\\tan(A+B) = \\dfrac{\\tan A + \\tan B}{1 + \\tan A \\tan B}$，请判断正误。",
+          "answer": "错误。错误原因：两角和的正切公式分母为$1 - \\tan A \\tan B$，正确公式为$\\tan(A+B) = \\dfrac{\\tan A + \\tan B}{1 - \\tan A \\tan B}$；高考易错点提醒：考生极易混淆两角和正切公式的分母符号，与余弦和角公式的符号记混，该错误属于高频失分点，需重点记准公式符号。"
         },
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "$\\tan\\dfrac{\\pi}{4}$ 的值为 $\\sqrt{2}$。",
-          "answer": "错误，错误原因：$\\dfrac{\\pi}{4}$ 角的正切值为1，即$\\tan\\dfrac{\\pi}{4}=1$。高考易错点提醒：特殊角的三角函数值是高考必考基础点，必须准确记忆，避免因记错特殊角值导致整题失分。"
+          "train_content": "已知$\\tan\\alpha=2$，由于$\\tan\\alpha$和$\\tan\\dfrac{\\pi}{4}$均有意义，因此可以直接使用两角和的正切公式计算$\\tan\\left(\\alpha + \\dfrac{\\pi}{4}\\right)$，请判断正误。",
+          "answer": "正确。陷阱规避提示：使用正切相关公式时，必须先确认定义域，避免在正切无意义的场景下误用公式。本题已知$\\tan\\alpha$存在，且$\\tan\\dfrac{\\pi}{4}=1$存在，同时$\\alpha + \\dfrac{\\pi}{4} \\neq k\\pi + \\dfrac{\\pi}{2} (k\\in\\mathbf{Z})$（否则$\\tan\\alpha = \\tan\\left(k\\pi + \\dfrac{\\pi}{4}\\right)=1$，与已知$\\tan\\alpha=2$矛盾），因此可直接代入公式。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "已知某角的正切值，求该角与特殊角的和的正切值，优先调用什么公式？",
-          "standard_answer": "由题干特征得优先调用两角和的正切公式 $\\tan(\\alpha+\\beta)=\\dfrac{\\tan\\alpha + \\tan\\beta}{1 - \\tan\\alpha\\tan\\beta}$。高考得分点说明：准确识别题型并写出对应公式是本题的核心得分点，占该小问40%左右的步骤分；同类题型拓展提示：所有已知单角三角函数值、求两角和差三角函数值的题目，均优先对应两角和差的三角恒等变换公式；高考高频考法提醒：常与特殊角三角函数值、二倍角公式结合考察基础计算。"
+          "question": "看到题目要求计算两角和的正切值，且已知两个角的正切值，首先应该调用哪个课内公式？",
+          "standard_answer": "由题干条件得应调用两角和的正切公式$\\tan(A+B) = \\dfrac{\\tan A + \\tan B}{1 - \\tan A \\tan B}$；高考得分点说明：正确写出两角和的正切公式是本题第(1)问的核心得分点，占该小问40%左右的分值；同类题型拓展提示：两角和差的正切、正弦、余弦公式是高考三角恒等变换的基础考点，常与二倍角、诱导公式结合考察；高考高频考法提醒：常以给值求值的形式出现在大题第一小问，属于基础送分题，必须保证公式记忆准确。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "计算 $\\tan\\left(\\alpha + \\dfrac{\\pi}{4}\\right)$ 时，公式中$\\tan\\beta$对应的$\\beta$是什么，取值为多少？",
-          "standard_answer": "由题中角的结构得$\\beta=\\dfrac{\\pi}{4}$，$\\tan\\beta=\\tan\\dfrac{\\pi}{4}=1$。高考得分点说明：准确匹配公式中的角与已知特殊角是计算正确的前提，占该小问20%左右的步骤分；同类题型拓展提示：遇到含$\\dfrac{\\pi}{4},\\dfrac{\\pi}{6},\\dfrac{\\pi}{3}$等特殊角的和差角，必须先写出对应特殊角的三角函数值再代入计算；高考高频考法提醒：常设置特殊角的三角函数值记忆错误的陷阱，需重点关注。"
+          "question": "已知$\\tan\\alpha=2$，计算$\\tan\\left(\\alpha + \\dfrac{\\pi}{4}\\right)$时，代入公式的第一步应该怎么写？",
+          "standard_answer": "由已知得$\\tan\\left(\\alpha + \\dfrac{\\pi}{4}\\right) = \\dfrac{\\tan\\alpha + \\tan\\dfrac{\\pi}{4}}{1 - \\tan\\alpha \\cdot \\tan\\dfrac{\\pi}{4}}$；高考得分点说明：准确代入已知值和特殊角的三角函数值是该步骤的得分点，需明确写出$\\tan\\dfrac{\\pi}{4}=1$的替换过程，避免直接写数值扣分；同类题型拓展提示：特殊角（$\\dfrac{\\pi}{6},\\dfrac{\\pi}{4},\\dfrac{\\pi}{3}$等）的三角函数值必须熟练记忆，是三角求值题的必考点；高考高频考法提醒：特殊角的三角函数值常作为隐含条件出现在题干中，无需额外给出，需考生自行提取。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "代入$\\tan\\alpha=2$，$\\tan\\dfrac{\\pi}{4}=1$后，如何计算最终结果？",
-          "standard_answer": "由公式代入得$\\tan\\left(\\alpha + \\dfrac{\\pi}{4}\\right)=\\dfrac{2+1}{1-2\\times1}=\\dfrac{3}{-1}=-3$。高考得分点说明：代入后准确计算符号与数值是最终得分的关键，占该小问40%左右的步骤分；同类题型拓展提示：计算分式时需优先注意分母的符号与是否为0，避免符号错误；高考高频考法提醒：常设置分母为负的计算陷阱，需确认符号后再计算最终结果。"
-        },
-        {
-          "train_type": "知识易错训练",
-          "train_form": "判断题",
-          "train_content": "计算得到$\\tan\\left(\\alpha + \\dfrac{\\pi}{4}\\right)=-3$，因为正切值为负，所以$\\alpha+\\dfrac{\\pi}{4}$一定是第二象限角。",
-          "answer": "错误，错误原因：正切值为负的角是第二或第四象限角，也可能是终边在第二、四象限的轴线角（本题中无此情况），仅根据正切值符号无法唯一确定角的象限。高考易错点提醒：若题目未给出角的范围，不要擅自判定角的象限，避免后续计算出错。"
+          "question": "代入$\\tan\\alpha=2$和$\\tan\\dfrac{\\pi}{4}=1$后，最终计算结果是多少？",
+          "standard_answer": "由代入得$\\dfrac{2+1}{1-2\\times1} = -3$；高考得分点说明：最终计算结果正确是该小问的收尾得分点，需注意分母的符号避免计算错误；同类题型拓展提示：计算完成后需检查分母是否为0，若分母为0则说明两角和的正切不存在，需单独说明；高考高频考法提醒：该类计算的易错点为符号错误，计算完成后需反向核对公式符号是否正确。"
         }
       ]
     },
     {
-      "unit_content": "已知 $\\tan \\alpha=2$，求 $\\dfrac{\\sin2\\alpha}{\\sin^2\\alpha+\\sin\\alpha\\cos\\alpha-\\cos2\\alpha-1}$ 的值",
+      "unit_content": "已知$\\tan\\alpha=2$，(2) 求 $\\dfrac{\\sin2\\alpha}{\\sin^2\\alpha + \\sin\\alpha\\cos\\alpha - \\cos2\\alpha - 1}$ 的值。",
       "classify_result": "套路知识类",
       "pre_process": [
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "二倍角的余弦公式只有$\\cos2\\alpha=\\cos^2\\alpha - \\sin^2\\alpha$这一种形式。",
-          "answer": "错误，错误原因：二倍角余弦公式有三种等价形式：$\\cos2\\alpha=\\cos^2\\alpha - \\sin^2\\alpha=2\\cos^2\\alpha - 1=1 - 2\\sin^2\\alpha$，需根据题目结构选择合适的形式。高考易错点提醒：选择合适的二倍角公式展开可以大幅简化计算，避免不必要的化简步骤。"
+          "train_content": "二倍角的余弦公式仅有一种形式：$\\cos2\\alpha = \\cos^2\\alpha - \\sin^2\\alpha$，请判断正误。",
+          "answer": "错误。错误原因：二倍角的余弦公式有三种等价形式，分别为$\\cos2\\alpha = \\cos^2\\alpha - \\sin^2\\alpha = 2\\cos^2\\alpha - 1 = 1 - 2\\sin^2\\alpha$；高考易错点提醒：考生常忽略二倍角余弦的另外两种形式，在化简三角表达式时无法快速消去常数项，导致解题速度变慢甚至出错。"
         },
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "对于分子分母都是$\\sin\\alpha,\\cos\\alpha$的齐次多项式的分式，必须先求出$\\sin\\alpha,\\cos\\alpha$的具体值才能计算。",
-          "answer": "错误，错误原因：此类齐次式可通过分子分母同除以$\\cos^n\\alpha$（n为齐次次数），直接转化为关于$\\tan\\alpha$的式子，无需单独求$\\sin\\alpha,\\cos\\alpha$的值。高考易错点提醒：齐次式化切是已知$\\tan\\alpha$求三角分式值的最常用方法，可避免分类讨论角的象限，大幅提高解题效率与准确率。"
+          "train_content": "对仅含$\\sin^2\\alpha$、$\\sin\\alpha\\cos\\alpha$、$\\cos^2\\alpha$的齐次分式，若已知$\\tan\\alpha$的值，可以通过分子分母同除以$\\cos^2\\alpha$的方式将其转化为仅含$\\tan\\alpha$的表达式进行计算，该方法适用于所有场景，请判断正误。",
+          "answer": "错误。错误原因：该方法仅适用于$\\cos\\alpha \\neq 0$的场景，若$\\cos\\alpha=0$，则不能直接除以$\\cos^2\\alpha$，需单独讨论；陷阱规避提示：本题中$\\tan\\alpha=2$说明$\\cos\\alpha \\neq 0$，因此可以安全使用该方法，若未确认$\\cos\\alpha$是否为0直接使用，可能会出现逻辑漏洞。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "已知$\\tan\\alpha=2$，求含$\\sin2\\alpha,\\cos2\\alpha$的三角分式的值，第一步优先做什么操作？",
-          "standard_answer": "由题干特征得优先用二倍角公式展开$\\sin2\\alpha=2\\sin\\alpha\\cos\\alpha$、$\\cos2\\alpha=\\cos^2\\alpha - \\sin^2\\alpha$，并将常数1替换为$\\sin^2\\alpha + \\cos^2\\alpha$，统一角的次数与形式。高考得分点说明：准确展开二倍角并替换常数1是本题的核心得分点，占该小问50%左右的步骤分；同类题型拓展提示：所有含不同倍角、不同次的三角恒等变换题目，都优先统一角的形式与次数；高考高频考法提醒：常将二倍角公式、同角三角函数的平方关系结合考察齐次式化简。"
+          "question": "看到题干要求计算含$\\sin2\\alpha$、$\\cos2\\alpha$的三角分式的值，且已知$\\tan\\alpha$的值，第一步应该做什么？",
+          "standard_answer": "由题干条件得第一步应利用二倍角公式将$\\sin2\\alpha$、$\\cos2\\alpha$展开为单角$\\alpha$的三角函数形式；高考得分点说明：正确写出二倍角的正弦、余弦公式是本小问的核心基础得分点，占该小问30%左右的分值；同类题型拓展提示：二倍角公式的灵活选择是化简的关键，当表达式中存在常数项时，优先选择含1的二倍角余弦形式以消去常数；高考高频考法提醒：给值求值类的三角化简题，通常需要先利用恒等变换公式将表达式化简为仅含已知三角函数的形式，再代入计算。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "展开化简后，分子分母都是$\\sin\\alpha,\\cos\\alpha$的二次齐次式，下一步应该做什么操作？",
-          "standard_answer": "由齐次式特征得分子分母同时除以$\\cos^2\\alpha$（$\\cos\\alpha\\neq0$，由$\\tan\\alpha=2$可知$\\cos\\alpha$不为0），将分式转化为仅含$\\tan\\alpha$的代数式。高考得分点说明：正确识别齐次式并完成化切操作是计算正确的关键，占该小问20%左右的步骤分；同类题型拓展提示：若分子分母次数不同，可通过平方关系补次构造齐次式，再进行化切操作；高考高频考法提醒：常设置非显性齐次式的题目，需先通过恒等变换构造齐次式再计算。"
+          "question": "本题中分母含常数项$-1$，为了消去常数项并实现齐次化，应该选择哪种形式的二倍角余弦公式展开$\\cos2\\alpha$，同时如何处理常数1？",
+          "standard_answer": "由分母结构得应选择$\\cos2\\alpha = \\cos^2\\alpha - \\sin^2\\alpha$，同时将常数1替换为$\\sin^2\\alpha + \\cos^2\\alpha$，便于消去同类项；高考得分点说明：选择合适的二倍角形式并正确替换常数1是该步骤的关键得分点，若选择其他二倍角形式会导致化简难度增加甚至出错；同类题型拓展提示：当表达式中出现常数1时，优先考虑利用$\\sin^2\\alpha + \\cos^2\\alpha = 1$进行替换，实现齐次化；高考高频考法提醒：齐次化是三角求值的核心技巧，常与二倍角公式结合考察，是高考中档题的高频考点。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "将$\\tan\\alpha=2$代入化切后的式子，如何计算最终结果？",
-          "standard_answer": "由化切后的式子$\\dfrac{2\\tan\\alpha}{\\tan^2\\alpha + \\tan\\alpha - 2}$，代入得$\\dfrac{2\\times2}{2^2 + 2 - 2}=\\dfrac{4}{4}=1$。高考得分点说明：代入后准确计算分子分母的数值是最终得分的核心，占该小问30%左右的步骤分；同类题型拓展提示：代入后需优先化简分母，避免计算错误；高考高频考法提醒：常设置分母为零的陷阱，本题中$\\tan^2\\alpha + \\tan\\alpha - 2=4+2-2=4\\neq0$，计算有效。"
+          "question": "将$\\sin2\\alpha=2\\sin\\alpha\\cos\\alpha$、$\\cos2\\alpha=\\cos^2\\alpha - \\sin^2\\alpha$、$1=\\sin^2\\alpha + \\cos^2\\alpha$代入原式并合并同类项后，得到的分子分母分别是什么？",
+          "standard_answer": "由代入化简得分子为$2\\sin\\alpha\\cos\\alpha$，分母为$\\sin^2\\alpha + \\sin\\alpha\\cos\\alpha - 2\\cos^2\\alpha$；高考得分点说明：化简过程中符号的准确性是该步骤的得分点，需注意$\\cos2\\alpha$和常数1前面的负号，避免符号错误；同类题型拓展提示：代入展开后需合并同类项，确保分子分母均为二次齐次式，为后续弦化切做准备；高考高频考法提醒：展开化简后的符号错误是该类题的高频失分点，化简完成后需逐位核对符号。"
         },
         {
-          "train_type": "知识易错训练",
-          "train_form": "判断题",
-          "train_content": "化简$\\sin^2\\alpha + \\sin\\alpha\\cos\\alpha - \\cos2\\alpha - 1$时，将$\\cos2\\alpha$替换为$2\\cos^2\\alpha - 1$，代入后得到$\\sin^2\\alpha + \\sin\\alpha\\cos\\alpha - 2\\cos^2\\alpha$，这个化简结果是错误的。",
-          "answer": "错误，错误原因：代入$\\cos2\\alpha=2\\cos^2\\alpha -1$后，原式为$\\sin^2\\alpha + \\sin\\alpha\\cos\\alpha - (2\\cos^2\\alpha -1) -1 = \\sin^2\\alpha + \\sin\\alpha\\cos\\alpha - 2\\cos^2\\alpha +1 -1 = \\sin^2\\alpha + \\sin\\alpha\\cos\\alpha - 2\\cos^2\\alpha$，结果正确。高考易错点提醒：代入二倍角公式时必须注意括号前的符号，避免去括号时符号错误导致化简结果出错。"
+          "train_type": "套路反射训练",
+          "question": "化简得到分子分母均为关于$\\sin\\alpha$、$\\cos\\alpha$的二次齐次式后，下一步应该做什么来代入已知的$\\tan\\alpha=2$？",
+          "standard_answer": "由齐次式结构得分子分母同时除以$\\cos^2\\alpha$（需明确$\\cos\\alpha\\neq0$，本题中$\\tan\\alpha=2$存在即可证明），将表达式转化为仅含$\\tan\\alpha$的形式$\\dfrac{2\\tan\\alpha}{\\tan^2\\alpha + \\tan\\alpha - 2}$；高考得分点说明：正确进行弦化切变换是该步骤的核心得分点，需明确说明$\\cos\\alpha\\neq0$的依据，保证逻辑严谨；同类题型拓展提示：对于n次齐次式，可通过同除以$\\cos^n\\alpha$转化为仅含$\\tan\\alpha$的表达式，该方法适用于所有已知$\\tan\\alpha$且$\\cos\\alpha\\neq0$的齐次式求值问题；高考高频考法提醒：弦化切是该类题的标准解题步骤，若未使用该方法而采用联立$\\sin^2\\alpha + \\cos^2\\alpha=1$求解$\\sin\\alpha$、$\\cos\\alpha$的方法，虽然结果正确但计算量更大，容易出错，优先推荐弦化切的方法。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "代入$\\tan\\alpha=2$到$\\dfrac{2\\tan\\alpha}{\\tan^2\\alpha + \\tan\\alpha - 2}$中，最终计算结果是多少？",
+          "standard_answer": "由代入得$\\dfrac{2\\times2}{2^2 + 2 - 2} = 1$；高考得分点说明：最终计算结果正确是该小问的收尾得分点，需注意分母的计算准确性，避免算术错误；同类题型拓展提示：代入计算后需反向核对化简过程是否正确，确保结果无误；高考高频考法提醒：该类题的最终计算通常较为简单，核心失分点在前面的化简步骤，需重点保证化简过程的正确性。"
         }
       ]
     }

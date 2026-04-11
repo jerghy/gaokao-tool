@@ -39,68 +39,80 @@
   ],
   "math_processing_result": [
     {
-      "unit_content": "若$3\\sin \\alpha - \\sin \\beta = \\sqrt{10}$，$\\alpha+\\beta=\\frac{\\pi}{2}$，则$\\sin \\alpha =$______",
+      "unit_content": "若$3\\sin \\alpha - \\sin \\beta = \\sqrt{10}$，$\\alpha + \\beta = \\frac{\\pi}{2}$，则$\\sin \\alpha =$______",
       "classify_result": "套路知识类",
       "pre_process": [
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "已知$\\alpha+\\beta=\\frac{\\pi}{2}$，则$\\sin\\beta = \\sin\\alpha$，这个结论是否正确？",
-          "answer": "错误。错误原因：诱导公式记忆错误，由$\\alpha+\\beta=\\frac{\\pi}{2}$得$\\beta=\\frac{\\pi}{2}-\\alpha$，根据诱导公式“奇变偶不变，符号看象限”，$\\sin(\\frac{\\pi}{2}-\\alpha)=\\cos\\alpha$，即$\\sin\\beta=\\cos\\alpha$。高考易错点提醒：应用$\\frac{\\pi}{2}$相关的诱导公式时，必须注意函数名要发生变化（sin与cos互变），避免函数名不变的低级错误。"
+          "train_content": "若$\\alpha + \\beta = \\frac{\\pi}{2}$，则$\\sin\\beta = \\cos\\alpha$，这个结论是否正确？",
+          "answer": "正确。该结论是诱导公式「奇变偶不变，符号看象限」的典型应用，由$\\beta = \\frac{\\pi}{2} - \\alpha$可得，正弦变余弦，符号为正。高考易错点提醒：使用诱导公式时需注意函数名变化和符号判定，避免记错规则导致消元错误。"
         },
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "对$3\\sin\\alpha - \\cos\\alpha$使用辅助角公式变形，可得到$\\sqrt{10}\\sin(\\alpha - \\varphi)$（其中$\\varphi$为锐角），这个变形是否正确？",
-          "answer": "正确。正确推导：提取系数平方和的算术平方根$\\sqrt{3^2+(-1)^2}=\\sqrt{10}$，可得$3\\sin\\alpha - \\cos\\alpha = \\sqrt{10}\\left(\\frac{3}{\\sqrt{10}}\\sin\\alpha - \\frac{1}{\\sqrt{10}}\\cos\\alpha\\right)$，令$\\cos\\varphi=\\frac{3}{\\sqrt{10}}$，$\\sin\\varphi=\\frac{1}{\\sqrt{10}}$（$\\varphi$为锐角），即可化为$\\sqrt{10}\\sin(\\alpha - \\varphi)$。高考易错点提醒：辅助角公式中，当cos的系数为负时，要注意相位的符号，避免符号错误导致整体结果偏差。"
+          "train_content": "辅助角公式为$a\\sin x + b\\cos x = \\sqrt{a^2 + b^2}\\sin(x + \\varphi)$（其中$\\tan\\varphi = \\frac{b}{a}$），则$3\\sin\\alpha - \\cos\\alpha$对应的$\\sqrt{a^2 + b^2}$的值为$\\sqrt{3^2 + (-1)^2} = \\sqrt{10}$，是否正确？",
+          "answer": "正确。辅助角公式中$a$为$\\sin x$的系数，$b$为$\\cos x$的系数，需保留原有符号，本题中$\\cos\\alpha$的系数为$-1$，计算模长时平方后不影响结果，但确定$\\varphi$时需注意符号。高考易错点提醒：忽略$\\cos x$的符号会导致辅助角合并错误，是高考高频失分点。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "看到题目中给出$\\alpha+\\beta=\\frac{\\pi}{2}$的条件，首先应该进行什么转化操作？",
-          "standard_answer": "由$\\alpha+\\beta=\\frac{\\pi}{2}$得$\\beta=\\frac{\\pi}{2}-\\alpha$，利用诱导公式将$\\sin\\beta$转化为$\\cos\\alpha$，将双变量问题转化为仅含$\\alpha$的单变量问题。高考得分点：诱导公式的正确应用是本题的入门核心步骤，占1-2分；同类题型拓展：当已知两个角的和为$\\frac{\\pi}{2}$、$\\pi$等特殊角时，优先使用诱导公式统一变量，是三角恒等变换模块的高频考法。"
+          "question": "看到题干给出$\\alpha + \\beta = \\frac{\\pi}{2}$的两角和为特殊角的条件，第一步的标准解题动作是什么？",
+          "standard_answer": "由诱导公式得$\\beta = \\frac{\\pi}{2} - \\alpha$，因此$\\sin\\beta = \\cos\\alpha$，将双变量转化为单变量$\\alpha$。高考得分点：诱导公式的正确应用，实现消元；同类题型拓展：当题干给出两个角的和/差为特殊角（$\\frac{\\pi}{2}, \\pi, \\frac{\\pi}{3}$等）时，优先考虑用诱导公式或和差角公式消元，将多个未知角转化为单个未知角；高考高频考法：三角函数消元是求值类题目的核心第一步，每年必考。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "将$\\sin\\beta=\\cos\\alpha$代入$3\\sin\\alpha - \\sin\\beta = \\sqrt{10}$后，得到的式子是什么？下一步应使用什么方法求解？",
-          "standard_answer": "由代入得$3\\sin\\alpha - \\cos\\alpha = \\sqrt{10}$，下一步使用辅助角公式将左边合并为单一三角函数形式。高考得分点：变量统一后的正确化简是核心中间步骤，占2分；同类题型拓展：形如$a\\sin x + b\\cos x = c$的三角方程，优先使用辅助角公式合并为单一三角函数求解，是高考三角方程的标准解法。"
+          "question": "将$\\sin\\beta = \\cos\\alpha$代入$3\\sin\\alpha - \\sin\\beta = \\sqrt{10}$后，得到的式子是什么？接下来的标准处理方法是什么？",
+          "standard_answer": "由代入得$3\\sin\\alpha - \\cos\\alpha = \\sqrt{10}$，接下来使用辅助角公式将左侧合并为单个三角函数。高考得分点：辅助角公式的正确使用，将同角不同名的三角函数合并为单个三角函数求解；高考高频考法：辅助角公式是高考三角函数化简、求值、求最值的核心工具，几乎每年必考。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "已知$3\\sin\\alpha - \\cos\\alpha = \\sqrt{10}$，如何求出$\\sin\\alpha$的值？",
-          "standard_answer": "由辅助角公式合并得$\\sqrt{10}\\sin(\\alpha - \\varphi)=\\sqrt{10}$（其中$\\varphi$为锐角，$\\tan\\varphi=\\frac{1}{3}$），化简得$\\sin(\\alpha - \\varphi)=1$，即$\\alpha - \\varphi = \\frac{\\pi}{2} + 2k\\pi$（$k\\in\\mathbb{Z}$），因此$\\alpha = \\frac{\\pi}{2} + \\varphi + 2k\\pi$，故$\\sin\\alpha = \\sin(\\frac{\\pi}{2} + \\varphi) = \\cos\\varphi = \\frac{3}{\\sqrt{10}} = \\frac{3\\sqrt{10}}{10}$。高考得分点：辅助角公式的正确变形与三角函数值的求解是最终得分点，占2分；同类题型拓展：当三角方程右边等于左边合并后的振幅时，说明三角函数取最值，可直接得到角度关系，是高考高频考法。"
+          "question": "对$3\\sin\\alpha - \\cos\\alpha = \\sqrt{10}$使用辅助角公式合并后，如何求解$\\sin\\alpha$？",
+          "standard_answer": "由辅助角公式得$\\sqrt{10}\\sin(\\alpha - \\varphi) = \\sqrt{10}$（其中$\\tan\\varphi = \\frac{1}{3}$），因此$\\sin(\\alpha - \\varphi) = 1$，即$\\alpha - \\varphi = \\frac{\\pi}{2} + 2k\\pi$（$k\\in\\mathbb{Z}$），因此$\\sin\\alpha = \\sin(\\varphi + \\frac{\\pi}{2} + 2k\\pi) = \\cos\\varphi$，结合$\\tan\\varphi = \\frac{1}{3}$得$\\cos\\varphi = \\frac{3\\sqrt{10}}{10}$，即$\\sin\\alpha = \\frac{3\\sqrt{10}}{10}$。高考得分点：辅助角公式的合并结果，三角函数值的求解，同角三角函数基本关系的应用；同类题型拓展：当合并后的三角函数值为$\\pm1$时，对应的角度为轴线角，可直接通过诱导公式转化求解目标三角函数值。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "求出$\\sin\\alpha = \\frac{3\\sqrt{10}}{10}$后，无需代入原方程验证即可直接作为最终结果，是否正确？",
+          "answer": "错误。错误原因：求解三角函数值后必须代入原方程验证，避免符号错误或计算错误，本题中若错误得到$\\sin\\alpha = -\\frac{3\\sqrt{10}}{10}$，代入后左侧为负数，与右侧$\\sqrt{10} > 0$矛盾，可快速排除错误结果。高考易错点提醒：收尾验证是减少三角函数求值类题目失分的重要步骤，建议养成验证习惯。"
         }
       ]
     },
     {
-      "unit_content": "若$3\\sin \\alpha - \\sin \\beta = \\sqrt{10}$，$\\alpha+\\beta=\\frac{\\pi}{2}$，已求得$\\sin \\alpha = \\frac{3\\sqrt{10}}{10}$，则$\\cos 2\\beta =$______",
+      "unit_content": "若$3\\sin \\alpha - \\sin \\beta = \\sqrt{10}$，$\\alpha + \\beta = \\frac{\\pi}{2}$，则$\\cos 2\\beta =$______",
       "classify_result": "套路知识类",
       "pre_process": [
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "二倍角余弦公式有三种形式：$\\cos2\\beta = 2\\cos^2\\beta - 1 = 1 - 2\\sin^2\\beta = \\cos^2\\beta - \\sin^2\\beta$，这三个公式是否都正确？",
-          "answer": "正确。高考易错点提醒：二倍角余弦的三种形式要记牢，需根据已知条件选择最简便的形式计算，避免记错公式导致计算错误。"
+          "train_content": "已知$\\alpha + \\beta = \\frac{\\pi}{2}$，则$2\\beta = \\pi - 2\\alpha$，因此$\\cos2\\beta = \\cos2\\alpha$，是否正确？",
+          "answer": "错误。错误原因：诱导公式中$\\cos(\\pi - x) = -\\cos x$，因此$\\cos2\\beta = \\cos(\\pi - 2\\alpha) = -\\cos2\\alpha$。高考易错点提醒：记错诱导公式的符号是高频失分点，余弦函数为偶函数，但$\\pi - x$的余弦值为$-\\cos x$，需注意符号判定；正确结论：$\\cos2\\beta = -\\cos2\\alpha$，或通过$\\sin\\beta = \\cos\\alpha$结合二倍角公式计算。"
         },
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "已知$\\alpha+\\beta=\\frac{\\pi}{2}$，则$2\\beta = \\pi - 2\\alpha$，因此$\\cos2\\beta = \\cos2\\alpha$，这个结论是否正确？",
-          "answer": "错误。错误原因：诱导公式应用错误，$\\cos(\\pi - 2\\alpha) = -\\cos2\\alpha$（$\\pi$是$\\frac{\\pi}{2}$的偶数倍，函数名不变，$\\pi-2\\alpha$终边在第二象限，余弦值为负），因此$\\cos2\\beta = \\cos(\\pi - 2\\alpha) = -\\cos2\\alpha$。高考易错点提醒：应用$\\pi$相关的诱导公式时，必须注意符号的判断，避免符号错误。"
+          "train_content": "二倍角余弦公式$\\cos2x = 1 - 2\\sin^2x$仅适用于$x$为锐角的情况，是否正确？",
+          "answer": "错误。错误原因：二倍角余弦公式是三角恒等式，对任意实数$x$都成立，无角度范围限制。高考易错点提醒：三角函数恒等式的适用范围为全体实数（除非题干有特殊定义域限制），无需额外限定角度范围；正确结论：二倍角余弦的三种形式（$\\cos2x = \\cos^2x - \\sin^2x = 2\\cos^2x - 1 = 1 - 2\\sin^2x$）对任意$x\\in\\mathbb{R}$均成立。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "已知$\\sin\\alpha=\\frac{3\\sqrt{10}}{10}$，且$\\alpha+\\beta=\\frac{\\pi}{2}$，求$\\cos2\\beta$的第一种通用思路是什么？",
-          "standard_answer": "由$\\alpha+\\beta=\\frac{\\pi}{2}$得$\\beta=\\frac{\\pi}{2}-\\alpha$，故$2\\beta = \\pi - 2\\alpha$，因此$\\cos2\\beta = \\cos(\\pi - 2\\alpha) = -\\cos2\\alpha$，再代入二倍角公式$\\cos2\\alpha = 1 - 2\\sin^2\\alpha$计算即可。高考得分点：利用角度关系将$2\\beta$转化为与$\\alpha$相关的角，减少计算量，占2分；同类题型拓展：求与已知角相关的倍角、半角的三角函数值时，优先进行角度转化，是三角恒等变换的常用技巧。"
+          "question": "要求解$\\cos2\\beta$，基于题干已知条件，有哪些常用的标准解题路径？",
+          "standard_answer": "核心有两种路径：路径1：利用$\\beta = \\frac{\\pi}{2} - \\alpha$，将$2\\beta$转化为$\\pi - 2\\alpha$，因此$\\cos2\\beta = -\\cos2\\alpha$，结合已求出的$\\sin\\alpha$计算；路径2：先求$\\sin\\beta$，再利用二倍角公式$\\cos2\\beta = 1 - 2\\sin^2\\beta$计算。高考得分点：诱导公式、二倍角公式的灵活选择，根据已知条件选择最简便的计算路径；同类题型拓展：求解多倍角三角函数值时，优先考虑通过已知角的关系转化，或直接利用已求出的单角三角函数值代入公式。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "求$\\cos2\\beta$的第二种基础思路是什么？",
-          "standard_answer": "先由$\\alpha+\\beta=\\frac{\\pi}{2}$得$\\sin\\beta = \\cos\\alpha$，再由$\\sin\\alpha=\\frac{3\\sqrt{10}}{10}$计算得$\\cos\\alpha = \\sqrt{1 - \\sin^2\\alpha} = \\frac{\\sqrt{10}}{10}$（由$3\\sin\\alpha - \\cos\\alpha = \\sqrt{10}>0$可判断$\\cos\\alpha$为正），即$\\sin\\beta = \\frac{\\sqrt{10}}{10}$，再代入二倍角公式$\\cos2\\beta = 1 - 2\\sin^2\\beta$计算。高考得分点：直接利用$\\sin\\beta$的值计算二倍角，是通用基础解法，占2分；同类题型拓展：当已知单角的正弦值时，优先使用$1-2\\sin^2\\beta$计算$\\cos2\\beta$，避免开方带来的符号判断麻烦。"
+          "question": "若选择先求$\\sin\\beta$的路径，结合题干条件如何快速得到$\\sin\\beta$的正确值？",
+          "standard_answer": "由$\\alpha + \\beta = \\frac{\\pi}{2}$得$\\sin\\beta = \\cos\\alpha$，结合$\\sin\\alpha = \\frac{3\\sqrt{10}}{10}$，由同角三角函数基本关系$\\sin^2\\alpha + \\cos^2\\alpha = 1$得$\\cos\\alpha = \\pm\\frac{\\sqrt{10}}{10}$，再代入原方程$3\\sin\\alpha - \\sin\\beta = \\sqrt{10}$验证，得$\\cos\\alpha = -\\frac{\\sqrt{10}}{10}$，即$\\sin\\beta = -\\frac{\\sqrt{10}}{10}$。高考得分点：同角三角函数基本关系的应用，符号的判定（必须结合原方程验证，不能随意取正负）；高考高频考法：同角三角函数平方关系开方时的符号判定是高考必考易错点，必须结合题干条件或三角函数值范围确定符号。"
         },
         {
           "train_type": "套路反射训练",
-          "question": "计算$\\cos2\\beta$时，如何避免符号错误？",
-          "standard_answer": "先判断三角函数值的符号：由$3\\sin\\alpha - \\cos\\alpha = \\sqrt{10}>0$，结合辅助角公式可知$\\sin\\alpha$、$\\cos\\alpha$均为正，因此$\\sin\\beta = \\cos\\alpha>0$，代入$\\cos2\\beta = 1 - 2\\sin^2\\beta$计算得结果为正，即$\\frac{4}{5}$。高考得分点：符号判断是三角题的高频易错失分点，必须明确验证，占1分；同类题型拓展：所有三角函数求值问题，都要先判断角度范围或函数值符号，是高考必查的细节要求。"
+          "question": "得到$\\sin\\beta = -\\frac{\\sqrt{10}}{10}$后，如何计算$\\cos2\\beta$？",
+          "standard_answer": "代入二倍角公式$\\cos2\\beta = 1 - 2\\sin^2\\beta$，得$\\cos2\\beta = 1 - 2\\times(-\\frac{\\sqrt{10}}{10})^2 = 1 - \\frac{1}{5} = \\frac{4}{5}$。高考得分点：二倍角公式的正确代入，平方运算的符号处理（平方后符号消失，无需考虑符号）；同类题型拓展：当已知正弦值求余弦二倍角时，优先选择$\\cos2x = 1 - 2\\sin^2x$，可减少计算步骤，避免符号错误。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "计算$\\cos2\\beta$时，若使用公式$\\cos2\\beta = 2\\cos^2\\beta - 1$，需要先确定$\\cos\\beta$的符号，是否正确？",
+          "answer": "错误。错误原因：$\\cos^2\\beta$的结果为非负数，无论$\\cos\\beta$的符号如何，平方后结果一致，因此无需确定$\\cos\\beta$的符号，可直接通过$\\cos^2\\beta = 1 - \\sin^2\\beta$计算。高考易错点提醒：遇到平方运算时，注意分析符号是否会影响结果，可简化计算步骤，避免不必要的符号判定错误。"
         }
       ]
     }

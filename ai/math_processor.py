@@ -26,7 +26,7 @@ __all__ = [
     "MATH_AI_STAGE1",
     "MATH_AI_STAGE2",
     "split_and_classify",
-    "deep_parse_thinking",
+    "generate_guided_training",
     "process_math_question",
     "batch_process_math_questions",
 ]
@@ -148,7 +148,7 @@ def split_and_classify(
     return units
 
 
-def deep_parse_thinking(
+def generate_guided_training(
     question_text: str,
     answer_text: str,
     unit_content: str,
@@ -219,7 +219,7 @@ def process_math_question(
             elif unit.classify_result == "思维提升类":
                 try:
                     pre_process_str = unit.pre_process if isinstance(unit.pre_process, str) else json.dumps(unit.pre_process, ensure_ascii=False)
-                    deep_content = deep_parse_thinking(
+                    guided_content = generate_guided_training(
                         question_text=question_text,
                         answer_text=answer_text,
                         unit_content=unit.unit_content,
@@ -230,10 +230,10 @@ def process_math_question(
                     final_units.append(MathUnit(
                         unit_content=unit.unit_content,
                         classify_result=unit.classify_result,
-                        pre_process=deep_content,
+                        pre_process=guided_content,
                     ))
                 except Exception as e:
-                    logger.warning(f"思维提升类深度处理失败: {e}")
+                    logger.warning(f"思维提升类引导式训练生成失败: {e}")
                     final_units.append(unit)
             else:
                 final_units.append(unit)

@@ -47,41 +47,41 @@
   ],
   "math_processing_result": [
     {
-      "unit_content": "(1)求 $\\sin \\angle ABC$；",
+      "unit_content": "(1)求$\\sin \\angle ABC$；",
       "classify_result": "套路知识类",
       "pre_process": [
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "在△ABC中，已知两边AB、AC及其夹角∠BAC，由余弦定理求第三边BC的公式仅适用于锐角三角形，不适用于∠BAC为钝角的情况。",
-          "answer": "错误，错误原因：余弦定理对任意三角形（锐角、直角、钝角）均成立，当夹角为钝角时，其余弦值为负，代入公式后仍可正确计算对边长度；正确结论：$BC^2 = AB^2 + AC^2 - 2 \\cdot AB \\cdot AC \\cdot \\cos \\angle BAC$对任意三角形成立；高考易错点提醒：使用余弦定理时务必注意钝角的余弦值为负，避免符号错误导致计算结果出错。"
-        },
-        {
-          "train_type": "知识易错训练",
-          "train_form": "填空题",
-          "train_content": "$\\cos 120^\\circ$的取值为______。",
-          "answer": "$-\\frac{1}{2}$，高考易错点提醒：特殊角的三角函数值需结合角所在象限记忆，120°为第二象限角，余弦值为负，切勿误写为$\\frac{1}{2}$。"
-        },
-        {
-          "train_type": "套路反射训练",
-          "question": "在△ABC中，已知AB=2，AC=1，夹角∠BAC=120°，要求第三边BC的长度，应使用什么定理？写出对应的计算式。",
-          "standard_answer": "由余弦定理得$BC^2 = AB^2 + AC^2 - 2 \\cdot AB \\cdot AC \\cdot \\cos \\angle BAC$，代入数值得$BC^2 = 2^2 + 1^2 - 2 \\times 2 \\times 1 \\times \\cos 120^\\circ$；高考得分点说明：余弦定理的正确表述与边角匹配是本步骤核心得分点，若直接写出$BC=\\sqrt{7}$未写定理应用过程，会扣除步骤分；同类题型拓展提示：所有已知两边及夹角求第三边、已知三边求角的解三角形问题，均优先使用余弦定理求解。"
-        },
-        {
-          "train_type": "套路反射训练",
-          "question": "已求得$BC=\\sqrt{7}$，要求$\\sin \\angle ABC$，已知AC=1，∠BAC=120°，应使用什么定理？写出对应的边角匹配比例式。",
-          "standard_answer": "由正弦定理得$\\frac{AC}{\\sin \\angle ABC} = \\frac{BC}{\\sin \\angle BAC}$；高考得分点说明：正弦定理的边角对应关系是本步骤核心得分点，必须明确AC是∠ABC的对边，BC是∠BAC的对边，边角不匹配会导致整题计算错误；同类题型拓展提示：已知两边及其中一边的对角、已知两角及一边求边/角的问题，优先使用正弦定理求解。"
-        },
-        {
-          "train_type": "套路反射训练",
-          "question": "由上述正弦定理的比例式，推导$\\sin \\angle ABC$的最终结果。",
-          "standard_answer": "由比例式变形得$\\sin \\angle ABC = \\frac{AC \\cdot \\sin \\angle BAC}{BC}$，代入数值得$\\sin \\angle ABC = \\frac{1 \\times \\sin 120^\\circ}{\\sqrt{7}} = \\frac{\\sqrt{21}}{14}$；高考得分点说明：特殊角三角函数值的正确代入、根式的化简是本步骤得分点，结果必须化为最简根式；同类题型拓展提示：若题目要求求∠ABC的度数，需结合角的范围进一步判断，本题仅求正弦值无需额外判断。"
+          "train_content": "在△ABC中，余弦定理的表达式为$BC^2 = AB^2 + AC^2 - 2AB\\cdot AC \\cos \\angle BAC$，其中$\\angle BAC$是AB和AC的夹角，该表述是否正确？",
+          "answer": "正确。高考易错点提醒：余弦定理中，等式左侧边的平方对应的角是右侧两边的夹角，使用时必须保证边与角的对应关系正确，切忌记错公式中的减号或选错夹角，该点是高考解三角形的高频失分点。"
         },
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "在△ABC中，已知∠BAC=120°为钝角，求得$\\sin \\angle ABC = \\frac{\\sqrt{21}}{14}$，此时需要考虑∠ABC为钝角的情况，存在两个解。",
-          "answer": "错误，错误原因：三角形内角和为180°，若已有一个内角为120°钝角，其余两个内角之和仅为60°，因此∠ABC必为锐角，不存在钝角的可能；正确结论：该情况下$\\sin \\angle ABC$仅有唯一解$\\frac{\\sqrt{21}}{14}$；高考易错点提醒：求解三角形内角的三角函数值时，需结合已知角的范围判断解的个数，避免多解错误。"
+          "train_content": "正弦定理$\\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C}$中，a、b、c分别为角A、B、C的对边，该表述是否正确？",
+          "answer": "正确。高考易错点提醒：正弦定理的核心是“边的长度与对角的正弦值成正比”，对应关系错误会导致后续计算完全错误，是解三角形的基础易错点。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知△ABC中，AB=2，AC=1，$\\angle BAC=120^\\circ$，要求第三边BC的长度，应使用什么定理，写出核心计算式？",
+          "standard_answer": "由余弦定理得$BC^2 = AB^2 + AC^2 - 2AB\\cdot AC \\cos \\angle BAC$；高考得分点：明确已知条件为“两边及夹角”，正确选择余弦定理，公式书写规范，该步骤为高考解三角形基础题必拿分点；同类题型拓展：只要已知两边及夹角求第三边，优先直接套用余弦定理，无需额外转换，是高考高频考法。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知△ABC中AC=1，BC=$\\sqrt{7}$，$\\angle BAC=120^\\circ$，要求$\\sin \\angle ABC$，如何利用正弦定理建立等式？",
+          "standard_answer": "由正弦定理得$\\frac{AC}{\\sin \\angle ABC} = \\frac{BC}{\\sin \\angle BAC}$，变形得$\\sin \\angle ABC = \\frac{AC \\cdot \\sin \\angle BAC}{BC}$；高考得分点：准确匹配边与对角的对应关系（AC对应$\\angle ABC$，BC对应$\\angle BAC$），公式变形正确，该步骤为正弦定理应用的核心得分点；同类题型拓展：已知两边及其中一边的对角，求另一边的对角的三角函数值，优先使用正弦定理。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "代入数据计算$\\sin \\angle ABC$的最简结果是多少？",
+          "standard_answer": "代入$\\sin 120^\\circ=\\frac{\\sqrt{3}}{2}$、$BC=\\sqrt{7}$、AC=1，得$\\sin \\angle ABC = \\frac{1 \\times \\frac{\\sqrt{3}}{2}}{\\sqrt{7}} = \\frac{\\sqrt{21}}{14}$；高考得分点：特殊角三角函数值记忆准确，根式分母有理化正确，结果为最简形式；同类题型拓展：计算时注意$\\cos 120^\\circ=-\\frac{1}{2}$，符号错误会导致后续计算全部错误，需重点关注。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "本题中求出的$\\sin \\angle ABC=\\frac{\\sqrt{21}}{14}$，对应的$\\angle ABC$有锐角和钝角两种可能，均符合题意，该表述是否正确？",
+          "answer": "错误。错误原因：在△ABC中，AC=1<BC=$\\sqrt{7}$，根据“大边对大角”原则，$\\angle ABC < \\angle BAC=120^\\circ$，且AC为短边，故$\\angle ABC$只能是锐角；高考易错点提醒：解三角形时求出角的正弦值后，必须结合边的大小关系、三角形内角和判断角的范围，避免出现增根，该点是高考解三角形的高频易错点。"
         }
       ]
     },
@@ -92,35 +92,40 @@
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "在△ABC中，∠BAC=120°，D为BC上一点且∠BAD=90°，因此$\\angle DAC=\\angle BAC + \\angle BAD=210^\\circ$。",
-          "answer": "错误，错误原因：D在BC边上，因此AD位于∠BAC的内部，∠DAC应为∠BAC减去∠BAD；正确结论：$\\angle DAC = 120^\\circ - 90^\\circ = 30^\\circ$；高考易错点提醒：涉及角的拆分与合并时，必须先确认点的位置关系，明确角的包含关系，避免加减方向错误。"
-        },
-        {
-          "train_type": "知识易错训练",
-          "train_form": "填空题",
-          "train_content": "已知α为锐角，$\\sin \\alpha = \\frac{\\sqrt{21}}{14}$，则$\\cos \\alpha$的取值为______。",
-          "answer": "$\\frac{5\\sqrt{7}}{14}$，高考易错点提醒：由正弦值求余弦值时，必须先明确角的范围，确定余弦值的符号，锐角的余弦值为正，钝角的余弦值为负，切勿遗漏符号判断。"
-        },
-        {
-          "train_type": "套路反射训练",
-          "question": "在Rt△ABD中，∠BAD=90°，AB=2，已知$\\sin \\angle ABD = \\frac{\\sqrt{21}}{14}$且∠ABD为锐角，要求AD的长度，优先使用什么方法？写出推导过程。",
-          "standard_answer": "优先使用锐角三角函数的定义，先由同角三角函数基本关系求$\\tan \\angle ABD$，再由正切定义求AD，即$\\cos \\angle ABD = \\sqrt{1 - \\sin^2 \\angle ABD} = \\frac{5\\sqrt{7}}{14}$，$\\tan \\angle ABD = \\frac{\\sin \\angle ABD}{\\cos \\angle ABD} = \\frac{\\sqrt{3}}{5}$，因此$AD = AB \\cdot \\tan \\angle ABD$；高考得分点说明：同角三角函数的平方关系、直角三角形中锐角正切的定义是本步骤得分点，必须明确标注∠ABD为锐角，因此余弦值为正，直接写$\\tan \\angle ABD$的值会扣除步骤分；同类题型拓展提示：直角三角形中的边角计算优先使用锐角三角函数定义，比正弦定理更简洁高效。"
-        },
-        {
-          "train_type": "套路反射训练",
-          "question": "已求得$AD = \\frac{2\\sqrt{3}}{5}$，AC=1，∠DAC=30°，求△ADC的面积，写出对应的计算式。",
-          "standard_answer": "由两边及夹角的三角形面积公式得$S_{\\triangle ADC} = \\frac{1}{2} \\cdot AD \\cdot AC \\cdot \\sin \\angle DAC$，代入数值得$S_{\\triangle ADC} = \\frac{1}{2} \\times \\frac{2\\sqrt{3}}{5} \\times 1 \\times \\sin 30^\\circ$；高考得分点说明：面积公式的正确应用是本步骤核心得分点，切勿遗漏系数$\\frac{1}{2}$；同类题型拓展提示：已知三角形两边及夹角时，优先使用该面积公式，比求底和高的方法更快捷。"
-        },
-        {
-          "train_type": "套路反射训练",
-          "question": "若采用面积比法求解△ADC的面积，已知△ABC的总面积为$\\frac{\\sqrt{3}}{2}$，写出$\\frac{S_{\\triangle ADC}}{S_{\\triangle ABD}}$的推导过程及最终结果。",
-          "standard_answer": "由三角形面积公式得$\\frac{S_{\\triangle ADC}}{S_{\\triangle ABD}} = \\frac{\\frac{1}{2} \\cdot AD \\cdot AC \\cdot \\sin 30^\\circ}{\\frac{1}{2} \\cdot AD \\cdot AB \\cdot \\sin 90^\\circ} = \\frac{AC \\cdot \\sin 30^\\circ}{AB \\cdot \\sin 90^\\circ} = \\frac{1}{4}$，因此$S_{\\triangle ADC} = \\frac{1}{1+4} S_{\\triangle ABC} = \\frac{1}{5} \\times \\frac{\\sqrt{3}}{2} = \\frac{\\sqrt{3}}{10}$；高考得分点说明：面积比的推导过程是本步骤得分点，高考大题作答时必须完整写出面积比的推导过程，禁止直接使用比例关系；高考使用规范：本面积比方法仅可在选择/填空题中直接使用，高考大题作答时必须先完成推导，否则会扣除步骤分。"
+          "train_content": "已知α是三角形的内角，且$\\sin \\alpha = \\frac{\\sqrt{21}}{14}$，则$\\cos \\alpha = \\sqrt{1 - (\\frac{\\sqrt{21}}{14})^2} = \\frac{5\\sqrt{7}}{14}$，该计算是否正确？",
+          "answer": "错误。错误原因：没有先确定α的范围就直接将余弦值取正，若α为钝角，$\\cos \\alpha$应为负；高考易错点提醒：三角形内角的余弦值符号由角的类型（锐角/钝角）决定，必须先结合“大边对大角”判断角的范围，再确定余弦值的符号，避免符号错误。"
         },
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "计算△ADC的面积时，已知AD、AC的长度和∠DAC的度数，使用面积公式$S = \\frac{1}{2} \\cdot AD \\cdot AC \\cdot \\sin \\angle DAC$，其中的角可以是任意内角，无需为两边的夹角。",
-          "answer": "错误，错误原因：该面积公式中的角必须是已知两边的夹角，否则无法直接使用；正确结论：本题中∠DAC是AD和AC的夹角，因此可以直接使用该公式；高考易错点提醒：使用两边及夹角的面积公式时，务必确认角为两边的夹角，避免误用公式导致结果错误。"
+          "train_content": "三角形面积公式$S = \\frac{1}{2}ab\\sin C$中，角C是边a和边b的任意夹角，该表述是否正确？",
+          "answer": "错误。错误原因：角C必须是边a和边b的夹角，即两边所夹的角，若为其他角则公式不成立；高考易错点提醒：使用该面积公式时，必须保证角是对应两边的夹角，选错角会导致面积计算错误，是高考高频失分点。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知$\\sin \\angle ABC = \\frac{\\sqrt{21}}{14}$，且$\\angle ABC$是锐角，如何求$\\tan \\angle ABC$？",
+          "standard_answer": "先由同角三角函数的基本关系得$\\cos \\angle ABC = \\sqrt{1 - \\sin^2 \\angle ABC} = \\frac{5\\sqrt{7}}{14}$，再由$\\tan \\angle ABC = \\frac{\\sin \\angle ABC}{\\cos \\angle ABC}$得$\\tan \\angle ABC = \\frac{\\sqrt{3}}{5}$；高考得分点：正确判断$\\angle ABC$为锐角，余弦值取正，同角三角函数关系应用正确；同类题型拓展：已知角的正弦值求正切值，必须先确定角的范围，避免符号错误，是高考三角函数的基础考法。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "在Rt△ABD中，$\\angle BAD=90^\\circ$，AB=2，$\\tan \\angle ABD = \\frac{\\sqrt{3}}{5}$，如何求AD的长度？",
+          "standard_answer": "由直角三角形的边角关系得$\\tan \\angle ABD = \\frac{AD}{AB}$，故$AD = AB \\cdot \\tan \\angle ABD = 2 \\times \\frac{\\sqrt{3}}{5} = \\frac{2\\sqrt{3}}{5}$；高考得分点：正确识别直角三角形中边角的对应关系，变形计算正确；同类题型拓展：直角三角形中已知一个锐角和一条直角边，求另一条直角边，优先使用正切函数，避免引入斜边计算，简化步骤。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知$\\angle BAC=120^\\circ$，$\\angle BAD=90^\\circ$，且D在BC上，求$\\angle DAC$的大小？",
+          "standard_answer": "由角的和差关系得$\\angle DAC = \\angle BAC - \\angle BAD = 120^\\circ - 90^\\circ = 30^\\circ$；高考得分点：明确D在BC上，故$\\angle BAD$在$\\angle BAC$内部，角的差计算正确；同类题型拓展：涉及三角形内部角的拆分时，必须结合点的位置判断角的和差关系，避免角度计算错误。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "已知AD=$\\frac{2\\sqrt{3}}{5}$，AC=1，$\\angle DAC=30^\\circ$，求△ADC的面积？",
+          "standard_answer": "由三角形面积公式得$S_{\\triangle ADC} = \\frac{1}{2} \\cdot AD \\cdot AC \\cdot \\sin \\angle DAC = \\frac{1}{2} \\times \\frac{2\\sqrt{3}}{5} \\times 1 \\times \\frac{1}{2} = \\frac{\\sqrt{3}}{10}$；高考得分点：正确选择两边及夹角的面积公式，特殊角三角函数值记忆正确，计算结果最简；同类题型拓展：已知两边及夹角求三角形面积，优先使用该公式，是高考解三角形的高频考法。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "本题中△ADC的面积用“底乘高除以2”（DC为底，A到BC的高为高）的方法计算，结果会与标准答案不同，该表述是否正确？",
+          "answer": "错误。错误原因：不同的面积计算方法得到的结果是唯一的，均为$\\frac{\\sqrt{3}}{10}$，仅解题路径不同；高考易错点提醒：解三角形求面积时，可通过多种方法交叉验证结果的正确性，避免计算错误。"
         }
       ]
     }

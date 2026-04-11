@@ -32,6 +32,14 @@ from ai.advanced import (
     extract_markdown_code,
 )
 from ai.workflow import AIContext, Question, batch_ai
+from ai.chinese_modern_text_processor import (
+    ChineseModernTextResult,
+    get_chinese_modern_text_prompt,
+    generate_chinese_modern_text_training,
+    process_chinese_modern_text_question,
+    batch_process_chinese_modern_text,
+    get_chinese_questions_without_training,
+)
 
 __all__ = [
     "AI",
@@ -60,4 +68,10 @@ __all__ = [
     "parallel_map",
     "parallel_map_safe",
     "run_batch",
+    "ChineseModernTextResult",
+    "get_chinese_modern_text_prompt",
+    "generate_chinese_modern_text_training",
+    "process_chinese_modern_text_question",
+    "batch_process_chinese_modern_text",
+    "get_chinese_questions_without_training",
 ]

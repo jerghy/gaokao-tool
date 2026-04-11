@@ -1,0 +1,5 @@
+- [x] `deep_parse_thinking()` 已重命名为 `generate_guided_training()`
+- [x] `__all__` 导出列表已更新
+- [x] `process_math_question()` 中的函数调用已更新
+- [x] 函数文档字符串已更新，反映"深度思维引导式训练"功能定位
+- [x] 代码风格与现有代码保持一致

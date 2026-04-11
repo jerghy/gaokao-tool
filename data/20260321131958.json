@@ -45,41 +45,158 @@
   ],
   "math_processing_result": [
     {
-      "unit_content": "6. (2022 新高考$II$, 6, 5 分) 若 $\\sin(\\alpha+\\beta)+\\cos(\\alpha+\\beta)=2\\sqrt{2}\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta$，则\nA.$\\tan(\\alpha-\\beta)=1$\nB.$\\tan(\\alpha+\\beta)=1$\nC.$\\tan(\\alpha-\\beta)=-1$\nD.$\\tan(\\alpha+\\beta)=-1$",
+      "unit_content": "若 $\\sin(\\alpha+\\beta)+\\cos(\\alpha+\\beta)=2\\sqrt{2}\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta$, 则 $\\tan(\\alpha-\\beta)=1$",
       "classify_result": "套路知识类",
       "pre_process": [
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "两角和的余弦公式为 $\\cos(A+B) = \\cos A \\cos B + \\sin A \\sin B$",
-          "answer": "错误，错误原因：两角和的余弦公式的交叉项符号为负，正确结论为 $\\cos(A+B) = \\cos A \\cos B - \\sin A \\sin B$，高考易错点提醒：三角恒等变换中，和差角的余弦公式符号与正弦公式相反，是高频失分点，展开复合角时需优先核对符号。"
-        },
-        {
-          "train_type": "知识易错训练",
-          "train_form": "填空题",
-          "train_content": "将 $\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)$ 展开为单角$\\alpha$的三角函数形式，其中$\\sin\\alpha$的系数为______",
-          "answer": "$-\\frac{\\sqrt{2}}{2}$"
-        },
-        {
-          "train_type": "套路反射训练",
-          "question": "看到等式左侧形如 $\\sin(\\alpha+\\beta) + \\cos(\\alpha+\\beta)$ 的同角正余弦线性组合结构，优先采用什么公式进行化简？",
-          "standard_answer": "由同角正余弦线性组合的特征得，优先采用辅助角公式化简，可将其变形为 $\\sqrt{2}\\sin\\left(\\alpha+\\beta+\\frac{\\pi}{4}\\right)$ 或 $\\sqrt{2}\\cos\\left(\\alpha+\\beta-\\frac{\\pi}{4}\\right)$，高考得分点说明：辅助角变换是三角恒等变换的核心第一步化简手段，可有效减少复合角的数量，同类题型拓展提示：所有同角正余弦的和差结构都可优先尝试辅助角化简，高考高频考法：结合和差角、二倍角公式进行复合化简。"
-        },
-        {
-          "train_type": "套路反射训练",
-          "question": "化简等式 $\\sqrt{2}\\cos\\left(\\alpha+\\beta-\\frac{\\pi}{4}\\right) = 2\\sqrt{2}\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta$ 时，第一步的标准简化操作是什么？",
-          "standard_answer": "由等式两边存在非零公因子的特征得，优先约去两边非零公因子$\\sqrt{2}$，得到 $\\cos\\left(\\alpha+\\beta-\\frac{\\pi}{4}\\right) = 2\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta$，高考得分点说明：约去非零公因子是化简三角等式的常见简化操作，需注意确认公因子不为零（本题中$\\sqrt{2} \\neq 0$，可直接约去），同类题型拓展提示：若公因子含三角函数，需先讨论公因子为0的情况再约去，避免漏解，高考高频考法：结合角的拆分构造进行后续化简。"
-        },
-        {
-          "train_type": "套路反射训练",
-          "question": "当三角等式中含有多个复合角，且辅助角化简后仍无法直接得到正切相关结论时，优先采用什么操作？",
-          "standard_answer": "由复合角的结构特征得，优先将所有复合角用和差角公式展开为单角$\\alpha$、$\\beta$的三角函数形式，再合并同类项，高考得分点说明：复合角展开为单角是三角恒等变换的核心化简思路，可将复杂的复合角关系转化为单角的线性组合，同类题型拓展提示：若展开后出现正余弦的齐次式，可优先考虑同除以$\\cos\\alpha\\cos\\beta$（需确认不为零）构造正切，高考高频考法：结合两角和差的正切公式进行最终结论推导。"
+          "train_content": "辅助角公式 $\\sin x + \\cos x = \\sqrt{2}\\sin\\left(x - \\frac{\\pi}{4}\\right)$ 是否正确？",
+          "answer": "错误。错误原因：辅助角公式展开为 $\\sin x + \\cos x = \\sqrt{2}\\left(\\frac{\\sqrt{2}}{2}\\sin x + \\frac{\\sqrt{2}}{2}\\cos x\\right) = \\sqrt{2}\\sin\\left(x + \\frac{\\pi}{4}\\right)$，相位应为加 $\\frac{\\pi}{4}$ 而非减。高考易错点提醒：辅助角公式的相位符号是高频失分点，推导时要结合两角和的正弦公式验证，避免死记硬背记错符号。"
         },
         {
           "train_type": "知识易错训练",
           "train_form": "判断题",
-          "train_content": "在正余弦齐次式两边同时除以$\\cos\\alpha\\cos\\beta$构造正切时，无需考虑$\\cos\\alpha$或$\\cos\\beta$为零的情况，可直接相除。",
-          "answer": "错误，错误原因：若$\\cos\\alpha=0$或$\\cos\\beta=0$，则除法无意义，需先验证该情况是否符合原等式，正确结论：本题中若$\\cos\\alpha=0$，代入原等式化简后矛盾，故$\\cos\\alpha \\neq 0$，同理$\\cos\\beta \\neq 0$，可直接相除，高考易错点提醒：齐次式同除三角函数构造正切时，必须确认分母不为零，高考大题作答时需补充该验证步骤，否则会扣除步骤分。"
+          "train_content": "角的配凑只能采用唯一的拆分方式，否则无法解题。",
+          "answer": "错误。错误原因：角的拆分方式有多种，代数上均成立，仅存在是否贴合题干结构、是否简化推导的区别。本题中 $\\alpha+\\beta+\\frac{\\pi}{4}$ 既可以拆为 $(\\alpha+\\beta)+\\frac{\\pi}{4}$，也可以拆为 $(\\alpha+\\frac{\\pi}{4})+\\beta$，后者更匹配题干中已有的 $\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)$ 和 $\\sin\\beta$，能大幅简化推导。高考易错点提醒：角的配凑要优先匹配题干中已出现的独立角，减少角的种类，提升解题效率。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "看到等式左边出现 $\\sin(\\alpha+\\beta) + \\cos(\\alpha+\\beta)$ 的同角正弦加余弦结构，第一步应该执行什么标准操作？",
+          "standard_answer": "由辅助角公式得 $\\sin(\\alpha+\\beta) + \\cos(\\alpha+\\beta) = \\sqrt{2}\\sin\\left(\\alpha+\\beta+\\frac{\\pi}{4}\\right)$（或等价的 $\\sqrt{2}\\cos\\left(\\alpha+\\beta-\\frac{\\pi}{4}\\right)$）。高考得分点说明：辅助角公式的正确应用是本题的第一个核心得分点，占1-2分；同类题型拓展提示：所有形如 $a\\sin x + b\\cos x$ 的结构，都优先用辅助角公式合并为单一三角函数，是三角恒等变换化简的通用第一步操作；高考高频考法提醒：辅助角公式常结合和差角公式、化简求值、三角函数性质考察，相位符号、振幅计算是高频失分点。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "将左边合并后代入原等式，约去公共系数 $\\sqrt{2}$ 后得到 $\\sin\\left(\\alpha+\\beta+\\frac{\\pi}{4}\\right) = 2\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta$，为了匹配右边的两个独立角，应该如何拆分左边的角？",
+          "standard_answer": "由角的配凑原则，将左边的 $\\alpha+\\beta+\\frac{\\pi}{4}$ 拆分为 $\\left(\\alpha+\\frac{\\pi}{4}\\right) + \\beta$，与右边的两个角完全匹配。高考得分点说明：正确的角拆分是本题的核心解题步骤，占2分；同类题型拓展提示：当等式两边出现多个不同角时，优先将复杂角拆分为题干中已有的简单角的和/差，减少角的种类，避免引入新的未知角；高考高频考法提醒：角的配凑是三角恒等变换的核心套路，常见配凑如 $2\\alpha = (\\alpha+\\beta)+(\\alpha-\\beta)$、$\\beta = (\\alpha+\\beta)-\\alpha$ 等，要熟练掌握。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "将左边用正弦和角公式展开并移项后，得到 $\\sin\\left(\\alpha+\\frac{\\pi}{4}\\right)\\cos\\beta - \\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta = 0$，下一步应该执行什么标准操作？",
+          "standard_answer": "由正弦差角公式逆用，得 $\\sin\\left(\\left(\\alpha+\\frac{\\pi}{4}\\right)-\\beta\\right) = \\sin\\left(\\alpha-\\beta+\\frac{\\pi}{4}\\right) = 0$。高考得分点说明：差角公式的逆用是本题的第三个核心得分点，占1分；同类题型拓展提示：当出现 $\\sin A\\cos B \\pm \\cos A\\sin B$ 的结构时，直接逆用和差角公式合并为单一三角函数，是三角恒等变换的常用化简技巧；高考高频考法提醒：和差角公式的正用、逆用、变形用都是高考必考点，要熟练识别公式结构特征。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "由 $\\sin\\left(\\alpha-\\beta+\\frac{\\pi}{4}\\right)=0$ 推导得到 $\\tan(\\alpha-\\beta)=1$，该结论是否正确？",
+          "answer": "错误。错误原因：由 $\\sin\\left(\\alpha-\\beta+\\frac{\\pi}{4}\\right)=0$ 得 $\\alpha-\\beta+\\frac{\\pi}{4}=k\\pi,k\\in\\mathbb{Z}$，即 $\\alpha-\\beta = k\\pi - \\frac{\\pi}{4}$，因此 $\\tan(\\alpha-\\beta) = \\tan\\left(k\\pi - \\frac{\\pi}{4}\\right) = \\tan\\left(-\\frac{\\pi}{4}\\right) = -1$，而非1。高考易错点提醒：应用诱导公式时，要注意正切函数的奇偶性和周期性，$\\tan(k\\pi + x) = \\tan x$，$\\tan(-x) = -\\tan x$，避免符号错误。"
+        }
+      ]
+    },
+    {
+      "unit_content": "若 $\\sin(\\alpha+\\beta)+\\cos(\\alpha+\\beta)=2\\sqrt{2}\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta$, 则 $\\tan(\\alpha+\\beta)=1$",
+      "classify_result": "套路知识类",
+      "pre_process": [
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "辅助角公式 $\\sin x + \\cos x = \\sqrt{2}\\sin\\left(x - \\frac{\\pi}{4}\\right)$ 是否正确？",
+          "answer": "错误。错误原因：辅助角公式展开为 $\\sin x + \\cos x = \\sqrt{2}\\left(\\frac{\\sqrt{2}}{2}\\sin x + \\frac{\\sqrt{2}}{2}\\cos x\\right) = \\sqrt{2}\\sin\\left(x + \\frac{\\pi}{4}\\right)$，相位应为加 $\\frac{\\pi}{4}$ 而非减。高考易错点提醒：辅助角公式的相位符号是高频失分点，推导时要结合两角和的正弦公式验证，避免死记硬背记错符号。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "角的配凑只能采用唯一的拆分方式，否则无法解题。",
+          "answer": "错误。错误原因：角的拆分方式有多种，代数上均成立，仅存在是否贴合题干结构、是否简化推导的区别。本题中 $\\alpha+\\beta+\\frac{\\pi}{4}$ 既可以拆为 $(\\alpha+\\beta)+\\frac{\\pi}{4}$，也可以拆为 $(\\alpha+\\frac{\\pi}{4})+\\beta$，后者更匹配题干中已有的 $\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)$ 和 $\\sin\\beta$，能大幅简化推导。高考易错点提醒：角的配凑要优先匹配题干中已出现的独立角，减少角的种类，提升解题效率。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "看到等式左边出现 $\\sin(\\alpha+\\beta) + \\cos(\\alpha+\\beta)$ 的同角正弦加余弦结构，第一步应该执行什么标准操作？",
+          "standard_answer": "由辅助角公式得 $\\sin(\\alpha+\\beta) + \\cos(\\alpha+\\beta) = \\sqrt{2}\\sin\\left(\\alpha+\\beta+\\frac{\\pi}{4}\\right)$（或等价的 $\\sqrt{2}\\cos\\left(\\alpha+\\beta-\\frac{\\pi}{4}\\right)$）。高考得分点说明：辅助角公式的正确应用是本题的第一个核心得分点，占1-2分；同类题型拓展提示：所有形如 $a\\sin x + b\\cos x$ 的结构，都优先用辅助角公式合并为单一三角函数，是三角恒等变换化简的通用第一步操作；高考高频考法提醒：辅助角公式常结合和差角公式、化简求值、三角函数性质考察，相位符号、振幅计算是高频失分点。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "将左边合并后代入原等式，约去公共系数 $\\sqrt{2}$ 后得到 $\\sin\\left(\\alpha+\\beta+\\frac{\\pi}{4}\\right) = 2\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta$，为了匹配右边的两个独立角，应该如何拆分左边的角？",
+          "standard_answer": "由角的配凑原则，将左边的 $\\alpha+\\beta+\\frac{\\pi}{4}$ 拆分为 $\\left(\\alpha+\\frac{\\pi}{4}\\right) + \\beta$，与右边的两个角完全匹配。高考得分点说明：正确的角拆分是本题的核心解题步骤，占2分；同类题型拓展提示：当等式两边出现多个不同角时，优先将复杂角拆分为题干中已有的简单角的和/差，减少角的种类，避免引入新的未知角；高考高频考法提醒：角的配凑是三角恒等变换的核心套路，常见配凑如 $2\\alpha = (\\alpha+\\beta)+(\\alpha-\\beta)$、$\\beta = (\\alpha+\\beta)-\\alpha$ 等，要熟练掌握。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "将左边用正弦和角公式展开并移项后，得到 $\\sin\\left(\\alpha+\\frac{\\pi}{4}\\right)\\cos\\beta - \\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta = 0$，下一步应该执行什么标准操作？",
+          "standard_answer": "由正弦差角公式逆用，得 $\\sin\\left(\\left(\\alpha+\\frac{\\pi}{4}\\right)-\\beta\\right) = \\sin\\left(\\alpha-\\beta+\\frac{\\pi}{4}\\right) = 0$。高考得分点说明：差角公式的逆用是本题的第三个核心得分点，占1分；同类题型拓展提示：当出现 $\\sin A\\cos B \\pm \\cos A\\sin B$ 的结构时，直接逆用和差角公式合并为单一三角函数，是三角恒等变换的常用化简技巧；高考高频考法提醒：和差角公式的正用、逆用、变形用都是高考必考点，要熟练识别公式结构特征。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "由 $\\sin\\left(\\alpha-\\beta+\\frac{\\pi}{4}\\right)=0$ 推导得到 $\\tan(\\alpha+\\beta)=1$，该结论是否正确？",
+          "answer": "错误。错误原因：由 $\\sin\\left(\\alpha-\\beta+\\frac{\\pi}{4}\\right)=0$ 仅能得到 $\\alpha-\\beta$ 的表达式，无法直接推出 $\\alpha+\\beta$ 的正切值，代入特殊值验证：令 $\\alpha=0,\\beta=\\frac{\\pi}{4}$，满足原等式，此时 $\\tan(\\alpha+\\beta)=\\tan\\frac{\\pi}{4}=1$，但再令 $\\alpha=-\\frac{\\pi}{4},\\beta=0$，也满足原等式，此时 $\\tan(\\alpha+\\beta)=\\tan\\left(-\\frac{\\pi}{4}\\right)=-1$，因此该结论不恒成立。高考易错点提醒：推导结论时要确保恒成立，特殊值验证时要至少代入两组不同的参数，避免因特殊值的偶然性判断错误。"
+        }
+      ]
+    },
+    {
+      "unit_content": "若 $\\sin(\\alpha+\\beta)+\\cos(\\alpha+\\beta)=2\\sqrt{2}\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta$, 则 $\\tan(\\alpha-\\beta)=-1$",
+      "classify_result": "套路知识类",
+      "pre_process": [
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "辅助角公式 $\\sin x + \\cos x = \\sqrt{2}\\sin\\left(x - \\frac{\\pi}{4}\\right)$ 是否正确？",
+          "answer": "错误。错误原因：辅助角公式展开为 $\\sin x + \\cos x = \\sqrt{2}\\left(\\frac{\\sqrt{2}}{2}\\sin x + \\frac{\\sqrt{2}}{2}\\cos x\\right) = \\sqrt{2}\\sin\\left(x + \\frac{\\pi}{4}\\right)$，相位应为加 $\\frac{\\pi}{4}$ 而非减。高考易错点提醒：辅助角公式的相位符号是高频失分点，推导时要结合两角和的正弦公式验证，避免死记硬背记错符号。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "角的配凑只能采用唯一的拆分方式，否则无法解题。",
+          "answer": "错误。错误原因：角的拆分方式有多种，代数上均成立，仅存在是否贴合题干结构、是否简化推导的区别。本题中 $\\alpha+\\beta+\\frac{\\pi}{4}$ 既可以拆为 $(\\alpha+\\beta)+\\frac{\\pi}{4}$，也可以拆为 $(\\alpha+\\frac{\\pi}{4})+\\beta$，后者更匹配题干中已有的 $\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)$ 和 $\\sin\\beta$，能大幅简化推导。高考易错点提醒：角的配凑要优先匹配题干中已出现的独立角，减少角的种类，提升解题效率。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "看到等式左边出现 $\\sin(\\alpha+\\beta) + \\cos(\\alpha+\\beta)$ 的同角正弦加余弦结构，第一步应该执行什么标准操作？",
+          "standard_answer": "由辅助角公式得 $\\sin(\\alpha+\\beta) + \\cos(\\alpha+\\beta) = \\sqrt{2}\\sin\\left(\\alpha+\\beta+\\frac{\\pi}{4}\\right)$（或等价的 $\\sqrt{2}\\cos\\left(\\alpha+\\beta-\\frac{\\pi}{4}\\right)$）。高考得分点说明：辅助角公式的正确应用是本题的第一个核心得分点，占1-2分；同类题型拓展提示：所有形如 $a\\sin x + b\\cos x$ 的结构，都优先用辅助角公式合并为单一三角函数，是三角恒等变换化简的通用第一步操作；高考高频考法提醒：辅助角公式常结合和差角公式、化简求值、三角函数性质考察，相位符号、振幅计算是高频失分点。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "将左边合并后代入原等式，约去公共系数 $\\sqrt{2}$ 后得到 $\\sin\\left(\\alpha+\\beta+\\frac{\\pi}{4}\\right) = 2\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta$，为了匹配右边的两个独立角，应该如何拆分左边的角？",
+          "standard_answer": "由角的配凑原则，将左边的 $\\alpha+\\beta+\\frac{\\pi}{4}$ 拆分为 $\\left(\\alpha+\\frac{\\pi}{4}\\right) + \\beta$，与右边的两个角完全匹配。高考得分点说明：正确的角拆分是本题的核心解题步骤，占2分；同类题型拓展提示：当等式两边出现多个不同角时，优先将复杂角拆分为题干中已有的简单角的和/差，减少角的种类，避免引入新的未知角；高考高频考法提醒：角的配凑是三角恒等变换的核心套路，常见配凑如 $2\\alpha = (\\alpha+\\beta)+(\\alpha-\\beta)$、$\\beta = (\\alpha+\\beta)-\\alpha$ 等，要熟练掌握。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "将左边用正弦和角公式展开并移项后，得到 $\\sin\\left(\\alpha+\\frac{\\pi}{4}\\right)\\cos\\beta - \\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta = 0$，下一步应该执行什么标准操作？",
+          "standard_answer": "由正弦差角公式逆用，得 $\\sin\\left(\\left(\\alpha+\\frac{\\pi}{4}\\right)-\\beta\\right) = \\sin\\left(\\alpha-\\beta+\\frac{\\pi}{4}\\right) = 0$。高考得分点说明：差角公式的逆用是本题的第三个核心得分点，占1分；同类题型拓展提示：当出现 $\\sin A\\cos B \\pm \\cos A\\sin B$ 的结构时，直接逆用和差角公式合并为单一三角函数，是三角恒等变换的常用化简技巧；高考高频考法提醒：和差角公式的正用、逆用、变形用都是高考必考点，要熟练识别公式结构特征。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "由 $\\sin\\left(\\alpha-\\beta+\\frac{\\pi}{4}\\right)=0$ 推导得到 $\\tan(\\alpha-\\beta)=-1$，该结论是否正确？",
+          "answer": "正确。推导过程：由 $\\sin\\left(\\alpha-\\beta+\\frac{\\pi}{4}\\right)=0$ 得 $\\alpha-\\beta+\\frac{\\pi}{4}=k\\pi,k\\in\\mathbb{Z}$，即 $\\alpha-\\beta = k\\pi - \\frac{\\pi}{4}$，两边取正切，$\\tan(\\alpha-\\beta) = \\tan\\left(k\\pi - \\frac{\\pi}{4}\\right) = -\\tan\\frac{\\pi}{4} = -1$，且 $\\cos(\\alpha-\\beta) = \\cos\\left(k\\pi - \\frac{\\pi}{4}\\right) = \\pm\\frac{\\sqrt{2}}{2}\\neq0$，正切有意义，因此结论恒成立。高考易错点提醒：取正切前要确认余弦值不为0，避免出现无意义的情况，保证推导的严谨性。"
+        }
+      ]
+    },
+    {
+      "unit_content": "若 $\\sin(\\alpha+\\beta)+\\cos(\\alpha+\\beta)=2\\sqrt{2}\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta$, 则 $\\tan(\\alpha+\\beta)=-1$",
+      "classify_result": "套路知识类",
+      "pre_process": [
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "辅助角公式 $\\sin x + \\cos x = \\sqrt{2}\\sin\\left(x - \\frac{\\pi}{4}\\right)$ 是否正确？",
+          "answer": "错误。错误原因：辅助角公式展开为 $\\sin x + \\cos x = \\sqrt{2}\\left(\\frac{\\sqrt{2}}{2}\\sin x + \\frac{\\sqrt{2}}{2}\\cos x\\right) = \\sqrt{2}\\sin\\left(x + \\frac{\\pi}{4}\\right)$，相位应为加 $\\frac{\\pi}{4}$ 而非减。高考易错点提醒：辅助角公式的相位符号是高频失分点，推导时要结合两角和的正弦公式验证，避免死记硬背记错符号。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "角的配凑只能采用唯一的拆分方式，否则无法解题。",
+          "answer": "错误。错误原因：角的拆分方式有多种，代数上均成立，仅存在是否贴合题干结构、是否简化推导的区别。本题中 $\\alpha+\\beta+\\frac{\\pi}{4}$ 既可以拆为 $(\\alpha+\\beta)+\\frac{\\pi}{4}$，也可以拆为 $(\\alpha+\\frac{\\pi}{4})+\\beta$，后者更匹配题干中已有的 $\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)$ 和 $\\sin\\beta$，能大幅简化推导。高考易错点提醒：角的配凑要优先匹配题干中已出现的独立角，减少角的种类，提升解题效率。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "看到等式左边出现 $\\sin(\\alpha+\\beta) + \\cos(\\alpha+\\beta)$ 的同角正弦加余弦结构，第一步应该执行什么标准操作？",
+          "standard_answer": "由辅助角公式得 $\\sin(\\alpha+\\beta) + \\cos(\\alpha+\\beta) = \\sqrt{2}\\sin\\left(\\alpha+\\beta+\\frac{\\pi}{4}\\right)$（或等价的 $\\sqrt{2}\\cos\\left(\\alpha+\\beta-\\frac{\\pi}{4}\\right)$）。高考得分点说明：辅助角公式的正确应用是本题的第一个核心得分点，占1-2分；同类题型拓展提示：所有形如 $a\\sin x + b\\cos x$ 的结构，都优先用辅助角公式合并为单一三角函数，是三角恒等变换化简的通用第一步操作；高考高频考法提醒：辅助角公式常结合和差角公式、化简求值、三角函数性质考察，相位符号、振幅计算是高频失分点。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "将左边合并后代入原等式，约去公共系数 $\\sqrt{2}$ 后得到 $\\sin\\left(\\alpha+\\beta+\\frac{\\pi}{4}\\right) = 2\\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta$，为了匹配右边的两个独立角，应该如何拆分左边的角？",
+          "standard_answer": "由角的配凑原则，将左边的 $\\alpha+\\beta+\\frac{\\pi}{4}$ 拆分为 $\\left(\\alpha+\\frac{\\pi}{4}\\right) + \\beta$，与右边的两个角完全匹配。高考得分点说明：正确的角拆分是本题的核心解题步骤，占2分；同类题型拓展提示：当等式两边出现多个不同角时，优先将复杂角拆分为题干中已有的简单角的和/差，减少角的种类，避免引入新的未知角；高考高频考法提醒：角的配凑是三角恒等变换的核心套路，常见配凑如 $2\\alpha = (\\alpha+\\beta)+(\\alpha-\\beta)$、$\\beta = (\\alpha+\\beta)-\\alpha$ 等，要熟练掌握。"
+        },
+        {
+          "train_type": "套路反射训练",
+          "question": "将左边用正弦和角公式展开并移项后，得到 $\\sin\\left(\\alpha+\\frac{\\pi}{4}\\right)\\cos\\beta - \\cos\\left(\\alpha+\\frac{\\pi}{4}\\right)\\sin\\beta = 0$，下一步应该执行什么标准操作？",
+          "standard_answer": "由正弦差角公式逆用，得 $\\sin\\left(\\left(\\alpha+\\frac{\\pi}{4}\\right)-\\beta\\right) = \\sin\\left(\\alpha-\\beta+\\frac{\\pi}{4}\\right) = 0$。高考得分点说明：差角公式的逆用是本题的第三个核心得分点，占1分；同类题型拓展提示：当出现 $\\sin A\\cos B \\pm \\cos A\\sin B$ 的结构时，直接逆用和差角公式合并为单一三角函数，是三角恒等变换的常用化简技巧；高考高频考法提醒：和差角公式的正用、逆用、变形用都是高考必考点，要熟练识别公式结构特征。"
+        },
+        {
+          "train_type": "知识易错训练",
+          "train_form": "判断题",
+          "train_content": "由 $\\sin\\left(\\alpha-\\beta+\\frac{\\pi}{4}\\right)=0$ 推导得到 $\\tan(\\alpha+\\beta)=-1$，该结论是否正确？",
+          "answer": "错误。错误原因：由 $\\sin\\left(\\alpha-\\beta+\\frac{\\pi}{4}\\right)=0$ 仅能得到 $\\alpha-\\beta$ 的表达式，无法直接推出 $\\alpha+\\beta$ 的正切值，代入特殊值验证：令 $\\alpha=0,\\beta=\\frac{\\pi}{4}$，满足原等式，此时 $\\tan(\\alpha+\\beta)=\\tan\\frac{\\pi}{4}=1\\neq-1$，因此该结论不成立。高考易错点提醒：推导结论时要严格基于已知条件，不要混淆角的组合（如将 $\\alpha-\\beta$ 误写为 $\\alpha+\\beta$），避免低级错误。"
         }
       ]
     }
