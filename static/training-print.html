@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>训练题目打印</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "SimSun", "宋体", serif;
+            font-size: 12pt;
+            line-height: 1.6;
+            background: #f0f0f0;
+            padding: 20px;
+        }
+        
+        .controls {
+            max-width: 800px;
+            margin: 0 auto 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .controls h2 {
+            margin-bottom: 15px;
+            font-size: 16pt;
+        }
+        
+        .control-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .control-group label {
+            font-size: 10pt;
+            color: #555;
+            white-space: nowrap;
+        }
+        
+        .control-group select,
+        .control-group input[type="number"] {
+            padding: 5px 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 10pt;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 10pt;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2ecc71;
+        }
+        
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+        
+        .print-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .a4-page {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            margin: 0 auto 20px;
+            padding: 10mm 12mm;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 3mm;
+            margin-bottom: 5mm;
+            border-bottom: 1px solid #000;
+        }
+        
+        .page-title {
+            font-size: 14pt;
+            font-weight: bold;
+            color: #000;
+        }
+        
+        .page-info {
+            font-size: 9pt;
+            color: #666;
+        }
+        
+        .training-columns {
+            column-count: 2;
+            column-gap: 8mm;
+        }
+        
+        .training-item {
+            margin-bottom: 4mm;
+            padding-top: 2mm;
+            border-top: 1px dashed #666;
+        }
+        
+        .training-item:first-child {
+            border-top: none;
+            padding-top: 0;
+        }
+        
+        .training-ability {
+            display: inline-block;
+            font-size: 9pt;
+            padding: 1px 4px;
+            margin-right: 2mm;
+            margin-bottom: 1mm;
+            border: 1px solid #333;
+            color: #000;
+        }
+        
+        .training-material {
+            font-size: 11pt;
+            margin: 1mm 0;
+            line-height: 1.5;
+            color: #000;
+        }
+        
+        .training-question {
+            font-size: 11pt;
+            margin: 1mm 0;
+            line-height: 1.5;
+            color: #000;
+        }
+        
+        .training-answer {
+            font-size: 10pt;
+            margin-top: 1mm;
+            color: #000;
+            line-height: 1.5;
+        }
+        
+        .training-answer strong {
+            color: #000;
+        }
+        
+        .training-label {
+            font-weight: bold;
+            font-size: 10pt;
+            color: #000;
+        }
+        
+        .no-data {
+            text-align: center;
+            color: #999;
+            padding: 100mm 0;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                font-size: 12pt;
+            }
+            
+            .controls {
+                display: none;
+            }
+            
+            .print-container {
+                max-width: none;
+            }
+            
+            .a4-page {
+                width: 100%;
+                min-height: auto;
+                margin: 0;
+                padding: 8mm 10mm;
+                box-shadow: none;
+                page-break-after: auto;
+            }
+            
+            .training-columns {
+                column-count: 2;
+            }
+        }
+        
+        @page {
+            size: A4;
+            margin: 10mm;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <h2>训练题目打印</h2>
+        <div class="control-row">
+            <div class="control-group">
+                <label>
+                    <input type="checkbox" id="showAnswer" checked onchange="renderPreview()">
+                    显示答案
+                </label>
+            </div>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="window.print()">打印</button>
+            <button class="btn btn-secondary" onclick="window.close()">关闭</button>
+        </div>
+    </div>
+    
+    <div class="print-container" id="printContainer">
+        <div class="a4-page">
+            <div class="no-data">加载中...</div>
+        </div>
+    </div>
+
+    <script>
+        let trainingItems = [];
+        let selectedIds = [];
+        
+        async function loadTrainingItems() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const idsParam = urlParams.get('ids');
+            
+            if (!idsParam) {
+                document.getElementById('printContainer').innerHTML = '<div class="a4-page"><div class="no-data">未选择训练题目</div></div>';
+                return;
+            }
+            
+            selectedIds = idsParam.split(',');
+            
+            try {
+                const response = await fetch('/api/training-items?page=1&page_size=10000');
+                const result = await response.json();
+                const allItems = result.items || [];
+                
+                trainingItems = selectedIds
+                    .map(id => allItems.find(item => item.id === id))
+                    .filter(item => item !== undefined);
+                
+                renderPreview();
+            } catch (error) {
+                console.error('加载训练题目失败:', error);
+                document.getElementById('printContainer').innerHTML = '<div class="a4-page"><div class="no-data">加载失败</div></div>';
+            }
+        }
+        
+        function renderPreview() {
+            const container = document.getElementById('printContainer');
+            const showAnswer = document.getElementById('showAnswer').checked;
+            
+            if (trainingItems.length === 0) {
+                container.innerHTML = '<div class="a4-page"><div class="no-data">没有训练题目</div></div>';
+                return;
+            }
+            
+            let html = `<div class="a4-page">
+                <div class="page-header">
+                    <div class="page-title">训练题目练习</div>
+                    <div class="page-info">共 ${trainingItems.length} 题</div>
+                </div>
+                <div class="training-columns">`;
+            
+            trainingItems.forEach((item, idx) => {
+                html += `<div class="training-item">
+                    <div class="training-ability">${escapeHtml(item.abilityPoint)}</div>
+                    <div class="training-material"><span class="training-label">材料：</span>${escapeHtml(item.material)}</div>
+                    <div class="training-question"><span class="training-label">问题：</span>${escapeHtml(item.question)}</div>`;
+                
+                if (showAnswer) {
+                    html += `<div class="training-answer"><span class="training-label">答案：</span>${escapeHtml(item.answerAnalysis)}</div>`;
+                }
+                
+                html += `</div>`;
+            });
+            
+            html += `</div></div>`;
+            
+            container.innerHTML = html;
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        loadTrainingItems();
+    </script>
+</body>
+</html>

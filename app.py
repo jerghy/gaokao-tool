@@ -186,6 +186,14 @@ def index():
 def browse():
     return send_from_directory('static', 'browse.html')
 
+@app.route('/training')
+def training():
+    return send_from_directory('static', 'training.html')
+
+@app.route('/training-print')
+def training_print():
+    return send_from_directory('static', 'training-print.html')
+
 @app.route('/print')
 @app.route('/print.html')
 def print_page():
@@ -378,6 +386,106 @@ def get_questions():
         'total_pages': (total + page_size - 1) // page_size,
         'search_query': ''
     })
+
+@app.route('/api/training-items', methods=['GET'])
+def get_training_items():
+    page = request.args.get('page', 1, type=int)
+    page_size = request.args.get('page_size', 50, type=int)
+    search = request.args.get('search', '')
+    ability_tag = request.args.get('ability_tag', '')
+    
+    training_items = []
+    
+    for filename in sorted(os.listdir(DATA_DIR), reverse=True):
+        if not filename.endswith('.json'):
+            continue
+        
+        filepath = os.path.join(DATA_DIR, filename)
+        with open(filepath, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        items = data.get('chinese_modern_text_training', [])
+        question_id = data.get('id', filename.replace('.json', ''))
+        
+        for idx, item in enumerate(items):
+            training_item = {
+                'id': f"{question_id}_{idx}",
+                'question_id': question_id,
+                'material': item.get('material', ''),
+                'question': item.get('question', ''),
+                'abilityPoint': item.get('abilityPoint', ''),
+                'answerAnalysis': item.get('answerAnalysis', '')
+            }
+            
+            if ability_tag:
+                if not training_item['abilityPoint'].startswith(ability_tag):
+                    continue
+            
+            if search:
+                search_lower = search.lower()
+                if (search_lower not in training_item['material'].lower() and
+                    search_lower not in training_item['question'].lower() and
+                    search_lower not in training_item['abilityPoint'].lower()):
+                    continue
+            
+            training_items.append(training_item)
+    
+    total = len(training_items)
+    start = (page - 1) * page_size
+    end = start + page_size
+    paginated = training_items[start:end]
+    
+    return jsonify({
+        'success': True,
+        'items': paginated,
+        'total': total,
+        'page': page,
+        'page_size': page_size,
+        'total_pages': (total + page_size - 1) // page_size if total > 0 else 1
+    })
+
+
+@app.route('/api/training-ability-tags', methods=['GET'])
+def get_training_ability_tags():
+    tag_counts = {}
+    
+    for filename in os.listdir(DATA_DIR):
+        if not filename.endswith('.json'):
+            continue
+        
+        filepath = os.path.join(DATA_DIR, filename)
+        with open(filepath, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        items = data.get('chinese_modern_text_training', [])
+        for item in items:
+            ability_point = item.get('abilityPoint', '')
+            if ability_point:
+                tag_counts[ability_point] = tag_counts.get(ability_point, 0) + 1
+    
+    def build_tag_tree(tag_counts):
+        tree = {}
+        for tag, count in sorted(tag_counts.items()):
+            parts = tag.split('::')
+            current = tree
+            for i, part in enumerate(parts):
+                if part not in current:
+                    current[part] = {'children': {}, 'count': 0}
+                current[part]['count'] += count
+                current = current[part]['children']
+        return tree
+    
+    tag_tree = build_tag_tree(tag_counts)
+    total_count = sum(tag_counts.values())
+    
+    return jsonify({
+        'success': True,
+        'tag_tree': tag_tree,
+        'all_tags': sorted(list(tag_counts.keys())),
+        'tag_counts': tag_counts,
+        'total_count': total_count
+    })
+
 
 @app.route('/api/questions/<id>', methods=['PUT'])
 def update_question(id):

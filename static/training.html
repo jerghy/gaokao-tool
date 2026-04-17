@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>训练题目浏览</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: #f5f5f5;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+        
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .left-panel {
+            width: 20%;
+            height: 100%;
+            background-color: #fff;
+            border-right: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .middle-panel {
+            width: 35%;
+            height: 100%;
+            background-color: #f9f9f9;
+            border-right: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .right-panel {
+            width: 45%;
+            height: 100%;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-header {
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .panel-content {
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .nav-btn {
+            padding: 8px 15px;
+            background-color: #4a90d9;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .nav-btn:hover {
+            background-color: #357abd;
+        }
+        
+        .nav-btn.small {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        
+        .nav-btn.green {
+            background-color: #27ae60;
+        }
+        
+        .nav-btn.green:hover {
+            background-color: #219a52;
+        }
+        
+        .search-box {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .tag-tree {
+            padding: 10px;
+            user-select: none;
+        }
+        
+        .tag-tree-item {
+            margin: 4px 0;
+        }
+        
+        .tag-tree-content {
+            display: flex;
+            align-items: center;
+            padding: 6px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .tag-tree-content:hover {
+            background-color: #f0f7ff;
+        }
+        
+        .tag-tree-content.selected {
+            background-color: #e3f2fd;
+        }
+        
+        .tag-tree-toggle {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 6px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .tag-tree-toggle.hidden {
+            visibility: hidden;
+        }
+        
+        .tag-tree-label {
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .tag-tree-count {
+            font-size: 12px;
+            color: #888;
+            margin-left: 6px;
+        }
+        
+        .tag-tree-children {
+            margin-left: 20px;
+            display: none;
+        }
+        
+        .tag-tree-children.expanded {
+            display: block;
+        }
+        
+        .training-item {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            margin: 10px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .training-item:hover {
+            border-color: #4a90d9;
+            box-shadow: 0 2px 8px rgba(74, 144, 217, 0.15);
+        }
+        
+        .training-item.selected {
+            border-color: #4a90d9;
+            background-color: #f0f7ff;
+        }
+        
+        .training-item-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .training-checkbox {
+            margin-right: 8px;
+            cursor: pointer;
+        }
+        
+        .training-item-id {
+            font-size: 12px;
+            color: #999;
+            margin-right: 8px;
+        }
+        
+        .training-ability-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            background-color: #e8f4fc;
+            border: 1px solid #3498db;
+            border-radius: 10px;
+            font-size: 11px;
+            color: #2980b9;
+        }
+        
+        .training-item-preview {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        
+        .context-menu {
+            position: fixed;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            min-width: 180px;
+            display: none;
+        }
+        
+        .context-menu.show {
+            display: block;
+        }
+        
+        .context-menu-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .context-menu-item:last-child {
+            border-bottom: none;
+        }
+        
+        .context-menu-item:hover {
+            background-color: #f0f7ff;
+        }
+        
+        .selection-info {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            background-color: #fffde7;
+            font-size: 13px;
+            color: #f57c00;
+        }
+        
+        .preview-placeholder {
+            color: #999;
+            font-style: italic;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .preview-content {
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .preview-section {
+            margin-bottom: 20px;
+        }
+        
+        .preview-section-title {
+            font-size: 14px;
+            color: #666;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .preview-text {
+            white-space: pre-wrap;
+            word-break: break-word;
+            line-height: 1.6;
+        }
+        
+        .preview-material {
+            background-color: #f9f9f9;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #3498db;
+            margin-bottom: 15px;
+        }
+        
+        .preview-question {
+            background-color: #fff3e0;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #ff9800;
+            margin-bottom: 15px;
+        }
+        
+        .preview-answer {
+            background-color: #e8f5e9;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #4caf50;
+        }
+        
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            background-color: #f5f5f5;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        
+        .pagination-info {
+            margin-right: 15px;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .pagination-btn {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+        
+        .pagination-btn:hover:not(:disabled) {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .pagination-btn.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="panel-header">
+                <span>能力点标签</span>
+                <button class="nav-btn small" onclick="clearTagSelection()">清除</button>
+            </div>
+            <div class="panel-content">
+                <div class="tag-tree" id="tagTree"></div>
+            </div>
+        </div>
+        
+        <div class="middle-panel">
+            <div class="panel-header">
+                <span>训练题目列表</span>
+                <button class="nav-btn small green" onclick="toggleSelectAll()">全选/取消</button>
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="搜索训练题目..." oninput="debounceApplyFilters()">
+            </div>
+            <div class="selection-info" id="selectionInfo" style="display: none;">
+                已选择 <span id="selectedCount">0</span> 道训练题，右键可批量打印
+            </div>
+            <div class="pagination-container" id="paginationContainer"></div>
+            <div class="panel-content" id="trainingList"></div>
+        </div>
+        
+        <div class="right-panel">
+            <div class="panel-header">
+                <button class="nav-btn" onclick="location.href='/'">返回录入</button>
+                <span>训练题目详情</span>
+                <div></div>
+            </div>
+            <div class="panel-content" id="trainingPreview">
+                <div class="preview-placeholder">点击左侧训练题查看详情</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="context-menu" id="contextMenu">
+        <div class="context-menu-item" onclick="batchPrint()">打印选中题目</div>
+        <div class="context-menu-item" onclick="selectAll()">全选</div>
+        <div class="context-menu-item" onclick="deselectAll()">取消全选</div>
+    </div>
+
+    <script>
+        const API_BASE = '';
+        
+        let tagTree = {};
+        let allTags = [];
+        let trainingItems = [];
+        let selectedTags = new Set();
+        let selectedItems = new Set();
+        let expandedTags = new Set();
+        let currentTraining = null;
+        let debounceTimer = null;
+        
+        let currentPage = 1;
+        let totalPages = 1;
+        let totalItems = 0;
+        let pageSize = 50;
+        let currentSearch = '';
+        let currentAbilityTag = '';
+        let totalCount = 0;
+        
+        async function loadTags() {
+            try {
+                const response = await fetch(`${API_BASE}/api/training-ability-tags`);
+                const result = await response.json();
+                if (result.success) {
+                    tagTree = result.tag_tree;
+                    allTags = result.all_tags;
+                    totalCount = result.total_count || 0;
+                    renderTagTree();
+                }
+            } catch (error) {
+                console.error('加载标签失败:', error);
+            }
+        }
+        
+        function renderTagTree() {
+            const container = document.getElementById('tagTree');
+            let html = '<div class="tag-tree-item">';
+            html += '<div class="tag-tree-content' + (currentAbilityTag === '' ? ' selected' : '') + '" onclick="filterByTag(\'\')">';
+            html += '<span class="tag-tree-toggle hidden"></span>';
+            html += '<span class="tag-tree-label">全部</span>';
+            html += '<span class="tag-tree-count">(' + totalCount + ')</span>';
+            html += '</div></div>';
+            html += renderTreeNode(tagTree, '');
+            container.innerHTML = html;
+        }
+        
+        function renderTreeNode(tree, prefix) {
+            let html = '';
+            for (const [tag, value] of Object.entries(tree)) {
+                const fullTag = prefix ? `${prefix}::${tag}` : tag;
+                const hasChildren = value && value.children && Object.keys(value.children).length > 0;
+                const isExpanded = expandedTags.has(fullTag);
+                const isSelected = currentAbilityTag === fullTag;
+                const count = value.count || 0;
+                
+                if (count === 0) continue;
+                
+                html += `<div class="tag-tree-item">`;
+                html += `<div class="tag-tree-content ${isSelected ? 'selected' : ''}" onclick="filterByTag('${escapeHtml(fullTag)}')">`;
+                
+                if (hasChildren) {
+                    html += `<span class="tag-tree-toggle" onclick="event.stopPropagation(); toggleTagExpand('${escapeHtml(fullTag)}')">${isExpanded ? '▼' : '▶'}</span>`;
+                } else {
+                    html += `<span class="tag-tree-toggle hidden"></span>`;
+                }
+                
+                html += `<span class="tag-tree-label">${escapeHtml(tag)}</span>`;
+                html += `<span class="tag-tree-count">(${count})</span>`;
+                html += `</div>`;
+                
+                if (hasChildren) {
+                    html += `<div class="tag-tree-children ${isExpanded ? 'expanded' : ''}">`;
+                    html += renderTreeNode(value.children, fullTag);
+                    html += `</div>`;
+                }
+                
+                html += `</div>`;
+            }
+            return html;
+        }
+        
+        function toggleTagExpand(tag) {
+            if (expandedTags.has(tag)) {
+                expandedTags.delete(tag);
+            } else {
+                expandedTags.add(tag);
+            }
+            renderTagTree();
+        }
+        
+        function filterByTag(tag) {
+            currentAbilityTag = tag;
+            currentPage = 1;
+            renderTagTree();
+            loadTrainingItems();
+        }
+        
+        function clearTagSelection() {
+            currentAbilityTag = '';
+            currentPage = 1;
+            renderTagTree();
+            loadTrainingItems();
+        }
+        
+        async function loadTrainingItems() {
+            try {
+                let url = `${API_BASE}/api/training-items?page=${currentPage}&page_size=${pageSize}`;
+                if (currentSearch.trim()) {
+                    url += `&search=${encodeURIComponent(currentSearch)}`;
+                }
+                if (currentAbilityTag) {
+                    url += `&ability_tag=${encodeURIComponent(currentAbilityTag)}`;
+                }
+                
+                const response = await fetch(url);
+                const result = await response.json();
+                trainingItems = result.items || [];
+                totalItems = result.total || 0;
+                totalPages = result.total_pages || 1;
+                
+                renderTrainingList();
+                renderPagination();
+            } catch (error) {
+                console.error('加载训练题目失败:', error);
+            }
+        }
+        
+        function renderPagination() {
+            const container = document.getElementById('paginationContainer');
+            if (!container) return;
+            
+            let html = `<span class="pagination-info">共 ${totalItems} 题，第 ${currentPage}/${totalPages} 页</span>`;
+            
+            if (totalPages > 1) {
+                html += '<div style="display:flex;gap:5px;">';
+                html += `<button class="pagination-btn" onclick="goToPage(1)" ${currentPage === 1 ? 'disabled' : ''}>首页</button>`;
+                html += `<button class="pagination-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>上一页</button>`;
+                
+                const startPage = Math.max(1, currentPage - 2);
+                const endPage = Math.min(totalPages, currentPage + 2);
+                for (let i = startPage; i <= endPage; i++) {
+                    html += `<button class="pagination-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+                }
+                
+                html += `<button class="pagination-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>下一页</button>`;
+                html += `<button class="pagination-btn" onclick="goToPage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>末页</button>`;
+                html += '</div>';
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        async function goToPage(page) {
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            await loadTrainingItems();
+        }
+        
+        function debounceApplyFilters() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                currentSearch = document.getElementById('searchInput').value;
+                currentPage = 1;
+                loadTrainingItems();
+            }, 300);
+        }
+        
+        function renderTrainingList() {
+            const container = document.getElementById('trainingList');
+            
+            if (trainingItems.length === 0) {
+                container.innerHTML = '<div class="preview-placeholder">没有找到训练题目</div>';
+                return;
+            }
+            
+            container.innerHTML = trainingItems.map(item => {
+                const isSelected = selectedItems.has(item.id);
+                const preview = item.question.length > 80 ? item.question.substring(0, 80) + '...' : item.question;
+                
+                return `
+                    <div class="training-item ${isSelected ? 'selected' : ''}"
+                         data-id="${item.id}"
+                         onclick="selectTraining(event, '${item.id}')"
+                         oncontextmenu="showContextMenu(event, '${item.id}')">
+                        <div class="training-item-header">
+                            <input type="checkbox" class="training-checkbox" ${isSelected ? 'checked' : ''} onclick="toggleItemSelection(event, '${item.id}')">
+                            <span class="training-item-id">#${item.question_id}</span>
+                            <span class="training-ability-tag">${escapeHtml(item.abilityPoint)}</span>
+                        </div>
+                        <div class="training-item-preview">${escapeHtml(preview)}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            updateSelectionInfo();
+        }
+        
+        function toggleItemSelection(event, id) {
+            event.stopPropagation();
+            if (selectedItems.has(id)) {
+                selectedItems.delete(id);
+            } else {
+                selectedItems.add(id);
+            }
+            renderTrainingList();
+        }
+        
+        function selectTraining(event, id) {
+            if (event.ctrlKey || event.metaKey) {
+                if (selectedItems.has(id)) {
+                    selectedItems.delete(id);
+                } else {
+                    selectedItems.add(id);
+                }
+            } else {
+                selectedItems.clear();
+                selectedItems.add(id);
+            }
+            
+            renderTrainingList();
+            loadTrainingDetail(id);
+        }
+        
+        function loadTrainingDetail(id) {
+            const item = trainingItems.find(t => t.id === id);
+            if (!item) return;
+            
+            currentTraining = item;
+            
+            const container = document.getElementById('trainingPreview');
+            container.innerHTML = `
+                <div class="preview-content">
+                    <div class="preview-section">
+                        <div class="preview-section-title">能力点</div>
+                        <div class="training-ability-tag" style="font-size: 14px;">${escapeHtml(item.abilityPoint)}</div>
+                    </div>
+                    <div class="preview-section">
+                        <div class="preview-section-title">材料</div>
+                        <div class="preview-material preview-text">${escapeHtml(item.material)}</div>
+                    </div>
+                    <div class="preview-section">
+                        <div class="preview-section-title">问题</div>
+                        <div class="preview-question preview-text">${escapeHtml(item.question)}</div>
+                    </div>
+                    <div class="preview-section">
+                        <div class="preview-section-title">答案解析</div>
+                        <div class="preview-answer preview-text">${escapeHtml(item.answerAnalysis)}</div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function toggleSelectAll() {
+            if (selectedItems.size === trainingItems.length) {
+                selectedItems.clear();
+            } else {
+                trainingItems.forEach(item => selectedItems.add(item.id));
+            }
+            renderTrainingList();
+        }
+        
+        function selectAll() {
+            hideContextMenu();
+            trainingItems.forEach(item => selectedItems.add(item.id));
+            renderTrainingList();
+        }
+        
+        function deselectAll() {
+            hideContextMenu();
+            selectedItems.clear();
+            renderTrainingList();
+        }
+        
+        function updateSelectionInfo() {
+            const info = document.getElementById('selectionInfo');
+            const count = document.getElementById('selectedCount');
+            
+            if (selectedItems.size > 0) {
+                info.style.display = 'block';
+                count.textContent = selectedItems.size;
+            } else {
+                info.style.display = 'none';
+            }
+        }
+        
+        function showContextMenu(event, id) {
+            event.preventDefault();
+            
+            if (!selectedItems.has(id)) {
+                selectedItems.clear();
+                selectedItems.add(id);
+                renderTrainingList();
+            }
+            
+            const menu = document.getElementById('contextMenu');
+            menu.style.left = event.pageX + 'px';
+            menu.style.top = event.pageY + 'px';
+            menu.classList.add('show');
+        }
+        
+        function hideContextMenu() {
+            document.getElementById('contextMenu').classList.remove('show');
+        }
+        
+        function batchPrint() {
+            hideContextMenu();
+            if (selectedItems.size === 0) {
+                alert('请先选择要打印的训练题');
+                return;
+            }
+            
+            const ids = Array.from(selectedItems).join(',');
+            window.open(`/training-print?ids=${ids}`, '_blank');
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.context-menu')) {
+                hideContextMenu();
+            }
+        });
+        
+        loadTags();
+        loadTrainingItems();
+    </script>
+</body>
+</html>
